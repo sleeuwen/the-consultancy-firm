@@ -1,0 +1,120 @@
+﻿@import 'variables';
+
+.button {
+    position: relative;
+    font-size: 14px;
+    font-weight: 700;
+    border: 0;
+    cursor: pointer;
+    transition: all 0.2s $cubic-bezier 0s;
+    padding: 0.575em 1.428571429em;
+
+    &::after {
+        content: '';
+        width: 80%;
+        left: 50%;
+        height: 2px;
+        bottom: 0;
+        transform: translateX(-50%);
+        transition: width 0.2s $cubic-bezier 0.4s, background 0.2s $cubic-bezier 0s;
+        display: block;
+        position: absolute;
+        background: $orange;
+    }
+
+    span {
+        display: block;
+        position: absolute;
+        transition: all 0.2s $cubic-bezier;
+        width: 100%;
+        top: 0;
+        left: 0;
+
+        &::before,
+        &::after {
+            content: '';
+            display: block;
+            position: absolute;
+            background: $orange;
+            transition: transform 0.2s $cubic-bezier;
+        }
+        // Left & Right Border
+        &:first-child {
+            height: 100%;
+
+            &::before, &::after {
+                width: 1px;
+                height: 100%;
+                bottom: 0;
+                transform: scale3d(1, 0, 1);
+                transform-origin: bottom center;
+                transition: transform 0.2s $cubic-bezier 0.2s, background 0.2s $cubic-bezier 0s;
+            }
+
+            &::before {
+                left: 0;
+            }
+
+            &::after {
+                right: 0;
+            }
+        }
+        // Top Borders
+        &:last-child {
+            width: 100%;
+            height: 1px;
+            // Scale them down with scale3d to prevent jittering
+            &::before, &::after {
+                height: 1px;
+                width: 100%;
+                bottom: 0;
+                transform: scale3d(0, 1, 1);
+                transition: transform 0.2s $cubic-bezier 0s, background 0.2s $cubic-bezier 0s;
+            }
+
+            &::before {
+                left: 0;
+                transform-origin: bottom left;
+            }
+
+            &::after {
+                right: 0;
+                transform-origin: bottom right;
+            }
+        }
+    }
+    // The Magic! Animate Border Drawing on Hover
+    &:hover {
+        opacity: 1;
+        outline: 0;
+        color: $white !important;
+        text-decoration: none;
+        transition: color 0.2s $cubic-bezier 0s;
+        /* Positioning */
+        &::after {
+            width: 100%;
+            background: $orange;
+            transition: width 0.2s $cubic-bezier 0s, background 0.2s $cubic-bezier 0s;
+        }
+
+        span {
+
+            &:first-child {
+                // The scale3d is what grows the element
+                &::before, &::after {
+                    transform: scale3d(1, 1, 1);
+                    background: $orange;
+                    transition: transform 0.2s $cubic-bezier 0.2s, background 0.2s $cubic-bezier 0s;
+                }
+            }
+
+            &:last-child {
+                &::before, &::after {
+                    transform: scale3d(1, 1, 1);
+                    background: $orange;
+                    transition: transform 0.2s $cubic-bezier 0.4s, background 0.2s $cubic-bezier 0s;
+                }
+            }
+        }
+    }
+}

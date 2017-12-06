@@ -1,3 +1,7 @@
+@import 'variables';
+@import 'buttonHover';
+@import 'footer';
+
 body {
   padding-top: 56px;
   padding-bottom: 20px;
@@ -26,10 +30,27 @@ body {
   margin: 15px;
 }
 
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
   /* Hide captions */
   .carousel-caption {
     display: none;
   }
+}
+
+
+h3 {
+    font-family: 'Ubuntu', sans-serif;
+    color: $white;
+}
+
+p {
+    line-height: 25px;
+}
+
+.arrow {
+    width: 20px;
+    height: 30px;
+    margin-left: 5px;
 }

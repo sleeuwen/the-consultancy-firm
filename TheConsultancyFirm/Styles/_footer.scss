@@ -1,0 +1,55 @@
+﻿@import 'variables';
+
+footer {
+    background-color: #1A1919;
+    color: $darkGrey;
+    font-family: 'Raleway', sans-serif;
+    padding: 20px 0px;
+
+    @media screen and (max-width: $break-medium) {
+        text-align: center;
+
+        #FooterBottomRow {
+            display: inline;
+        }
+
+        #FooterSocialColum {
+            justify-content: center;
+        }
+    }
+
+    ul {
+        padding: 0;
+        list-style-type: none;
+    }
+
+    li {
+        line-height: 30px;
+    }
+
+    a {
+        color: $grey;
+
+        &:hover {
+            color: $grey;
+            cursor: pointer;
+        }
+    }
+}
+
+#FooterSocialColum {
+    display: flex;
+
+    i {
+        margin-right: 10px;
+    }
+}
+
+#FooterBottomRow {
+    display: flex;
+    align-items: flex-end;
+}
+
+.footerIcons {
+    display: flex;
+}
