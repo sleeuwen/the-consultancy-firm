@@ -2,6 +2,7 @@
 "use strict";
 
 var gulp = require("gulp"),
+    autoprefixer = require("gulp-autoprefixer"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
     htmlmin = require("gulp-htmlmin"),
@@ -20,6 +21,7 @@ var regex = {
 gulp.task("sass", function () {
     return gulp.src("Styles/site.scss")
         .pipe(sass().on("error", sass.logError))
+        .pipe(autoprefixer())
         .pipe(gulp.dest("wwwroot/css"));
 });
 
