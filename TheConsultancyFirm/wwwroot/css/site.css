@@ -1,3 +1,118 @@
+.button {
+  position: relative;
+  font-size: 14px;
+  font-weight: 700;
+  border: 0;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s;
+  padding: 0.575em 1.428571429em; }
+  .button::after {
+    content: '';
+    width: 80%;
+    left: 50%;
+    height: 2px;
+    bottom: 0;
+    transform: translateX(-50%);
+    transition: width 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0.4s, background 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s;
+    display: block;
+    position: absolute;
+    background: #F7931E; }
+  .button span {
+    display: block;
+    position: absolute;
+    transition: all 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9);
+    width: 100%;
+    top: 0;
+    left: 0; }
+    .button span::before, .button span::after {
+      content: '';
+      display: block;
+      position: absolute;
+      background: #F7931E;
+      transition: transform 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9); }
+    .button span:first-child {
+      height: 100%; }
+      .button span:first-child::before, .button span:first-child::after {
+        width: 1px;
+        height: 100%;
+        bottom: 0;
+        transform: scale3d(1, 0, 1);
+        transform-origin: bottom center;
+        transition: transform 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0.2s, background 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s; }
+      .button span:first-child::before {
+        left: 0; }
+      .button span:first-child::after {
+        right: 0; }
+    .button span:last-child {
+      width: 100%;
+      height: 1px; }
+      .button span:last-child::before, .button span:last-child::after {
+        height: 1px;
+        width: 100%;
+        bottom: 0;
+        transform: scale3d(0, 1, 1);
+        transition: transform 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s, background 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s; }
+      .button span:last-child::before {
+        left: 0;
+        transform-origin: bottom left; }
+      .button span:last-child::after {
+        right: 0;
+        transform-origin: bottom right; }
+  .button:hover {
+    opacity: 1;
+    outline: 0;
+    color: #FFFFFF !important;
+    text-decoration: none;
+    transition: color 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s;
+    /* Positioning */ }
+    .button:hover::after {
+      width: 100%;
+      background: #F7931E;
+      transition: width 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s, background 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s; }
+    .button:hover span:first-child::before, .button:hover span:first-child::after {
+      transform: scale3d(1, 1, 1);
+      background: #F7931E;
+      transition: transform 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0.2s, background 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s; }
+    .button:hover span:last-child::before, .button:hover span:last-child::after {
+      transform: scale3d(1, 1, 1);
+      background: #F7931E;
+      transition: transform 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0.4s, background 0.2s cubic-bezier(0.2, 0.3, 0.25, 0.9) 0s; }
+
+footer {
+  background-color: #1A1919;
+  color: #ADABAA;
+  font-family: 'Raleway', sans-serif;
+  padding: 20px 0px; }
+  @media screen and (max-width: 768px) {
+    footer {
+      text-align: center; }
+      footer #FooterBottomRow {
+        display: inline; }
+      footer #FooterSocialColum {
+        justify-content: center; } }
+  footer ul {
+    padding: 0;
+    list-style-type: none; }
+  footer li {
+    line-height: 30px; }
+  footer a {
+    color: #D2D1D1; }
+    footer a:hover {
+      color: #D2D1D1;
+      cursor: pointer; }
+
+#FooterSocialColum {
+  display: flex; }
+  #FooterSocialColum i {
+    margin-right: 10px; }
+
+#FooterBottomRow {
+  display: flex;
+  align-items: flex-end; }
+
+.footerIcons {
+  display: flex; }
+
 body {
   padding-top: 50px;
   padding-bottom: 20px; }
@@ -26,3 +141,15 @@ body {
   /* Hide captions */
   .carousel-caption {
     display: none; } }
+
+h3 {
+  font-family: 'Ubuntu', sans-serif;
+  color: #FFFFFF; }
+
+p {
+  line-height: 25px; }
+
+.arrow {
+  width: 20px;
+  height: 30px;
+  margin-left: 5px; }

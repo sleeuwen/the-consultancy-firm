@@ -8,6 +8,8 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link href="https://fonts.googleapis.com/css?family=Raleway|Ubuntu:400,500" rel="stylesheet" />
+        <script src="https://use.fontawesome.com/020bec8a89.js"></script>
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
@@ -40,9 +42,7 @@
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; 2017 - TheConsultancyFirm</p>
-        </footer>
+        @Html.Partial("FooterPartial") 
     </div>
 
     <environment include="Development">
