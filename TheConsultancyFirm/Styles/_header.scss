@@ -1,0 +1,229 @@
+header {
+    height: 100px;
+    display: flex;
+}
+
+.menu-right {
+    margin-left: auto;
+    padding-right: 30px;
+}
+
+.lang-select {
+    text-align: right;
+    padding-top: 10px;
+    text-decoration: underline;
+
+    a {
+        color: $black;
+
+        &:hover {
+            text-decoration: none;
+            color: $black;
+        }
+    }
+}
+
+.menu {
+    font-family: Ubuntu, sans-serif;
+    font-size: 21px;
+    line-height: 24px;
+    display: flex;
+    margin-left: auto;
+    padding-top: 10px;
+
+    a {
+        color: #212529;
+
+        &:hover {
+            text-decoration: none;
+            color: #212529;
+            font-weight: 500;
+        }
+    }
+
+    li, a {
+        display:inline-block;
+        text-align:center;
+    }
+    a:hover {
+        font-weight:500;
+    }
+    a::after {
+        display: block;
+        content: attr(data-title);
+        font-weight: 500;
+        height: 0;
+        overflow: hidden;
+        visibility: hidden;
+    }
+
+    ul {
+        display: flex;
+        padding-left: 0%;
+
+        li {
+            margin-left: 25px;
+        }
+    }
+
+    .menu-overflow {
+        width: 0px;
+        transition: all .3s ease-in-out;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+    &.open {
+        .menu-overflow {
+            width: 445px;
+        }
+
+        .hide-open {
+            width: 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        #menu-toggle {
+            width: 30px;
+
+            > span {
+                width: 0;
+            }
+        }
+    }
+
+    #menu-toggle {
+        display: flex;
+        align-items: baseline;
+        width: 85px;
+        transition: width .3s ease-in-out;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        > span {
+            width: 55px;
+            transition: width .3s ease-in-out;
+            overflow: hidden;
+        }
+    }
+}
+
+#searchbar {
+    margin-left: 15px;
+    position: relative;
+
+    input {
+        width: 0;
+        border: 0;
+        transition: width .3s ease-in-out;
+        color: $black;
+        outline: none !important;
+        border-bottom: 1px solid $darkGrey;
+        margin-right: 10px;
+        position: relative;
+
+        &::after {
+            position: absolute;
+            right: 0;
+            top: 0;
+            content: '\f05c';
+            font-family: FontAwesome, sans-serif;
+        }
+    }
+
+    .fa-times {
+        position: absolute;
+        top: 2px;
+        right: 40px;
+        opacity: 0;
+        transform: translateX(10px);
+        transition: all .2s ease-in-out 0s;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .fa-search:hover {
+        cursor: pointer;
+    }
+
+    &.open {
+        input {
+            width: 300px;
+            padding-right: 25px;
+        }
+
+        .fa-times {
+            opacity: 1;
+            transform: translateX(0);
+            transition: all .2s ease-in-out .1s;
+        }
+    }
+}
+
+
+$toggle-width: 60px / 3;
+$toggle-height: 45px / 3;
+$bar-height: $toggle-height / 5;
+
+#menu-bars-toggle {
+    width: $toggle-width;
+    height: $toggle-height;
+    position: relative;
+    margin: 0 auto;
+    transform: rotate(0deg);
+    transition: .3s ease-in-out;
+    cursor: pointer;
+    margin-right: 10px;
+
+    span {
+        display: block;
+        position: absolute;
+        height: $bar-height;
+        width: 100%;
+        background: $black;
+        border-radius: $bar-height;
+        opacity: 1;
+        left: 0;
+        transform: rotate(0deg);
+        transition: .25s ease-in-out;
+
+        &:nth-child(1) {
+            top: $bar-height * 0;
+            transform-origin: left center;
+        }
+
+        &:nth-child(2) {
+            top: $bar-height * 2;
+            transform-origin: left center;
+        }
+
+        &:nth-child(3) {
+            top: $bar-height * 4;
+            transform-origin: left center;
+        }
+    }
+
+    .open & span {
+        &:nth-child(1) {
+            transform: rotate(45deg);
+            top: $toggle-height * -.0666666;
+            left: $toggle-width * .1333333;
+        }
+
+        &:nth-child(2) {
+            width: 0%;
+            opacity: 0;
+        }
+
+        &:nth-child(3) {
+            transform: rotate(-45deg);
+            top: $toggle-height * .8666666;
+            left: $toggle-width * .1333333;
+        }
+    }
+}

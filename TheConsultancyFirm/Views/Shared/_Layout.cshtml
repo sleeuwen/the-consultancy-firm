@@ -17,29 +17,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">The Consultancy Firm</a>
+    @Html.Partial("HeaderPartial")
 
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target=".navbar-collapse" aria-controls=".navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="navbar-collapse collapse">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    <a class="nav-item nav-link" asp-area="" asp-controller="Home" asp-action="About">About</a>
-                    <a class="nav-item nav-link" asp-area="" asp-controller="Home" asp-action="Contact">Contact</a>
-                </div>
-            </div>
-        </div>
-    </nav>
     <div class="container body-content">
         @RenderBody()
-
-        <hr />
-        @Html.Partial("FooterPartial") 
     </div>
+
+
+    @Html.Partial("FooterPartial")
 
     <environment include="Development">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.slim.js"></script>
