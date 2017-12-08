@@ -1,3 +1,5 @@
+@import 'variables';
+
 header {
     height: 100px;
     display: flex;
@@ -14,11 +16,11 @@ header {
     text-decoration: underline;
 
     a {
-        color: $black;
+        color: $blackLink;
 
         &:hover {
             text-decoration: none;
-            color: $black;
+            color: $blackLink;
         }
     }
 }
@@ -32,22 +34,24 @@ header {
     padding-top: 10px;
 
     a {
-        color: #212529;
+        color: $blackLink;
 
         &:hover {
             text-decoration: none;
-            color: #212529;
+            color: $blackLink;
             font-weight: 500;
         }
     }
 
     li, a {
-        display:inline-block;
-        text-align:center;
+        display: inline-block;
+        text-align: center;
     }
+
     a:hover {
-        font-weight:500;
+        font-weight: 500;
     }
+
     a::after {
         display: block;
         content: attr(data-title);

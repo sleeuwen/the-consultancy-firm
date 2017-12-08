@@ -1,0 +1,25 @@
+﻿@import 'variables';
+
+.cookiecontainer {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    text-align: center;
+    background-color: $orange;
+    color: $white;
+    padding: 15px;
+
+    i {
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        font-size: 30px;
+    }
+
+    button {
+        background-color: $darkOrange;
+        color: $white;
+        cursor: pointer;
+        margin-left: 15px;
+    }
+}
