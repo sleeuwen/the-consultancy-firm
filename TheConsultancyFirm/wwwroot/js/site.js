@@ -1,6 +1,6 @@
 ﻿// Write your JavaScript code.
 $(document).ready(function () {
-    $('.button').each(function () {
+    $('.buttonHover').each(function () {
         $(this).append('<span></span><span></span>');
     });
 
@@ -16,6 +16,10 @@ $(document).ready(function () {
     $searchbar.find('> .fa-times').click(function () {
         $searchbar.find('input').val('');
         $searchbar.toggleClass('open');
+    });
+
+    $('.cookiecontainer').find('> .fa-times').click(function () {
+        $('.cookiecontainer').hide();
     });
 
 });
