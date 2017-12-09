@@ -2,6 +2,9 @@
   "name": "the-consultancy-firm",
   "version": "1.0.0",
   "private": true,
+  "scripts": {
+    "dist": "gulp min"
+  },
   "devDependencies": {
     "del": "^3.0.0",
     "gulp": "^3.9.1",

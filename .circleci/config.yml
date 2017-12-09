@@ -8,4 +8,37 @@ jobs:
       - checkout
       - run: dotnet restore
       - run: dotnet build
+
+  test:
+    docker:
+      - image: microsoft/aspnetcore-build:2.0
+    steps:
+      - checkout
+      - run: dotnet restore
       - run: dotnet test TheConsultancyFirm.Tests
+
+  deploy:
+    docker:
+      - image: microsoft/aspnetcore-build:2.0
+    steps:
+      - checkout
+      - run: echo "$GITCREDENTIALS" > ~/.git-credentials
+      - run: git config --global credential.helper store
+      - run: git remote add azure https://h-se-wpfw-1-17-group8.scm.azurewebsites.net
+      - run: git push azure master:master
+      - run: shred -f ~/.git-credentials
+
+workflows:
+  version: 2
+  build-test-deploy:
+    jobs:
+      - build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only: master
