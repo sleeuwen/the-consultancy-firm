@@ -1,0 +1,30 @@
+﻿@import 'variables';
+
+#newsletter {
+    background-color: $backgroundGrey;
+    text-align: center;
+    padding: 100px 0 100px 0;
+    display: flex;
+    justify-content: center;
+
+    input {
+        width: 600px;
+        border: 0;
+        background-color: $backgroundGrey;
+        outline: none !important;
+        border-bottom: 1px solid $darkGrey;
+    }
+
+    form{
+        position: relative;
+    }
+
+    button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        background: transparent;
+        border: 0;
+        font-style: italic;
+    }
+}
