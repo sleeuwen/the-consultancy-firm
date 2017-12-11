@@ -1,0 +1,19 @@
+﻿@import 'variables';
+
+.caseoverview {
+    height: 450px;
+    padding: 10px;
+
+
+    .innercaseoverview {
+        padding-top: 100px;
+        padding-left: 50px;
+        height: 100%;
+        color: white;
+        background-color: darkslategrey;
+    }
+
+    .buttonHover {
+        font-size: 20;
+    }
+}
