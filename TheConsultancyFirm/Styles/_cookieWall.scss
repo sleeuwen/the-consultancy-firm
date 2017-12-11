@@ -27,7 +27,7 @@
         margin-top: 10px;
     }
 
-    @media (min-width: 768px) {
+    @media (min-width: $break-medium) {
         padding: 15px;
         line-height: 28px;
 
