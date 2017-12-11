@@ -28,11 +28,13 @@
 .logos{
     margin: 0 auto;
     width: 80%;
-    text-align:center;
-    p{
-        font-family:Raleway, sans-serif;
-        font-style:italic;
-    }
 }
 
-
+#allcaseslink {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+    font-family: Raleway, sans-serif;
+    font-style: italic;
+}
