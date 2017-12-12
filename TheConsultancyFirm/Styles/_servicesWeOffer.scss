@@ -44,7 +44,6 @@
         }
     }
 
-
     a {
         color: $white;
         text-decoration: none;
@@ -75,7 +74,7 @@
     background-position-y: 50px;
     background-repeat: no-repeat;
 
-    @media screen and (max-width: $break-medium) {
+    @media screen and (max-width: $break-large) {
         background: none;
         height: 630px;
         margin-bottom: 2px;
