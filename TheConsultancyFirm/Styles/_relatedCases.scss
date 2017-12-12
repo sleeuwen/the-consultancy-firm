@@ -65,7 +65,6 @@
     &:nth-child(2) {
         background-image: url(/images/related-stock-photo.jpg);
         background-size: cover;
-        //filter: brightness(50%);
     }
 }
 
@@ -81,7 +80,7 @@
     }
 }
 
-@media screen and (max-width: 992px) {
+@media screen and (max-width: $break-large) {
     .related-item {
         padding-left: 15px;
     }
