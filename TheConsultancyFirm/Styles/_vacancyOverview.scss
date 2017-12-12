@@ -21,24 +21,24 @@
     box-shadow: 0 2px 13px 4px #ddd;
     width: 80%; 
     height: 55px; 
-    
-    p{
-        font-family: Raleway, sans-serif;
-        font-size: 16px;
-        line-height: 25px;
-    } 
 }
 
+
+
+
 .vacancyDescription {
+    white-space:nowrap;
     margin-left: 20px;
-    margin-right: 60%;
+    margin-right: 50%;
     color: $black;
 }
 
 .vacancyDate {
-    color:$grey;
-    margin-right:10%;
-}
+    white-space: nowrap;
+    color: $grey;
+    }
+
+
 
 
 
