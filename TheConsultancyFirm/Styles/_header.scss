@@ -6,7 +6,7 @@ $bar-height: $toggle-height / 5;
 
 header {
     height: 100px;
-  
+
     .nav-item {
         margin-left: 10px;
     }
@@ -47,7 +47,7 @@ header {
 
         .menu-bars-toggle {
             display: inline-block;
-          
+
             span {
                 transform-origin: left center;
 
@@ -56,12 +56,12 @@ header {
                     top: $toggle-height * -.0666666;
                     left: $toggle-width * .1333333;
                 }
-  
+
                 &:nth-child(2) {
                     width: 0;
                     opacity: 0;
                 }
-  
+
                 &:nth-child(3) {
                     transform: rotate(-45deg);
                     top: $toggle-height * .8666666;
@@ -98,7 +98,11 @@ header {
         transition: width .3s ease-in-out;
         white-space: nowrap;
         overflow: hidden;
-        
+
+        &:hover {
+            cursor: pointer;
+        }
+
         .menu-bars-toggle {
             display: inline-block;
         }
@@ -112,13 +116,23 @@ header {
             transition: width .3s ease-in-out;
         }
 
-        .navbar-collapse.open {
-            .menu-toggle {
-                width: 30px;
-            }
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            align-self: flex-end;
+        }
 
-            .navbar-nav.overflow {
-                width: 447px;
+        .navbar-collapse {
+            flex-direction: column;
+
+            &.open {
+                .menu-toggle {
+                    width: 30px;
+                }
+
+                .navbar-nav.overflow {
+                    width: 447px;
+                }
             }
         }
     }
@@ -232,9 +246,9 @@ header {
     text-decoration: underline;
     list-style: none;
     display: flex;
-    margin: 0 0 0 auto;
+    margin: 0;
     padding: 0;
-    justify-content: flex-end;
+    align-self: flex-end;
 
     li {
         padding-left: 15px;
