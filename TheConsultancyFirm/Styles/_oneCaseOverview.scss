@@ -1,0 +1,58 @@
+﻿@import 'variables';
+
+.caseoverview {
+    height: 600px;
+    padding: 10px;
+    font-family: 'Raleway', sans-serif;
+
+    .innercaseoverview {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding-left: 50px;
+        padding-bottom: 50px;
+        height: 100%;
+        color: white;
+        background-image: url(/images/home-office.jpg);
+        background-position: center;
+
+        &::before {
+            content: '\A';
+            position: absolute;
+            top: 10px;
+            bottom: 10px;
+            right: 10px;
+            left: 10px;
+            background: rgba(26, 25, 25, 0.45);
+            transition: all .5s ease-in-out;
+        }
+
+        &:hover::before {
+            background: rgba(26, 25, 25, 1);
+        }
+    }
+
+    p {
+        z-index: 1;
+    }
+
+    h3 {
+        margin-bottom: 50px;
+        z-index: 1;
+    }
+
+    .buttonHover {
+        letter-spacing: 2px;
+        width: 134px;
+    }
+
+    @media screen and (max-width: $break-large) {
+        .innercaseoverview {
+            padding-left: 20px;
+        }
+    }
+
+    @media screen and (max-width: $break-medium) {
+        height: 350px;
+    }
+}
