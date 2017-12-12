@@ -3,7 +3,7 @@
 .buttonHover {
     position: relative;
     font-size: 14px;
-    font-weight: 700;
+    font-weight: $bold;
     border: 0;
     cursor: pointer;
     transition: all 0.2s $cubic-bezier 0s;

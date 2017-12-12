@@ -7,13 +7,21 @@ $white: #FFFFFF;
 $darkGrey: #ADABAA;
 $orange: #F7931E;
 $darkOrange: #dd7a08;
-
+$turquoise: #5DC2C4;
+$lightGrey: #E7E7E6;
 
 //break
+$break-small: 576px;
 $break-medium: 768px;
 $break-large: 992px;
 
 //transition
 $cubic-bezier: cubic-bezier(.2,.3,.25,.9);
+
+//font weights
+$bold: 700;
+$medium: 500;
+$regular: 400;
+$light: 300;
 
 //mixins
