@@ -17,13 +17,13 @@ header {
         text-align: center;
 
         &:hover {
-            font-weight: 500;
+            font-weight: $medium;
         }
 
         &::after {
             display: block;
             content: attr(data-title);
-            font-weight: 500;
+            font-weight: $medium;
             height: 0;
             overflow: hidden;
             visibility: hidden;
