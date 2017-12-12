@@ -1,0 +1,63 @@
+﻿@import 'variables';
+
+.carousel-caption {
+    position: absolute;
+    top: 15%;
+    left: 15%;
+    text-align: left;
+    padding-right: 45%;
+
+    span {
+        font-size: 18px;
+        color: $white;
+        font-family: 'Raleway thin', sans-serif;
+    }
+
+    h1 {
+        font-family: 'Raleway thick', sans-serif;
+        font-size: 60px;
+        line-height: 60px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        margin-top: 10px;
+    }
+
+    .carousel-item-links {
+        a {
+            font-size: 17px;
+            color: $white;
+
+            &:hover{
+                cursor: pointer;
+            }
+        }
+        
+    }
+}
+
+.italic-link{
+    font-style: italic;
+}
+
+.carousel-skip-cases {
+    position: absolute;
+    bottom: 30px;
+    right: 50px;
+
+    a{
+        color: $white;
+    }
+}
+
+.carousel-item {
+    &::before {
+        content: '\A';
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        right: 0px;
+        left: 0px;
+        background: rgba(26,25,25,0.35);
+        transition: all .5s ease-in-out;
+    }
+}
