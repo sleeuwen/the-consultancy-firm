@@ -38,15 +38,34 @@
         color: $white;
     }
 
+    h3 {
+        z-index: 1;
+    }
+
     span {
         color: $grey;
+        z-index: 1;
+    }
+
+    &::before {
+        content: '\A';
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        right: 0px;
+        left: 0px;
+        background: rgba(26,25,25,0.45);
+        transition: all .5s ease-in-out;
+    }
+
+    &:hover::before {
+        background: rgba(26,25,25,0.3);
     }
 
     &:nth-child(2) {
         background-image: url(/images/related-stock-photo.jpg);
         background-size: cover;
-        -webkit-filter: brightness(50%); /* Safari 6.0 - 9.0 */
-        filter: brightness(50%);
+        //filter: brightness(50%);
     }
 }
 
@@ -59,6 +78,12 @@
         color: $black;
         line-height: 30pt;
         font-size: 21pt;
+    }
+}
+
+@media screen and (max-width: 992px) {
+    .related-item {
+        padding-left: 15px;
     }
 }
 
