@@ -19,11 +19,16 @@
     .service {
         width: 100%;
         padding-bottom: 20px;
-        padding-top: 8px;
+        padding-top: 20px;
         border-bottom: 1px solid gray;
         display: flex;
         position: relative;
         padding-right: 40px;
+
+        @media screen and (max-width:$break-small) {
+            padding-bottom: 8px;
+            padding-top: 8px;
+        }
 
         h5::after {
             content: '';
@@ -33,13 +38,14 @@
             height: 40px;
             position: absolute;
             right: 0;
-            top: 2px;
+            top: 15px;
             background-position: right;
             background-size: contain;
 
             @media screen and (max-width:$break-small) {
-                width: 30px;
-                height: 30px;
+                width: 25px;
+                height: 25px;
+                top: 8px;
             }
         }
     }
@@ -62,8 +68,8 @@
         padding: 35px 20px;
     }
 
-    @media screen and (max-width: $break-medium) and (min-width: $break-small) {
-        height: 500px;
+    @media screen and (max-width: $break-medium) {
+        height: 560px;
     }
 }
 
@@ -77,10 +83,9 @@
     @media screen and (max-width: $break-large) {
         background: none;
         height: 630px;
-        margin-bottom: 2px;
     }
 
     @media screen and (max-width: $break-medium) and (min-width: $break-small) {
-        height: 500px;
+        height: 560px;
     }
 }
