@@ -1,0 +1,68 @@
+.pageheader {
+    color: white;
+    position: relative;
+    padding: 10rem 0;
+    margin: 2rem;
+    height: initial;
+    background: no-repeat center;
+    background-size: cover;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(26, 25, 25, .45);
+    }
+
+    h1 {
+        margin: 1rem 0;
+    }
+}
+
+.casedetail {
+    img {
+        max-width: 100%;
+    }
+}
+
+.extra-cases {
+    .case {
+        position: relative;
+        padding: 10rem 5rem;
+        color: $white;
+        background-size: cover;
+        background-position: center;
+
+        &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: rgba(26, 25, 25, .45);
+        }
+
+        .title,
+        .subtitle {
+            position: relative;
+        }
+
+        .title {
+            color: $white;
+        }
+
+        .subtitle {
+            margin-bottom: -25px;
+        }
+
+        .buttonHover {
+            color: $white;
+            font-weight: 700;
+            font-size: 16px;
+        }
+    }
+}
