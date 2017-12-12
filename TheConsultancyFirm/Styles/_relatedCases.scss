@@ -18,11 +18,10 @@
     justify-content: center;
 
     h3 {
-        color: $black;
-        line-height: 39pt;
-        font-size: 30pt;
+        line-height: 33px;
+        font-size: 28px;
         font-family: 'Ubuntu', sans-serif;
-        margin-bottom: 1em;
+        margin-bottom: 10px;
     }
 }
 
@@ -65,20 +64,14 @@
 }
 
 @media screen and (max-width: $break-medium) {
-    .related-item{
+    .related-item {
         margin-bottom: 20px;
-    }
-
-    h3 {
-        color: $black;
-        line-height: 30pt;
-        font-size: 21pt;
     }
 }
 
 @media screen and (max-width: $break-large) {
     .related-item {
-        padding-left: 15px;
+        margin-left: 15px;
     }
 }
 
