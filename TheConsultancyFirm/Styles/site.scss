@@ -4,8 +4,10 @@
 @import 'header';
 @import 'ourCustomers';
 @import 'cookieWall';
+@import 'relatedCases';
 @import 'oneCaseOverview';
 @import 'newsLetter';
+
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
@@ -43,6 +45,8 @@
 h3 {
     font-family: 'Ubuntu', sans-serif;
     color: $white;
+    font-size: 30px;
+    line-height: 39px;
 }
 
 p {
