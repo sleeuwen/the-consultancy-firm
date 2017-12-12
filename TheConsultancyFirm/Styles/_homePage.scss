@@ -49,15 +49,141 @@
     }
 }
 
-.carousel-item {
-    &::before {
-        content: '\A';
-        position: absolute;
-        top: 0px;
-        bottom: 0px;
-        right: 0px;
-        left: 0px;
-        background: rgba(26,25,25,0.35);
-        transition: all .5s ease-in-out;
+#myCarousel {
+    .carousel-item {
+        &::before {
+            content: '\A';
+            position: absolute;
+            top: 0px;
+            bottom: 0px;
+            right: 0px;
+            left: 0px;
+            background: rgba(26,25,25,0.35);
+            transition: all .5s ease-in-out;
+        }
+    }
+}
+
+.home-content {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#solutions {
+    text-align: center;
+
+    .row {
+        margin-bottom: 15px;
+    }
+
+    h2 {
+        font-size: 50px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    p {
+        font-size: 20px;
+        box-sizing: border-box;
+        padding-left: 25%;
+        padding-right: 25%;
+    }
+}
+#solutions-carousel {
+    max-height: 500px;
+
+    .afbeelding {
+        margin-right: 50px;
+
+        img {
+            max-width: 100%;
+        }
+    }
+
+    .title {
+        margin-bottom: 10px;
+
+        h3 {
+            color: $black;
+            display: inline-block;
+            margin-right: 10px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+    }
+
+    .buttonHover {
+        font-size: 15px;
+
+        &:hover {
+            color: $black !important;
+        }
+    }
+
+    .carousel-navigation {
+        padding: 5px;
+        margin-bottom: 10px;
+    }
+
+    .description {
+        p {
+            font-size: 15px;
+            font-family: 'Raleway', sans-serif;
+        }
+    }
+}
+
+.carousel-navigation {
+
+    a {
+        padding: 15px;
+        border-radius: 100%;
+        box-shadow: 0px 0px 0px 2px #f7f7f7;
+        margin-right: 10px;
+        color: $black;
+
+        &:hover {
+            background-color: $orange;
+            cursor: pointer;
+            color: $white;
+            text-decoration: none;
+        }
+    }
+}
+
+//Mobile
+@media screen and (max-width: $break-medium)
+{
+    .afbeelding{
+        display: none;
+    }
+
+    .content {
+        padding-bottom: 10px;
+
+        .description {
+            p {
+                font-size: 14px !important;
+            }
+        }
+    }
+
+    #solutions {
+        text-align: center;
+
+        .row {
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 30px;
+        }
+
+        p {
+            font-size: 15px;
+            box-sizing: border-box;
+            padding-left: 15%;
+            padding-right: 15%;
+        }
     }
 }
