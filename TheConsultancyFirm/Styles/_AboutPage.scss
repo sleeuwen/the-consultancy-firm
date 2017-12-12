@@ -1,0 +1,95 @@
+﻿@import 'Variables';
+
+.pageHeader {
+    margin: 0 auto;
+    position: relative;
+    color: $white;
+
+    .headerImage {
+        max-width: 99%;
+        display: block;
+        margin: auto;
+        filter: grayscale(50%);
+        margin-bottom: 100px;
+    }
+}
+
+.centered {
+    font-family: Ubuntu, sans-serif;
+    font-weight: bold;
+    font-size: 60px;
+    line-height: 65px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.aboutCarousel{
+    display:flex;
+
+    p{
+        color:black;
+    }
+}
+
+.beschrijving {
+    padding-left: 28%;
+    padding-right: 28%;
+
+    h2 {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        font-family: Ubuntu, sans-serif;
+        font-size: 40px;
+        line-height: 46px;
+    }
+
+    .intro {
+        font-family: Raleway, sans-serif;
+        font-size: 21px;
+        line-height: 30px;
+        padding-bottom: 30px;
+    }
+
+    .article {
+        font-family: Raleway, sans-serif;
+        font-size: 16px;
+        line-height: 25px;
+        padding-bottom: 30px;
+    }
+
+    img {
+        max-width: 99%;
+    }
+
+    .quote {
+        padding-left: 10%;
+        padding-bottom:30px;
+
+        i {
+            color: $orange;
+            font-size:32px;
+        }
+
+        svg{
+            padding-left:5px;
+            padding-right:5px;
+        }
+
+        h3 {
+            font-family: Raleway, sans-serif;
+            color: #ADABAA;
+            font-size: 16px;
+            padding-left: 5px;
+        }
+
+        .quoteText {
+            font-family: Raleway, sans-serif;
+            color: $black;
+            font-size: 21px;
+            line-height:28px;
+            padding-left:0;
+        }
+    }
+}
