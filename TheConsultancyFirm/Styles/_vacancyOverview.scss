@@ -1,0 +1,44 @@
+﻿@import 'variables';
+
+.vacancyHeader {
+    font-family: Ubuntu, sans-serif;
+    color: black;
+    font-size: 30px;
+    font-weight: 500;
+    line-height: 39px;    
+}
+
+.vacancyIntro {
+    font-family: Raleway, sans-serif;
+    font-size: 21px;
+    line-height: 30px;
+    margin-bottom: 60px;
+}
+
+.vacancy {
+    margin: 0 auto;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 13px 4px #ddd;
+    width: 80%; 
+    height: 55px; 
+    
+    p{
+        font-family: Raleway, sans-serif;
+        font-size: 16px;
+        line-height: 25px;
+    } 
+}
+
+.vacancyDescription {
+    margin-left: 20px;
+    margin-right: 60%;
+    color: $black;
+}
+
+.vacancyDate {
+    color:$grey;
+    margin-right:10%;
+}
+
+
+
