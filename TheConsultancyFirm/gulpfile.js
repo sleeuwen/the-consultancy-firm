@@ -34,6 +34,7 @@ gulp.task("min:js", function () {
             .pipe(uglify())
             .pipe(gulp.dest("."));
     });
+    if (tasks.length === 0) return;
     return merge(tasks);
 });
 
@@ -44,6 +45,7 @@ gulp.task("min:css", ["sass"], function () {
             .pipe(cssmin())
             .pipe(gulp.dest("."));
     });
+    if (tasks.length === 0) return;
     return merge(tasks);
 });
 
@@ -54,6 +56,7 @@ gulp.task("min:html", function () {
             .pipe(htmlmin({ collapseWhitespace: true, minifyCSS: true, minifyJS: true }))
             .pipe(gulp.dest("."));
     });
+    if (tasks.length === 0) return;
     return merge(tasks);
 });
 
@@ -65,7 +68,7 @@ gulp.task("clean", function () {
     return del(files);
 });
 
-gulp.task("watch", function () {
+gulp.task("watch", ["min"], function () {
     gulp.watch("Styles/**/*.scss", ["sass"]);
 
     getBundles(regex.js).forEach(function (bundle) {

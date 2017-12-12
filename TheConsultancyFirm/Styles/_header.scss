@@ -1,133 +1,171 @@
 @import 'variables';
 
+$toggle-width: 60px / 3;
+$toggle-height: 45px / 3;
+$bar-height: $toggle-height / 5;
+
 header {
     height: 100px;
-    display: flex;
-}
 
-.menu-right {
-    margin-left: auto;
-    padding-right: 30px;
-}
-
-.lang-select {
-    text-align: right;
-    padding-top: 10px;
-    text-decoration: underline;
-
-    a {
-        color: $blackLink;
-
-        &:hover {
-            text-decoration: none;
-            color: $blackLink;
-        }
+    .nav-item {
+        margin-left: 10px;
     }
-}
 
-.menu {
-    font-family: Ubuntu, sans-serif;
-    font-size: 21px;
-    line-height: 24px;
-    display: flex;
-    margin-left: auto;
-    padding-top: 10px;
-
-    a {
-        color: $blackLink;
+    .nav-link {
+        font: 21px/24px Ubuntu, sans-serif;
+        color: $blackLink !important;
+        text-align: center;
 
         &:hover {
-            text-decoration: none;
-            color: $blackLink;
             font-weight: 500;
         }
-    }
 
-    li, a {
-        display: inline-block;
-        text-align: center;
-    }
-
-    a:hover {
-        font-weight: 500;
-    }
-
-    a::after {
-        display: block;
-        content: attr(data-title);
-        font-weight: 500;
-        height: 0;
-        overflow: hidden;
-        visibility: hidden;
-    }
-
-    ul {
-        display: flex;
-        padding-left: 0%;
-
-        li {
-            margin-left: 25px;
-        }
-    }
-
-    .menu-overflow {
-        width: 0px;
-        transition: all .3s ease-in-out;
-        overflow: hidden;
-        white-space: nowrap;
-    }
-
-    &.open {
-        .menu-overflow {
-            width: 445px;
-        }
-
-        .hide-open {
-            width: 0;
+        &::after {
+            display: block;
+            content: attr(data-title);
+            font-weight: 500;
+            height: 0;
             overflow: hidden;
-            white-space: nowrap;
+            visibility: hidden;
+        }
+    }
+
+    .navbar {
+        background: $white;
+        z-index: 99;
+    }
+
+    .navbar-toggler {
+        font: 21px/24px Ubuntu, sans-serif;
+        border: 0;
+        color: $blackLink !important;
+
+        &:focus,
+        &:active {
+            outline: none;
         }
 
-        #menu-toggle {
-            width: 30px;
+        .menu-bars-toggle {
+            display: inline-block;
 
-            > span {
-                width: 0;
+            span {
+                transform-origin: left center;
+
+                &:nth-child(1) {
+                    transform: rotate(45deg);
+                    top: $toggle-height * -.0666666;
+                    left: $toggle-width * .1333333;
+                }
+
+                &:nth-child(2) {
+                    width: 0;
+                    opacity: 0;
+                }
+
+                &:nth-child(3) {
+                    transform: rotate(-45deg);
+                    top: $toggle-height * .8666666;
+                    left: $toggle-width * .1333333;
+                }
+            }
+        }
+
+        &.collapsed .menu-bars-toggle span {
+            &:nth-child(1) {
+                transform: none;
+                top: $bar-height * 0;
+                left: 0;
+            }
+
+            &:nth-child(2) {
+                top: $bar-height * 2;
+                width: 100%;
+                opacity: 1;
+            }
+
+            &:nth-child(3) {
+                transform: none;
+                top: $bar-height * 4;
+                left: 0;
             }
         }
     }
 
-    #menu-toggle {
+    .menu-toggle {
         display: flex;
-        align-items: baseline;
-        width: 85px;
+        font: 21px/24px Ubuntu, sans-serif;
+        width: 90px;
         transition: width .3s ease-in-out;
+        white-space: nowrap;
+        overflow: hidden;
 
         &:hover {
             cursor: pointer;
         }
 
-        > span {
-            width: 55px;
-            transition: width .3s ease-in-out;
+        .menu-bars-toggle {
+            display: inline-block;
+        }
+    }
+
+    @media screen and (min-width: $break-large) {
+        .navbar-nav.overflow {
+            width: 0;
+            white-space: nowrap;
             overflow: hidden;
+            transition: width .3s ease-in-out;
+        }
+
+        .navbar-content {
+            display: flex;
+            align-items: center;
+            align-self: flex-end;
+        }
+
+        .navbar-collapse {
+            flex-direction: column;
+
+            &.open {
+                .menu-toggle {
+                    width: 30px;
+                }
+
+                .navbar-nav.overflow {
+                    width: 447px;
+                }
+            }
         }
     }
 }
 
-#searchbar {
-    margin-left: 15px;
-    position: relative;
+.search {
+    display: flex;
+    flex-wrap: nowrap;
+
+    .searchbox {
+        position: relative;
+        margin: 0;
+        flex: auto;
+    }
 
     input {
-        width: 0;
-        border: 0;
-        transition: width .3s ease-in-out;
+        position: relative;
+        width: 100% !important;
+        font: 21px/24px Ubuntu, sans-serif;
         color: $black;
         outline: none !important;
+        border: 0;
         border-bottom: 1px solid $darkGrey;
-        margin-right: 10px;
-        position: relative;
+        border-radius: 0;
+        margin-right: 10px !important;
+        padding-left: 0;
+        padding-right: 0;
+
+        &:focus,
+        &:active {
+            box-shadow: none;
+            border-color: $darkGrey;
+        }
 
         &::after {
             position: absolute;
@@ -140,49 +178,101 @@ header {
 
     .fa-times {
         position: absolute;
-        top: 2px;
-        right: 40px;
+        top: 10px;
+        right: 7px;
+        font-size: 21px;
         opacity: 0;
         transform: translateX(10px);
         transition: all .2s ease-in-out 0s;
+        pointer-events: none;
 
         &:hover {
             cursor: pointer;
         }
     }
 
+    .fa-search {
+        font-size: 21px;
+        line-height: 24px;
+    }
+
     .fa-search:hover {
         cursor: pointer;
     }
 
-    &.open {
-        input {
-            width: 300px;
-            padding-right: 25px;
+    button {
+        background: transparent;
+        border: 0;
+
+        &:focus,
+        &:active {
+            outline: none;
+        }
+    }
+
+    @media screen and (min-width: $break-large) {
+        .searchbox {
+            transition: margin-right .3s ease-in-out;
         }
 
-        .fa-times {
-            opacity: 1;
-            transform: translateX(0);
-            transition: all .2s ease-in-out .1s;
+        input {
+            width: 0 !important;
+            transition: all .3s ease-in-out;
+            margin-right: 0 !important;
+        }
+
+        &.open {
+            .searchbox {
+                margin-right: 10px;
+            }
+
+            input {
+                width: 377px !important;
+                padding-right: 30px !important;
+            }
+
+            .fa-times {
+                opacity: 1;
+                transform: translateX(0);
+                transition: all .2s ease-in-out .1s;
+                pointer-events: all;
+            }
         }
     }
 }
 
+.lang-select {
+    text-align: right;
+    text-decoration: underline;
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+    align-self: flex-end;
+    justify-content: flex-end;
 
-$toggle-width: 60px / 3;
-$toggle-height: 45px / 3;
-$bar-height: $toggle-height / 5;
+    li {
+        padding-left: 15px;
+    }
 
-#menu-bars-toggle {
+    a {
+        color: $blackLink;
+
+        &:hover {
+            text-decoration: none;
+            color: $blackLink;
+        }
+    }
+}
+
+.menu-bars-toggle {
     width: $toggle-width;
     height: $toggle-height;
     position: relative;
-    margin: 0 auto;
     transform: rotate(0deg);
     transition: .3s ease-in-out;
     cursor: pointer;
-    margin-right: 10px;
+    margin: 0 10px 0 auto;
 
     span {
         display: block;
@@ -220,7 +310,7 @@ $bar-height: $toggle-height / 5;
         }
 
         &:nth-child(2) {
-            width: 0%;
+            width: 0;
             opacity: 0;
         }
 

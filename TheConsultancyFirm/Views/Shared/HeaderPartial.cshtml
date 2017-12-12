@@ -1,37 +1,66 @@
-﻿<header>
-    <img src="images/logo.png" class="logo">
+﻿<header class="d-block">
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <img src="images/logo.png" alt="The Consultancy Firm" class="logo navbar-brand" />
 
-    <div class="menu-right">
-        <div class="lang-select">
-            <a href="#">English</a>
-        </div>
+        <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <div class="menu-bars-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <span>Menu</span>
+        </button>
 
-        <div class="menu">
-            <ul class="menu-visible">
-                <li><a href="#" data-title="Cases">Cases</a></li>
-                <li><a href="#" data-title="Solutions">Solutions</a></li>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="lang-select">
+                <li><a href="#">English</a></li>
+                <li><a href="#">French</a></li>
             </ul>
-            <ul class="menu-overflow">
-                <li><a href="#" data-title="Over ons">Over ons</a></li>
-                <li><a href="#" data-title="Nieuws">Nieuws</a></li>
-                <li><a href="#" data-title="Downloads">Downloads</a></li>
-                <li><a href="#" data-title="Contact">Contact</a></li>
-            </ul>
-            <ul>
-                <li id="searchbar">
-                    <input type="text" name="search" placeholder="Nieuwe zoekterm">
-                    <i class="fa fa-times"></i>
-                    <i class="fa fa-search"></i>
-                </li>
-                <li id="menu-toggle">
-                    <div id="menu-bars-toggle">
+
+            <div class="navbar-content">
+                <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#" data-title="Cases">Cases</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-title="Solutions">Solutions</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav overflow">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-title="Over ons">Over ons</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-title="Nieuws">Nieuws</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-title="Downloads">Downloads</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-title="Contact">Contact</a>
+                    </li>
+                </ul>
+
+                <form class="form-inline my-2 my-lg-0 mx-3 search">
+                    <div class="searchbox">
+                        <input class="form-control mr-sm-2" type="search" name="search" placeholder="Nieuwe zoekterm">
+                        <i class="fa fa-times"></i>
+                    </div>
+
+                    <button class="my-2 my-sm-0" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </form>
+
+                <div class="menu-toggle d-none d-lg-block">
+                    <div class="menu-bars-toggle">
                         <span></span>
                         <span></span>
                         <span></span>
                     </div>
                     <span>Menu</span>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
-    </div>
+    </nav>
 </header>
