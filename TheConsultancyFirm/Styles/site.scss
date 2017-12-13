@@ -157,3 +157,15 @@ p {
         text-decoration: underline;
     }
 }
+
+.flexcase {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    &::before {
+        content: '\A';
+        position: absolute;
+        transition: all .5s ease-in-out;
+    }
+}
