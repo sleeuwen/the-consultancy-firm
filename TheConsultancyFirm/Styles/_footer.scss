@@ -3,7 +3,6 @@
 footer {
     background-color: $black;
     color: $darkGrey;
-    font-family: 'Raleway', sans-serif;
     padding: 20px 0px;
 
     @media screen and (max-width: $break-medium) {
@@ -34,6 +33,10 @@ footer {
             color: $grey;
             cursor: pointer;
         }
+    }
+
+    h3 {
+        color: $white;
     }
 }
 

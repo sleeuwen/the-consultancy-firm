@@ -1,0 +1,91 @@
+﻿@import 'variables';
+
+.servicepanel {
+    height: 630px;
+    background-color: $black;
+    padding: 75px;
+    color: $white;
+
+    h3 {
+        font-weight: $regular;
+        border-bottom: 1px solid gray;
+        padding-bottom: 30px;
+    }
+
+    h5 {
+        font-weight: $light;
+    }
+
+    .service {
+        width: 100%;
+        padding-bottom: 20px;
+        padding-top: 20px;
+        border-bottom: 1px solid gray;
+        display: flex;
+        position: relative;
+        padding-right: 40px;
+
+        @media screen and (max-width:$break-small) {
+            padding-bottom: 8px;
+            padding-top: 8px;
+        }
+
+        h5::after {
+            content: '';
+            background: url(/images/right-arrow-white.svg);
+            background-repeat: no-repeat;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            right: 0;
+            top: 15px;
+            background-position: right;
+            background-size: contain;
+
+            @media screen and (max-width:$break-small) {
+                width: 25px;
+                height: 25px;
+                top: 8px;
+            }
+        }
+    }
+
+    a {
+        color: $white;
+        text-decoration: none;
+
+        &:hover {
+            color: $grey;
+            cursor: pointer;
+        }
+    }
+
+    @media screen and (max-width: $break-medium) {
+        h5 {
+            font-size: 16px;
+        }
+
+        padding: 35px 20px;
+    }
+
+    @media screen and (max-width: $break-medium) {
+        height: 560px;
+    }
+}
+
+#serviceouterdiv {
+    height: 800px;
+    background-image: url(/images/office-design.jpg);
+    background-size: cover;
+    background-position-y: 50px;
+    background-repeat: no-repeat;
+
+    @media screen and (max-width: $break-large) {
+        background: none;
+        height: 630px;
+    }
+
+    @media screen and (max-width: $break-medium) and (min-width: $break-small) {
+        height: 560px;
+    }
+}
