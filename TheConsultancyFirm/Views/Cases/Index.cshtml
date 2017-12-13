@@ -1,0 +1,59 @@
+﻿@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Home">Home</a></li>
+    <li class="breadcrumb-item active">Cases</li>
+</ol>
+<div class="container-fluid caseindex">
+
+    @for (var i = 0; i < 3; i++)
+    {
+        <div class="row">
+            <div class="caseoverview" style="background-image: url(/images/office-design.jpg);">
+                <div class="innercaseoverview flexcase">
+                    <h4>Banque Artesia</h4>
+                    <h1>
+                        "Zes miljoen pagina's minder printen dankzij StreamServe
+                    </h1>
+                    <a class="buttonHover">BEKIJK CASE</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<div class="container-fluid" id="casecustomers">
+    <div class="introtext">
+        <h2>Onze klanten</h2>
+        Naast bovenstaande cases werken we voor nog veel meer <br/>
+        klanten aan mooie projecten.
+    </div>
+    <div class="row logos">
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/achmea.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/centraalbeheer.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/fbto.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/interpolis.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/avero.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/inshared.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/ohra.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/deltalloyd.png" />
+        </div>
+    </div>
+</div>
+@Html.Partial("NewsLetterPartial")
