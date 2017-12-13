@@ -1,0 +1,79 @@
+﻿@import 'variables';
+.caseindex{
+    padding:0 35px;
+}
+
+.caseoverview {
+    width: 100%;
+    height: 650px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: 25px;
+
+    .innercaseoverview {
+        padding-left: 150px;
+        padding-bottom: 150px;
+        height: 100%;
+        position: relative;
+        color: $white;
+
+        &::before {
+            top: 0px;
+            bottom: 0px;
+            right: 0px;
+            left: 0px;
+            background: rgba(26, 25, 25, 0.45);
+        }
+    }
+
+    h1 {
+        width: 500px;
+        margin-bottom: 30px;
+        z-index: 1;
+    }
+
+    h4 {
+        font-weight: $light;
+        color: $grey;
+        z-index: 1;
+    }
+
+    .buttonHover {
+        font-size: 17px;
+        letter-spacing: 2px;
+        width: 176px;
+    }
+
+    @media screen and (max-width: $break-medium) {
+        height: 300px;
+
+        .innercaseoverview {
+            padding-left: 20px;
+            padding-bottom: 30px;
+        }
+
+        h1 {
+            width: 100%;
+        }
+    }
+}
+
+#casecustomers {
+    margin-bottom: 50px;
+
+    @media screen and (min-width: $break-medium) {
+        .image {
+            margin-bottom: 75px;
+        }
+
+        margin-bottom: 125px;
+        margin-top: 75px;
+    }
+
+    @media screen and (max-width: $break-small) {
+        .logos {
+            width:100%;
+        }
+    }
+}
