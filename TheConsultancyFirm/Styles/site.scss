@@ -177,6 +177,7 @@ p {
 .paging {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
 
     ul {
         list-style: none;
