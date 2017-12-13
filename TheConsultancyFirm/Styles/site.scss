@@ -11,6 +11,7 @@
 @import 'servicesWeOffer';
 @import 'ultimateJourney';
 @import 'caseOverview';
+@import 'newsPage';
 
 body {
     font-family: 'Raleway', sans-serif;
@@ -170,5 +171,31 @@ p {
         content: '';
         position: absolute;
         transition: all .5s ease-in-out;
+    }
+}
+
+.paging {
+    display: flex;
+    justify-content: space-between;
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+
+        li {
+            display: inline;
+            font-size: 20px;
+            margin: 0 5px;
+            font-weight: $bold;
+
+            a {
+                color: black;
+
+                &:hover {
+                    color: black;
+                    cursor: pointer;
+                }
+            }
+        }
     }
 }
