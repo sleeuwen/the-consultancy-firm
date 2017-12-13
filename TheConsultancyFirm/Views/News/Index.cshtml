@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2>Nieuws en kennis</h2>
+            <p class="introtext">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dignissim fermentum libero,<br>
+                a feugiat quam rutrum nec. Nulla facilisi. Etiam elit turpis, molestie id tincidunt sit amet,<br>
+                faucibus et enim. Vivamus non dolor justo.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        @for (var i = 0; i < 12; i++)
+        {
+            <div class="col-lg-4 col-md-6 col-12">
+                @Html.Partial("NewsItemPartial")
+            </div>
+        }
+    </div>
+    <div>
+        <div>links</div>
+        <div>midden</div>
+        <div>rechts</div>
+    </div>
+</div>
+@Html.Partial("NewsLetterPartial")

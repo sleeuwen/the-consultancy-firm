@@ -20,7 +20,7 @@
             <div class="navbar-content">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
-                        <a class="nav-link" asp-controller="Cases" data-title="Cases">Cases</a>
+                        <a class="nav-link" asp-controller="Cases" asp-action="Index" data-title="Cases">Cases</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-title="Solutions">Solutions</a>
@@ -31,7 +31,7 @@
                         <a class="nav-link" href="#" data-title="Over ons">Over ons</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-title="Nieuws">Nieuws</a>
+                        <a class="nav-link" asp-controller="News" asp-action="Index" data-title="Nieuws">Nieuws</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#" data-title="Downloads">Downloads</a>
