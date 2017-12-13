@@ -71,6 +71,7 @@
             display:flex;
             align-items: baseline;
         }
+
         i {
             color: $orange;
             font-size:24px;
@@ -100,7 +101,6 @@
     }
 }
 .carousel-navigation {
-
     a {
         padding: 15px;
         border-radius: 100%;
@@ -117,8 +117,33 @@
     }
 }
 
-.carousel-caption {
-    position: initial; 
-    text-align:initial; 
-    color:black;
+.aboutCarousel {
+    video {
+        max-width: 57%;
+    }
 }
+
+
+.carousel-navigation {
+    @media screen and (max-width: 767px) {
+        margin-top: 10px !important;
+    }
+}
+
+
+.carousel-caption {
+    position: initial;
+    text-align: initial;
+    color: black;
+
+    @media screen and (max-width: 767px) {
+        display: inline !important;
+
+        p {
+            padding-top: 20px;
+        }
+    }
+}
+
+    
+
