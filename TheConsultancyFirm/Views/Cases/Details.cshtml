@@ -3,22 +3,6 @@
     Layout = "_Layout";
 }
 
-<style>
-    h2 {
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-    }
-    h3 {
-        margin-top: 2rem;
-        margin-bottom: 1rem;
-    }
-    .introtext {
-        font: 400 21px/30px Raleway, sans-serif;
-        text-align: left;
-        margin-bottom: 1rem;
-    }
-</style>
-
 <header class="pageheader" style="background-image: url(/images/banner1.svg)">
     <div class="container">
         <div class="row">
@@ -166,16 +150,42 @@
 
             @* TODO: Sharing options *@
 
+            <div class="sharing">
+                <span style="font-size: 18px">
+                    <i class="fa fa-share-alt"></i>
+                    share
+                </span>
+
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+                </span>
+
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                </span>
+
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
+            </div>
+
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <h2 class="text-center">Gerelateerd</h2>
-        </div>
-
-        @* TODO: Related cases *@
-    </div>
+    @Html.Partial("RelatedCasesPartial")
 </div>
 
 <div class="container-fluid extra-cases">
