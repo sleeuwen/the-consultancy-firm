@@ -1,9 +1,16 @@
-﻿@import 'Variables';
+﻿@import 'variables';
 
 .pageHeader {
     margin: 0 auto;
     position: relative;
     color: $white;
+
+    h1 {
+        @media screen and (max-width: $break-medium) {
+            font-size:10px;
+            line-height:12px;
+        }
+    }
 
     .headerImage {
         max-width: 99%;
@@ -15,10 +22,6 @@
 }
 
 .centered {
-    font-family: Ubuntu, sans-serif;
-    font-weight: bold;
-    font-size: 60px;
-    line-height: 65px;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -33,16 +36,37 @@
     }
 }
 
-.beschrijving {
+#descriptionBox{
+    margin-bottom:50px;
+    @media screen and (max-width: $break-medium){
+        min-height:290px;
+        margin-bottom:10px;
+    }
+}
+
+.description {
     padding-left: 28%;
     padding-right: 28%;
 
-    .intro {
-        font-family: Raleway, sans-serif;
-        font-size: 21px;
-        line-height: 30px;
-        padding-bottom: 30px;
+    @media screen and (max-width: $break-medium) {
+        padding-left: 0px;
+        padding-right: 0px;
     }
+
+    .introtext {
+        @media screen and (max-width: $break-medium) {
+        }
+    }
+
+    img {
+        margin-bottom: 20px;
+
+        @media screen and (max-width: $break-medium) {
+            max-width: 100%;
+        }
+    }
+
+
 
     .article {
         font-family: Raleway, sans-serif;
@@ -51,27 +75,28 @@
         padding-bottom: 30px;
     }
 
-    img {
-        max-width: 99%;
-    }
 
-    .quote {
+    .quoteContainer {
         padding-left: 10%;
-        padding-bottom:30px;
+        padding-bottom: 20px;
 
-        > :first-child{
-            display:flex;
+        @media screen and (max-width:$break-medium){
+            padding-bottom: 0px;
+        }
+
+        > :first-child {
+            display: flex;
             align-items: baseline;
         }
 
         i {
             color: $orange;
-            font-size:24px;
+            font-size: 24px;
         }
 
-        svg{
-            padding-left:5px;
-            padding-right:5px;
+        svg {
+            padding-left: 5px;
+            padding-right: 5px;
             width: 25px;
             height: 15px;
         }
@@ -84,14 +109,12 @@
         }
 
         .quoteText {
-            font-family: Raleway, sans-serif;
             color: $black;
-            font-size: 21px;
-            line-height:28px;
-            padding-left:0;
+            padding-left: 0;
         }
     }
 }
+
 .carousel-navigation {
     a {
         padding: 15px;
