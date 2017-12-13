@@ -4,8 +4,6 @@
     margin-bottom: 2rem;
 
     .title {
-        // TODO: Use default styles
-        font: 400 40px/46px Ubuntu, sans-serif;
         text-align: center;
         margin-bottom: 1rem;
     }
@@ -66,22 +64,13 @@
         max-width: 100%;
     }
 
-    p {
-        // TODO: Inherit defaults
-        font-family: Raleway, sans-serif;
-    }
-
     h4 {
-        // TODO: Inherit defaults
-        font: 400 21px/24px Ubuntu, sans-serif;
         margin-bottom: 1rem;
         margin-top: 1rem;
     }
 
     a {
         color: $turquoise;
-        // TODO: Inherit defaults
-        font: 400 16px/25px Raleway, sans-serif;
         font-weight: bold;
     }
 }
