@@ -3,6 +3,12 @@
     Layout = "_Layout";
 }
 
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active"><a asp-controller="Cases" asp-action="Index">Cases</a></li>
+    <li class="breadcrumb-item active">Nationale-Nederlanden</li>
+</ol>
+
 <header class="pageheader" style="background-image: url(/images/banner1.svg)">
     <div class="container">
         <div class="row">
@@ -45,10 +51,16 @@
                 vallen onder de noemer banksparen; ze zijn populair bij de consument.
             </p>
 
-            <blockquote>
-                <span class="author">Stijn van Schendel, Marketing Corporaate Clients, Nationale-Nederlanden</span>
-                Het bouwen van een bankapplicatie in een<br/>
-                verzekeringsomgeving is een uitdaging
+            <blockquote class="quote mt-4">
+                <div>
+                    <i class="fa fa-quote-left" aria-hidden="true"></i>
+                    <svg><path stroke="gray" d="M5 10 l50 0"/></svg>
+                    <h3>Stijn van Schendel, Marketing Corporaate Clients, Nationale-Nederlanden</h3>
+                </div>
+                <h3 class="quoteText">
+                    Het bouwen van een bankapplicatie in een<br/>
+                    verzekeringsomgeving is een uitdaging
+                </h3>
             </blockquote>
 
             <p>
@@ -90,10 +102,16 @@
                 administratiesysteem worden vertaald naar de juiste output.
             </p>
 
-            <blockquote>
-                <span class="author">Peter van der klis, IT Corporate Clients, Nationale-Nederlanden</span>
-                Nationale-Nederlanden heeft bewust gekozen voor een<br/>
-                specifieke outputoplossing
+            <blockquote class="quote mt-4">
+                <div>
+                    <i class="fa fa-quote-left" aria-hidden="true"></i>
+                    <svg><path stroke="gray" d="M5 10 l50 0"/></svg>
+                    <h3>Peter van der klis, IT Corporate Clients, Nationale-Nederlanden</h3>
+                </div>
+                <h3 class="quoteText">
+                    Nationale-Nederlanden heeft bewust gekozen voor een<br/>
+                    specifieke outputoplossing
+                </h3>
             </blockquote>
 
             <h3>Optimale ervaring</h3>
@@ -118,7 +136,7 @@
                 op de juiste manier worden samengesteld. Efficient voor Nationale-Nederlanden en
                 toch zodanig uitgevoerd dat de klant een optimale ervaring beleeft van de service.'
             </p>
-            
+
             <img src="~/images/foto1.png" />
 
             <h3>Output als enabler</h3>
@@ -135,7 +153,7 @@
                 deadline die we hanteerden was nog eens vijftien documenten in vijftien dagen en in
                 dat tempo werd de complete set documenten gebouwd', aldus Welters.
             </p>
-            
+
             <p>
                 Begin 2011 is het systeem getest. De nieuwe applicatie draaide zonder noemenswaardige
                 hobbels. Sindsdien heeft Welters de toepassing binnen verschillende geledingen van
@@ -201,7 +219,7 @@
             <h3 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h3>
             <a href="#" class="buttonHover">VORIGE CASE</a>
         </div>
-        <div class="col-md-6 case">
+        <div class="col-md-6 case" style="background-image: url(/images/foto1.png)">
             <p class="subtitle">van Hessen</p>
             <h3 class="title">"Elke klant wordt nu op de juiste manier benaderd</h3>
             <a href="#" class="buttonHover">VOLGENDE CASE</a>

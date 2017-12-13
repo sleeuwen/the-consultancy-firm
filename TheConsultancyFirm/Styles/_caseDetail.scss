@@ -90,3 +90,41 @@
         margin-right: 1rem;
     }
 }
+
+.quote {
+    padding-left: 10%;
+    padding-bottom: 30px;
+
+    > :first-child {
+        display: flex;
+        align-items: baseline;
+    }
+
+    i {
+        color: $orange;
+        font-size: 24px;
+    }
+
+    svg {
+        padding-left: 5px;
+        padding-right: 5px;
+        width: 25px;
+        height: 15px;
+    }
+
+    h3 {
+        font-family: Raleway, sans-serif;
+        color: #ADABAA;
+        font-size: 16px;
+        padding-left: 5px;
+        margin: 0;
+    }
+
+    .quoteText {
+        font-family: Raleway, sans-serif;
+        color: $black;
+        font-size: 21px;
+        line-height: 28px;
+        padding-left: 0;
+    }
+}
