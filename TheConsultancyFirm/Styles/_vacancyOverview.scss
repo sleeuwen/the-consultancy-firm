@@ -1,17 +1,7 @@
 ﻿@import 'variables';
 
-.vacancyHeader {
-    font-family: Ubuntu, sans-serif;
-    color: black;
-    font-size: 30px;
-    font-weight: 500;
-    line-height: 39px;    
-}
-
-.vacancyIntro {
-    font-family: Raleway, sans-serif;
-    font-size: 21px;
-    line-height: 30px;
+.vacancyContainer{
+    text-align:center;
     margin-bottom: 60px;
 }
 
@@ -23,27 +13,29 @@
     align-items: center;
     overflow: hidden;
 
-    img{
-        height:20px;
-        padding-left:20px;
+    img {
+        height: 20px;
+        padding-left: 20px;
         width: auto;
+    }
+
+    .description {
+        white-space: nowrap;
+        margin-bottom: 0;
+        color: $black;
+        margin-right: auto;
+    }
+
+    .date {
+        white-space: nowrap;
+        margin-bottom: 0;
+        margin-right: 20px;
+        color: $grey;
     }
 }
 
 
-.vacancyDescription {
-    white-space:nowrap;
-    margin-bottom: 0;
-    color: $black;
-    margin-right:auto;
-}
 
-.vacancyDate {
-    white-space: nowrap;
-    margin-bottom: 0;
-    margin-right:20px;
-    color: $grey;
-}
 
 
 
