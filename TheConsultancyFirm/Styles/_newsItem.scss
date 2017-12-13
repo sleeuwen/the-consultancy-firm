@@ -1,10 +1,10 @@
 ﻿@import 'variables';
 
-.caseoverview {
+.newsitem {
     height: 600px;
     padding: 10px;
 
-    .innercaseoverview {
+    .innernewsitem {
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
@@ -46,7 +46,7 @@
     }
 
     @media screen and (max-width: $break-large) {
-        .innercaseoverview {
+        .innernewsitem {
             padding-left: 20px;
         }
     }

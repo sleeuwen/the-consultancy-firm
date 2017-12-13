@@ -4,10 +4,11 @@
 @import 'header';
 @import 'ourCustomers';
 @import 'cookieWall';
-@import 'oneCaseOverview';
+@import 'newsItem';
 @import 'newsLetter';
 @import 'relatedCases';
 @import 'servicesWeOffer';
+@import 'caseOverview';
 
 body {
     font-family: 'Raleway', sans-serif;
@@ -140,4 +141,17 @@ p {
     width: 20px;
     height: 30px;
     margin-left: 5px;
+}
+
+.breadcrumb {
+    background: inherit;
+    padding-left:25px;
+    padding-top: 0;
+}
+
+.breadcrumb-item {
+    a {
+        color: black;
+        text-decoration: underline;
+    }
 }
