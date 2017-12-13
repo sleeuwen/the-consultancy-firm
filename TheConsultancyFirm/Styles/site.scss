@@ -164,7 +164,7 @@ p {
     justify-content: flex-end;
 
     &::before {
-        content: '\A';
+        content: '';
         position: absolute;
         transition: all .5s ease-in-out;
     }
