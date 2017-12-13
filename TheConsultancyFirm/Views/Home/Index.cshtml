@@ -75,4 +75,53 @@
             </div>
         </div>
     </div>
+    <!--
+        Services die wij bieden partial    
+    -->
+    <div id="team" class="container home-content">
+        <div class="row">
+            <h2>Het team dat altijd voor je klaar staat</h2>
+        </div>
+    </div>
+    <div class="container home-content">
+        <div id="team-carousel" class="carousel slide" data-ride="carousel" data-interval="false">
+            <div class="carousel-inner" role="listbox">
+                @for (int i = 1; i < 2; i++)
+                {
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col afbeelding">
+                                <img class="img-fluid" src="~/images/office-design.jpg" alt="Het team" />
+                            </div>
+                            <div class="col content">
+                                <div class="carousel-navigation">
+                                    <a href="#team-carousel" class="fa fa-arrow-left" aria-hidden="true" role="button" data-slide="prev"></a>
+                                    <a href="#team-carousel" class="fa fa-arrow-right" aria-hidden="true" role="button" data-slide="next"></a>
+                                </div>
+                                <div class="carousel-link">
+                                    <a class="italic-link" href="#">Meer over ons <img class="arrow" src="~/images/right-arrow-black.svg" alt="Meer over ons" /></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col afbeelding">
+                                <img class="img-fluid" src="~/images/home/solutionsCarousel/document-wizard-image.png" alt="Het team" />
+                            </div>
+                            <div class="col content">
+                                <div class="carousel-navigation">
+                                    <a href="#team-carousel" class="fa fa-arrow-left" aria-hidden="true" role="button" data-slide="prev"></a>
+                                    <a href="#team-carousel" class="fa fa-arrow-right" aria-hidden="true" role="button" data-slide="next"></a>
+                                </div>
+                                <div class="carousel-link">
+                                    <a class="italic-link" href="#">Meer over ons <img class="arrow" src="~/images/right-arrow-black.svg" alt="Meer over ons" /></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>

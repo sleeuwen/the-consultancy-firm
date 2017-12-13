@@ -31,7 +31,6 @@
                 cursor: pointer;
             }
         }
-        
     }
 }
 
@@ -77,13 +76,11 @@
     }
 
     h2 {
-        font-size: 50px;
         margin-left: auto;
         margin-right: auto;
     }
 
     p {
-        font-size: 20px;
         box-sizing: border-box;
         padding-left: 25%;
         padding-right: 25%;
@@ -107,14 +104,11 @@
             color: $black;
             display: inline-block;
             margin-right: 10px;
-            font-size: 25px;
-            font-weight: bold;
+            font-weight: $bold;
         }
     }
 
     .buttonHover {
-        font-size: 15px;
-
         &:hover {
             color: $black !important;
         }
@@ -123,13 +117,6 @@
     .carousel-navigation {
         padding: 5px;
         margin-bottom: 10px;
-    }
-
-    .description {
-        p {
-            font-size: 15px;
-            font-family: 'Raleway', sans-serif;
-        }
     }
 }
 
@@ -151,21 +138,45 @@
     }
 }
 
+.carousel-link {
+    a {
+        color: $black;
+        font-weight: $bold;
+
+        &:hover {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+    }
+}
+//Team carousel
+#team {
+    h2 {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+#team-carousel {
+    .content {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+}
+
 //Mobile
 @media screen and (max-width: $break-medium)
 {
-    .afbeelding{
-        display: none;
+    #solutions-carousel {
+        .afbeelding {
+            display: none;
+        }
     }
 
     .content {
         padding-bottom: 10px;
-
-        .description {
-            p {
-                font-size: 14px !important;
-            }
-        }
+        flex-direction: column;
     }
 
     #solutions {
@@ -175,15 +186,23 @@
             margin-bottom: 10px;
         }
 
-        h2 {
-            font-size: 30px;
-        }
-
         p {
-            font-size: 15px;
             box-sizing: border-box;
             padding-left: 15%;
             padding-right: 15%;
+        }
+    }
+    .content {
+        display: flex;
+    }
+
+    #team-carousel {
+        .carousel-navigation {
+            padding-bottom: 20px;
+            a {
+                padding: 12px;
+                margin-right: 12px;
+            }
         }
     }
 }
