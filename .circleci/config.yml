@@ -8,6 +8,8 @@ jobs:
       - checkout
       - run: dotnet restore
       - run: dotnet build
+      - run: cd TheConsultancyFirm && npm install && cd ..
+      - run: cd TheConsultancyFirm && npm run dist && cd ..
 
   test:
     docker:
