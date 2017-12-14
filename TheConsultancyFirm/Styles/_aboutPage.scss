@@ -1,0 +1,182 @@
+﻿@import 'variables';
+
+.pageHeader {
+    margin: 0 auto;
+    position: relative;
+    color: $white;
+
+    .headerImage {
+        width: 100%;
+        display: block;
+        margin: auto;
+        margin-bottom: 100px;
+    }
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(26,25,25,.45);
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-direction: row;
+    width: 100%;
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
+}
+
+.aboutCarousel{
+    display:flex;
+
+    p {
+        color:black;
+    }
+}
+
+#descriptionBox {
+    margin-bottom: 50px;
+
+    @media screen and (max-width: $break-medium) {
+        min-height: 290px;
+        margin-bottom: 10px;
+    }
+
+    .carousel-item {
+        width:100% !important;
+    }
+}
+
+.videoCarouselItem {
+    height: 307px;
+    margin: 0 auto;
+    max-width:100%;
+}
+
+.videoCarouselItemDescription {
+    @media screen and (max-width: $break-medium) {
+        height: 200px !important;
+    }
+}
+
+.carouselcontainer{
+    display: flex;
+    flex-direction: column;
+}
+
+#descriptions{
+    flex: 1;
+}
+
+.aboutdescription {
+    padding-left: 28%;
+    padding-right: 28%;
+    
+
+    @media screen and (max-width: $break-medium) {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    img {
+        margin-bottom: 20px;
+        max-width:100%;
+        @media screen and (max-width: $break-medium) {
+            width: 100%;
+        }
+    }
+
+    .quoteContainer {
+        padding-left: 10%;
+        padding-bottom: 20px;
+
+        @media screen and (max-width:$break-medium){
+            padding-bottom: 0px;
+        }
+
+        > :first-child {
+            display: flex;
+            align-items: baseline;
+        }
+
+        i {
+            color: $orange;
+            font-size: 24px;
+        }
+
+        svg {
+            padding-left: 5px;
+            padding-right: 5px;
+            width: 25px;
+            height: 15px;
+        }
+
+        h3 {
+            font-family: Raleway, sans-serif;
+            color: #ADABAA;
+            font-size: 16px;
+            padding-left: 5px;
+        }
+
+        .quoteText {
+            color: $black;
+            padding-left: 0;
+        }
+    }
+}
+
+.carousel-navigation {
+    a {
+        padding: 15px;
+        border-radius: 100%;
+        box-shadow: 0px 0px 0px 2px #f7f7f7;
+        margin-right: 10px;
+        color: $black;
+
+        &:hover {
+            background-color: $orange;
+            cursor: pointer;
+            color: $white;
+            text-decoration: none;
+        }
+    }
+}
+
+
+.carousel-navigation {
+    @media screen and (max-width: 767px) {
+        margin-top: 10px !important;
+    }
+}
+
+
+.carousel-caption {
+    position: initial;
+    text-align: initial;
+    color: black;
+
+    @media screen and (max-width: 767px) {
+        display: inline !important;
+
+        p {
+            padding-top: 20px;
+        }
+    }
+}
+
+#myCarousel .carousel-item {
+    &.active,
+    &-next,
+    &-prev {
+        display: flex !important;
+    }
+}    
+
