@@ -2,49 +2,50 @@
     ViewData["Title"] = "Solutions";
 }
 
-<div id="mainText">
-    <h2>Naadloos aansluiten op uw ICT-omgeving</h2>
-    <h4>
-        The Consultancy Firm biedt een complete, geintegreerde, <br /> oplossing die de drie elementen van documentatmanagment <br /> omvat:
-        compositie, procesautomatisering en output
-    </h4>
-</div>
+<h2>Naadloos aansluiten op uw ICT-omgeving</h2>
+<h4>
+    The Consultancy Firm biedt een complete, geintegreerde, <br /> oplossing die de drie elementen van documentatmanagment <br /> omvat:
+    compositie, procesautomatisering en output
+</h4>
 <div class="row" id="solutionOuter">
-    <div class="col-lg-6 solutionitem">
-        adssdaadadad
-        <div class="solutionImageDiv">
-            <img src="~/images/logo.png" alt="Document Wizard">
+    <div class="card">
+        <img class="card-img-top" src="~/images/logo.png" alt="Card image cap">
+        <div class="card-block">
+            <h4 class="card-title">Document Wizard</h4>
+            <p class="card-text">
+                Uw klant heeft de behoefte om persoonlijk met u te communiceren... Maar maatwerk voor iedere klant is toch kostbaar en
+                tijdrovend? Niet met The Document Wizard. Sluit uw bestaande administraties en workflow systemen moeiteloos aan op onze correspondentie
+                van uw klantrelatie beginnen!
+            </p>
+            <a href="#" class="btn buttonHover">LEES MEER</a>
         </div>
-
-        <div class="solutionitem">asd</div>
-
-        <h3>Document Wizard</h3>
-        <p>
-            Uw klant heeft de behoefte om persoonlijk met u te communiceren... Maar maatwerk voor iedere klant is toch kostbaar en
-            tijdrovend? Niet met The Document Wizard. Sluit uw bestaande administraties en workflow systemen moeiteloos aan op onze correspondentie
-            van uw klantrelatie beginnen!
-        </p>
-        <div class="buttonHover">LEES MEER</div>
     </div>
-    <div class="col-lg-6 solutionitem">
-        <img class="solutionLogo" src="~/images/logo.png" alt="Social.ice">
-        <h3>Social.ice</h3>
-        <p>
-            Uw klant heeft de behoefte om persoonlijk met u te communiceren... Maar maatwerk voor iedere klant is toch kostbaar en
-            tijdrovend? Niet met The Document Wizard. Sluit uw bestaande administraties en workflow systemen moeiteloos aan op onze correspondentie
-            van uw klantrelatie beginnen!
-        </p>
-        <div class="buttonHover">LEES MEER</div>
+
+    <div class="card">
+        <img class="card-img-top" src="~/images/logo.png" alt="Card image cap">
+        <div class="card-block solution-block">
+            <h4 class="card-title">Social.ice</h4>
+            <p class="card-text solution-text">
+                Uw klant heeft de behoefte om persoonlijk met u te communiceren... Maar maatwerk voor iedere klant is toch kostbaar en
+                tijdrovend? Niet met The Document Wizard. Sluit uw bestaande administraties en workflow systemen moeiteloos aan op onze correspondentie
+                van uw klantrelatie beginnen!
+            </p>
+            <a href="#" class="btn buttonHover">LEES MEER</a>
+        </div>
     </div>
-    <div class="col-lg-6 solutionitem">
-        <img src="" alt="OpenText Extream">
-        <h3>OpenText Extream</h3>
-        <p>
-            Uw klant heeft de behoefte om persoonlijk met u te communiceren... Maar maatwerk voor iedere klant is toch kostbaar en
-            tijdrovend? Niet met The Document Wizard. Sluit uw bestaande administraties en workflow systemen moeiteloos aan op onze correspondentie
-            van uw klantrelatie beginnen!
-        </p>
-        <div class="buttonHover">LEES MEER</div>
+
+    <div class="card">
+        <img class="card-img-top" src="~/images/logo.png" alt="Card image cap">
+        <div class="card-block">
+            <h4 class="card-title">OpenText Extream</h4>
+            <p class="card-text">
+                Uw klant heeft de behoefte om persoonlijk met u te communiceren... Maar maatwerk voor iedere klant is toch kostbaar en
+                tijdrovend? Niet met The Document Wizard. Sluit uw bestaande administraties en workflow systemen moeiteloos aan op onze correspondentie
+                van uw klantrelatie beginnen!
+            </p>
+            <a href="#" class="btn buttonHover">LEES MEER</a>
+        </div>
     </div>
 </div>
-
+@Html.Partial("ServicesWeOfferPartial")
+@Html.Partial("NewsLetterPartial")
