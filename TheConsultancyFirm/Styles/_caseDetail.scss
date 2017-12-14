@@ -128,3 +128,71 @@
         padding-left: 0;
     }
 }
+
+.carousel-horizontal {
+    @media screen and (min-width: $break-large) {
+        max-width: 1300px;
+    }
+
+    .carousel-navigation {
+        padding: 1rem 0;
+
+        a {
+            padding: 10px;
+            border-radius: 100%;
+            box-shadow: 0 0 0 2px #f7f7f7;
+            margin-right: 10px;
+            color: $black;
+
+            &:hover {
+                background-color: $orange;
+                cursor: pointer;
+                color: $white;
+                text-decoration: none;
+            }
+        }
+    }
+
+    .carousel-caption {
+        position: initial;
+        text-align: initial;
+        color: $black;
+
+        @media screen and (max-width: $break-large) {
+            display: inline-block !important;
+            padding: .5rem 0;
+        }
+    }
+
+    .carousel-aside {
+        display: flex;
+        flex-direction: column;
+
+        .carousel {
+            flex: 1;
+
+            .carousel-inner,
+            .carousel-item.active,
+            .carousel-item-next,
+            .carousel-item-prev {
+                height: 100%;
+            }
+        }
+
+        .more-link {
+            font-style: italic;
+            color: $black;
+
+            &::after {
+                content: '';
+                width: 22px;
+                height: 22px;
+                background-image: url(/images/right-arrow-black.svg);
+                background-size: contain;
+                position: absolute;
+                margin-left: 1rem;
+                bottom: 0
+            }
+        }
+    }
+}
