@@ -5,27 +5,33 @@
     position: relative;
     color: $white;
 
-    h1 {
-        @media screen and (max-width: $break-medium) {
-            font-size:10px;
-            line-height:12px;
-        }
-    }
-
     .headerImage {
-        max-width: 99%;
+        width: 100%;
         display: block;
         margin: auto;
-        filter: grayscale(70%);
         margin-bottom: 100px;
     }
 }
 
-.centered {
+.overlay {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background: rgba(26,25,25,.45);
+}
+
+.centered {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    flex-direction: row;
+    width: 100%;
+    position:absolute;
+    top:50%;
+    transform: translateY(-50%);
 }
 
 .aboutCarousel{
@@ -44,9 +50,13 @@
     }
 }
 
+.videoCarouseltem{
+    width:600px;
+}
 .description {
     padding-left: 28%;
     padding-right: 28%;
+    
 
     @media screen and (max-width: $break-medium) {
         padding-left: 0px;
@@ -62,7 +72,7 @@
         margin-bottom: 20px;
 
         @media screen and (max-width: $break-medium) {
-            max-width: 100%;
+            width: 100%;
         }
     }
 
