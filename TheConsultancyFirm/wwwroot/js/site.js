@@ -32,4 +32,10 @@ jQuery(function ($) {
     $cookiecontainer.find('> .fa-times').click(function () {
         $cookiecontainer.hide();
     });
+
+    $('[data-carousel-follow]').each(function (idx, el) {
+        $('#' + $(el).data('carousel-follow')).on('slide.bs.carousel', function (e) {
+            $(el).carousel(e.direction === "left" ? "next" : "prev");
+        });
+    });
 });

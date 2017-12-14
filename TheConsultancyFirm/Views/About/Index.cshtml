@@ -22,13 +22,13 @@
 
     <div id ="descriptionBox" class="row">
         <div class="aboutCarousel col-md-8">
-            <div id="myCarousel" class="carousel slide col-md-12" data-ride="carousel" data-interval="6000">
+            <div id="myCarousel" class="carousel slide col-md-12" data-ride="carousel" data-interval="false">
                 <div class="carousel-inner" role="listbox">
                     <div class="carousel-item active">
                         <img src="~/images/banner1.svg" alt="ASP.NET" class="d-block videoCarouselItem"/>
                     </div>
                     <div class="carousel-item">
-                        <video class="videoCarouselItem" id="top_video" style="max-height: 300px;" controls>
+                        <video class="videoCarouselItem" id="top_video" controls>
                             <source src="https://www.webbeat.nl/Content/media/webbeat-home-05.mp4" type="video/mp4">
                         </video>
                     </div>
@@ -42,7 +42,7 @@
             </div>
     </div>
     
-        <div class="col-md-4">
+        <div class="col-md-4 carouselcontainer">
             <div class="about-carousel-navigation">
                 <div class="carousel-navigation">
                     <a href="#myCarousel" class="fa fa-arrow-left" aria-hidden="true" role="button" data-slide="prev"></a>
@@ -50,35 +50,35 @@
                 </div>
             </div>
 
-            <div id="myCarouselText" class="carousel slide col-md-8" data-ride="carousel" data-interval="false">
+            <div id="descriptions" class="carousel slide" data-ride="carousel" data-interval="false" data-carousel-follow="myCarousel">
                 <div class="carousel-inner" role="listbox" style="height: 100%;"><style>.carousel-item { height: 100%; }</style>
-                    <div class="carousel-item active">
+                    <div class="carousel-item videoCarouselItemDescription active">
                         <div class="carousel-caption" role="option">
-                            <p>
+                            <p class="introtext">
                                 Test
 
                             </p>
                         </div>
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-item videoCarouselItemDescription">
                         <div class="carousel-caption" role="option">
-                            <p>
+                            <p class="introtext">
                                 There are powerful new features in Visual Studio for building modern web apps.
 
                             </p>
                         </div>
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-item videoCarouselItemDescription">
                         <div class="carousel-caption" role="option">
-                            <p>
+                            <p class="introtext">
                                 Bring in libraries from NuGet and npm, and automate tasks using Grunt or Gulp.
 
                             </p>
                         </div>
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-item videoCarouselItemDescription">
                         <div class="carousel-caption" role="option">
-                            <p>
+                            <p class="introtext">
                                 Learn how Microsoft's Azure cloud platform allows you to build, deploy, and scale web apps.
 
                             </p>
@@ -89,7 +89,7 @@
         </div>
     </div>
     
-    <div class="description">
+    <div class="aboutdescription">
         <h2>Maar wat doen wij nu precies?</h2>
         <p class="introtext">
             TCF corporate finance is een zelfstandig en onafhankelijk advieskantoor dat<br/>
@@ -122,12 +122,3 @@
         </p>
     </div>
 </div>
-
-@section Scripts {
-    <script>
-        $('#myCarousel').on('slide.bs.carousel', function (e) {
-            console.log(e);
-            $('#myCarouselText').carousel(e.direction === "left" ? "next" : "prev");
-        });
-    </script>
-}
