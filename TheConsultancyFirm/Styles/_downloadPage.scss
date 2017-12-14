@@ -17,13 +17,7 @@
         color: $turquoise;
     }
 
-    @media screen and (max-width: $break-large) {
-        padding-right: 50px;
-    }
 
-    @media screen and (max-width: $break-medium) {
-        padding-right: 0;
-    }
 }
 
 .downloadtag {
@@ -39,4 +33,28 @@
 
 .outerdownload{
     margin: 50px 0;
+}
+
+.downloadpaging {
+    padding-right: 150px;
+}
+
+@media screen and (max-width: $break-large) {
+    .downloadinformation {
+        padding-right: 50px;
+    }
+
+    .downloadpaging {
+        padding-right: 50px;
+    }
+}
+
+@media screen and (max-width: $break-medium) {
+    .downloadinformation {
+        padding-right: 0;
+    }
+
+    .downloadpaging {
+        padding-right: 0;
+    }
 }

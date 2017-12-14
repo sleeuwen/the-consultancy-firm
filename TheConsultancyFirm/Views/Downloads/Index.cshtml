@@ -107,30 +107,31 @@
                 </div>
             </div>
         }
-    <div class="paging" id="newspaging">
+    <div class="row">
+        <div class="col-sm-5">
+        </div>
+        <div class="col-sm-7 paging downloadpaging" id="newspaging">
+            <a href="#" class="fa fa-arrow-left pagearrow" aria-hidden="true"></a> 
+            <ul>
+                <li>
+                    <a href="#">1</a>
+                </li>
+                <li>
+                    <a href="#">2</a>
+                </li>
+                <li>
+                    <a href="#">3</a>
+                </li>
+                <li>
+                    <a href="#">4</a>
+                </li>
+                <li>
+                    <a href="#">5</a>
+                </li>
+            </ul>
 
-        <a href="#" class="fa fa-arrow-left pagearrow" aria-hidden="true"></a>
-
-        
-        <ul>
-            <li>
-                <a href="#">1</a>
-            </li>
-            <li>
-                <a href="#">2</a>
-            </li>
-            <li>
-                <a href="#">3</a>
-            </li>
-            <li>
-                <a href="#">4</a>
-            </li>
-            <li>
-                <a href="#">5</a>
-            </li>
-        </ul>
-
-        <a href="#" class="fa fa-arrow-right pagearrow" aria-hidden="true"></a>
+            <a href="#" class="fa fa-arrow-right pagearrow" aria-hidden="true"></a>
+        </div>
     </div>
 </div>
 @Html.Partial("NewsLetterPartial")
