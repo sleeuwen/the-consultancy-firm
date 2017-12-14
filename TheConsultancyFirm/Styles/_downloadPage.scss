@@ -1,0 +1,42 @@
+﻿@import 'variables';
+
+.downloadsvg {
+    height: 25px;
+    margin-right: 5px;
+}
+
+.downloadinformation {
+    padding-right: 150px;
+    margin-bottom: 30px;
+
+    p:nth-child(2) {
+        color: $grey;
+    }
+
+    a {
+        color: $turquoise;
+    }
+
+    @media screen and (max-width: $break-large) {
+        padding-right: 50px;
+    }
+
+    @media screen and (max-width: $break-medium) {
+        padding-right: 0;
+    }
+}
+
+.downloadtag {
+    color: $darkGrey;
+    padding-right: 100px;
+    text-align: right;
+
+    @media screen and (max-width: $break-medium) {
+        text-align: center;
+        padding-right: 0;
+    }
+}
+
+.outerdownload{
+    margin: 50px 0;
+}
