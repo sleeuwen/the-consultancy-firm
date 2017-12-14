@@ -13,6 +13,7 @@
 @import 'ultimateJourney';
 @import 'caseOverview';
 @import 'newsPage';
+@import 'newsDetail';
 
 body {
     font-family: 'Raleway', sans-serif;
@@ -200,4 +201,8 @@ p {
             }
         }
     }
+}
+
+.fluidpadding {
+    padding: 0 35px;
 }
