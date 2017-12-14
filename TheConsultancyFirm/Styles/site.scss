@@ -14,6 +14,7 @@
 @import 'caseOverview';
 @import 'newsPage';
 @import 'solutionsOverview';
+@import 'newsDetail';
 
 body {
     font-family: 'Raleway', sans-serif;
@@ -201,4 +202,8 @@ p {
             }
         }
     }
+}
+
+.fluidpadding {
+    padding: 0 35px;
 }
