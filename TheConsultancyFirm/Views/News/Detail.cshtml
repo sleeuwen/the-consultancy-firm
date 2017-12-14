@@ -1,13 +1,23 @@
 ﻿@{
     ViewBag.Title = "Case detail - bladiebla";
     Layout = "_Layout";
+    string image = "k";
 }
 <div class="container-fluid fluidpadding">
     <div class="row">
-        <div class="col-md-4" style="background-image: url(/images/oldman.png)" id="newsdetailimage">
-            
-        </div>
-        <div class="col-md-8" id="newsdetail">
+        @if (!string.IsNullOrWhiteSpace(image))
+        {
+            <div class="col-md-4" style="background-image: url(/images/oldman.png)" id="newsdetailimage">
+
+            </div>
+        }
+        else
+        {
+            <div class="col-md-2" id="newsdetailimage">
+
+            </div>
+        }
+        <div class="col-lg-8" id="newsdetail">
             <p class="introtext">9 September 2017</p>
             <h2>Pensioen in eigen beheer</h2>
             <h3>Laatste fase pensioen eigen beheer</h3>

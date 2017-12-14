@@ -1,15 +1,17 @@
 ﻿@import 'variables';
 
 #newsdetailimage {
+    content: '';
     width: 100%;
     background-repeat: no-repeat;
+    background-position: right top;
 
     @media screen and (max-width: $break-xlarge) {
         background-size: contain;
     }
 
-    @media screen and (max-width: $break-medium) {
-        height: 300px;
+    @media screen and (max-width: $break-large) {
+        display: none;
     }
 }
 

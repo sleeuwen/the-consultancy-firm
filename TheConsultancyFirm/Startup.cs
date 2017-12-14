@@ -42,7 +42,7 @@ namespace TheConsultancyFirm
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=News}/{action=Detail}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
