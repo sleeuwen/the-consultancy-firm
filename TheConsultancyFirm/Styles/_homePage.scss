@@ -5,7 +5,10 @@
     top: 15%;
     left: 15%;
     text-align: left;
-    padding-right: 45%;
+
+    @media screen and (max-width: $break-large) {
+        display: block !important;
+    }
 
     span {
         font-size: 18px;
@@ -14,12 +17,13 @@
     }
 
     h1 {
-        font-family: 'Raleway thick', sans-serif;
-        font-size: 60px;
-        line-height: 60px;
-        font-weight: bold;
         margin-bottom: 20px;
         margin-top: 10px;
+        width: 500px;
+
+        @media screen and (max-width: $break-medium) {
+            width: 100%;
+        }
     }
 
     .carousel-item-links {
@@ -27,7 +31,7 @@
             font-size: 17px;
             color: $white;
 
-            &:hover{
+            &:hover {
                 cursor: pointer;
             }
         }
@@ -36,6 +40,10 @@
 
 .italic-link{
     font-style: italic;
+    color:$black;
+    &:hover{
+        color: $black;
+    }
 }
 
 .carousel-skip-cases {
@@ -49,6 +57,7 @@
 }
 
 #myCarousel {
+
     .carousel-item {
         &::before {
             content: '\A';
@@ -61,6 +70,29 @@
             transition: all .5s ease-in-out;
         }
     }
+
+    .header-carousel-image {
+        max-height: 600px;
+        width: 100%;
+    }
+
+    @media screen and (max-width: $break-medium) {
+        .buttonHover {
+            font-size: 14px;
+        }
+
+        .italic-link{
+            font-size: 14px;
+        }
+
+        .carousel-skip-cases{
+            display: none;
+        }
+    }
+    @media screen and (max-width: $break-small)
+    {
+        display: none;
+    }
 }
 
 .home-content {
@@ -68,16 +100,16 @@
     margin-bottom: 50px;
 }
 
+h2.title {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #solutions {
     text-align: center;
 
     .row {
         margin-bottom: 15px;
-    }
-
-    h2 {
-        margin-left: auto;
-        margin-right: auto;
     }
 
     p {
@@ -164,10 +196,27 @@
         justify-content: space-between;
     }
 }
+.news-and-knowledge {
 
+    .row:first-child {
+        padding: 0 100px;
+
+        @media screen and (max-width: $break-medium) {
+            padding: 0;
+        }
+    }
+
+    .row:nth-child(2) {
+        .col {
+            display: flex;
+            justify-content: center;
+            padding-top: 20px;
+            padding-bottom: 30px;
+        }
+    }
+}
 //Mobile
-@media screen and (max-width: $break-medium)
-{
+@media screen and (max-width: $break-medium) {
     #solutions-carousel {
         .afbeelding {
             display: none;
@@ -192,6 +241,7 @@
             padding-right: 15%;
         }
     }
+
     .content {
         display: flex;
     }
@@ -199,6 +249,7 @@
     #team-carousel {
         .carousel-navigation {
             padding-bottom: 20px;
+
             a {
                 padding: 12px;
                 margin-right: 12px;

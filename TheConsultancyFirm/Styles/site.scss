@@ -4,11 +4,16 @@
 @import 'header';
 @import 'ourCustomers';
 @import 'cookieWall';
-@import 'oneCaseOverview';
+@import 'newsItem';
+@import 'relatedCases';
 @import 'newsLetter';
 @import 'homePage';
 @import 'relatedCases';
 @import 'servicesWeOffer';
+@import 'vacancyOverview';
+@import 'ultimateJourney';
+@import 'caseOverview';
+@import 'newsPage';
 
 body {
     font-family: 'Raleway', sans-serif;
@@ -19,7 +24,8 @@ body {
         font-size: 14px;
         line-height: 23px;
     }
-}
+} 
+
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
@@ -69,6 +75,7 @@ h2 {
     font-family: 'Ubuntu', sans-serif;
     font-size: 40px;
     line-height: 46px;
+    font-weight: 400;
 
     @media screen and (max-width: $break-medium) {
         font-size: 24px;
@@ -92,6 +99,7 @@ h4 {
     font-family: 'Ubuntu', sans-serif;
     font-size: 21px;
     line-height: 24px;
+    font-weight: 400;
 
     @media screen and (max-width: $break-medium) {
         font-size: 18px;
@@ -141,4 +149,56 @@ p {
     width: 20px;
     height: 30px;
     margin-left: 5px;
+}
+
+.breadcrumb {
+    background: inherit;
+    padding-left:25px;
+    padding-top: 0;
+}
+
+.breadcrumb-item {
+    a {
+        color: black;
+        text-decoration: underline;
+    }
+}
+
+.flexcase {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    &::before {
+        content: '';
+        position: absolute;
+        transition: all .5s ease-in-out;
+    }
+}
+
+.paging {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+
+        li {
+            display: inline;
+            font-size: 20px;
+            margin: 0 5px;
+            font-weight: $bold;
+
+            a {
+                color: black;
+
+                &:hover {
+                    color: black;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
 }
