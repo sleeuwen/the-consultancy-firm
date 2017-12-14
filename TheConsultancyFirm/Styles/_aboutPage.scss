@@ -37,7 +37,7 @@
 .aboutCarousel{
     display:flex;
 
-    p{
+    p {
         color:black;
     }
 }
@@ -59,26 +59,21 @@
     height: 307px;
     margin: 0 auto;
     max-width:100%;
-    @media screen and (max-width: $break-medium){
-
-    }
 }
 
 .videoCarouselItemDescription {
-
-
     @media screen and (max-width: $break-medium) {
         height: 200px !important;
     }
 }
 
 .carouselcontainer{
-    display:flex;
-    flex-direction:column;
+    display: flex;
+    flex-direction: column;
 }
 
 #descriptions{
-    flex:1;
+    flex: 1;
 }
 
 .aboutdescription {
@@ -91,11 +86,6 @@
         padding-right: 0px;
     }
 
-    .introtext {
-        @media screen and (max-width: $break-medium) {
-        }
-    }
-
     img {
         margin-bottom: 20px;
         max-width:100%;
@@ -103,16 +93,6 @@
             width: 100%;
         }
     }
-
-
-
-    .article {
-        font-family: Raleway, sans-serif;
-        font-size: 16px;
-        line-height: 25px;
-        padding-bottom: 30px;
-    }
-
 
     .quoteContainer {
         padding-left: 10%;
