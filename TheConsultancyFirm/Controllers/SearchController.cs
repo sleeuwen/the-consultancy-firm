@@ -8,11 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace TheConsultancyFirm.Controllers
 {
-    public class SearchResultController : Controller
+    public class SearchController : Controller
     {
         // GET: /<controller>/
-        public IActionResult Index()
+        public IActionResult Index(string search)
         {
+            ViewBag.Search = search;
+
+            //Todo Model stuff. Get all cases, news and downloads wich contains the search keyword.
+
             return View();
         }
     }

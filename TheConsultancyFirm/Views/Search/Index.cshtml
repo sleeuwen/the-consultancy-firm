@@ -1,0 +1,26 @@
+﻿@{
+    ViewBag.Title = "Zoekresultaten";
+    Layout = "_Layout";
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Zoeken</li>
+</ol>
+<div class="container search-container">
+    <div class="row center">
+        <h1>Zoekresultaten</h1>
+    </div>
+    <div class="row center">
+        <p>Er zijn 666 zoekresultaten voor de term: "@ViewBag.Search"</p>
+    </div>
+    <div class="row">
+        <form class="search-form">
+            <div class="search-container">
+                <input placeholder="Nieuwe zoekterm" type="search" name="search" />
+                <button type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
