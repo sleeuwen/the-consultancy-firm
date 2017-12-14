@@ -10,8 +10,11 @@
 @import 'aboutPage';
 @import 'relatedCases';
 @import 'servicesWeOffer';
+@import 'vacancyOverview';
 @import 'ultimateJourney';
 @import 'caseOverview';
+@import 'newsPage';
+@import 'newsDetail';
 
 body {
     font-family: 'Raleway', sans-serif;
@@ -22,7 +25,7 @@ body {
         font-size: 14px;
         line-height: 23px;
     }
-}
+} 
 
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
@@ -171,4 +174,35 @@ p {
         position: absolute;
         transition: all .5s ease-in-out;
     }
+}
+
+.paging {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+
+        li {
+            display: inline;
+            font-size: 20px;
+            margin: 0 5px;
+            font-weight: $bold;
+
+            a {
+                color: black;
+
+                &:hover {
+                    color: black;
+                    cursor: pointer;
+                }
+            }
+        }
+    }
+}
+
+.fluidpadding {
+    padding: 0 35px;
 }

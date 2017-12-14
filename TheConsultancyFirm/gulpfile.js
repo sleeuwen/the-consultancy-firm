@@ -7,6 +7,7 @@ var gulp = require("gulp"),
     cssmin = require("gulp-cssmin"),
     htmlmin = require("gulp-htmlmin"),
     sass = require("gulp-sass"),
+    sourcemaps = require("gulp-sourcemaps"),
     uglify = require("gulp-uglify"),
     merge = require("merge-stream"),
     del = require("del"),
@@ -20,8 +21,10 @@ var regex = {
 
 gulp.task("sass", function () {
     return gulp.src("Styles/site.scss")
+        .pipe(sourcemaps.init())
         .pipe(sass().on("error", sass.logError))
         .pipe(autoprefixer())
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest("wwwroot/css"));
 });
 
