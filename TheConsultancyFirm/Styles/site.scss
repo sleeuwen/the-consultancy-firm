@@ -193,11 +193,15 @@ p {
             font-weight: $bold;
 
             a {
-                color: black;
+                color: $black;
 
                 &:hover {
-                    color: black;
+                    color: $orange;
                     cursor: pointer;
+                }
+
+                &.disabled {
+                    color: $grey;
                 }
             }
         }
