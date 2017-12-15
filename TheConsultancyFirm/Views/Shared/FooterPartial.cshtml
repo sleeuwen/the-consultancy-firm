@@ -9,10 +9,10 @@
             <div class="col-md-3">
                 <h3>tcf.</h3>
                 <ul>
-                    <a asp-controller="Cases" asp-action="Index"><li>Cases</li></a>
-                    <li>Over tcf</li>
-                    <a asp-controller="News" asp-action="Index"><li>Nieuws</li></a>
-                    <li>Downloads</li>
+                    <li><a asp-controller="Cases" asp-action="Index">Cases</a></li>
+                    <li><a asp-controller="About" asp-action="Index">Over tcf</a></li>
+                    <li><a asp-controller="News" asp-action="Index">Nieuws</a></li>
+                    <li><a asp-controller="Downloads" asp-action="Index">Downloads</a></li>
                 </ul>
             </div>
             <div class="col-md-4">
@@ -38,7 +38,8 @@
                     <br>
                 </p>
                 <p style="font-style: italic;">
-                    <a>Ga naar contactpagina
+                    <a asp-controller="Contact" asp-action="Index">
+                        Ga naar contactpagina
                         <img src="~/images/right-arrow.svg" alt="laad niet" class="arrow">
                     </a>
                 </p>
@@ -59,14 +60,10 @@
                     </p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <ul id="FooterSocialColum">
-                    <li class="footerIcons" style="margin-right:30px">
-                        <i class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i>LinkedIn
-                    </li>
-                    <li class="footerIcons">
-                        <i class="fa fa-twitter-square fa-2x" aria-hidden="true"></i>Twitter
-                    </li>
+            <div class="col-md-4" id="FooterSocialColum">
+                <ul class="social-media">
+                    <li><a href="#"><i class="fa fa-linkedin"></i> LinkedIn</a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i> Twitter</a></li>
                 </ul>
             </div>
         </div>
