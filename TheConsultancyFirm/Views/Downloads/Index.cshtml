@@ -1,0 +1,137 @@
+﻿@{
+    ViewBag.Title = "Downloads";
+    Layout = "_Layout";
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Downloads</li>
+</ol>
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2>Downloads</h2>
+            <p class="introtext">
+                The Consultancy Firm biedt een complete, geïntegreerde,<br>
+                oplossing die de drie elementen van documentmanagement<br>
+                omvat: compositie, processautomatisering en output
+            </p>
+        </div>
+    </div>
+    <div class="row outerdownload">
+        <div class="col-sm-5 downloadtag">
+            <h4>
+                NIEUWSTE<br>
+                PUBLICATIE
+            </h4>
+        </div>
+        <div class="col-sm-7 downloadinformation">
+            <h3>
+                Waarom Open Source het beste werkt voor uw bedrijf
+            </h3>
+            <p>
+                26 September 2017
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do smod temport incidunt ut labore et dolore magna aliqua
+            </p>
+            <a href="#">
+                <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
+                Downloaden
+            </a>
+        </div>
+    </div>
+    <div class="row outerdownload">
+        <div class="col-sm-5 downloadtag">
+            <h4>
+                MEESTE<br>
+                GEDOWNLOAD
+            </h4>
+        </div>
+        <div class="col-sm-7 downloadinformation">
+            <h3>
+                Alles over Document Wizard
+            </h3>
+            <p>
+                10 Juli 2017
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do smod temport incidunt ut labore et dolore magna aliqua
+            </p>
+            <a href="#">
+                <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
+                Downloaden
+            </a>
+        </div>
+    </div>
+    <div class="row outerdownload">
+        <div class="col-sm-5 downloadtag">
+            <h4>
+                ALLE DOWNLOADS
+            </h4>
+        </div>
+        <div class="col-sm-7 downloadinformation">
+            <h3>
+                Alles over Document Wizard
+            </h3>
+            <p>
+                10 Juli 2017
+            </p>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do smod temport incidunt ut labore et dolore magna aliqua
+            </p>
+            <a href="#">
+                <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
+                Downloaden
+            </a>
+        </div>
+    </div>
+        @for (var i = 0; i < 8; i++)
+        {
+            <div class="row">
+                <div class="col-sm-5">
+                </div>
+                <div class="col-sm-7 downloadinformation">
+                    <h3>
+                        Alles over Document Wizard
+                    </h3>
+                    <p>
+                        10 Juli 2017
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do smod temport incidunt ut labore et dolore magna aliqua
+                    </p>
+                    <a href="#">
+                        <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
+                        Downloaden
+                    </a>
+                </div>
+            </div>
+        }
+    <div class="row">
+        <div class="col-sm-5">
+        </div>
+        <div class="col-sm-7 paging downloadpaging" id="newspaging">
+            <a href="#" class="fa fa-arrow-left pagearrow" aria-hidden="true"></a> 
+            <ul>
+                <li>
+                    <a href="#" class="disabled">1</a>
+                </li>
+                <li>
+                    <a href="#">2</a>
+                </li>
+                <li>
+                    <a href="#">3</a>
+                </li>
+                <li>
+                    <a href="#">4</a>
+                </li>
+                <li>
+                    <a href="#">5</a>
+                </li>
+            </ul>
+
+            <a href="#" class="fa fa-arrow-right pagearrow" aria-hidden="true"></a>
+        </div>
+    </div>
+</div>
+@Html.Partial("NewsLetterPartial")

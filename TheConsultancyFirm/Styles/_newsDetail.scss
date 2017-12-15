@@ -1,0 +1,36 @@
+﻿@import 'variables';
+
+#newsdetailimage {
+    content: '';
+    width: 100%;
+    background-repeat: no-repeat;
+    background-position: right top;
+
+    @media screen and (max-width: $break-xlarge) {
+        background-size: contain;
+    }
+
+    @media screen and (max-width: $break-large) {
+        display: none;
+    }
+}
+
+#newsdetail {
+    padding-right: 100px;
+    padding-left: 50px;
+    margin-bottom: 150px;
+
+    .introtext {
+        color: $darkGrey;
+    }
+
+    @media screen and (max-width: $break-medium) {
+        margin-bottom: 50px;
+        padding-right: 10px;
+        padding-left: 10px;
+    }
+}
+
+.related {
+    margin-bottom: 100px;
+}

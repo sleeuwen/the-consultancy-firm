@@ -6,7 +6,7 @@
     <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
     <li class="breadcrumb-item active">Cases</li>
 </ol>
-<div class="container-fluid caseindex">
+<div class="container-fluid fluidpadding">
 
     @for (var i = 0; i < 3; i++)
     {
@@ -17,7 +17,7 @@
                     <h1>
                         "Zes miljoen pagina's minder printen dankzij StreamServe
                     </h1>
-                    <a class="buttonHover">BEKIJK CASE</a>
+                    <a class="buttonHover" asp-controller="Cases" asp-action="Details">BEKIJK CASE</a>
                 </div>
             </div>
         </div>

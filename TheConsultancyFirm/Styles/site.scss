@@ -8,12 +8,17 @@
 @import 'relatedCases';
 @import 'newsLetter';
 @import 'homePage';
+@import 'aboutPage';
 @import 'relatedCases';
 @import 'servicesWeOffer';
 @import 'vacancyOverview';
 @import 'ultimateJourney';
 @import 'caseOverview';
 @import 'newsPage';
+@import 'solutionsOverview';
+@import 'newsDetail';
+@import 'downloadPage';
+@import 'caseDetail';
 
 body {
     font-family: 'Raleway', sans-serif;
@@ -25,39 +30,6 @@ body {
         line-height: 23px;
     }
 } 
-
-
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-/* Carousel */
-.carousel-caption p {
-  font-size: 20px;
-  line-height: 1.4;
-}
-
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-  width: 100%;
-}
-
-/* QR code generator */
-#qrCode {
-  margin: 15px;
-}
-
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-  /* Hide captions */
-  .carousel-caption {
-    display: none;
-  }
-}
 
 h1 {
     font-family: 'Ubuntu', sans-serif;
@@ -192,13 +164,57 @@ p {
             font-weight: $bold;
 
             a {
-                color: black;
+                color: $black;
 
                 &:hover {
-                    color: black;
+                    color: $orange;
                     cursor: pointer;
                 }
+
+                &.disabled {
+                    color: $grey;
+                }
             }
+        }
+    }
+}
+
+.fluidpadding {
+    padding: 0 35px;
+}
+
+.sharing {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+
+    .introtext {
+        margin-bottom: 0;
+        margin-right: 1rem;
+        display: flex;
+        align-items: center;
+        color: $black !important;
+
+        .fa {
+            margin-right: .5rem;
+        }
+    }
+
+    .share-link {
+        color: $white;
+        background: $black;
+        display: inline-block;
+        width: 2em;
+        height: 2em;
+        line-height: 2em;
+        text-align: center;
+        border-radius: 50%;
+        transition: background-color .3s ease-in-out;
+        margin-left: .5rem;
+
+        &:hover {
+            text-decoration: none;
+            background: $orange;
         }
     }
 }
