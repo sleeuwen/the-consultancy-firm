@@ -229,6 +229,10 @@ p {
         @media screen and (min-width: $break-medium) {
             margin-right: 3rem;
         }
+
+        &:last-child {
+            margin-right: 0;
+        }
     }
 
     a {
