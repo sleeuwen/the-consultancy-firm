@@ -1,0 +1,106 @@
+﻿@{
+    ViewBag.Title = "Contact";
+    Layout = "_Layout";
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Contact</li>
+</ol>
+
+<div class="container-fluid contact">
+    <header class="pageheader" style="background-image: url(/images/banner1.svg)">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-xl-9">
+                    <h1>Neem contact met ons op om samen een mooi project op te starten</h1>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="row">
+        <div class="col-12 col-lg-7 order-2 order-lg-1 locationmap">
+            <picture>
+                <source srcset="~/images/maps.png" media="(min-width: 768px)">
+                <img src="~/images/maps-small.png" alt="Location map">
+            </picture>
+        </div>
+
+        <div class="col-12 col-lg-5 order-1 order-lg-2 contactinfo introtext">
+            <h3>Bezoek ons</h3>
+
+            <address class="mt-3">
+                The Consultancy Firm B.V.<br/>
+                Cypresbaan 47, 2908 LT<br/>
+                Capelle aan den IJssel
+            </address>
+
+            <a href="https://www.google.com/maps/place/The+Consultancy+Firm+B.V./@@51.9572474,4.5685574,17z/data=!3m1!4b1!4m5!3m4!1s0x47c5cd6904353e59:0xf5a889d341922399!8m2!3d51.9572441!4d4.5707514" class="buttonHover" target="_blank">
+                BEKIJK OP MAPS
+            </a>
+
+            <h3 class="mt-5 mb-3">Neem contact op</h3>
+
+            <ul class="my-3">
+                <li><a href="tel:0102640144"><i class="fa fa-phone"></i> 010 - 264 01 44</a></li>
+                <li><a href="mailto:info@theconsultancyfirm.com"><i class="fa fa-envelope"></i> info@theconsultancyfirm.com</a></li>
+                <li><a href="#"><i class="fa fa-cloud-download"></i> Download vCard</a></li>
+            </ul>
+
+            <ul class="social-media mt-5">
+                <li><a href="#"><i class="fa fa-linkedin"></i> LinkedIn</a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i> Twitter</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col text-center mb-4">
+            <h2>Of stuur ons direct een bericht</h2>
+        </div>
+    </div>
+
+    <form id="contact">
+        <div class="form-row">
+            <div class="col-12 col-lg-2"></div>
+            <div class="form-group col-12 col-md-6 col-lg-4">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Naam" required />
+            </div>
+            <div class="form-group col-12 col-md-6 col-lg-4">
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required/>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12 col-lg-2"></div>
+            <div class="form-group col-12 col-md-6 col-lg-4">
+                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Mobiel"/>
+            </div>
+            <div class="form-group col-12 col-md-6 col-lg-4">
+                <select class="form-control" id="subject" name="subject" required>
+                    <option value="" disabled selected>Onderwerp</option>
+                    <option value="anders">Anders</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12 col-lg-2"></div>
+            <div class="form-group col-12 col-lg-8">
+                <textarea class="form-control" name="message" id="message" placeholder="Bericht" rows="5"></textarea>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="col-12 col-lg-2"></div>
+            <div class="col-12 col-lg-8">
+                <button class="buttonHover" type="submit">VERSTUUR</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@Html.Partial("NewsLetterPartial")
