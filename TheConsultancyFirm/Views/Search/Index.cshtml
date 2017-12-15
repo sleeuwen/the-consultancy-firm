@@ -7,11 +7,11 @@
     <li class="breadcrumb-item active">Zoeken</li>
 </ol>
 <div class="container search-container">
-    <div class="row center">
-        <h1>Zoekresultaten</h1>
+    <div class="row">
+        <h1 class="col d-flex justify-content-center">Zoekresultaten</h1>
     </div>
-    <div class="row center">
-        <p>Er zijn 666 zoekresultaten voor de term: "@ViewBag.Search"</p>
+    <div class="row">
+        <p class="col d-flex justify-content-center">Er zijn 666 zoekresultaten voor de term: "@ViewBag.Search"</p>
     </div>
     <div class="row">
         <form class="search-form">
@@ -28,9 +28,15 @@
     @for (int i = 0; i < 5; i++)
     {
         <div class="row result">
-            <span class="introtext">Case</span>
-            <h2 class="title">Hier komt vaak een lange titel te staan omdat het kan</h2>
-            <a class="buttonHover">LEES MEER</a>
+            <div class="col-sm-12">
+                <span class="introtext">Case</span>
+            </div>
+            <div class="col-sm-12">
+                <h2 class="">Hier komt vaak een lange titel te staan omdat het kan</h2>
+            </div>
+            <div class="col-sm-12">
+                <a class="buttonHover">LEES MEER</a>
+            </div>
         </div>
     }
     <div class="paging" id="newspaging">

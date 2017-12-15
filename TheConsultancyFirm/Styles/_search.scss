@@ -1,19 +1,9 @@
 ﻿//Search result page
 @import 'variables';
 .search-container {
-    .center {
-        display: flex;
-        justify-content: space-around;
-    }
-
     margin-bottom: 20px;
     padding: 0 10%;
 }
-
-.search-input{
-    
-}
-
 .search-form {
     width: 100%;
 
@@ -70,8 +60,12 @@
     .result {
         background-color: $black;
         color: $white;
-        padding: 20px 50px;
+        padding: 40px 50px;
         margin-bottom: 25px;
+
+        @media screen and (max-width: $break-medium){
+            padding: 20px 40px;
+        }
 
         h2 {
             width: 100%;
