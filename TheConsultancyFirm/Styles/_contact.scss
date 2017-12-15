@@ -1,0 +1,126 @@
+@import 'variables';
+
+.pageheader {
+    color: white;
+    position: relative;
+    padding: 10rem 0;
+    margin: 2rem;
+    height: initial;
+    background: no-repeat center;
+    background-size: cover;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba(26, 25, 25, .45);
+    }
+
+    h1 {
+        margin: 1rem 0;
+    }
+}
+
+.contact {
+    margin-bottom: 7rem;
+
+    .pageheader {
+        margin: 0;
+    }
+
+    .locationmap {
+        padding: 0;
+
+        img {
+            width: 100%;
+        }
+    }
+
+    .row {
+        margin: 0;
+    }
+
+    .contactinfo {
+        background: black;
+        padding: 3rem;
+        color: white;
+
+        .buttonHover {
+            font-weight: $bold;
+            font-size: 16px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                line-height: 2.5rem;
+            }
+
+            a {
+                color: $white;
+
+                &:hover {
+                    text-decoration: none;
+                    color: $grey;
+                }
+            }
+
+            .fa {
+                width: 25px;
+                text-align: center;
+                margin-right: .5rem;
+            }
+        }
+
+        .social-media {
+            display: flex;
+
+            li {
+                margin-right: 3rem;
+            }
+
+            a {
+                color: $white;
+
+                &:hover {
+                    color: $grey;
+                    text-decoration: none;
+
+                    .fa {
+                        background: $grey;
+                    }
+                }
+            }
+
+            .fa {
+                width: 1.5em;
+                height: 1.5em;
+                line-height: 1.5em;
+                background: $white;
+                color: $black;
+                border-radius: 50%;
+                display: inline-block;
+            }
+        }
+    }
+}
+
+#contact {
+    margin-bottom: 10rem;
+
+    .buttonHover {
+        background: transparent;
+        float: right;
+        font-size: 18px;
+
+        &:hover {
+            color: $black !important;
+        }
+    }
+}
