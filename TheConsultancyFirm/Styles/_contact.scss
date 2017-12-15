@@ -36,6 +36,7 @@
 
         img {
             width: 100%;
+            height: 100%;
         }
     }
 
@@ -45,8 +46,16 @@
 
     .contactinfo {
         background: black;
-        padding: 3rem;
+        padding: 1rem;
         color: white;
+
+        @media screen and (min-width: $break-medium) {
+            padding: 2rem;
+        }
+
+        @media screen and (min-width: $break-xlarge) {
+            padding: 3rem;
+        }
 
         .buttonHover {
             font-weight: $bold;
@@ -82,7 +91,11 @@
             display: flex;
 
             li {
-                margin-right: 3rem;
+                margin-right: 2rem;
+
+                @media screen and (min-width: $break-medium) {
+                    margin-right: 3rem;
+                }
             }
 
             a {
