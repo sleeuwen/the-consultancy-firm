@@ -38,6 +38,24 @@
     }
 }
 
+.carouselcontainer {
+    display: flex;
+    flex-direction: column;
+
+    .carousel {
+        flex: 1;
+    }
+
+    .carousel-caption {
+        position: relative;
+        color: $black;
+        top: unset;
+        left: unset;
+        right: unset;
+        bottom: unset;
+    }
+}
+
 .italic-link{
     font-style: italic;
     color:$black;
