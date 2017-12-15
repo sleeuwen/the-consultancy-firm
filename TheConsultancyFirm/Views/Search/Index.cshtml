@@ -1,0 +1,63 @@
+﻿@{
+    ViewBag.Title = "Zoekresultaten";
+    Layout = "_Layout";
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Zoeken</li>
+</ol>
+<div class="container search-container">
+    <div class="row">
+        <h1 class="col d-flex justify-content-center">Zoekresultaten</h1>
+    </div>
+    <div class="row">
+        <p class="col d-flex justify-content-center">Er zijn 666 zoekresultaten voor de term: "@ViewBag.Search"</p>
+    </div>
+    <div class="row">
+        <form class="search-form">
+            <div class="search-container">
+                <input placeholder="Nieuwe zoekterm" type="search" name="search" />
+                <button type="submit">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="container result-container">
+    @for (int i = 0; i < 5; i++)
+    {
+        <div class="row result">
+            <div class="col-sm-12">
+                <span class="introtext">Case</span>
+            </div>
+            <div class="col-sm-12">
+                <h2 class="">Hier komt vaak een lange titel te staan omdat het kan</h2>
+            </div>
+            <div class="col-sm-12">
+                <a class="buttonHover">LEES MEER</a>
+            </div>
+        </div>
+    }
+    <div class="paging" id="newspaging">
+        <a href="#" class="fa fa-arrow-left pagearrow" aria-hidden="true"></a>
+        <ul>
+            <li>
+                <a href="#">1</a>
+            </li>
+            <li>
+                <a href="#">2</a>
+            </li>
+            <li>
+                <a href="#">3</a>
+            </li>
+            <li>
+                <a href="#">4</a>
+            </li>
+            <li>
+                <a href="#">5</a>
+            </li>
+        </ul>
+        <a href="#" class="fa fa-arrow-right pagearrow" aria-hidden="true"></a>
+    </div>
+</div>
