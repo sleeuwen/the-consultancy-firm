@@ -25,6 +25,7 @@
 .casedetail {
     img {
         max-width: 100%;
+        margin: 2rem 0;
     }
 
     h2,
@@ -59,7 +60,12 @@
             right: 0;
             bottom: 0;
             left: 0;
-            background: rgba(26, 25, 25, .45);
+            background: rgba(26, 25, 25, .55);
+            transition: background-color .3s ease-in-out;
+        }
+
+        &:hover::before {
+            background: rgba(26, 25, 25, .35);
         }
 
         .title,
@@ -77,17 +83,6 @@
             font-size: 16px;
             letter-spacing: 1px;
         }
-    }
-}
-
-.sharing {
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-
-    > span:first-child {
-        font-size: 20px;
-        margin-right: 1rem;
     }
 }
 
