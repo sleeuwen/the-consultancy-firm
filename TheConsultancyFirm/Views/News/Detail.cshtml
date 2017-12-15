@@ -1,8 +1,13 @@
 ﻿@{
-    ViewBag.Title = "Nieuws detail - bladiebla";
+    ViewBag.Title = "Nieuws detail - Pensioen in eigen beheer";
     Layout = "_Layout";
     string image = "k";
 }
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item"><a asp-controller="News" asp-action="Index">Nieuws</a></li>
+    <li class="breadcrumb-item active">Pensioen in eigen beheer</li>
+</ol>
 <div class="container-fluid fluidpadding">
     <div class="row">
         @if (!string.IsNullOrWhiteSpace(image))
