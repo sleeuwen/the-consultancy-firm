@@ -56,3 +56,27 @@
         }
     }
 }
+
+.result-container{
+    .result{
+        background-color: $black;
+        color: $white;
+        padding: 20px 50px;
+        margin-bottom: 25px;
+
+        span{
+            display: block;
+            width: 100%;
+            font-size: 20px;
+
+            @media screen and (max-width: $break-medium)
+            {
+                font-size: 15px;
+            }
+        }
+        h2{
+            width: 100%;
+            margin: 20px 0;
+        }
+    }
+}
