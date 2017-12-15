@@ -219,3 +219,40 @@ p {
         }
     }
 }
+
+.social-media {
+    display: flex;
+
+    li {
+        margin-right: 2rem;
+
+        @media screen and (min-width: $break-medium) {
+            margin-right: 3rem;
+        }
+    }
+
+    a {
+        color: $white;
+
+        &:hover {
+            color: $grey;
+            text-decoration: none;
+
+            .fa {
+                background: $grey;
+            }
+        }
+    }
+
+    .fa {
+        width: 1.5em !important;
+        height: 1.5em !important;
+        line-height: 1.5em !important;
+        background: $white;
+        color: $black;
+        border-radius: 50%;
+        text-align: center;
+        display: inline-block;
+        margin-right: .5rem;
+    }
+}
