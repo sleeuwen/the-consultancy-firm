@@ -1,11 +1,17 @@
 ﻿//Search result page
-
+@import 'variables';
 .search-container {
     .center {
         display: flex;
         justify-content: space-around;
     }
+
     margin-bottom: 20px;
+    padding: 0 10%;
+}
+
+.search-input{
+    
 }
 
 .search-form {
@@ -16,7 +22,7 @@
         padding: 10px;
         border: none;
 
-        &:hover::-webkit-input-placeholder {
+        &:hover::placeholder, &:focus::placeholder, &:active::placeholder {
             color: transparent;
         }
 
@@ -30,15 +36,16 @@
         }
     }
 
-    ::-webkit-input-placeholder {
-        color: black;
-        font-weight: bold;
-        transition: color 1s;
+    ::placeholder {
+        color: $black;
+        font-weight: $bold;
+        transition: color 0.8s;
     }
 
     .search-container {
         display: flex;
         border-bottom: 1px solid $lightGrey;
+        padding: 0 10px;
     }
 
     button {
@@ -57,24 +64,16 @@
     }
 }
 
-.result-container{
-    .result{
+.result-container {
+    padding: 0 10%;
+
+    .result {
         background-color: $black;
         color: $white;
         padding: 20px 50px;
         margin-bottom: 25px;
 
-        span{
-            display: block;
-            width: 100%;
-            font-size: 20px;
-
-            @media screen and (max-width: $break-medium)
-            {
-                font-size: 15px;
-            }
-        }
-        h2{
+        h2 {
             width: 100%;
             margin: 20px 0;
         }
