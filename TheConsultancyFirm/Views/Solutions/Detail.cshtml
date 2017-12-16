@@ -4,7 +4,7 @@
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
     <li class="breadcrumb-item"><a asp-controller="Solutions" asp-action="Index">Solutions</a></li>
-    <li class="breadcrumb-item active">OpenText Extram</li>
+    <li class="breadcrumb-item active">OpenText Extream</li>
 </ol>
 <div class="container">
     <div class="row">
@@ -17,13 +17,13 @@
     </div>
 </div>
 
-<div class="container-fluid">
+<div class="container">
     <div class="row" id="solutionMain">
         <div class="col-lg-4 col-md-12">
             <img src="~/images/opentext.png" id="opentextmain">
         </div>
 
-        <div class="col-lg-4 col-md-12">
+        <div class="col-lg-8 col-md-12">
 
             <ul>
                 <p><h4>Voordelen OpenText Extream</h4></p>
@@ -37,31 +37,128 @@
         </div>
 
     </div>
-
-    <div class="row" id="solutionMain">
-        <div class="col">
-            <h3>Optimale ervaring</h3>
-
-            <p class="mt-4 mb-5 ">
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-8 d-flex flex-column justify-content-center">
+            <h2>Optimale ervaring</h2>
+            <p class="introtext">
                 Now part of Exstream, Customer Communications Enterprice provides the agility and ease of use that allows
                 business users throughout your entire enterprise to bridge departments and data sources, to speak to your
                 customers with one voice, throughout their entire lifecycle.
-
-                <br /><br />
-
+            </p>
+            <p class="introtext">
                 All businesses, wheter Business-to-Consumer or Business-to-Business, generate hundreds or hundreds of
                 thousands of critical business documents every day. But you've outgrown your homegrown output system.
                 Your needs, and your customer's demands have moved beyond paper You are experiencing a Digital
                 Transformation, nd you know you need to adapt, or die.
             </p>
+            <div class="quoteContainer">
+                <div>
+                    <i class="fa fa-quote-left" aria-hidden="true"></i>
+                </div>
+                <h3 class="quote quoteText">
+                    OpenText Communications Center Enterprise is here to <br/>
+                    help you transform an do better business.
+                </h3>
+            </div>
+            <img class="w-100" id="marginbottom" src="~/images/description-image.png"/>
 
-            <div id="quotebox">
-                <img class="quote" src="~/images/quote.png">
+            <h2>Unified Styling to separate content for design</h2>
+            <p class="content">
+                Maximize the effectiveness of communications by providing a single, consistent look & feel across all devices.
+                Content desginers and LoB users create once and distribute many times, without having to restyle
+                communications for each outlet.
+            </p>
 
-                <h5>OpenText Communications Center Enterprise is here to <br /> help you transform an do better business.</h5>
+            <div class="quoteContainer">
+                <div>
+                    <i class="fa fa-quote-left" aria-hidden="true"></i>
+                    <svg>
+                        <path stroke="gray" d="M5 10 l50 0"/>
+                    </svg>
+                    <h3>Hans Tanis, Directeur VM-IT, Achmea Zorg en Gezondheid</h3>
+                </div>
+                <h3 class="quote quoteText">
+                    The Document Wizard is efficiënt voor de gehele keten en<br/>
+                    zodanig gestroomlijnd, dat we met minimale menselijke<br/>
+                    handelingen alles in één omgeving kunnen beheren!
+                </h3>
+            </div>
+            <p class="introtext">
+                CCE's multi-tentant architecture allows multiple instances of the application to run completely independently,
+                thus allowing different business units to retain ther data and access independence, wherter on premises, in a
+                private-cloud or public-cloud. And each instance can be stopped or started without effecting other instances.
+                The net result is a significant reduction in costs associated with hardware and personnel as well as much
+                greater business agility, resulting in higher profitability and greater competitive advantage.
+            </p>
+            <div class="sharing">
+                <span style="font-size: 18px">
+                    <i class="fa fa-share-alt"></i>
+                    share
+                </span>
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
+                </span>
+                <span class="fa-stack fa-lg">
+                    <i class="fa fa-square fa-stack-2x"></i>
+                    <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                </span>
             </div>
         </div>
     </div>
+    
 </div>
 
+<div class="container">
+    @Html.Partial("RelatedCasesPartial") 
+</div>
+
+<div class="container-fluid" id="casecustomers">
+    <div class="introtext">
+        <h2>Onze klanten</h2>
+        Naast bovenstaande cases werken we voor nog veel meer <br/>
+        klanten aan mooie projecten.
+    </div>
+    <div class="row logos">
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/achmea.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/centraalbeheer.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/fbto.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/interpolis.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/avero.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/inshared.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/ohra.png" />
+        </div>
+        <div class="col-6 col-md-3">
+            <img class="image" src="~/images/CustomerLogos/deltalloyd.png" />
+        </div>
+    </div>
+</div>
 @Html.Partial("NewsLetterPartial")
