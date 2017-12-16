@@ -262,3 +262,9 @@ p {
         margin-right: .5rem;
     }
 }
+
+@media screen and (min-width: $break-xlarge) {
+    .container-wide {
+        max-width: 1300px;
+    }
+}

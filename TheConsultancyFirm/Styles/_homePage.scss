@@ -1,177 +1,11 @@
 ﻿@import 'variables';
 
-.carousel-caption {
-    position: absolute;
-    top: 15%;
-    left: 15%;
-    text-align: left;
-
-    @media screen and (max-width: $break-large) {
-        display: block !important;
-    }
-
-    span {
-        font-size: 18px;
-        color: $white;
-        font-family: 'Raleway thin', sans-serif;
-    }
-
-    h1 {
-        margin-bottom: 20px;
-        margin-top: 10px;
-        width: 500px;
-
-        @media screen and (max-width: $break-medium) {
-            width: 100%;
-        }
-    }
-
-    .carousel-item-links {
-        a {
-            font-size: 17px;
-            color: $white;
-
-            &:hover {
-                cursor: pointer;
-            }
-        }
-    }
-}
-
-.carouselcontainer {
-    display: flex;
-    flex-direction: column;
-
-    .carousel {
-        flex: 1;
-    }
-
-    .carousel-caption {
-        position: relative;
-        color: $black;
-        top: unset;
-        left: unset;
-        right: unset;
-        bottom: unset;
-    }
-}
-
-.italic-link{
-    font-style: italic;
-    color:$black;
-    &:hover{
-        color: $black;
-    }
-}
-
-.carousel-skip-cases {
-    position: absolute;
-    bottom: 30px;
-    right: 50px;
-
-    a{
-        color: $white;
-    }
-}
-
-#myCarousel {
-    margin-bottom: 30px;
-    .carousel-item {
-        &::before {
-            content: '\A';
-            position: absolute;
-            top: 0px;
-            bottom: 0px;
-            right: 0px;
-            left: 0px;
-            background: rgba(26,25,25,0.35);
-            transition: all .5s ease-in-out;
-        }
-    }
-
-    .header-carousel-image {
-        max-height: 600px;
-        width: 100%;
-    }
-
-    @media screen and (max-width: $break-medium) {
-        .buttonHover {
-            font-size: 14px;
-        }
-
-        .italic-link{
-            font-size: 14px;
-        }
-
-        .carousel-skip-cases{
-            display: none;
-        }
-    }
-    @media screen and (max-width: $break-small)
-    {
-        display: none;
-    }
-}
-
-.home-content {
-    margin-top: 50px;
-    margin-bottom: 50px;
-}
-
-h2.title {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-#solutions {
-    text-align: center;
-
-    .row {
-        margin-bottom: 15px;
-    }
-
-    p {
-        box-sizing: border-box;
-        padding-left: 25%;
-        padding-right: 25%;
-    }
-}
-#solutions-carousel {
-    max-height: 500px;
-
-    .afbeelding {
-        margin-right: 50px;
-
-        img {
-            max-width: 100%;
-        }
-    }
-
-    .title {
-        margin-bottom: 10px;
-
-        h3 {
-            color: $black;
-            display: inline-block;
-            margin-right: 10px;
-            font-weight: $bold;
-        }
-    }
-
-    .buttonHover {
-        &:hover {
-            color: $black !important;
-        }
-    }
-
-    .carousel-navigation {
-        padding: 5px;
-        margin-bottom: 10px;
-    }
+.home-section {
+    margin-top: 5rem !important;
+    margin-bottom: 5rem !important;
 }
 
 .carousel-navigation {
-
     a {
         padding: 15px;
         border-radius: 100%;
@@ -188,90 +22,104 @@ h2.title {
     }
 }
 
-.carousel-link {
-    a {
+.link-arrow img {
+    width: 1.25em;
+    height: 1.25em;
+}
+
+.link-more {
+    color: $black;
+    font-style: italic;
+
+    &:hover {
         color: $black;
-        font-weight: $bold;
+    }
+}
 
-        &:hover {
-            cursor: pointer;
-            text-decoration: underline;
+.carousel-horizontal {
+    .carousel-caption {
+        h4 .content {
+            color: $black;
+            margin-left: 1rem;
         }
-    }
-}
-//Team carousel
-#team {
-    h2 {
-        margin-left: auto;
-        margin-right: auto;
-    }
-}
 
-#team-carousel {
-    .content {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-}
-.news-and-knowledge {
-
-    .row:first-child {
-        padding: 0 100px;
-
-        @media screen and (max-width: $break-medium) {
-            padding: 0;
+        .buttonHover:hover {
+            color: $black !important;
         }
     }
 
-    .row:nth-child(2) {
-        .col {
+    .carousel-item {
+        &.active,
+        &-prev,
+        &-next {
             display: flex;
             justify-content: center;
-            padding-top: 20px;
-            padding-bottom: 30px;
+        }
+
+        img {
+            max-width: 100%;
         }
     }
 }
-//Mobile
-@media screen and (max-width: $break-medium) {
-    #solutions-carousel {
-        .afbeelding {
-            display: none;
-        }
+
+.carousel-home {
+    display: none;
+
+    @media screen and (min-width: $break-small) {
+        display: block;
     }
 
-    .content {
-        padding-bottom: 10px;
+    .subtitle {
+        color: $lightGrey;
+    }
+
+    .buttonHover {
+        letter-spacing: 1px;
+    }
+
+    .carousel-item > img {
+        object-fit: cover;
+        width: 100%;
+        max-height: 600px;
+    }
+
+    .carousel-caption {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        color: $white;
+        display: flex !important;
         flex-direction: column;
-    }
+        justify-content: center;
 
-    #solutions {
-        text-align: center;
-
-        .row {
-            margin-bottom: 10px;
-        }
-
-        p {
-            box-sizing: border-box;
-            padding-left: 15%;
-            padding-right: 15%;
-        }
-    }
-
-    .content {
-        display: flex;
-    }
-
-    #team-carousel {
-        .carousel-navigation {
-            padding-bottom: 20px;
+        .links {
+            display: flex;
+            align-items: center;
 
             a {
-                padding: 12px;
-                margin-right: 12px;
+                color: inherit;
+                margin-left: 1rem;
+
+                &:first-child {
+                    margin-left: 0;
+                }
             }
+        }
+    }
+
+    .carousel-link-skip {
+        position: absolute;
+        right: 3rem;
+        bottom: 2rem;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        color: $white;
+
+        img {
+            margin-right: 1rem;
         }
     }
 }

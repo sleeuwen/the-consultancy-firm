@@ -120,10 +120,6 @@ blockquote {
 }
 
 .carousel-horizontal {
-    @media screen and (min-width: $break-large) {
-        max-width: 1300px;
-    }
-
     .carousel-navigation {
         padding: 1rem 0;
 
@@ -167,6 +163,11 @@ blockquote {
             .carousel-item-prev {
                 height: 100%;
             }
+        }
+
+        .carousel-item {
+            align-items: flex-start;
+            justify-content: flex-start;
         }
 
         .more-link {
