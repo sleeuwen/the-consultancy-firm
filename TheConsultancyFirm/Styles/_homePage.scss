@@ -5,23 +5,6 @@
     margin-bottom: 5rem !important;
 }
 
-.carousel-navigation {
-    a {
-        padding: 15px;
-        border-radius: 100%;
-        box-shadow: 0px 0px 0px 2px #f7f7f7;
-        margin-right: 10px;
-        color: $black;
-
-        &:hover {
-            background-color: $orange;
-            cursor: pointer;
-            color: $white;
-            text-decoration: none;
-        }
-    }
-}
-
 .link-arrow img {
     width: 1.25em;
     height: 1.25em;
