@@ -8,6 +8,7 @@
 @import 'newsItem';
 @import 'relatedCases';
 @import 'newsLetter';
+@import 'homePage';
 @import 'aboutPage';
 @import 'relatedCases';
 @import 'servicesWeOffer';
@@ -302,5 +303,11 @@ p {
     .quoteText {
         color: $black;
         padding-left: 0;
+    }
+}
+
+@media screen and (min-width: $break-xlarge) {
+    .container-wide {
+        max-width: 1300px;
     }
 }

@@ -7,15 +7,12 @@ namespace TheConsultancyFirm.Tests.Controllers
     public class HomeControllerTest
     {
         [Fact]
-        public void About()
+        public void Index()
         {
             var controller = new HomeController();
-            var result = controller.About();
+            var result = controller.Index();
 
-            var viewResult = Assert.IsType<ViewResult>(result);
-
-            var message = viewResult.ViewData["Message"];
-            Assert.Equal("Your application description page.", message);
+            Assert.IsType<ViewResult>(result);
         }
     }
 }
