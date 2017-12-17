@@ -208,3 +208,40 @@ p {
 .fluidpadding {
     padding: 0 35px;
 }
+
+.quoteContainer {
+    padding-left: 10%;
+    padding-bottom: 20px;
+
+    @media screen and (max-width:$break-medium) {
+        padding-bottom: 0px;
+    }
+
+    > :first-child {
+        display: flex;
+        align-items: baseline;
+    }
+
+    i {
+        color: $orange;
+        font-size: 24px;
+    }
+
+    svg {
+        padding-left: 5px;
+        padding-right: 5px;
+        width: 25px;
+        height: 15px;
+    }
+
+    p {
+        color: $darkGrey;
+        font-size: 16px;
+        padding-left: 5px;
+    }
+
+    .quoteText {
+        color: $black;
+        padding-left: 0;
+    }
+}
