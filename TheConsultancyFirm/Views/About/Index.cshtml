@@ -1,7 +1,10 @@
 @{
     ViewData["Title"] = "Over ons";
 }
-
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Over ons</li>
+</ol>
 <div class="container-fluid">
     <div class="pageHeader">
         <img class="headerImage" src="images/header-image.jpg" alt="Header Image" />
@@ -111,7 +114,7 @@
                 <svg>
                     <path stroke="gray" d="M5 10 l50 0"/>
                 </svg>
-                <h3>Arno, Directeur, tcf</h3>
+                <p>Arno, Directeur, tcf</p>
             </div>
             <h3 class="quote quoteText">
                 Grip op de keten met A-Sure! van tcf. De StreamServe<br/>
