@@ -1,5 +1,6 @@
 @import 'variables';
 @import 'buttonHover';
+@import 'form';
 @import 'footer';
 @import 'header';
 @import 'ourCustomers';
@@ -17,6 +18,11 @@
 @import 'solutionsOverview';
 @import 'newsDetail';
 @import 'solutionsDetail';
+@import 'search';
+@import 'downloadPage';
+@import 'caseDetail';
+@import 'contact';
+
 
 body {
     font-family: 'Raleway', sans-serif;
@@ -28,38 +34,6 @@ body {
         line-height: 23px;
     }
 } 
-
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-/* Carousel */
-.carousel-caption p {
-  font-size: 20px;
-  line-height: 1.4;
-}
-
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-  width: 100%;
-}
-
-/* QR code generator */
-#qrCode {
-  margin: 15px;
-}
-
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-  /* Hide captions */
-  .carousel-caption {
-    display: none;
-  }
-}
 
 h1 {
     font-family: 'Ubuntu', sans-serif;
@@ -194,11 +168,15 @@ p {
             font-weight: $bold;
 
             a {
-                color: black;
+                color: $black;
 
                 &:hover {
-                    color: black;
+                    color: $orange;
                     cursor: pointer;
+                }
+
+                &.disabled {
+                    color: $grey;
                 }
             }
         }
@@ -209,39 +187,79 @@ p {
     padding: 0 35px;
 }
 
-.quoteContainer {
-    padding-left: 10%;
-    padding-bottom: 20px;
+.sharing {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
 
-    @media screen and (max-width:$break-medium) {
-        padding-bottom: 0px;
-    }
-
-    > :first-child {
+    .introtext {
+        margin-bottom: 0;
+        margin-right: 1rem;
         display: flex;
-        align-items: baseline;
+        align-items: center;
+        color: $black !important;
+
+        .fa {
+            margin-right: .5rem;
+        }
     }
 
-    i {
-        color: $orange;
-        font-size: 24px;
+    .share-link {
+        color: $white;
+        background: $black;
+        display: inline-block;
+        width: 2em;
+        height: 2em;
+        line-height: 2em;
+        text-align: center;
+        border-radius: 50%;
+        transition: background-color .3s ease-in-out;
+        margin-left: .5rem;
+
+        &:hover {
+            text-decoration: none;
+            background: $orange;
+        }
+    }
+}
+
+.social-media {
+    display: flex;
+
+    li {
+        margin-right: 2rem;
+
+        @media screen and (min-width: $break-medium) {
+            margin-right: 3rem;
+        }
+
+        &:last-child {
+            margin-right: 0;
+        }
     }
 
-    svg {
-        padding-left: 5px;
-        padding-right: 5px;
-        width: 25px;
-        height: 15px;
+    a {
+        color: $white;
+
+        &:hover {
+            color: $grey;
+            text-decoration: none;
+
+            .fa {
+                background: $grey;
+            }
+        }
     }
 
-    p {
-        color: $darkGrey;
-        font-size: 16px;
-        padding-left: 5px;
-    }
-
-    .quoteText {
+    .fa {
+        width: 1.5em !important;
+        height: 1.5em !important;
+        line-height: 1.5em !important;
+        background: $white;
         color: $black;
-        padding-left: 0;
+        border-radius: 50%;
+        text-align: center;
+        display: inline-block;
+        margin-right: .5rem;
     }
 }

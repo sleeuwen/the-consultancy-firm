@@ -2,14 +2,9 @@
 
 namespace TheConsultancyFirm.Controllers
 {
-    public class CasesController : Controller
+    public class DownloadsController : Controller
     {
         public IActionResult Index()
-        {
-            return View();
-        }
-
-        public IActionResult Details(int id)
         {
             return View();
         }

@@ -12,7 +12,7 @@ footer {
             display: inline;
         }
 
-        #FooterSocialColum {
+        #FooterSocialColum .social-media {
             justify-content: center;
         }
     }
@@ -40,19 +40,7 @@ footer {
     }
 }
 
-#FooterSocialColum {
-    display: flex;
-
-    i {
-        margin-right: 10px;
-    }
-}
-
 #FooterBottomRow {
     display: flex;
     align-items: flex-end;
-}
-
-.footerIcons {
-    display: flex;
 }

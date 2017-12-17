@@ -34,14 +34,14 @@
                         <a class="nav-link" asp-controller="News" asp-action="Index" data-title="Nieuws">Nieuws</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-title="Downloads">Downloads</a>
+                        <a class="nav-link" asp-controller="Downloads" asp-action="Index" data-title="Downloads">Downloads</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#" data-title="Contact">Contact</a>
+                        <a class="nav-link" asp-controller="Contact" asp-action="Index" data-title="Contact">Contact</a>
                     </li>
                 </ul>
 
-                <form class="form-inline my-2 my-lg-0 mx-3 search">
+                <form asp-controller="Search" asp-action="Index" class="form-inline my-2 my-lg-0 mx-3 search">
                     <div class="searchbox">
                         <input class="form-control mr-sm-2" type="search" name="search" placeholder="Nieuwe zoekterm">
                         <i class="fa fa-times"></i>

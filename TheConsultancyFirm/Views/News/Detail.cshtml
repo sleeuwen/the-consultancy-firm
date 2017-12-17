@@ -1,8 +1,13 @@
 ﻿@{
-    ViewBag.Title = "Nieuws detail - bladiebla";
+    ViewBag.Title = "Nieuws detail - Pensioen in eigen beheer";
     Layout = "_Layout";
     string image = "k";
 }
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item"><a asp-controller="News" asp-action="Index">Nieuws</a></li>
+    <li class="breadcrumb-item active">Pensioen in eigen beheer</li>
+</ol>
 <div class="container-fluid fluidpadding">
     <div class="row">
         @if (!string.IsNullOrWhiteSpace(image))
@@ -40,31 +45,18 @@
                     ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget,
                     arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi.
                 </p>
+
                 <div class="sharing">
-                    <span style="font-size: 18px">
+                    <span class="introtext">
                         <i class="fa fa-share-alt"></i>
                         share
                     </span>
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-twitter fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-google-plus fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-facebook fa-stack-1x fa-inverse"></i>
-                    </span>
-                    <span class="fa-stack fa-lg">
-                        <i class="fa fa-square fa-stack-2x"></i>
-                        <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
-                    </span>
+
+                    <a href="#" class="share-link fa fa-linkedin"></a>
+                    <a href="#" class="share-link fa fa-twitter"></a>
+                    <a href="#" class="share-link fa fa-google-plus"></a>
+                    <a href="#" class="share-link fa fa-facebook"></a>
+                    <a href="#" class="share-link fa fa-envelope"></a>
                 </div>
             </div>
     </div>
