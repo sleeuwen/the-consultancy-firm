@@ -1,29 +1,33 @@
 @import 'variables';
-@import 'buttonHover';
-@import 'form';
-@import 'footer';
-@import 'header';
-@import 'ourCustomers';
-@import 'cookieWall';
-@import 'newsItem';
-@import 'relatedCases';
-@import 'newsLetter';
-@import 'homePage';
-@import 'aboutPage';
-@import 'relatedCases';
-@import 'servicesWeOffer';
-@import 'vacancyOverview';
-@import 'ultimateJourney';
-@import 'caseOverview';
-@import 'newsPage';
-@import 'solutionsOverview';
-@import 'newsDetail';
-@import 'solutionsDetail';
-@import 'search';
-@import 'downloadPage';
-@import 'caseDetail';
-@import 'contact';
 
+// Abstracts
+@import 'abstracts/buttonHover';
+@import 'abstracts/form';
+
+// Partials
+@import 'partials/cookieWall';
+@import 'partials/footer';
+@import 'partials/header';
+@import 'partials/newsItem';
+@import 'partials/newsLetter';
+@import 'partials/ourCustomers';
+@import 'partials/relatedCases';
+@import 'partials/servicesWeOffer';
+@import 'partials/ultimateJourney';
+@import 'partials/vacancyOverview';
+
+// Pages
+@import 'pages/about';
+@import 'pages/caseDetail';
+@import 'pages/caseOverview';
+@import 'pages/contact';
+@import 'pages/download';
+@import 'pages/home';
+@import 'pages/newsDetail';
+@import 'pages/newsOverview';
+@import 'pages/search';
+@import 'pages/solutionsDetail';
+@import 'pages/solutionsOverview';
 
 body {
     font-family: 'Raleway', sans-serif;
