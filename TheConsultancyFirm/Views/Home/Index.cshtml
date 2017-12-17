@@ -25,8 +25,11 @@
                                         <h1 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h1>
 
                                         <div class="links">
-                                            <a href="#" class="buttonHover">BEKIJK CASE</a>
-                                            <a href="#" class="font-italic">Of ga naar alle cases <img class="arrow" src="~/images/right-arrow.svg"/></a>
+                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">BEKIJK CASE</a>
+                                            <a class="font-italic" asp-controller="Cases" asp-action="Index">
+                                                Of ga naar alle cases
+                                                <img class="arrow" src="~/images/right-arrow.svg"/>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -44,8 +47,11 @@
                                         <h1 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h1>
 
                                         <div class="links">
-                                            <a href="#" class="buttonHover">BEKIJK CASE</a>
-                                            <a href="#" class="font-italic">Of ga naar alle cases <img class="arrow" src="~/images/right-arrow.svg"/></a>
+                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">BEKIJK CASE</a>
+                                            <a class="font-italic" asp-controller="Cases" asp-action="Index">
+                                                Of ga naar alle cases
+                                                <img class="arrow" src="~/images/right-arrow.svg"/>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -63,8 +69,11 @@
                                         <h1 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h1>
 
                                         <div class="links">
-                                            <a href="#" class="buttonHover">BEKIJK CASE</a>
-                                            <a href="#" class="font-italic">Of ga naar alle cases <img class="arrow" src="~/images/right-arrow.svg"/></a>
+                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">BEKIJK CASE</a>
+                                            <a class="font-italic" asp-controller="Cases" asp-action="Index">
+                                                Of ga naar alle cases
+                                                <img class="arrow" src="~/images/right-arrow.svg"/>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -82,8 +91,11 @@
                                         <h1 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h1>
 
                                         <div class="links">
-                                            <a href="#" class="buttonHover">BEKIJK CASE</a>
-                                            <a href="#" class="font-italic">Of ga naar alle cases <img class="arrow" src="~/images/right-arrow.svg"/></a>
+                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">BEKIJK CASE</a>
+                                            <a class="font-italic" asp-controller="Cases" asp-action="Index">
+                                                Of ga naar alle cases
+                                                <img class="arrow" src="~/images/right-arrow.svg"/>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -92,7 +104,7 @@
                     </div>
                 </div>
 
-                <a class="carousel-link-skip" href="#solutions">
+                <a class="carousel-link-skip" href="#journey">
                     <img src="~/images/skip-cases-arrow.png" />
                     Skip Cases
                 </a>
@@ -101,7 +113,7 @@
     </div>
 </div>
 
-<div class="container home-section">
+<div class="container home-section" id="journey">
     @Html.Partial("UltimateJourneyPartial")
 </div>
 
