@@ -1,0 +1,98 @@
+﻿@import '../variables';
+
+body {
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    line-height: 25px;
+
+    @media screen and (max-width: $break-medium) {
+        font-size: 14px;
+        line-height: 23px;
+    }
+}
+
+h1 {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 60px;
+    line-height: 65px;
+    font-weight: 700;
+
+    @media screen and (max-width: $break-medium) {
+        font-size: 26px;
+        line-height: 32px;
+    }
+}
+
+h2 {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 40px;
+    line-height: 46px;
+    font-weight: 400;
+
+    @media screen and (max-width: $break-medium) {
+        font-size: 24px;
+        line-height: 30px;
+    }
+}
+
+h3 {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 30px;
+    line-height: 39px;
+    font-weight: 500;
+
+    @media screen and (max-width: $break-medium) {
+        font-size: 21px;
+        line-height: 30px;
+    }
+}
+
+h4 {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 21px;
+    line-height: 24px;
+    font-weight: 400;
+
+    @media screen and (max-width: $break-medium) {
+        font-size: 18px;
+        line-height: 20px;
+    }
+}
+
+.introtext {
+    font-family: 'Raleway', sans-serif;
+    font-size: 21px;
+    line-height: 30px;
+
+    @media screen and (max-width: $break-medium) {
+        font-size: 16px;
+        line-height: 24px;
+    }
+}
+
+.content {
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    line-height: 25px;
+
+    @media screen and (max-width: $break-medium) {
+        font-size: 14px;
+        line-height: 23px;
+    }
+}
+
+.quote {
+    font-family: 'Raleway', sans-serif;
+    font-size: 21px;
+    line-height: 28px;
+    font-weight: 300;
+
+    @media screen and (max-width: $break-medium) {
+        font-size: 18px;
+        line-height: 28px;
+    }
+}
+
+p {
+    line-height: 25px;
+}
