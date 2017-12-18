@@ -19,5 +19,30 @@ namespace TheConsultancyFirm.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<CarouselBlock>();
+            modelBuilder.Entity<QuoteBlock>();
+            modelBuilder.Entity<SolutionAdvantagesBlock>();
+            modelBuilder.Entity<TextBlock>();
+
+            modelBuilder.Entity<Slide>();
+
+            modelBuilder.Entity<CaseTag>()
+                .HasKey(ct => new {ct.CaseId, ct.TagId});
+
+            modelBuilder.Entity<DownloadTag>()
+                .HasKey(dt => new {dt.DownloadId, dt.TagId});
+
+            modelBuilder.Entity<NewsItemTag>()
+                .HasKey(nt => new {nt.NewsItemId, nt.TagId});
+
+            modelBuilder.Entity<SolutionTag>()
+                .HasKey(st => new {st.SolutionId, st.TagId});
+
+            modelBuilder.Entity<CustomerSolution>()
+                .HasKey(cs => new {cs.SolutionId, cs.CustomerId});
+        }
     }
 }
