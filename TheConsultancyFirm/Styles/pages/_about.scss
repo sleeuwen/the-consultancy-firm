@@ -19,7 +19,7 @@
     right: 0;
     left: 0;
     bottom: 0;
-    background: rgba(26,25,25,.45);
+    background: rgba($black,.45);
 }
 
 .centered {
@@ -29,67 +29,67 @@
     align-content: center;
     flex-direction: row;
     width: 100%;
-    position:absolute;
-    top:50%;
+    position: absolute;
+    top: 50%;
     transform: translateY(-50%);
 }
 
-.aboutCarousel{
-    display:flex;
+.aboutCarousel {
+    display: flex;
 
     p {
-        color:black;
+        color: black;
     }
 }
 
 #descriptionBox {
     margin-bottom: 50px;
 
-    @media screen and (max-width: $break-medium) {
+    @media screen and (max-width: $break-medium - 1px) {
         min-height: 290px;
         margin-bottom: 10px;
     }
 
     .carousel-item {
-        width:100% !important;
+        width: 100% !important;
     }
 }
 
 .videoCarouselItem {
     height: 307px;
     margin: 0 auto;
-    max-width:100%;
+    max-width: 100%;
 }
 
-.videoCarouselItemDescription {
-    @media screen and (max-width: $break-medium) {
+@media screen and (max-width: $break-medium - 1px) {
+    .videoCarouselItemDescription {
         height: 200px !important;
     }
 }
 
-.carouselcontainer{
+.carouselcontainer {
     display: flex;
     flex-direction: column;
 }
 
-#descriptions{
+#descriptions {
     flex: 1;
 }
 
 .aboutdescription {
-    padding-left: 28%;
-    padding-right: 28%;
-    
+    padding-left: 0;
+    padding-right: 0;
 
-    @media screen and (max-width: $break-medium) {
-        padding-left: 0px;
-        padding-right: 0px;
+    @media screen and (min-width: $break-medium) {
+        padding-left: 28%;
+        padding-right: 28%;
     }
 
     img {
         margin-bottom: 20px;
-        max-width:100%;
-        @media screen and (max-width: $break-medium) {
+        max-width: 100%;
+
+        @media screen and (max-width: $break-medium - 1px) {
             width: 100%;
         }
     }
@@ -101,7 +101,7 @@
     a {
         padding: 15px;
         border-radius: 100%;
-        box-shadow: 0px 0px 0px 2px #f7f7f7;
+        box-shadow: 0 0 0 2px #f7f7f7;
         margin-right: 10px;
         color: $black;
 
@@ -114,20 +114,18 @@
     }
 }
 
-
-.carousel-navigation {
-    @media screen and (max-width: 767px) {
+@media screen and (max-width: $break-medium - 1px) {
+    .carousel-navigation {
         margin-top: 10px !important;
     }
 }
-
 
 .carousel-caption {
     position: initial;
     text-align: initial;
     color: black;
 
-    @media screen and (max-width: 767px) {
+    @media screen and (max-width: $break-medium - 1px) {
         display: inline !important;
 
         p {

@@ -2,93 +2,93 @@
 
 body {
     font-family: 'Raleway', sans-serif;
-    font-size: 16px;
-    line-height: 25px;
+    font-size: 14px;
+    line-height: 23px;
 
-    @media screen and (max-width: $break-medium) {
-        font-size: 14px;
-        line-height: 23px;
+    @media screen and (min-width: $break-medium) {
+        font-size: 16px;
+        line-height: 25px;
     }
 }
 
 h1 {
     font-family: 'Ubuntu', sans-serif;
-    font-size: 60px;
-    line-height: 65px;
+    font-size: 26px;
+    line-height: 32px;
     font-weight: 700;
 
-    @media screen and (max-width: $break-medium) {
-        font-size: 26px;
-        line-height: 32px;
+    @media screen and (min-width: $break-medium) {
+        font-size: 60px;
+        line-height: 65px;
     }
 }
 
 h2 {
     font-family: 'Ubuntu', sans-serif;
-    font-size: 40px;
-    line-height: 46px;
+    font-size: 24px;
+    line-height: 30px;
     font-weight: 400;
 
-    @media screen and (max-width: $break-medium) {
-        font-size: 24px;
-        line-height: 30px;
+    @media screen and (min-width: $break-medium) {
+        font-size: 40px;
+        line-height: 46px;
     }
 }
 
 h3 {
     font-family: 'Ubuntu', sans-serif;
-    font-size: 30px;
-    line-height: 39px;
+    font-size: 21px;
+    line-height: 30px;
     font-weight: 500;
 
-    @media screen and (max-width: $break-medium) {
-        font-size: 21px;
-        line-height: 30px;
+    @media screen and (min-width: $break-medium) {
+        font-size: 30px;
+        line-height: 39px;
     }
 }
 
 h4 {
     font-family: 'Ubuntu', sans-serif;
-    font-size: 21px;
-    line-height: 24px;
+    font-size: 18px;
+    line-height: 20px;
     font-weight: 400;
 
-    @media screen and (max-width: $break-medium) {
-        font-size: 18px;
-        line-height: 20px;
+    @media screen and (min-width: $break-medium) {
+        font-size: 21px;
+        line-height: 24px;
     }
 }
 
 .introtext {
     font-family: 'Raleway', sans-serif;
-    font-size: 21px;
-    line-height: 30px;
+    font-size: 16px;
+    line-height: 24px;
 
-    @media screen and (max-width: $break-medium) {
-        font-size: 16px;
-        line-height: 24px;
+    @media screen and (min-width: $break-medium) {
+        font-size: 21px;
+        line-height: 30px;
     }
 }
 
 .content {
     font-family: 'Raleway', sans-serif;
-    font-size: 16px;
-    line-height: 25px;
+    font-size: 14px;
+    line-height: 23px;
 
-    @media screen and (max-width: $break-medium) {
-        font-size: 14px;
-        line-height: 23px;
+    @media screen and (min-width: $break-medium) {
+        font-size: 16px;
+        line-height: 25px;
     }
 }
 
 .quote {
     font-family: 'Raleway', sans-serif;
-    font-size: 21px;
+    font-size: 18px;
     line-height: 28px;
     font-weight: 300;
 
-    @media screen and (max-width: $break-medium) {
-        font-size: 18px;
+    @media screen and (min-width: $break-medium) {
+        font-size: 21px;
         line-height: 28px;
     }
 }

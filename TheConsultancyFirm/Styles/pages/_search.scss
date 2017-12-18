@@ -4,6 +4,7 @@
     margin-bottom: 20px;
     padding: 0 10%;
 }
+
 .search-form {
     width: 100%;
 
@@ -12,7 +13,9 @@
         padding: 10px;
         border: none;
 
-        &:hover::placeholder, &:focus::placeholder, &:active::placeholder {
+        &:hover::placeholder,
+        &:focus::placeholder,
+        &:active::placeholder {
             color: transparent;
         }
 
@@ -60,11 +63,11 @@
     .result {
         background-color: $black;
         color: $white;
-        padding: 40px 50px;
+        padding: 20px 40px;
         margin-bottom: 25px;
 
-        @media screen and (max-width: $break-medium){
-            padding: 20px 40px;
+        @media screen and (min-width: $break-medium) {
+            padding: 40px 50px;
         }
 
         h2 {

@@ -1,9 +1,9 @@
 ﻿@import '../variables';
 
 .servicepanel {
-    height: 690px;
+    height: 560px;
     background-color: $black;
-    padding: 75px;
+    padding: 35px 20px;
     color: $white;
 
     h3 {
@@ -18,34 +18,34 @@
 
     .service {
         width: 100%;
-        padding-bottom: 20px;
-        padding-top: 20px;
+        padding-bottom: 8px;
+        padding-top: 8px;
         border-bottom: 1px solid gray;
         display: flex;
         position: relative;
         padding-right: 40px;
 
-        @media screen and (max-width:$break-small) {
-            padding-bottom: 8px;
-            padding-top: 8px;
+        @media screen and (min-width: $break-small) {
+            padding-bottom: 20px;
+            padding-top: 20px;
         }
 
         h5::after {
             content: '';
             background: url(/images/right-arrow-white.svg);
             background-repeat: no-repeat;
-            width: 40px;
-            height: 40px;
-            position: absolute;
-            right: 0;
-            top: 15px;
             background-position: right;
             background-size: contain;
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            top: 8px;
+            right: 0;
 
-            @media screen and (max-width:$break-small) {
-                width: 25px;
-                height: 25px;
-                top: 8px;
+            @media screen and (min-width: $break-small) {
+                width: 40px;
+                height: 40px;
+                top: 15px;
             }
         }
     }
@@ -60,16 +60,15 @@
         }
     }
 
-    @media screen and (max-width: $break-medium) {
+    @media screen and (max-width: $break-medium - 1px) {
         h5 {
             font-size: 16px;
         }
-
-        padding: 35px 20px;
     }
 
-    @media screen and (max-width: $break-medium) {
-        height: 560px;
+    @media screen and (min-width: $break-medium) {
+        height: 690px;
+        padding: 75px;
     }
 }
 
@@ -80,12 +79,12 @@
     background-position-y: 50px;
     background-repeat: no-repeat;
 
-    @media screen and (max-width: $break-large) {
+    @media screen and (max-width: $break-large - 1px) {
         background: none;
         height: 690px;
     }
 
-    @media screen and (max-width: $break-medium) and (min-width: $break-small) {
+    @media screen and (max-width: $break-medium - 1px) and (min-width: $break-small) {
         height: 560px;
     }
 }

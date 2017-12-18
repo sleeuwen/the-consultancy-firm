@@ -1,13 +1,13 @@
 ﻿@import '../variables';
 
-.vacancyContainer{
-    text-align:center;
+.vacancyContainer {
+    text-align: center;
     margin-bottom: 60px;
 }
 
 .vacancy {
     margin-bottom: 20px;
-    box-shadow: 0 2px 13px 4px #ddd;
+    box-shadow: 0 2px 13px 4px $grey;
     display: flex;
     padding: 15px 20px;
     align-items: center;

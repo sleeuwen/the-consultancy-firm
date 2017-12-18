@@ -16,7 +16,7 @@
         right: 0;
         bottom: 0;
         left: 0;
-        background: rgba(26, 25, 25, .45);
+        background: rgba($black, .45);
     }
 
     h1 {
@@ -62,12 +62,12 @@
             right: 0;
             bottom: 0;
             left: 0;
-            background: rgba(26, 25, 25, .55);
+            background: rgba($black, .55);
             transition: background-color .3s ease-in-out;
         }
 
         &:hover::before {
-            background: rgba(26, 25, 25, .35);
+            background: rgba($black, .35);
         }
 
         .title,
@@ -85,39 +85,6 @@
             font-size: 16px;
             letter-spacing: 1px;
         }
-    }
-}
-
-blockquote {
-    padding-left: 10%;
-    margin-bottom: 2rem;
-
-    > :first-child {
-        display: flex;
-        align-items: baseline;
-    }
-
-    i {
-        color: $orange;
-        font-size: 24px;
-    }
-
-    svg {
-        padding-left: 5px;
-        padding-right: 5px;
-        width: 25px;
-        height: 15px;
-    }
-
-    p {
-        color: $darkGrey;
-        padding-left: 5px;
-        margin: 0 0 1rem;
-    }
-
-    .quote {
-        color: $black;
-        padding-left: 0;
     }
 }
 
@@ -146,7 +113,7 @@ blockquote {
         text-align: initial;
         color: $black;
 
-        @media screen and (max-width: $break-large) {
+        @media screen and (max-width: $break-large - 1px) {
             display: inline-block !important;
             padding: .5rem 0;
         }

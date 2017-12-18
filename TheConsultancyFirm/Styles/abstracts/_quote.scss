@@ -2,10 +2,10 @@
 
 .quoteContainer {
     padding-left: 10%;
-    padding-bottom: 20px;
+    padding-bottom: 0;
 
-    @media screen and (max-width:$break-medium) {
-        padding-bottom: 0px;
+    @media screen and (min-width: $break-medium) {
+        padding-bottom: 20px;
     }
 
     > :first-child {
@@ -32,6 +32,39 @@
     }
 
     .quoteText {
+        color: $black;
+        padding-left: 0;
+    }
+}
+
+blockquote {
+    padding-left: 10%;
+    margin-bottom: 2rem;
+
+    > :first-child {
+        display: flex;
+        align-items: baseline;
+    }
+
+    i {
+        color: $orange;
+        font-size: 24px;
+    }
+
+    svg {
+        padding-left: 5px;
+        padding-right: 5px;
+        width: 25px;
+        height: 15px;
+    }
+
+    p {
+        color: $darkGrey;
+        padding-left: 5px;
+        margin: 0 0 1rem;
+    }
+
+    .quote {
         color: $black;
         padding-left: 0;
     }

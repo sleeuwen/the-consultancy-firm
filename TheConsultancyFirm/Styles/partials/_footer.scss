@@ -3,9 +3,9 @@
 footer {
     background-color: $black;
     color: $darkGrey;
-    padding: 20px 0px;
+    padding: 20px 0;
 
-    @media screen and (max-width: $break-medium) {
+    @media screen and (max-width: $break-medium - 1px) {
         text-align: center;
 
         #FooterBottomRow {

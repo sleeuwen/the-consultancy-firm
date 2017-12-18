@@ -1,33 +1,34 @@
 ﻿@import '../variables';
 
 #newsdetailimage {
-    content: '';
+    display: none;
     width: 100%;
     background-repeat: no-repeat;
     background-position: right top;
+    background-size: contain;
 
-    @media screen and (max-width: $break-xlarge) {
-        background-size: contain;
+    @media screen and (min-width: $break-large) {
+        display: initial;
     }
 
-    @media screen and (max-width: $break-large) {
-        display: none;
+    @media screen and (min-width: $break-xlarge) {
+        background-size: auto;
     }
 }
 
 #newsdetail {
-    padding-right: 100px;
-    padding-left: 50px;
-    margin-bottom: 150px;
+    margin-bottom: 50px;
+    padding-right: 10px;
+    padding-left: 10px;
 
     .introtext {
         color: $darkGrey;
     }
 
-    @media screen and (max-width: $break-medium) {
-        margin-bottom: 50px;
-        padding-right: 10px;
-        padding-left: 10px;
+    @media screen and (min-width: $break-medium) {
+        margin-bottom: 150px;
+        padding-right: 100px;
+        padding-left: 50px;
     }
 }
 
