@@ -26,7 +26,7 @@ namespace TheConsultancyFirm.Controllers
             ActionResult state;
 
             //Validate the input field
-            if(ModelState.IsValid)
+            if(ModelState.IsValid && !String.IsNullOrEmpty(newsletter.Email))
             {
                 _context.NewsLetters.Add(newsletter);
 

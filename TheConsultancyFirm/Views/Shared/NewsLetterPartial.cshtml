@@ -8,7 +8,7 @@
             in te schrijven voor onze nieuwsbrief!
         </p>
         <form asp-action="Index" asp-controller="Newsletter" id="newsletterForm" method="post">
-            <input type="text" name="Email" placeholder="Email">
+            <input type="text" name="Email" placeholder="Email" data-container="body" data-toggle="popover" data-placement="left" data-content="De ingevulde email klopt niet.">
             <button type="submit">Inschrijven<img src="~/images/right-arrow-black.svg" alt="laad niet" class="arrow"></button>
         </form>
     </div>
