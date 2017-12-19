@@ -39,7 +39,7 @@ Een nieuw contact formulier is verstuurd:<br/>
 
         private async Task Execute(string email, string subject, string message)
         {
-            MailMessage mail = new MailMessage
+            var mail = new MailMessage
             {
                 From = new MailAddress(_mailSettings.SenderEmail, _mailSettings.SenderName)
             };
@@ -50,10 +50,13 @@ Een nieuw contact formulier is verstuurd:<br/>
             mail.Body = message;
             mail.IsBodyHtml = true;
 
-            using (SmtpClient smtp = new SmtpClient(_mailSettings.SmtpHost, _mailSettings.SmtpPort))
+            using (var smtp = new SmtpClient(_mailSettings.SmtpHost, _mailSettings.SmtpPort))
             {
-                smtp.Credentials = new NetworkCredential(_mailSettings.SenderEmail, _mailSettings.EmailPassword);
                 smtp.EnableSsl = true;
+                smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
+                smtp.UseDefaultCredentials = false;
+                smtp.Credentials = new NetworkCredential(_mailSettings.SenderEmail, _mailSettings.EmailPassword);
+
                 await smtp.SendMailAsync(mail);
             }
         }
