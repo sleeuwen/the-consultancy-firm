@@ -1,21 +1,19 @@
-﻿using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Common;
-using TheConsultancyFirm.Data;
+using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
 
 namespace TheConsultancyFirm.Controllers
 {
     public class CasesController : Controller
     {
-        private IRelatedItemsService _relatedItemsService;
-        private ApplicationDbContext _context;
+        private readonly IRelatedItemsService _relatedItemsService;
+	    private readonly ICaseRepository _caseRepository;
 
-        public CasesController(IRelatedItemsService relatedItemsService, ApplicationDbContext context)
+		public CasesController(IRelatedItemsService relatedItemsService, ICaseRepository caseRepository)
         {
             _relatedItemsService = relatedItemsService;
-            _context = context;
+	        _caseRepository = caseRepository;
         }
 
         public IActionResult Index()
@@ -25,7 +23,7 @@ namespace TheConsultancyFirm.Controllers
 
         public IActionResult Details(int id)
         {
-            var caseItem = _context.Cases.Include(i => i.CaseTags).FirstOrDefault(c => c.Id == id);
+	        var caseItem = _caseRepository.Get(id);
             _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
             return View();
         }
