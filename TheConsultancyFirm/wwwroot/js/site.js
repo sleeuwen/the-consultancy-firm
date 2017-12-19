@@ -46,22 +46,21 @@ jQuery(function ($) {
             url: '/Newsletter/Index',
             data: $newsletterForm.serialize(),
             success: function (msg) {
-                $newsletterForm.find('input[type=text]').css("border-bottom", "1px solid #5cb85c");
+                //$newsletterForm.find('input[type=text]').css("border-bottom", "1px solid #5cb85c");
                 $newsletterForm.find('input[type=text]').val('');
+                toastr.options.positionClass = 'toast-bottom-right';
+                toastr.success('Je bent nu aangemeld voor de nieuwsbrief!', 'Success!');
             },
             error: function (msg) {
                 $newsletterForm.find('input[type=text]').css("border-bottom", "1px solid #FF7777");
-                //$newsletterForm.find('input[type=text]').css("border-bottom", "1px solid #ADABAA");
                 $newsletterForm.find('input[type=text]').popover('show');
             }
         });
     });
-
     //remove the popover
     $('#newsletter').click(function (e) {
         $newsletterForm.find('input[type=text]').popover('hide');
     });
-
     //Removes the red border
     $newsletterForm.find('input[type=text]').keypress(function (e) {
         $newsletterForm.find('input[type=text]').css("border-bottom", "1px solid #ADABAA");
