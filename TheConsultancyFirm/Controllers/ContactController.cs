@@ -2,18 +2,19 @@
 using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
+using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
 
 namespace TheConsultancyFirm.Controllers
 {
     public class ContactController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IContactRepository _repository;
         private readonly IMailService _mailService;
 
-        public ContactController(ApplicationDbContext context, IMailService mailService)
+        public ContactController(IContactRepository repository, IMailService mailService)
         {
-            _context = context;
+            _repository = repository;
             _mailService = mailService;
         }
 
@@ -32,14 +33,13 @@ namespace TheConsultancyFirm.Controllers
             }
 
             // Save to database
-            _context.Add(contact);
-            await _context.SaveChangesAsync();
+            await _repository.AddAsync(contact);
 
             // Send notification email
             _mailService.SendContactMailAsync(contact);
 
             TempData["ContactMessage"] = "Je bericht is verzonden.";
-            return Redirect(Url.Action(nameof(Index)) + "#contact");
+            return RedirectToAction(nameof(Index), null, "contact");
         }
     }
 }
