@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Models.Mail;
+using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
 
 namespace TheConsultancyFirm
@@ -31,6 +32,8 @@ namespace TheConsultancyFirm
                 .AddDefaultTokenProviders();
 
             services.AddSingleton<IMailService, MailService>();
+
+            services.AddScoped<IContactRepository, ContactRepository>();
 
             services.Configure<MailSettings>(Configuration.GetSection("Mail"));
 
