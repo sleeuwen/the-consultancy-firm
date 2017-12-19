@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Contact
+@{
     ViewBag.Title = "Contact";
     Layout = "_Layout";
 }
@@ -56,41 +57,54 @@
     </div>
 </div>
 
-<div class="container">
+<div class="container pt-5" id="contact">
     <div class="row">
-        <div class="col text-center mb-4">
+        <div class="col-12 text-center mb-4">
             <h2>Of stuur ons direct een bericht</h2>
+        </div>
+
+        <div class="col-12 text-center">
+            <p class="introtext text-secondary">
+                @TempData["ContactMessage"]
+            </p>
         </div>
     </div>
 
-    <form id="contact">
+    <form id="contact-form" asp-action="Index">
+        <div asp-validation-summary="ModelOnly" class="invalid-feedback"></div>
+
         <div class="form-row">
             <div class="col-12 col-lg-2"></div>
             <div class="form-group col-12 col-md-6 col-lg-4">
-                <input type="text" class="form-control" id="name" name="name" placeholder="Naam" required />
+                <input asp-for="Name" class="form-control" placeholder="Naam"/>
+                <span asp-validation-for="Name" class="invalid-feedback"></span>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4">
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email" required/>
+                <input asp-for="Email" class="form-control" placeholder="Email"/>
+                <span asp-validation-for="Email" class="invalid-feedback"></span>
             </div>
         </div>
 
         <div class="form-row">
             <div class="col-12 col-lg-2"></div>
             <div class="form-group col-12 col-md-6 col-lg-4">
-                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Mobiel"/>
+                <input asp-for="Mobile" class="form-control" placeholder="Mobiel"/>
+                <span asp-validation-for="Mobile" class="invalid-feedback"></span>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4">
-                <select class="form-control" id="subject" name="subject" required>
+                <select asp-for="Subject" class="form-control">
                     <option value="" disabled selected>Onderwerp</option>
                     <option value="anders">Anders</option>
                 </select>
+                <span asp-validation-for="Subject" class="invalid-feedback"></span>
             </div>
         </div>
 
         <div class="form-row">
             <div class="col-12 col-lg-2"></div>
             <div class="form-group col-12 col-lg-8">
-                <textarea class="form-control" name="message" id="message" placeholder="Bericht" rows="5"></textarea>
+                <textarea asp-for="Message" class="form-control" placeholder="Bericht" rows="5"></textarea>
+                <span asp-validation-for="Message" class="invalid-feedback"></span>
             </div>
         </div>
 
@@ -104,3 +118,7 @@
 </div>
 
 @Html.Partial("NewsLetterPartial")
+
+@section Scripts {
+    @Html.Partial("_ValidationScriptsPartial")
+}
