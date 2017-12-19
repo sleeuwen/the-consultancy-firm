@@ -2,6 +2,7 @@
 jQuery(function ($) {
     var $searchform = $('.search');
     var $navbar = $('.navbar');
+    var $newsletterForm = $('#newsletterForm');
 
     $('.buttonHover').each(function () {
         $(this).append('<span></span><span></span>');
@@ -35,6 +36,22 @@ jQuery(function ($) {
             $(el).carousel(e.direction === "left" ? "next" : "prev");
         });
         $(el).carousel($following.find('.carousel-item.active').index());
+    });
+
+    $newsletterForm.find('button[type=submit]').click(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: $newsletterForm.attr('method'),
+            url: '/Newsletter/Index',
+            data: $newsletterForm.serialize(),
+            success: function (msg) {
+                alert("Success");
+            },
+            error: function (msg) {
+                alert("Fout!");
+            }
+        });
     });
 });
 
