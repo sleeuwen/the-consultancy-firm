@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
+using TheConsultancyFirm.Repositories;
 
 namespace TheConsultancyFirm.Controllers
 {
     public class NewsletterController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public NewsletterController(ApplicationDbContext context)
+        private readonly INewsletterRepository _repository;
+        public NewsletterController(INewsletterRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         /// <summary>
@@ -28,9 +29,7 @@ namespace TheConsultancyFirm.Controllers
             //Validate the input field
             if(ModelState.IsValid && !String.IsNullOrEmpty(newsletter.Email))
             {
-                _context.NewsLetters.Add(newsletter);
-
-                if(_context.SaveChanges() == 0)
+                if(_repository.Subscribe(newsletter) == 0)
                 {
                     // return 400 code
                     state = BadRequest();
