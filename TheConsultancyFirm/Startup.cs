@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
+using TheConsultancyFirm.Models.Mail;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
 
@@ -25,19 +26,27 @@ namespace TheConsultancyFirm
         {
 			//Services
             services.AddTransient<IRelatedItemsService, RelatedItemsService>();
-
+            services.AddSingleton<IMailService, MailService>();
+          
 			//Repositories
-            services.AddTransient<ICaseRepository, CaseRepository>();
-            services.AddTransient<ISolutionRepository, SolutionRepository>();
-            services.AddTransient<INewsRepository, NewsRepository>();
-            services.AddTransient<IDownloadRepository, DownloadRepository>();
-
+            services.AddScoped<ICaseRepository, CaseRepository>();
+            services.AddScoped<ISolutionRepository, SolutionRepository>();
+            services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<IDownloadRepository, DownloadRepository>();
+            services.AddScoped<IContactRepository, ContactRepository>();
+          
 			services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            
+
+            
+
+            services.Configure<MailSettings>(Configuration.GetSection("Mail"));
 
             services.AddMvc();
         }
