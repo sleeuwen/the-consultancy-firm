@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
+using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
 
 namespace TheConsultancyFirm
@@ -22,9 +23,16 @@ namespace TheConsultancyFirm
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+			//Services
             services.AddTransient<IRelatedItemsService, RelatedItemsService>();
 
-            services.AddDbContext<ApplicationDbContext>(options =>
+			//Repositories
+            services.AddTransient<ICaseRepository, CaseRepository>();
+            services.AddTransient<ISolutionRepository, SolutionRepository>();
+            services.AddTransient<INewsRepository, NewsRepository>();
+            services.AddTransient<IDownloadRepository, DownloadRepository>();
+
+			services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()

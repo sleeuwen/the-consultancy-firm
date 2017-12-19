@@ -1,41 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using TheConsultancyFirm.Common;
-using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
+using TheConsultancyFirm.Repositories;
 
 namespace TheConsultancyFirm.Services
 {
-    public interface IRelatedItemsService
+	public class RelatedItemsService : IRelatedItemsService
     {
-	    List<ContentItem> GetRelatedItems(int id, Enumeration.ContentItemType type);
-    }
+        private readonly ICaseRepository _caseRepository;
+        private readonly ISolutionRepository _solutionRepository;
+        private readonly INewsRepository _newsRepository;
+        private readonly IDownloadRepository _downloadRepository;
 
-    public class RelatedItemsService : IRelatedItemsService
-    {
-        private readonly ApplicationDbContext _context;
-
-        public RelatedItemsService()
+		public RelatedItemsService(ICaseRepository caseRepository, ISolutionRepository solutionRepository,
+			INewsRepository newsRepository, IDownloadRepository downloadRepository)
         {
-        }
-
-        public RelatedItemsService(ApplicationDbContext context)
-        {
-            _context = context;
+			_caseRepository = caseRepository;
+	        _solutionRepository = solutionRepository;
+	        _newsRepository = newsRepository;
+	        _downloadRepository = downloadRepository;
         }
 
         public List<ContentItem> GetRelatedItems(int id, Enumeration.ContentItemType type)
         {
-	        List<int> tags = GetTags(id, type);
-            List<ContentItem> matchingItems = new List<ContentItem>();
+	        var tags = GetTags(id, type);
+            var matchingItems = new List<ContentItem>();
 
-	        foreach (var caseItem in _context.Cases.Include("CaseTags"))
+	        foreach (var caseItem in _caseRepository.GetAll().Include(i => i.CaseTags))
 	        {
 		        if (type == Enumeration.ContentItemType.Case && caseItem.Id == id) continue;
+
 
 				var incommon = tags.Intersect(caseItem.CaseTags.Select(i => i.TagId));
 		        var max = tags.Count > caseItem.CaseTags.Count ? tags.Count : caseItem.CaseTags.Count;
@@ -44,7 +40,7 @@ namespace TheConsultancyFirm.Services
 				matchingItems.Add(new ContentItem{Id = caseItem.Id, Type = Enumeration.ContentItemType.Case, Score = score});
 	        }
 
-	        foreach (var solutionItem in _context.Solutions.Include("SolutionTags"))
+	        foreach (var solutionItem in _solutionRepository.GetAll().Include(i => i.SolutionTags))
 	        {
 		        if (type == Enumeration.ContentItemType.Solution && solutionItem.Id == id) continue;
 
@@ -55,7 +51,7 @@ namespace TheConsultancyFirm.Services
 		        matchingItems.Add(new ContentItem { Id = solutionItem.Id, Type = Enumeration.ContentItemType.Solution, Score = score });
 	        }
 
-	        foreach (var downloadItem in _context.Downloads.Include("DownloadTags"))
+	        foreach (var downloadItem in _downloadRepository.GetAll().Include(i => i.DownloadTags))
 	        {
 				if (type == Enumeration.ContentItemType.Download && downloadItem.Id == id) continue;
 
@@ -66,7 +62,7 @@ namespace TheConsultancyFirm.Services
 		        matchingItems.Add(new ContentItem { Id = downloadItem.Id, Type = Enumeration.ContentItemType.Download, Score = score });
 	        }
 
-	        foreach (var newsItem in _context.NewsItems.Include("NewsItemTags"))
+	        foreach (var newsItem in _newsRepository.GetAll().Include(i => i.NewsItemTags))
 	        {
 				if (type == Enumeration.ContentItemType.News && newsItem.Id == id) continue;
 
@@ -80,34 +76,30 @@ namespace TheConsultancyFirm.Services
 	        return matchingItems.OrderByDescending(item => item.Score).Take(3).ToList();
         }
 
-	    public List<int> GetTags(int id, Enumeration.ContentItemType type)
+	    private List<int> GetTags(int id, Enumeration.ContentItemType type)
 	    {
 			List<int> tags = new List<int>();
 
 		    switch (type)
 		    {
 			    case Enumeration.ContentItemType.Case:
-				    var c = _context.Cases.Include("CaseTags").FirstOrDefault(i => i.Id == id);
+				    var c = _caseRepository.GetAll().Include(i => i.CaseTags).FirstOrDefault(i => i.Id == id);
 				    tags = c.CaseTags.Select(t => t.TagId).ToList();
 				    break;
 			    case Enumeration.ContentItemType.Solution:
-				    var solution = _context.Solutions.Include("SolutionTags").FirstOrDefault(i => i.Id == id);
+				    var solution = _solutionRepository.GetAll().Include(i => i.SolutionTags).FirstOrDefault(i => i.Id == id);
 				    tags = solution.SolutionTags.Select(t => t.TagId).ToList();
 				    break;
 			    case Enumeration.ContentItemType.Download:
-				    var download = _context.Cases.Include("DownloadTags").FirstOrDefault(i => i.Id == id);
-				    tags = download.CaseTags.Select(t => t.TagId).ToList();
+				    var download = _downloadRepository.GetAll().Include(i => i.DownloadTags).FirstOrDefault(i => i.Id == id);
+				    tags = download.DownloadTags.Select(t => t.TagId).ToList();
 				    break;
 			    case Enumeration.ContentItemType.News:
-				    var news = _context.Cases.Include("NewsTags").FirstOrDefault(i => i.Id == id);
-				    tags = news.CaseTags.Select(t => t.TagId).ToList();
+				    var news = _newsRepository.GetAll().Include(i => i.NewsItemTags).FirstOrDefault(i => i.Id == id);
+				    tags = news.NewsItemTags.Select(t => t.TagId).ToList();
 				    break;
 		    }
 		    return tags;
-	    }
-
-	    public void AddMatchingCases(List<int> tags)
-	    {
 	    }
     }
 }
