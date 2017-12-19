@@ -25,7 +25,7 @@ namespace TheConsultancyFirm.Controllers
 
         public IActionResult Details(int id)
         {
-            var caseItem = _context.Cases.Include("CaseTags").FirstOrDefault(c => c.Id == id);
+            var caseItem = _context.Cases.Include(i => i.CaseTags).FirstOrDefault(c => c.Id == id);
             _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
             return View();
         }
