@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Data;
-using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Services;
 
 namespace TheConsultancyFirm.Controllers
@@ -27,7 +26,7 @@ namespace TheConsultancyFirm.Controllers
         public IActionResult Details(int id)
         {
             var caseItem = _context.Cases.Include("CaseTags").FirstOrDefault(c => c.Id == id);
-            _relatedItemsService.GetRelatedItemsCase(caseItem);
+            _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
             return View();
         }
     }
