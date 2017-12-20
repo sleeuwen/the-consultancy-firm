@@ -17,10 +17,11 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
         <dt>
+         
             @Html.DisplayNameFor(model => model.LogoPath)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.LogoPath)
+            <img id="customer-detail-image" src="@Model.LogoPath">
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Link)

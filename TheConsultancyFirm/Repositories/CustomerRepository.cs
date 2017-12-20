@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 
@@ -15,30 +15,33 @@ namespace TheConsultancyFirm.Repositories
 			_context = context;
 		}
 
-		public Customer Get(int id)
+		public Task<Customer> Get(int id)
 		{
-			return _context.Customers.Find(id);
+			return _context.Customers.FindAsync(id);
 		}
 
-		public List<Customer> GetAll()
+		public Task<List<Customer>> GetAll()
 		{
-			return _context.Customers.ToList();
+			return _context.Customers.ToListAsync();
 		}
 
-		public void Create(Customer customer)
+		public Task Create(Customer customer)
 		{
-			_context.Customers.Add(customer);
+			_context.Add(customer);
+			return _context.SaveChangesAsync();
 		}
 
-		public void Edit(Customer customer)
+		public Task Update(Customer customer)
 		{
 			_context.Customers.Update(customer);
+			return _context.SaveChangesAsync();
 		}
 
-		public void Delete(int id)
+		public Task Delete(int id)
 		{
-			var customer = _context.Customers.Find(id);
+			var customer = Get(id).Result;
 			_context.Customers.Remove(customer);
+			return _context.SaveChangesAsync();
 		}
 	}
 }

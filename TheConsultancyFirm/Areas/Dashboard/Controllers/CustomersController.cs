@@ -7,26 +7,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
+using TheConsultancyFirm.Repositories;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
     public class CustomersController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        //private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _environment;
+        private readonly ICustomerRepository _customerRepository;
 
-		public CustomersController(ApplicationDbContext context, IHostingEnvironment environment)
+		public CustomersController(ICustomerRepository customerRepository, IHostingEnvironment environment)
         {
-            _context = context;
 	        _environment = environment;
+	        _customerRepository = customerRepository;
 
         }
 
         // GET: Dashboard/Customers
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Customers.ToListAsync());
+            return View(await _customerRepository.GetAll());
         }
 
         // GET: Dashboard/Customers/Details/5
@@ -37,8 +39,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .SingleOrDefaultAsync(m => m.Id == id);
+	        var customer = await _customerRepository.Get((int)id);
             if (customer == null)
             {
                 return NotFound();
@@ -65,8 +66,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 	            if (customer.Image.Length > 0)
 	            {
 		            customer.Image.FileName.Replace(" ", "");
-					var filePath = Path.Combine(_environment.WebRootPath + "/images/CustomerLogos", customer.Image.FileName);
-		            using (var fileStream = new FileStream(filePath, FileMode.Create))
+					customer.LogoPath = "/images/CustomerLogos/" + customer.Image.FileName;
+		            using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
 		            {
 			            await customer.Image.CopyToAsync(fileStream);
 		            }
@@ -75,8 +76,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 	            {
 		            ModelState.AddModelError("Image", "Filesize to small");
 	            }
-				_context.Add(customer);
-                await _context.SaveChangesAsync();
+				await _customerRepository.Create(customer);
                 return RedirectToAction(nameof(Index));
             }
             return View(customer);
@@ -90,7 +90,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers.SingleOrDefaultAsync(m => m.Id == id);
+	        var customer = await _customerRepository.Get((int) id);
             if (customer == null)
             {
                 return NotFound();
@@ -103,7 +103,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,LogoPath,Link")] Customer customer)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Image,LogoPath,Link")] Customer customer)
         {
             if (id != customer.Id)
             {
@@ -114,8 +114,22 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             {
                 try
                 {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
+
+	                if (customer.Image.Length > 0)
+	                {
+		                FileInfo file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
+		                if (file.Exists)
+		                {
+			                file.Delete();
+		                }
+						customer.Image.FileName.Replace(" ", "");
+		                customer.LogoPath = "/images/CustomerLogos/" + customer.Image.FileName;
+		                using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
+		                {
+			                await customer.Image.CopyToAsync(fileStream);
+		                }
+	                }
+					await _customerRepository.Update(customer);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -141,9 +155,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var customer = await _context.Customers
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
+            var customer = await _customerRepository.Get((int)id);
+			if (customer == null)
             {
                 return NotFound();
             }
@@ -156,15 +169,19 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var customer = await _context.Customers.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
+	        var customer = await _customerRepository.Get(id);
+	        FileInfo file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
+	        if (file.Exists)
+	        {
+		        file.Delete();
+	        }
+			await _customerRepository.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
         private bool CustomerExists(int id)
         {
-            return _context.Customers.Any(e => e.Id == id);
+            return _customerRepository.Get(id) != null;
         }
     }
 }
