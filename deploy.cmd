@@ -84,6 +84,13 @@ IF !ERRORLEVEL! NEQ 0 goto error
 call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_TEMP%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
 IF !ERRORLEVEL! NEQ 0 goto error
 
+:: 5. Run Migrations
+cd TheConsultancyFirm
+SET ASPNETCORE_ENVIRONMENT=Production
+call :ExecuteCmd dotnet ef database update
+IF !ERRORLEVEL! NEQ 0 goto error
+cd ..
+
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
 

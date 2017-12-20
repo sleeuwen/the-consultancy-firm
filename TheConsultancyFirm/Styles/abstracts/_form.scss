@@ -29,3 +29,9 @@ select.form-control {
         height: calc(3rem + 2px);
     }
 }
+
+.form-control.input-validation-error {
+    ~ .invalid-feedback {
+        display: block;
+    }
+}
