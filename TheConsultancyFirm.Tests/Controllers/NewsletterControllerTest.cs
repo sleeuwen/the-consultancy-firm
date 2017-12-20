@@ -1,27 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using TheConsultancyFirm.Controllers;
-using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 using Xunit;
-using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Repositories;
+using System.Net;
 
 namespace TheConsultancyFirm.Tests.Controllers
 {
     public class NewsletterControllerTest
     {
-        [Fact]
-        public void Index()
-        {
-            var controller = new NewsletterController(null);
-            Newsletter newsletter = new Newsletter() { Email = "" };
-            var result = controller.Index(newsletter);
-
-            var actionResult = Assert.IsType<ActionResult>(result);
-            Assert.IsType<ActionResult>(actionResult);
-        }
-
         [Fact]
         public void ValidSubscribe()
         {
@@ -31,10 +19,19 @@ namespace TheConsultancyFirm.Tests.Controllers
             newsletterRepository.Setup(news => news.Subscribe(model)).Returns(1);
 
             var controller = new NewsletterController(newsletterRepository.Object);
-
             var result = controller.Index(model);
+            Assert.IsType<OkResult>(result);
+        }
 
-            Assert.Equal(IActionResult, result);
+        [Fact]
+        public void InvalidSubscribe()
+        {
+            var controller = new NewsletterController(null);
+
+            controller.ModelState.AddModelError("Email", "Must be an email");
+
+            var result = controller.Index(new Newsletter());
+            Assert.IsType<BadRequestResult>(result);
         }
     }
 }

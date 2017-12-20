@@ -22,6 +22,7 @@ namespace TheConsultancyFirm.Controllers
         /// </summary>
         /// <param name="newsletter"></param>
         /// <returns>Status code to an ajax call</returns>
+        [HttpPost]
         public IActionResult Index(Newsletter newsletter)
         {
             ActionResult state;
