@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 
@@ -16,10 +13,10 @@ namespace TheConsultancyFirm.Repositories
             _context = context;
         }
 
-        public int Subscribe(Newsletter newsletter)
+        public Task SubscribeAsync(Newsletter newsletter)
         {
             _context.Add(newsletter);
-            return _context.SaveChanges();
+            return _context.SaveChangesAsync();
         }
     }
 }

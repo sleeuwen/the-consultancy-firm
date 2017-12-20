@@ -4,33 +4,34 @@ using TheConsultancyFirm.Controllers;
 using TheConsultancyFirm.Models;
 using Xunit;
 using TheConsultancyFirm.Repositories;
-using System.Net;
+using System.Threading.Tasks;
 
 namespace TheConsultancyFirm.Tests.Controllers
 {
     public class NewsletterControllerTest
     {
         [Fact]
-        public void ValidSubscribe()
+        public async void ValidSubscribe()
         {
-            var model = new Newsletter() { Email = "info@valid.com" };
+            var model = new Newsletter { Email = "info@valid.com" };
 
             var newsletterRepository = new Mock<INewsletterRepository>();
-            newsletterRepository.Setup(news => news.Subscribe(model)).Returns(1);
+            newsletterRepository.Setup(repo => repo.SubscribeAsync(model))
+                .Returns(Task.FromResult(1));
 
             var controller = new NewsletterController(newsletterRepository.Object);
-            var result = controller.Index(model);
+            var result = await controller.Subscribe(model);
             Assert.IsType<OkResult>(result);
         }
 
         [Fact]
-        public void InvalidSubscribe()
+        public async void InvalidSubscribe()
         {
             var controller = new NewsletterController(null);
 
             controller.ModelState.AddModelError("Email", "Must be an email");
 
-            var result = controller.Index(new Newsletter());
+            var result = await controller.Subscribe(new Newsletter());
             Assert.IsType<BadRequestResult>(result);
         }
     }
