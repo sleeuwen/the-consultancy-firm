@@ -1,0 +1,33 @@
+@import '../variables';
+
+.arrow {
+    width: 20px;
+    height: 30px;
+    margin-left: 5px;
+}
+
+.flexcase {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    &::before {
+        content: '';
+        position: absolute;
+        transition: all .5s ease-in-out;
+    }
+}
+
+.fluidpadding {
+    padding: 0 35px;
+}
+
+img {
+    max-width: 100%;
+}
+
+@media screen and (min-width: $break-xlarge) {
+    .container-wide {
+        max-width: 1300px;
+    }
+}

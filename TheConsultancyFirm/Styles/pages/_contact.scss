@@ -1,0 +1,104 @@
+﻿@import '../variables';
+
+.pageheader {
+    color: white;
+    position: relative;
+    padding: 10rem 0;
+    margin: 2rem;
+    height: initial;
+    background: no-repeat center;
+    background-size: cover;
+
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: rgba($black, .45);
+    }
+
+    h1 {
+        margin: 1rem 0;
+    }
+}
+
+.contact {
+    margin-bottom: 4rem;
+
+    .pageheader {
+        margin: 0;
+    }
+
+    .locationmap {
+        padding: 0;
+
+        img {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .row {
+        margin: 0;
+    }
+
+    .contactinfo {
+        background: black;
+        padding: 1rem;
+        color: white;
+
+        @media screen and (min-width: $break-medium) {
+            padding: 2rem;
+        }
+
+        @media screen and (min-width: $break-xlarge) {
+            padding: 3rem;
+        }
+
+        .buttonHover {
+            font-weight: $bold;
+            font-size: 16px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                line-height: 2.5rem;
+            }
+
+            a {
+                color: $white;
+
+                &:hover {
+                    text-decoration: none;
+                    color: $grey;
+                }
+            }
+
+            .fa {
+                width: 25px;
+                text-align: center;
+                margin-right: .5rem;
+            }
+        }
+    }
+}
+
+#contact-form {
+    margin-bottom: 10rem;
+
+    .buttonHover {
+        background: transparent;
+        float: right;
+        font-size: 18px;
+
+        &:hover {
+            color: $black !important;
+        }
+    }
+}
