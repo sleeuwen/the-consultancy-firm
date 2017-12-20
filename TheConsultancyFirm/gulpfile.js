@@ -27,6 +27,14 @@ gulp.task("sass", function () {
         .pipe(sourcemaps.write())
         .pipe(gulp.dest("wwwroot/css"));
 });
+gulp.task("sass:dashboard", function () {
+    return gulp.src("Styles/dashboard.scss")
+        .pipe(sourcemaps.init())
+        .pipe(sass().on("error", sass.logError))
+        .pipe(autoprefixer())
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest("wwwroot/css"));
+});
 
 gulp.task("min", ["min:js", "min:css", "min:html"]);
 
@@ -41,7 +49,7 @@ gulp.task("min:js", function () {
     return merge(tasks);
 });
 
-gulp.task("min:css", ["sass"], function () {
+gulp.task("min:css", ["sass", "sass:dashboard"], function () {
     var tasks = getBundles(regex.css).map(function (bundle) {
         return gulp.src(bundle.inputFiles, { base: "." })
             .pipe(concat(bundle.outputFileName))
@@ -72,7 +80,7 @@ gulp.task("clean", function () {
 });
 
 gulp.task("watch", ["min"], function () {
-    gulp.watch("Styles/**/*.scss", ["sass"]);
+    gulp.watch("Styles/**/*.scss", ["min:css"]);
 
     getBundles(regex.js).forEach(function (bundle) {
         gulp.watch(bundle.inputFiles, ["min:js"]);
