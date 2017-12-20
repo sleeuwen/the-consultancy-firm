@@ -11,7 +11,7 @@ namespace TheConsultancyFirm.Controllers
         [Route("Error/Index/{statusCode:int?}")]
         public IActionResult Index(int? statusCode = null)
         {
-            //ViewData["Title"] = "NotFound";
+            ViewData["Title"] = "Ojee een " + statusCode + " pagina";
             return View("~/Views/Shared/Error.cshtml");
         }
     }
