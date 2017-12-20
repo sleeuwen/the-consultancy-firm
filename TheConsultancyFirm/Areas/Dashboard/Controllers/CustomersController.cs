@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
@@ -14,10 +14,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     public class CustomersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IHostingEnvironment _environment;
 
-        public CustomersController(ApplicationDbContext context)
+		public CustomersController(ApplicationDbContext context, IHostingEnvironment environment)
         {
             _context = context;
+	        _environment = environment;
+
         }
 
         // GET: Dashboard/Customers
@@ -55,11 +58,24 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,LogoPath,Link")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,Name,Image,Link")] Customer customer)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(customer);
+	            if (customer.Image.Length > 0)
+	            {
+		            customer.Image.FileName.Replace(" ", "");
+					var filePath = Path.Combine(_environment.WebRootPath + "/images/CustomerLogos", customer.Image.FileName);
+		            using (var fileStream = new FileStream(filePath, FileMode.Create))
+		            {
+			            await customer.Image.CopyToAsync(fileStream);
+		            }
+	            }
+	            else
+	            {
+		            ModelState.AddModelError("Image", "Filesize to small");
+	            }
+				_context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

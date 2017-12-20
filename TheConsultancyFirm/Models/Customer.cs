@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 
 namespace TheConsultancyFirm.Models
 {
@@ -14,5 +16,8 @@ namespace TheConsultancyFirm.Models
 
         public List<Case> Cases { get; set; }
         public List<CustomerSolution> CustomerSolutions { get; set; }
-    }
+
+		[NotMapped]
+	    public IFormFile Image { get; set; }
+	}
 }
