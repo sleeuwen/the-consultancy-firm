@@ -8,12 +8,12 @@ namespace TheConsultancyFirm.Controllers
     public class CasesController : Controller
     {
         private readonly IRelatedItemsService _relatedItemsService;
-	    private readonly ICaseRepository _caseRepository;
+        private readonly ICaseRepository _caseRepository;
 
-		public CasesController(IRelatedItemsService relatedItemsService, ICaseRepository caseRepository)
+        public CasesController(IRelatedItemsService relatedItemsService, ICaseRepository caseRepository)
         {
             _relatedItemsService = relatedItemsService;
-	        _caseRepository = caseRepository;
+            _caseRepository = caseRepository;
         }
 
         public IActionResult Index()
@@ -23,7 +23,9 @@ namespace TheConsultancyFirm.Controllers
 
         public IActionResult Details(int id)
         {
-	        var caseItem = _caseRepository.Get(id);
+            var caseItem = _caseRepository.Get(id);
+            if (caseItem == null) return NotFound();
+
             _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
             return View();
         }
