@@ -1,0 +1,12 @@
+@import 'variables';
+
+// Abstracts
+@import 'abstracts/typography';
+
+// Partials
+@import 'partials/header';
+@import 'partials/dashboard/header';
+@import 'partials/dashboard/sidenav';
+
+// Pages
+@import 'pages/dashboard/layout';
