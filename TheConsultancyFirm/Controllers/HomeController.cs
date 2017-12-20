@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Models;
-using Microsoft.AspNetCore.Diagnostics;
 
 namespace TheConsultancyFirm.Controllers
 {
