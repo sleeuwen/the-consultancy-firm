@@ -1,4 +1,4 @@
-﻿@import 'variables';
+﻿@import '../variables';
 
 #solutionOuter {
     display: flex;
@@ -8,11 +8,11 @@
     padding-bottom: 50px;
     padding-right: 15px;
     height: 100%;
-    margin: 0px auto;
+    margin: 0 auto;
 
     .card {
         margin-bottom: 2rem;
-        box-shadow: 0 2px 5px 0px $lightGrey;
+        box-shadow: 0 2px 5px 0 $lightGrey;
         padding-bottom: 30px;
     }
 

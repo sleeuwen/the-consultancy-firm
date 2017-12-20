@@ -1,0 +1,32 @@
+@import '../variables';
+
+.paging {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+
+    ul {
+        list-style: none;
+        padding-left: 0;
+
+        li {
+            display: inline;
+            font-size: 20px;
+            margin: 0 5px;
+            font-weight: $bold;
+
+            a {
+                color: $black;
+
+                &:hover {
+                    color: $orange;
+                    cursor: pointer;
+                }
+
+                &.disabled {
+                    color: $grey;
+                }
+            }
+        }
+    }
+}

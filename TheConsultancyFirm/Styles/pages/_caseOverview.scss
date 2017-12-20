@@ -1,4 +1,4 @@
-﻿@import 'variables';
+﻿@import '../variables';
 
 .caseoverview {
     width: 100%;
@@ -16,11 +16,11 @@
         color: $white;
 
         &::before {
-            top: 0px;
-            bottom: 0px;
-            right: 0px;
-            left: 0px;
-            background: rgba(26, 25, 25, 0.45);
+            top: 0;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            background: rgba($black, 0.45);
         }
     }
 
@@ -42,7 +42,7 @@
         width: 176px;
     }
 
-    @media screen and (max-width: $break-medium) {
+    @media screen and (max-width: $break-medium - 1px) {
         height: 300px;
 
         .innercaseoverview {
@@ -78,7 +78,7 @@
         margin-top: 75px;
     }
 
-    @media screen and (max-width: $break-small) {
+    @media screen and (max-width: $break-small - 1px) {
         .logos {
             width: 100%;
         }

@@ -1,4 +1,4 @@
-﻿@import 'variables';
+﻿@import '../variables';
 
 .buttonHover {
     position: relative;
@@ -9,7 +9,6 @@
     transition: all 0.2s $cubic-bezier 0s;
     padding: 0.575em 1.428571429em;
     color: inherit;
-    
 
     &::after {
         content: '';
@@ -40,11 +39,13 @@
             background: $orange;
             transition: transform 0.2s $cubic-bezier;
         }
+
         // Left & Right Border
         &:first-child {
             height: 100%;
 
-            &::before, &::after {
+            &::before,
+            &::after {
                 width: 1px;
                 height: 100%;
                 bottom: 0;
@@ -61,12 +62,15 @@
                 right: 0;
             }
         }
+
         // Top Borders
         &:last-child {
             width: 100%;
             height: 1px;
+
             // Scale them down with scale3d to prevent jittering
-            &::before, &::after {
+            &::before,
+            &::after {
                 height: 1px;
                 width: 100%;
                 bottom: 0;
@@ -85,6 +89,7 @@
             }
         }
     }
+
     // The Magic! Animate Border Drawing on Hover
     &:hover {
         opacity: 1;
@@ -92,7 +97,8 @@
         color: $white !important;
         text-decoration: none;
         transition: color 0.2s $cubic-bezier 0s;
-        /* Positioning */
+
+        // Positioning
         &::after {
             width: 100%;
             background: $orange;
@@ -100,10 +106,10 @@
         }
 
         span {
-
             &:first-child {
                 // The scale3d is what grows the element
-                &::before, &::after {
+                &::before,
+                &::after {
                     transform: scale3d(1, 1, 1);
                     background: $orange;
                     transition: transform 0.2s $cubic-bezier 0.2s, background 0.2s $cubic-bezier 0s;
@@ -111,7 +117,8 @@
             }
 
             &:last-child {
-                &::before, &::after {
+                &::before,
+                &::after {
                     transform: scale3d(1, 1, 1);
                     background: $orange;
                     transition: transform 0.2s $cubic-bezier 0.4s, background 0.2s $cubic-bezier 0s;

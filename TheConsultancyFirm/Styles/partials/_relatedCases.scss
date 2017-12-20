@@ -1,7 +1,7 @@
-﻿@import 'variables';
+﻿@import '../variables';
 
 .relateditem {
-    height: 320px;
+    height: 275px;
     padding: 10px;
 
     .innerrelateditem {
@@ -18,17 +18,17 @@
             bottom: 10px;
             right: 10px;
             left: 10px;
-            background: rgba(26, 25, 25, 0.55);
+            background: rgba($black, 0.55);
         }
 
         &:hover::before {
-            background: rgba(26, 25, 25, 0.35);
+            background: rgba($black, 0.35);
         }
     }
 
     p {
         z-index: 1;
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
 
     h3 {
@@ -41,7 +41,7 @@
         width: 134px;
     }
 
-    @media screen and (max-width: $break-large) {
+    @media screen and (max-width: $break-large - 1px) {
         .innerrelateditem {
             padding-left: 20px;
         }
@@ -52,8 +52,8 @@
         }
     }
 
-    @media screen and (max-width: $break-medium) {
-        height: 275px;
+    @media screen and (min-width: $break-medium) {
+        height: 320px;
     }
 }
 
