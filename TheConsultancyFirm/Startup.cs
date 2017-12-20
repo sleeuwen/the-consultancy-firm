@@ -56,10 +56,10 @@ namespace TheConsultancyFirm
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
+
+                //Controller/Action/Statuscode
+                app.UseStatusCodePagesWithRedirects("/Error/Errors/{0}");
+                //app.UseStatusCodePagesWithReExecute("/Error/Errors/{0}");
 
             app.UseStaticFiles();
 
