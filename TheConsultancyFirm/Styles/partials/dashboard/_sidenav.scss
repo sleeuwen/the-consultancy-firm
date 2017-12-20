@@ -1,0 +1,85 @@
+@import '../../variables';
+
+.sidenav {
+    background: $sidebarBg;
+    color: $white;
+    flex-shrink: 0;
+    padding: 1rem 0;
+}
+
+.toc-item {
+    padding: .5rem 2rem;
+    font-family: 'Raleway', sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+
+    @media screen and (min-width: $break-medium) {
+        font-size: 21px;
+        line-height: 30px;
+    }
+
+    a,
+    span {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    > a,
+    > span {
+        font-weight: $bold;
+        color: $sidebarTitle;
+    }
+
+    > a {
+        &:hover,
+        &.active {
+            color: $white;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin-top: .5rem;
+    }
+
+    li {
+        font-family: 'Raleway', sans-serif;
+        font-size: 14px;
+        line-height: 23px;
+        color: $darkGrey;
+        font-weight: $regular;
+        padding: .25rem 0;
+
+        @media screen and (min-width: $break-medium) {
+            font-size: 16px;
+            line-height: 25px;
+        }
+
+        a {
+            color: $darkGrey;
+            text-decoration: none;
+
+            &:hover,
+            &.active {
+                color: $white;
+                text-decoration: none !important;
+                cursor: pointer;
+            }
+        }
+    }
+
+    .badge {
+        display: inline-block;
+        width: 2em;
+        height: 2em;
+        line-height: 1.5em;
+        text-align: center;
+        background: $turquoise;
+        color: $white;
+        border-radius: 50%;
+    }
+}

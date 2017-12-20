@@ -24,27 +24,23 @@ namespace TheConsultancyFirm
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-			//Services
-            services.AddTransient<IRelatedItemsService, RelatedItemsService>();
+            //Services
             services.AddSingleton<IMailService, MailService>();
-          
-			//Repositories
+            services.AddScoped<IRelatedItemsService, RelatedItemsService>();
+
+            //Repositories
             services.AddScoped<ICaseRepository, CaseRepository>();
             services.AddScoped<ISolutionRepository, SolutionRepository>();
             services.AddScoped<INewsRepository, NewsRepository>();
             services.AddScoped<IDownloadRepository, DownloadRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
-          
-			services.AddDbContext<ApplicationDbContext>(options =>
+
+            services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
-            
-
-            
 
             services.Configure<MailSettings>(Configuration.GetSection("Mail"));
 
@@ -70,6 +66,10 @@ namespace TheConsultancyFirm
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areaRoute",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
