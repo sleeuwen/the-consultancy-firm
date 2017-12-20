@@ -8,9 +8,11 @@ namespace TheConsultancyFirm.Controllers
 {
     public class ErrorController : Controller
     {
-        public IActionResult Error(string id)
+        [Route("Error/Index/{statusCode:int?}")]
+        public IActionResult Index(int? statusCode = null)
         {
-            ViewData["Title"] = "NotFound";
-            ViewData["StatusError"] = id;
+            //ViewData["Title"] = "NotFound";
+            return View("~/Views/Shared/Error.cshtml");
+        }
     }
 }

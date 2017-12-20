@@ -57,10 +57,7 @@ namespace TheConsultancyFirm
                 app.UseDatabaseErrorPage();
             }
 
-                //Controller/Action/Statuscode
-                app.UseStatusCodePagesWithRedirects("/Error/Errors/{0}");
-                //app.UseStatusCodePagesWithReExecute("/Error/Errors/{0}");
-
+            app.UseStatusCodePagesWithReExecute("/Error/Index", "?statusCode={0}");
             app.UseStaticFiles();
 
             app.UseAuthentication();
