@@ -256,20 +256,20 @@
     @model List<Case>
     @using TheConsultancyFirm.Models;
     @{        
-        QuoteBlock quote1 = (QuoteBlock)Model[0].Blocks[0];
-        QuoteBlock quote2 = (QuoteBlock)Model[1].Blocks[0];
+       // QuoteBlock quote1 = (QuoteBlock)Model[0].Blocks[0];
+       // QuoteBlock quote2 = (QuoteBlock)Model[1].Blocks[0];
             }
 
     <div class="row">
-        <div class="col-12 col-md-6 case" style="background-image: @Model[0].Image">
-            <p class="subtitle"> @Model[0].Title </p>
-            <h3 class="title">"@quote1.Text</h3>
+        <div class="col-12 col-md-6 case" style="background-image:url()">
+            <p class="subtitle"> @Model[1].Title </p>
+            <h3 class="title">"sasd</h3>
             <a href="#" class="buttonHover">VORIGE CASE</a>
         </div>
 
-        <div class="col-12 col-md-6 case" style="background-image: @Model[1].Image">
-            <p class="subtitle">@Model[1].Title</p>
-            <h3 class="title">"@quote2.Text</h3>
+        <div class="col-12 col-md-6 case" style="background-image: url()">
+            <p class="subtitle">@Model[0].Title</p>
+            <h3 class="title">"asd</h3>
             <a href="#" class="buttonHover">VOLGENDE CASE</a>
         </div>
     </div>

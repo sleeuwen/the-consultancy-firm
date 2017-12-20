@@ -2,6 +2,9 @@
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
+using System.Linq;
+using TheConsultancyFirm.Models;
+using System.Collections.Generic;
 
 namespace TheConsultancyFirm.Controllers
 {
@@ -23,9 +26,16 @@ namespace TheConsultancyFirm.Controllers
 
         public IActionResult Details(int id)
         {
-	        var caseItem = _caseRepository.Get(id);
+            var caseItem = _caseRepository.Get(id);
+            if (caseItem == null) return NotFound();
+            var surroundings = GetSurroundings(caseItem);
             _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
-            return View();
+            return View(surroundings);
+        }
+
+        public List<Case> GetSurroundings(Case c)
+        {
+            return _caseRepository.GetSurrounding(c);
         }
     }
 }

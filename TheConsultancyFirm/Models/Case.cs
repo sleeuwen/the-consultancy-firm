@@ -10,7 +10,7 @@ namespace TheConsultancyFirm.Models
         public Customer Customer { get; set; }
         public DateTime Date { get; set; }
         public DateTime LastModified { get; set; }
-        public string Image { get; set; }
+
         public List<Block> Blocks { get; set; }
         public List<CaseTag> CaseTags { get; set; }
     }

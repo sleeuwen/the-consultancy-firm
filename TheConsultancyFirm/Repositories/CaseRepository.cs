@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
@@ -23,5 +24,23 @@ namespace TheConsultancyFirm.Repositories
 		{
 			return _context.Cases;
 		}
-	}
+
+        public List<Case> GetSurrounding(Case c)
+        {
+            var surroundings = new List<Case>();
+            var previous = _context.Cases.OrderByDescending(i => i.Date).Where(i => i.Date < c.Date).Take(1).FirstOrDefault();
+            if (previous == null)
+            {
+                previous = _context.Cases.OrderByDescending(i => i.Date).FirstOrDefault();
+            }
+            var next = _context.Cases.OrderByDescending(i => i.Date).Where(i => i.Date > c.Date).Take(1).LastOrDefault();
+            if (next == null)
+            {
+                next = _context.Cases.OrderByDescending(i => i.Date).LastOrDefault();
+            }
+            surroundings.Add(previous);
+            surroundings.Add(next);
+            return surroundings;
+        }
+    }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TheConsultancyFirm.Models;
 
 namespace TheConsultancyFirm.Repositories
@@ -7,5 +8,6 @@ namespace TheConsultancyFirm.Repositories
 	{
 		Case Get(int id);
 		IQueryable<Case> GetAll();
+        List<Case> GetSurrounding(Case c);
 	}
 }
