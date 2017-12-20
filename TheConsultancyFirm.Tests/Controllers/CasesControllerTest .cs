@@ -85,8 +85,6 @@ namespace TheConsultancyFirm.Tests.Controllers
 
             Assert.Equal(-1, result);
             Assert.Equal(1, result2);
-
-
         }
     }
 }
