@@ -17,7 +17,6 @@ using TheConsultancyFirm.Models.ManageViewModels;
 namespace TheConsultancyFirm.Controllers
 {
     [Authorize]
-    [Route("[controller]/[action]")]
     public class ManageController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
