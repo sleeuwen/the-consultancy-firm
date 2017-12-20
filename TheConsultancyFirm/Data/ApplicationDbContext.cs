@@ -43,6 +43,10 @@ namespace TheConsultancyFirm.Data
 
             modelBuilder.Entity<CustomerSolution>()
                 .HasKey(cs => new {cs.SolutionId, cs.CustomerId});
+
+            modelBuilder.Entity<Newsletter>()
+                .HasIndex(n => n.Email)
+                .IsUnique();
         }
     }
 }

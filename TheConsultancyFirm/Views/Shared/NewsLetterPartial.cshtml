@@ -3,12 +3,19 @@
         <h2>
             Schrijf je in voor onze nieuwsbrief
         </h2>
+
         <p>
             Blijf op de hoogte van onze nieuwste solutions en cases door je<br>
             in te schrijven voor onze nieuwsbrief!
         </p>
-        <form>
-            <input type="text" name="search" placeholder="Email">
+
+        <noscript>
+            @* TODO: Also allow subscribe to newsletter via form post instead of ajax. *@
+            <p>You need to enable javascript in order to subscribe for our newsletter.</p>
+        </noscript>
+
+        <form id="newsletterForm" method="post">
+            <input type="text" name="Email" placeholder="Email" data-container="body" data-toggle="popover" data-placement="left" data-content="De ingevulde email klopt niet.">
             <button type="submit">Inschrijven<img src="~/images/right-arrow-black.svg" alt="laad niet" class="arrow"></button>
         </form>
     </div>

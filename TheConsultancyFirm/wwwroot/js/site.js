@@ -2,6 +2,8 @@
 jQuery(function ($) {
     var $searchform = $('.search');
     var $navbar = $('.navbar');
+    var $newsletterForm = $('#newsletterForm');
+    var $newsletterInput = $newsletterForm.find('input[type=text]');
 
     $('.buttonHover').each(function () {
         $(this).append('<span></span><span></span>');
@@ -35,6 +37,36 @@ jQuery(function ($) {
             $(el).carousel(e.direction === "left" ? "next" : "prev");
         });
         $(el).carousel($following.find('.carousel-item.active').index());
+    });
+
+    $newsletterForm.submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Newsletter/Subscribe',
+            data: $newsletterForm.serialize(),
+            success: function () {
+                $newsletterInput.val('');
+                toastr.options.positionClass = 'toast-bottom-right';
+                toastr.success('Je bent nu aangemeld voor de nieuwsbrief!', 'Success!');
+            },
+            error: function () {
+                $newsletterInput.addClass('invalid');
+                $newsletterInput.popover('show');
+            }
+        });
+    });
+
+    // Remove the popover
+    $(document).click(function () {
+        $newsletterInput.popover('hide');
+    });
+
+    // Removes the red border
+    $newsletterInput.keypress(function () {
+        $newsletterInput.removeClass('invalid');
+        $newsletterInput.popover('hide');
     });
 });
 

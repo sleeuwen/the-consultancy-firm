@@ -13,6 +13,10 @@
         background-color: $backgroundGrey;
         outline: none !important;
         border-bottom: 1px solid $darkGrey;
+
+        &.invalid {
+            border-bottom: 1px solid $red;
+        }
     }
 
     form {
@@ -28,6 +32,12 @@
         background: transparent;
         border: 0;
         font-style: italic;
+        outline: none !important;
+
+        &:focus,
+        &:active {
+            outline: none !important;
+        }
     }
 
     @media screen and (min-width: $break-medium) {
