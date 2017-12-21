@@ -1,4 +1,4 @@
-﻿namespace TheConsultancyFirm.Models.Mail
+namespace TheConsultancyFirm.Models.Mail
 {
     public class MailSettings
     {

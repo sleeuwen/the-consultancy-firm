@@ -1,4 +1,4 @@
-﻿namespace TheConsultancyFirm.Models
+namespace TheConsultancyFirm.Models
 {
     public class SolutionTag
     {

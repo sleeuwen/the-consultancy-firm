@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TheConsultancyFirm.Controllers
 {
@@ -9,9 +9,9 @@ namespace TheConsultancyFirm.Controllers
             return View();
         }
 
-	    public IActionResult Detail()
-	    {
-		    return View();
-	    }
+        public IActionResult Detail()
+        {
+            return View();
+        }
     }
 }

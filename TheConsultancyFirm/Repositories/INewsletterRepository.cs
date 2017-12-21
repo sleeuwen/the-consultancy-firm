@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +8,6 @@ namespace TheConsultancyFirm.Repositories
 {
     public interface INewsletterRepository
     {
-         Task SubscribeAsync(Newsletter newsletter);
+        Task SubscribeAsync(Newsletter newsletter);
     }
 }
