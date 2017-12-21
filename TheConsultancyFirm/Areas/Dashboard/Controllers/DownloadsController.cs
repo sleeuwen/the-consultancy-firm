@@ -1,34 +1,32 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using TheConsultancyFirm.Repositories;
 
 namespace TheConsultancyFirm
 {
     [Area("Dashboard")]
     public class DownloadsController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _environment;
+        private readonly IDownloadRepository _downloadRepository;
 
-        public DownloadsController(ApplicationDbContext context, IHostingEnvironment environment)
+		public DownloadsController(IDownloadRepository downloadRepository, IHostingEnvironment environment)
         {
             _environment = environment;
-            _context = context;
-         
+	        _downloadRepository = downloadRepository;
         }
 
         // GET: Downloads
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Downloads.ToListAsync());
+            return View(await _downloadRepository.GetAll().ToListAsync());
         }
 
         // GET: Downloads/Details/5
@@ -39,8 +37,7 @@ namespace TheConsultancyFirm
                 return NotFound();
             }
 
-            var download = await _context.Downloads
-                .SingleOrDefaultAsync(m => m.Id == id);
+	        var download = await _downloadRepository.Get((int)id);
             if (download == null)
             {
                 return NotFound();
@@ -60,16 +57,17 @@ namespace TheConsultancyFirm
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,AmountOfDownloads,Date,File,LinkPath")] Download download)
+        public async Task<IActionResult> Create([Bind("Title,Description,File,LinkPath")] Download download)
         {
             
             if (ModelState.IsValid)
             {
-                if (download.File != null)
+                if (download.File?.Length > 0)
                 {
-                    download.LinkPath = "/files/" + download.File.FileName;
-
-                    using (var fileStream = new FileStream(_environment.WebRootPath + download.LinkPath, FileMode.Create))
+					download.Date = DateTime.UtcNow;
+                    download.LinkPath = "/files/" + download.File.FileName.Replace(" ","");
+	                Directory.CreateDirectory(_environment.WebRootPath + "/files");
+					using (var fileStream = new FileStream(_environment.WebRootPath + download.LinkPath, FileMode.Create))
                     {
                         await download.File.CopyToAsync(fileStream);
                     }
@@ -78,10 +76,8 @@ namespace TheConsultancyFirm
                 {
                     ModelState.AddModelError("File", "No File Chosen");
                 }
-                    
 
-                _context.Add(download);
-                await _context.SaveChangesAsync();
+	            await _downloadRepository.Create(download);
                 return RedirectToAction(nameof(Index));
             }
             return View(download);
@@ -95,7 +91,7 @@ namespace TheConsultancyFirm
                 return NotFound();
             }
 
-            var download = await _context.Downloads.SingleOrDefaultAsync(m => m.Id == id);
+	        var download = await _downloadRepository.Get((int) id);
             if (download == null)
             {
                 return NotFound();
@@ -108,10 +104,8 @@ namespace TheConsultancyFirm
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,AmountOfDownloads,Date,File,LinkPath")] Download download)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Date,File,LinkPath")] Download download)
         {
-
-            
             if (id != download.Id)
             {
                 return NotFound();
@@ -121,27 +115,30 @@ namespace TheConsultancyFirm
             {
                 if (download.File != null)
                 {
-                    download.LinkPath = "/files/" + download.File.FileName;
+					var file = new FileInfo(_environment.WebRootPath + download.LinkPath);
+	                if (file.Exists)
+	                {
+		                file.Delete();
+	                }
+	                download.LinkPath = "/files/" + download.File.FileName.Replace(" ", "");
 
-                    using (var fileStream = new FileStream(_environment.WebRootPath + download.LinkPath, FileMode.Create))
+					using (var fileStream = new FileStream(_environment.WebRootPath + download.LinkPath, FileMode.Create))
                     {
                         await download.File.CopyToAsync(fileStream);
                     }
-                }
-                else
+                }else if (string.IsNullOrWhiteSpace(download.LinkPath))
                 {
-                    ModelState.AddModelError("File", "No File Chosen");
-                }
-
+					ModelState.AddModelError("File", "No File Chosen");
+	                return View(download);
+				}
 
                 try
                 {
-                    _context.Update(download);
-                    await _context.SaveChangesAsync();
+	                await _downloadRepository.Update(download);
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DownloadExists(download.Id))
+                    if (!await DownloadExists(download.Id))
                     {
                         return NotFound();
                     }
@@ -163,8 +160,7 @@ namespace TheConsultancyFirm
                 return NotFound();
             }
 
-            var download = await _context.Downloads
-                .SingleOrDefaultAsync(m => m.Id == id);
+	        var download = await _downloadRepository.Get((int) id);
             if (download == null)
             {
                 return NotFound();
@@ -178,15 +174,19 @@ namespace TheConsultancyFirm
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var download = await _context.Downloads.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Downloads.Remove(download);
-            await _context.SaveChangesAsync();
+	        var download = await _downloadRepository.Get(id);
+	        var file = new FileInfo(_environment.WebRootPath + download.LinkPath);
+	        if (file.Exists)
+	        {
+		        file.Delete();
+	        }
+			await _downloadRepository.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool DownloadExists(int id)
+        private async Task<bool> DownloadExists(int id)
         {
-            return _context.Downloads.Any(e => e.Id == id);
+            return await _downloadRepository.Get(id) != null;
         }
     }
 }
