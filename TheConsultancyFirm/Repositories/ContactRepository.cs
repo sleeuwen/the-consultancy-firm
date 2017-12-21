@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using System.Threading.Tasks;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 
@@ -17,6 +19,11 @@ namespace TheConsultancyFirm.Repositories
         {
             _context.Add(contact);
             return _context.SaveChangesAsync();
+        }
+
+        public IQueryable<Contact> GetAll()
+        {
+            return _context.Contacts;
         }
     }
 }

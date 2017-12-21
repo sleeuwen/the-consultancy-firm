@@ -7,26 +7,27 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
+using TheConsultancyFirm.Repositories;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
     public class ContactsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IContactRepository _repository;
 
-        public ContactsController(ApplicationDbContext context)
+        public ContactsController(IContactRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
         // GET: Dashboard/Contacts
         public async Task<IActionResult> Index()
         {
             ViewData["Title"] = "Berichten";
-            return View(await _context.Contacts.ToListAsync());
+            return View(await _repository.GetAll().ToListAsync());
         }
-
+        
         // GET: Dashboard/Contacts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -36,8 +37,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var contact = await _context.Contacts
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var contact = await _repository.GetAll().SingleOrDefaultAsync(m => m.Id == id);
             if (contact == null)
             {
                 return NotFound();
@@ -46,38 +46,38 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return View(contact);
         }
 
-        // GET: Dashboard/Contacts/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        //// GET: Dashboard/Contacts/Delete/5
+        //public async Task<IActionResult> Delete(int? id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            var contact = await _context.Contacts
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
+        //    var contact = await _context.Contacts
+        //        .SingleOrDefaultAsync(m => m.Id == id);
+        //    if (contact == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            return View(contact);
-        }
+        //    return View(contact);
+        //}
 
-        // POST: Dashboard/Contacts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var contact = await _context.Contacts.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Contacts.Remove(contact);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        //// POST: Dashboard/Contacts/Delete/5
+        //[HttpPost, ActionName("Delete")]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> DeleteConfirmed(int id)
+        //{
+        //    var contact = await _context.Contacts.SingleOrDefaultAsync(m => m.Id == id);
+        //    _context.Contacts.Remove(contact);
+        //    await _context.SaveChangesAsync();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
-        private bool ContactExists(int id)
-        {
-            return _context.Contacts.Any(e => e.Id == id);
-        }
+        //private bool ContactExists(int id)
+        //{
+        //    return _context.Contacts.Any(e => e.Id == id);
+        //}
     }
 }

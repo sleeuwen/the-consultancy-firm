@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using TheConsultancyFirm.Models;
 
 namespace TheConsultancyFirm.Repositories
@@ -6,5 +7,6 @@ namespace TheConsultancyFirm.Repositories
     public interface IContactRepository
     {
         Task AddAsync(Contact contact);
+        IQueryable<Contact> GetAll();
     }
 }
