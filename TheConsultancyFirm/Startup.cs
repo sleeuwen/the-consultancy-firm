@@ -35,6 +35,7 @@ namespace TheConsultancyFirm
             services.AddScoped<IDownloadRepository, DownloadRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
+            services.AddScoped<INewsletterRepository, NewsletterRepository>();
 
 			services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -56,11 +57,8 @@ namespace TheConsultancyFirm
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
 
+            app.UseStatusCodePagesWithReExecute("/Error/Index", "?statusCode={0}");
             app.UseStaticFiles();
 
             app.UseAuthentication();
