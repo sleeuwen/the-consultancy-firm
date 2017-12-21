@@ -43,7 +43,16 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
+            contact.Readed = true;
+
+            await _repository.Update(contact);
+
             return View(contact);
+        }
+
+        public int CountUnreaded()
+        {
+            return _repository.CountUnreaded();
         }
 
         //// GET: Dashboard/Contacts/Delete/5

@@ -8,5 +8,7 @@ namespace TheConsultancyFirm.Repositories
     {
         Task AddAsync(Contact contact);
         IQueryable<Contact> GetAll();
+        Task Update(Contact contact);
+        int CountUnreaded();
     }
 }

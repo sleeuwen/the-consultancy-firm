@@ -21,9 +21,20 @@ namespace TheConsultancyFirm.Repositories
             return _context.SaveChangesAsync();
         }
 
+        public int CountUnreaded()
+        {
+            return _context.Contacts.Count(c => c.Readed == false);
+        }
+
         public IQueryable<Contact> GetAll()
         {
             return _context.Contacts;
+        }
+
+        public Task Update(Contact contact)
+        {
+            _context.Update(contact);
+            return _context.SaveChangesAsync();
         }
     }
 }
