@@ -1,0 +1,142 @@
+@import '../../variables';
+
+.block {
+    margin: 2px 0;
+    color: $white;
+}
+
+.block-header {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: $blockBg;
+
+    strong {
+        color: $white;
+    }
+
+    .expand {
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        text-align: center;
+        color: white;
+        margin-right: 1rem;
+
+        &::before {
+            content: '\f067';
+            font-family: FontAwesome, sans-serif;
+            font-size: 1.5em;
+            line-height: 50px;
+
+            .open > & {
+                content: '\f068';
+            }
+        }
+
+        &:hover {
+            cursor: pointer;
+            background: $sidebarBg;
+        }
+
+        .open > & {
+            background: $sidebarBg;
+        }
+    }
+
+    .delete {
+        width: 50px;
+        height: 50px;
+        display: inline-block;
+        text-align: center;
+        color: $sidebarTitle;
+
+        &::before {
+            content: '\f014';
+            font-family: FontAwesome, sans-serif;
+            font-size: 1.5em;
+            line-height: 50px;
+        }
+
+        &:hover {
+            cursor: pointer;
+            color: $white;
+        }
+    }
+
+    .modifiedat {
+        color: $sidebarTitle;
+        margin-left: auto;
+        margin-right: 2rem;
+    }
+
+    .handle {
+        height: 100%;
+        width: 35px;
+        padding: 1rem 0px;
+
+        &:hover {
+            cursor: all-scroll;
+        }
+    }
+}
+
+.block-content {
+    display: none;
+    background: $sidebarBg;
+    padding: 1rem;
+    color: $white;
+
+    input,
+    textarea {
+        background: $blockBg !important;
+        border: 0;
+        color: $white !important;
+
+        &::placeholder {
+            color: rgba(255, 255, 255, .3);
+        }
+
+        &:focus {
+            box-shadow: 0px 0px 0px .2rem rgba($white, .15);
+        }
+    }
+}
+
+.sortable-ghost {
+    opacity: .5;
+}
+
+.savebar {
+    position: sticky;
+    background: $white;
+    bottom: -1rem;
+    padding: 1rem 0px;
+    left: 0px;
+    right: 0px;
+    height: 70px;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    margin-top: .5rem;
+}
+
+.modal-xl {
+    max-width: 1100px;
+}
+
+.block-choice {
+    .thumbnail {
+        overflow: hidden;
+        border: 1px solid $black;
+        border-radius: 2rem;
+    }
+
+    img {
+        max-width: 100%;
+        transition: transform .3s ease-in-out;
+    }
+
+    &:hover img {
+        transform: scale(1.075);
+    }
+}
