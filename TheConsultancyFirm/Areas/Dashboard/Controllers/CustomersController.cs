@@ -58,27 +58,25 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Image,Link")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Name,Image,Link")] Customer customer)
         {
-            if (ModelState.IsValid)
-            {
-	            if (customer.Image.Length > 0)
-	            {
-		            customer.Image.FileName.Replace(" ", "");
-					customer.LogoPath = "/images/CustomerLogos/" + customer.Image.FileName;
-		            using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
-		            {
-			            await customer.Image.CopyToAsync(fileStream);
-		            }
-	            }
-	            else
-	            {
-		            ModelState.AddModelError("Image", "Filesize to small");
-	            }
-				await _customerRepository.Create(customer);
-                return RedirectToAction(nameof(Index));
-            }
-            return View(customer);
+	        if (!ModelState.IsValid) return View(customer);
+
+	        if (customer.Image.Length > 0)
+	        {
+		        var extension = Path.GetExtension(customer.Image.FileName);
+				customer.LogoPath = "/images/CustomerLogos/" + customer.Name + extension;
+		        using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
+		        {
+			        await customer.Image.CopyToAsync(fileStream);
+		        }
+	        }
+	        else
+	        {
+		        ModelState.AddModelError("Image", "Filesize to small");
+	        }
+	        await _customerRepository.Create(customer);
+	        return RedirectToAction(nameof(Index));
         }
 
         // GET: Dashboard/Customers/Edit/5
@@ -109,41 +107,38 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
+	        if (!ModelState.IsValid) return View(customer);
+	        try
+	        {
 
-	                if (customer.Image.Length > 0)
-	                {
-		                FileInfo file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
-		                if (file.Exists)
-		                {
-			                file.Delete();
-		                }
-						customer.Image.FileName.Replace(" ", "");
-		                customer.LogoPath = "/images/CustomerLogos/" + customer.Image.FileName;
-		                using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
-		                {
-			                await customer.Image.CopyToAsync(fileStream);
-		                }
-	                }
-					await _customerRepository.Update(customer);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(customer);
+		        if (customer.Image.Length > 0)
+		        {
+			        var file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
+			        if (file.Exists)
+			        {
+				        file.Delete();
+			        }
+					var extension = Path.GetExtension(customer.Image.FileName);
+			        customer.LogoPath = "/images/CustomerLogos/" + customer.Name + extension;
+			        using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
+			        {
+				        await customer.Image.CopyToAsync(fileStream);
+			        }
+		        }
+		        await _customerRepository.Update(customer);
+	        }
+	        catch (DbUpdateConcurrencyException)
+	        {
+		        if (!CustomerExists(customer.Id))
+		        {
+			        return NotFound();
+		        }
+		        else
+		        {
+			        throw;
+		        }
+	        }
+	        return RedirectToAction(nameof(Index));
         }
 
         // GET: Dashboard/Customers/Delete/5
