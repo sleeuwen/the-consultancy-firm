@@ -1,3 +1,5 @@
+﻿@model CaseDetailViewModel
+
 @{
     ViewBag.Title = "Nationale-Nederlanden";
     Layout = "_Layout";
@@ -201,7 +203,7 @@
 
             <img src="~/images/foto1.png"/>
 
-            <h3>Output als enabler</h3>
+            <h3>Output als enabler </h3>
 
             <p>
                 Het was al snel duidelijk dat de complexiteit en omvang van het project om veertig
@@ -246,24 +248,27 @@
     @Html.Partial("RelatedCasesPartial")
 </div>
 
-<div class="container-fluid extra-cases">
-    <div class="row">
-        <div class="col">
-            <h2 class="text-center">Andere cases</h2>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-12 col-md-6 case" style="background-image: url(/images/foto1.png)">
-            <p class="subtitle">Banque Artesia</p>
-            <h3 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h3>
-            <a href="#" class="buttonHover">VORIGE CASE</a>
+@if (Model.Next != null && Model.Previous != null)
+{
+    <div class="container-fluid extra-cases">
+        <div class="row">
+            <div class="col">
+                <h2 class="text-center">Andere cases</h2>
+            </div>
         </div>
 
-        <div class="col-12 col-md-6 case" style="background-image: url(/images/foto1.png)">
-            <p class="subtitle">van Hessen</p>
-            <h3 class="title">"Elke klant wordt nu op de juiste manier benaderd</h3>
-            <a href="#" class="buttonHover">VOLGENDE CASE</a>
+        <div class="row">
+            <div class="col-12 col-md-6 case" style="background-image:url()">
+                <p class="subtitle"> @Model.Previous.Customer.Name</p>
+                <h3 class="title">@Model.Previous.Title</h3>
+                <a href="#" class="buttonHover">VORIGE CASE</a>
+            </div>
+
+            <div class="col-12 col-md-6 case" style="background-image: url()">
+                <p class="subtitle">@Model.Next.Customer.Name</p>
+                <h3 class="title">@Model.Next.Title</h3>
+                <a href="#" class="buttonHover">VOLGENDE CASE</a>
+            </div>
         </div>
     </div>
-</div>
+}
