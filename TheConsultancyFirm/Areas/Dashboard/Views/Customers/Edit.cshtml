@@ -11,25 +11,25 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="invalid-feedback d-block"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <span asp-validation-for="Name" class="invalid-feedback d-block"></span>
             </div>
             <div class="form-group">
                 <input asp-for="LogoPath" type="hidden" />
                 <label asp-for="Image" class="control-label"></label>
                 <p>Current</p>
                 <img id="customer-detail-image" src="@Model.LogoPath">
-                <input asp-for="Image" class="form-control"/>
-                <span asp-validation-for="Image" class="text-danger"></span>
+                <input asp-for="Image" class="form-control" accept="image/x-png,image/jpg,image/jpeg"/>
+                <span asp-validation-for="Image" class="invalid-feedback d-block"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Link" class="control-label"></label>
                 <input asp-for="Link" class="form-control" />
-                <span asp-validation-for="Link" class="text-danger"></span>
+                <span asp-validation-for="Link" class="invalid-feedback d-block"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />

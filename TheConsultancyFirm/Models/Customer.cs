@@ -18,6 +18,6 @@ namespace TheConsultancyFirm.Models
         public List<CustomerSolution> CustomerSolutions { get; set; }
 
 		[NotMapped]
-	    public IFormFile Image { get; set; }
+		public IFormFile Image { get; set; }
 	}
 }

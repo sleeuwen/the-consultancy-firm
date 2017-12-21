@@ -65,8 +65,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 	        if (customer.Image.Length > 0)
 	        {
 		        var extension = Path.GetExtension(customer.Image.FileName);
-
-				customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ","") + extension;
+		        if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
+		        {
+			        ModelState.AddModelError("Image", "The uploaded file was not an image");
+			        return View(customer);
+				}
+		        customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ","") + extension;
 		        using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
 		        {
 			        await customer.Image.CopyToAsync(fileStream);
