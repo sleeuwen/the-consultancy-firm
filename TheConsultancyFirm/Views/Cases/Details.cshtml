@@ -247,31 +247,27 @@
     @Html.Partial("RelatedCasesPartial")
 </div>
 
-<div class="container-fluid extra-cases">
-    <div class="row">
-        <div class="col">
-            <h2 class="text-center">Andere cases</h2>
+@if (Model.Next != null && Model.Previous != null)
+{
+    <div class="container-fluid extra-cases">
+        <div class="row">
+            <div class="col">
+                <h2 class="text-center">Andere cases</h2>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12 col-md-6 case" style="background-image:url()">
+                <p class="subtitle"> @Model.Previous.Customer.Name</p>
+                <h3 class="title">@Model.Previous.Title</h3>
+                <a href="#" class="buttonHover">VORIGE CASE</a>
+            </div>
+
+            <div class="col-12 col-md-6 case" style="background-image: url()">
+                <p class="subtitle">@Model.Next.Customer.Name</p>
+                <h3 class="title">@Model.Next.Title</h3>
+                <a href="#" class="buttonHover">VOLGENDE CASE</a>
+            </div>
         </div>
     </div>
-
-    @model List<Case>
-    @using TheConsultancyFirm.Models;
-    @{        
-       // QuoteBlock quote1 = (QuoteBlock)Model[0].Blocks[0];
-       // QuoteBlock quote2 = (QuoteBlock)Model[1].Blocks[0];
-            }
-
-    <div class="row">
-        <div class="col-12 col-md-6 case" style="background-image:url()">
-            <p class="subtitle"> @Model[1].Title </p>
-            <h3 class="title">"sasd</h3>
-            <a href="#" class="buttonHover">VORIGE CASE</a>
-        </div>
-
-        <div class="col-12 col-md-6 case" style="background-image: url()">
-            <p class="subtitle">@Model[0].Title</p>
-            <h3 class="title">"asd</h3>
-            <a href="#" class="buttonHover">VOLGENDE CASE</a>
-        </div>
-    </div>
-</div>
+}

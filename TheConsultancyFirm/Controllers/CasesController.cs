@@ -5,6 +5,8 @@ using TheConsultancyFirm.Services;
 using System.Linq;
 using TheConsultancyFirm.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using TheConsultancyFirm.ViewModels;
 
 namespace TheConsultancyFirm.Controllers
 {
@@ -24,19 +26,28 @@ namespace TheConsultancyFirm.Controllers
             return View();
         }
 
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var caseItem = _caseRepository.Get(id);
+            var caseItem = await _caseRepository.Get(id);
             if (caseItem == null) return NotFound();
-            var surroundings = GetSurroundings(caseItem);
+            var Adjacents = await GetAdjacent(caseItem);
             
-            _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
-            return View(surroundings);
+            var relatedItems = _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
+
+	        var model = new CaseDetailViewModel
+	        {
+		        CaseItem = caseItem,
+				ContentItems = relatedItems,
+				Next = Adjacents.Next,
+				Previous = Adjacents.Previous
+
+			};
+            return View(model);
         }
 
-        public List<Case> GetSurroundings(Case c)
+        public async Task<(Case Previous, Case Next)> GetAdjacent(Case c)
         {
-            return _caseRepository.GetSurrounding(c);
+            return await _caseRepository.GetAdjacent(c);
         }
     }
 }
