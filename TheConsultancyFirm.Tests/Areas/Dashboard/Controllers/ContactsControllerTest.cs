@@ -12,12 +12,14 @@ namespace TheConsultancyFirm.Tests.Controllers
     public class ContactsControllerTest
     {
         [Fact]
-        public void Index()
+        public async Task Index()
         {
-            var controller = new ContactsController(null);
-            var result = controller.Index();
-
-            Assert.IsType<ViewResult>(Task.FromResult(result));
+            var contactRepository = new Mock<IContactRepository>();
+            var controller = new ContactsController(contactRepository.Object);
+            var actionResultTask = await controller.Index();;
+            var result = actionResultTask as ViewResult;
+            Assert.NotNull(result);
+            Assert.IsType<ViewResult>(result);
         }
 
         [Fact]

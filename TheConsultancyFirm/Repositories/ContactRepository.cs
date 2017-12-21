@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
+using System.Collections.Generic;
 
 namespace TheConsultancyFirm.Repositories
 {
@@ -26,7 +26,7 @@ namespace TheConsultancyFirm.Repositories
             return _context.Contacts.Count(c => c.Readed == false);
         }
 
-        public IQueryable<Contact> GetAll()
+        public IEnumerable<Contact> GetAll()
         {
             return _context.Contacts;
         }

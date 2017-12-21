@@ -25,7 +25,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["Title"] = "Berichten";
-            return View(await _repository.GetAll().ToListAsync());
+            return View(await _repository.GetAll().ToAsyncEnumerable().ToList());
         }
         
         // GET: Dashboard/Contacts/Details/5
@@ -37,7 +37,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var contact = await _repository.GetAll().SingleOrDefaultAsync(m => m.Id == id);
+            var contact = await _repository.GetAll().ToAsyncEnumerable().SingleOrDefault(m => m.Id == id);
             if (contact == null)
             {
                 return NotFound();
