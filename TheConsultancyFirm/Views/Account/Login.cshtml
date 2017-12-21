@@ -7,7 +7,6 @@
 
 @{
     ViewData["Title"] = "Inloggen";
-    Layout = "_LoginLayout";
 }
 
 <div class="skylineBlur">
@@ -51,36 +50,22 @@
             </section>
 
             <section>
-
                 @{
                     var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
-    {
-        <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-            <div>
-                <p>
-                    @foreach (var provider in loginProviders)
-                    {
-                        <button type="submit" class="loginBtn loginBtn--google btn-block" name="provider" value="@provider.Name" title="Log in met uw @provider.DisplayName account">Log in met @provider.Name</button>
-                    }
-                </p>
-            </div>
-        </form>
-    }
                 }
+                <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                    <div>
+                        <p>
+                            @foreach (var provider in loginProviders)
+                            {
+                                <button type="submit" class="loginBtn loginBtn--google btn-block" name="provider" value="@provider.Name" title="Log in met uw @provider.DisplayName account">Log in met @provider.Name</button>
+                            }
+                        </p>
+                    </div>
+                </form>
             </section>
         </div>
     </div>
-
-    
-
-
-
-
-
-<div class="row">
-   
-</div>
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
