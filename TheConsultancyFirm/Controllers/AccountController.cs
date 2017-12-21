@@ -7,8 +7,12 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Models.AccountViewModels;
+using TheConsultancyFirm.Repositories;
+using TheConsultancyFirm.Services;
+
 //using TheConsultancyFirm.Services;
 
 namespace TheConsultancyFirm.Controllers
@@ -18,16 +22,19 @@ namespace TheConsultancyFirm.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-//        private readonly IEmailSender _emailSender;
+        private readonly IAccountRepository _accountRepository;
+        private readonly IMailService _emailSender;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
-//           , IEmailSender emailSender)
+            SignInManager<ApplicationUser> signInManager,
+            IAccountRepository accountRepository, 
+            IMailService emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-//            _emailSender = emailSender;
+            _accountRepository = accountRepository;
+           _emailSender = emailSender;
         }
 
         [TempData]
@@ -169,9 +176,7 @@ namespace TheConsultancyFirm.Controllers
                 return View();
             }
         }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -204,6 +209,10 @@ namespace TheConsultancyFirm.Controllers
                 return RedirectToAction(nameof(Login));
             }
 
+            if (!CheckIfGoogleAccountExists(info.Principal.FindFirstValue(ClaimTypes.Email)))
+            {
+                return RedirectToAction("AccessDenied");
+            }
             // Sign in the user with this external login provider if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
@@ -234,6 +243,7 @@ namespace TheConsultancyFirm.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
+                _accountRepository.DeleteDummyUser(model.Email);
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -295,8 +305,7 @@ namespace TheConsultancyFirm.Controllers
                 // visit https://go.microsoft.com/fwlink/?LinkID=532713
                 var code = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-//                await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-//                   $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+                await _emailSender.SendForgotPasswordMailAsync(model.Email, callbackUrl);
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
@@ -356,6 +365,7 @@ namespace TheConsultancyFirm.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult AccessDenied()
         {
             return View();
@@ -371,6 +381,11 @@ namespace TheConsultancyFirm.Controllers
             }
         }
 
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
+
         private IActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
@@ -379,17 +394,30 @@ namespace TheConsultancyFirm.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(HomeController.Index), "Home");
+                return RedirectToAction(nameof(TheConsultancyFirm.Areas.Dashboard.Controllers.HomeController.Index), "Home", new {area = "Dashboard"});
             }
         }
 
         private async Task UpdateUserLastLoginAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            user.LastLogin = DateTime.Now;
+            user.LastLogin = DateTime.UtcNow;
             await _userManager.UpdateAsync(user);
         }
 
+        private bool CheckIfGoogleAccountExists(string email)
+        {
+            var userExists = _accountRepository.GetUserByEmail(email);
+
+            if (userExists != null)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+       
         #endregion
     }
 }

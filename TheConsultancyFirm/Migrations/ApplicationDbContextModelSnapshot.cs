@@ -144,6 +144,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<DateTime?>("LastLogin");
+
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
