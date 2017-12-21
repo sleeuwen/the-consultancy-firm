@@ -14,7 +14,6 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     [Area("Dashboard")]
     public class CustomersController : Controller
     {
-        //private readonly ApplicationDbContext _context;
         private readonly IHostingEnvironment _environment;
         private readonly ICustomerRepository _customerRepository;
 
