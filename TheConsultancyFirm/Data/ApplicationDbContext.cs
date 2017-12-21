@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Models;
 
 namespace TheConsultancyFirm.Data

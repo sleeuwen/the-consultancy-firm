@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
