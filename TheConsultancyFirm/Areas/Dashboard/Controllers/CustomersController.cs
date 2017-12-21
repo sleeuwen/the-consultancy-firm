@@ -1,11 +1,8 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 
@@ -62,7 +59,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
 	        if (!ModelState.IsValid) return View(customer);
 
-	        if (customer.Image.Length > 0)
+	        if (customer.Image?.Length > 0)
 	        {
 		        var extension = Path.GetExtension(customer.Image.FileName);
 		        if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
@@ -135,7 +132,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 	        }
 	        catch (DbUpdateConcurrencyException)
 	        {
-		        if (!CustomerExists(customer.Id))
+		        if (!await CustomerExists(customer.Id))
 		        {
 			        return NotFound();
 		        }
@@ -179,9 +176,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CustomerExists(int id)
+        private async Task<bool> CustomerExists(int id)
         {
-            return _customerRepository.Get(id) != null;
+            return await _customerRepository.Get(id) != null;
         }
     }
 }
