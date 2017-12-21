@@ -56,11 +56,8 @@ namespace TheConsultancyFirm
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
 
+            app.UseStatusCodePagesWithReExecute("/Error/Index", "?statusCode={0}");
             app.UseStaticFiles();
 
             app.UseAuthentication();
