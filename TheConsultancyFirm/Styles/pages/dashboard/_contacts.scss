@@ -1,0 +1,10 @@
+@import '../../variables';
+#contacts-table {
+    i {
+        color: $sidebarTitle;
+        &:hover{
+            color: $orange;
+            cursor: pointer;
+        }
+    }
+}

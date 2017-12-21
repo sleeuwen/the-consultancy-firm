@@ -13,7 +13,14 @@
 
             <ul>
                 <li>
-                    <a asp-controller="Contact" asp-action="Index">Berichten <span class="badge">2</span></a>
+                    @if (ViewData["Title"] == "Berichten")
+                    {
+                        <a class="active" asp-controller="Contacts" asp-action="Index">Berichten <span class="badge">2</span></a>
+                    }
+                    else
+                    {
+                        <a asp-controller="Contacts" asp-action="Index">Berichten <span class="badge">2</span></a>
+                    }
                 </li>
                 <li>
                     <a asp-controller="Homepage" asp-action="Index">Homepage</a>
