@@ -2,6 +2,8 @@
 jQuery(function ($) {
     var $searchform = $('.search');
     var $navbar = $('.navbar');
+    var $newsletterForm = $('#newsletterForm');
+    var $newsletterInput = $newsletterForm.find('input[type=text]');
 
     $('.buttonHover').each(function () {
         $(this).append('<span></span><span></span>');
@@ -28,11 +30,6 @@ jQuery(function ($) {
         $searchform.removeClass('open');
     });
 
-    var $cookiecontainer = $('.cookiecontainer');
-    $cookiecontainer.find('> .fa-times').click(function () {
-        $cookiecontainer.hide();
-    });
-
     $('[data-carousel-follow]').each(function (idx, el) {
         var $following = $('#' + $(el).data('carousel-follow'));
 
@@ -41,4 +38,62 @@ jQuery(function ($) {
         });
         $(el).carousel($following.find('.carousel-item.active').index());
     });
+
+    $newsletterForm.submit(function (e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: '/api/Newsletter/Subscribe',
+            data: $newsletterForm.serialize(),
+            success: function () {
+                $newsletterInput.val('');
+                toastr.options.positionClass = 'toast-bottom-right';
+                toastr.success('Je bent nu aangemeld voor de nieuwsbrief!', 'Success!');
+            },
+            error: function () {
+                $newsletterInput.addClass('invalid');
+                $newsletterInput.popover('show');
+            }
+        });
+    });
+
+    // Remove the popover
+    $(document).click(function () {
+        $newsletterInput.popover('hide');
+    });
+
+    // Removes the red border
+    $newsletterInput.keypress(function () {
+        $newsletterInput.removeClass('invalid');
+        $newsletterInput.popover('hide');
+    });
 });
+
+function allowCookies(value) {
+    var days = value === 'true' ? 365 : 1;
+    setCookie('allow', value, days);
+    $('.cookiecontainer').hide();
+}
+
+function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}

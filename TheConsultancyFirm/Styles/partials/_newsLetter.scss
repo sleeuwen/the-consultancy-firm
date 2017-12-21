@@ -1,0 +1,55 @@
+﻿@import '../variables';
+
+#newsletter {
+    background-color: $backgroundGrey;
+    text-align: center;
+    padding: 100px 0 100px 0;
+    display: flex;
+    justify-content: center;
+
+    input {
+        width: 90%;
+        border: 0;
+        background-color: $backgroundGrey;
+        outline: none !important;
+        border-bottom: 1px solid $darkGrey;
+
+        &.invalid {
+            border-bottom: 1px solid $red;
+        }
+    }
+
+    form {
+        position: relative;
+    }
+
+    p {
+        margin: 20px 0 30px 0;
+    }
+
+    button {
+        margin-top: 15px;
+        background: transparent;
+        border: 0;
+        font-style: italic;
+        outline: none !important;
+
+        &:focus,
+        &:active {
+            outline: none !important;
+        }
+    }
+
+    @media screen and (min-width: $break-medium) {
+        input {
+            width: 600px;
+        }
+
+        button {
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin: 0;
+        }
+    }
+}

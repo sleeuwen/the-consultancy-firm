@@ -1,0 +1,108 @@
+﻿@import '../variables';
+
+.home-section {
+    margin-top: 5rem !important;
+    margin-bottom: 5rem !important;
+}
+
+.link-arrow img {
+    width: 1.25em;
+    height: 1.25em;
+}
+
+.link-more {
+    color: $black;
+    font-style: italic;
+
+    &:hover {
+        color: $black;
+    }
+}
+
+.carousel-horizontal {
+    .carousel-caption {
+        h4 .content {
+            color: $black;
+            margin-left: 1rem;
+        }
+
+        .buttonHover:hover {
+            color: $black !important;
+        }
+    }
+
+    .carousel-item {
+        &.active,
+        &-prev,
+        &-next {
+            display: flex;
+            justify-content: center;
+        }
+
+        img {
+            max-width: 100%;
+        }
+    }
+}
+
+.carousel-home {
+    display: none;
+
+    @media screen and (min-width: $break-small) {
+        display: block;
+    }
+
+    .subtitle {
+        color: $lightGrey;
+    }
+
+    .buttonHover {
+        letter-spacing: 1px;
+    }
+
+    .carousel-item > img {
+        object-fit: cover;
+        width: 100%;
+        max-height: 600px;
+    }
+
+    .carousel-caption {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        color: $white;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: center;
+
+        .links {
+            display: flex;
+            align-items: center;
+
+            a {
+                color: inherit;
+                margin-left: 1rem;
+
+                &:first-child {
+                    margin-left: 0;
+                }
+            }
+        }
+    }
+
+    .carousel-link-skip {
+        position: absolute;
+        right: 3rem;
+        bottom: 2rem;
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        color: $white;
+
+        img {
+            margin-right: 1rem;
+        }
+    }
+}

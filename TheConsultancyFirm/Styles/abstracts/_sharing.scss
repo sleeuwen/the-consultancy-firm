@@ -1,0 +1,37 @@
+@import '../variables';
+
+.sharing {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+
+    .introtext {
+        margin-bottom: 0;
+        margin-right: 1rem;
+        display: flex;
+        align-items: center;
+        color: $black !important;
+
+        .fa {
+            margin-right: .5rem;
+        }
+    }
+
+    .share-link {
+        color: $white;
+        background: $black;
+        display: inline-block;
+        width: 2em;
+        height: 2em;
+        line-height: 2em;
+        text-align: center;
+        border-radius: 50%;
+        transition: background-color .3s ease-in-out;
+        margin-left: .5rem;
+
+        &:hover {
+            text-decoration: none;
+            background: $orange;
+        }
+    }
+}
