@@ -65,7 +65,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 	        if (customer.Image.Length > 0)
 	        {
 		        var extension = Path.GetExtension(customer.Image.FileName);
-				customer.LogoPath = "/images/CustomerLogos/" + customer.Name + extension;
+
+				customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ","") + extension;
 		        using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
 		        {
 			        await customer.Image.CopyToAsync(fileStream);
@@ -74,6 +75,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 	        else
 	        {
 		        ModelState.AddModelError("Image", "Filesize to small");
+		        return View(customer);
 	        }
 	        await _customerRepository.Create(customer);
 	        return RedirectToAction(nameof(Index));
@@ -119,7 +121,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 				        file.Delete();
 			        }
 					var extension = Path.GetExtension(customer.Image.FileName);
-			        customer.LogoPath = "/images/CustomerLogos/" + customer.Name + extension;
+			        customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ", "") + extension;
 			        using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
 			        {
 				        await customer.Image.CopyToAsync(fileStream);
