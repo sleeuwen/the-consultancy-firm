@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
@@ -14,14 +15,33 @@ namespace TheConsultancyFirm.Repositories
 		    _context = context;
 	    }
 
-		public Download Get(int id)
+		public Task<Download> Get(int id)
 	    {
-		    return _context.Downloads.Include(c => c.Blocks).Include(c => c.DownloadTags).ThenInclude(t => t.Tag).FirstOrDefault(c => c.Id == id);
+		    return _context.Downloads.FirstOrDefaultAsync(c => c.Id == id);
 		}
 
 		public IQueryable<Download> GetAll()
 	    {
 		    return _context.Downloads;
+		}
+
+	    public async Task Create(Download download)
+	    {
+		    _context.Downloads.Add(download);
+		    await _context.SaveChangesAsync();
+	    }
+
+	    public async Task Update(Download download)
+	    {
+			_context.Downloads.Update(download);
+		    await _context.SaveChangesAsync();
+		}
+
+	    public async Task Delete(int id)
+	    {
+			var download = await Get(id);
+		    _context.Downloads.Remove(download);
+		    await _context.SaveChangesAsync();
 		}
     }
 }
