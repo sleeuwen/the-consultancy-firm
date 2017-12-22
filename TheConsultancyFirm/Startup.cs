@@ -36,7 +36,6 @@ namespace TheConsultancyFirm
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
-            
             services.AddScoped<IAccountRepository, AccountRepository>();
 
 			services.AddDbContext<ApplicationDbContext>(options =>
