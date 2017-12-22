@@ -18,6 +18,34 @@ namespace TheConsultancyFirm.Migrations
                 newName: "AspNetUsers");
 
             migrationBuilder.AlterColumn<string>(
+                name: "Subject",
+                table: "Contacts",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "Contacts",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Message",
+                table: "Contacts",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Email",
+                table: "Contacts",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldNullable: true);
+
+            migrationBuilder.AlterColumn<string>(
                 name: "UserName",
                 table: "AspNetUsers",
                 maxLength: 256,
@@ -48,6 +76,11 @@ namespace TheConsultancyFirm.Migrations
                 nullable: true,
                 oldClrType: typeof(string),
                 oldNullable: true);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "LastLogin",
+                table: "AspNetUsers",
+                nullable: true);
 
             migrationBuilder.AddPrimaryKey(
                 name: "PK_AspNetUsers",
@@ -246,9 +279,37 @@ namespace TheConsultancyFirm.Migrations
                 name: "UserNameIndex",
                 table: "AspNetUsers");
 
+            migrationBuilder.DropColumn(
+                name: "LastLogin",
+                table: "AspNetUsers");
+
             migrationBuilder.RenameTable(
                 name: "AspNetUsers",
                 newName: "ApplicationUsers");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Subject",
+                table: "Contacts",
+                nullable: true,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "Contacts",
+                nullable: true,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Message",
+                table: "Contacts",
+                nullable: true,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Email",
+                table: "Contacts",
+                nullable: true,
+                oldClrType: typeof(string));
 
             migrationBuilder.AlterColumn<string>(
                 name: "UserName",
