@@ -2,7 +2,6 @@
 
 @{
     ViewData["Title"] = "Edit";
-   
 }
 <h2>Edit</h2>
 
@@ -10,7 +9,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit" method="post" enctype="multipart/form-data" asp-controller="Downloads">
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="invalid-feedback d-block"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -24,7 +23,6 @@
                 <span asp-validation-for="Description" class="invalid-feedback d-block"></span>
             </div>
             <div class="form-group">
-
                 <input asp-for="LinkPath" type="hidden" />
                 <input asp-for="Date" type="hidden" />
                 <label asp-for="File" class="control-label"></label><br>

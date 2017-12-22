@@ -1,15 +1,13 @@
 ﻿using System;
-using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
 using TheConsultancyFirm.Repositories;
 
-namespace TheConsultancyFirm
+namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
     public class DownloadsController : Controller
@@ -59,28 +57,26 @@ namespace TheConsultancyFirm
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Title,Description,File,LinkPath")] Download download)
         {
-            
-            if (ModelState.IsValid)
-            {
-                if (download.File?.Length > 0)
-                {
-					download.Date = DateTime.UtcNow;
-                    download.LinkPath = "/files/" + download.File.FileName.Replace(" ","");
-	                Directory.CreateDirectory(_environment.WebRootPath + "/files");
-					using (var fileStream = new FileStream(_environment.WebRootPath + download.LinkPath, FileMode.Create))
-                    {
-                        await download.File.CopyToAsync(fileStream);
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError("File", "No File Chosen");
-                }
+            if (!ModelState.IsValid) return View(download);
 
-	            await _downloadRepository.Create(download);
-                return RedirectToAction(nameof(Index));
+            if (download.File?.Length > 0)
+            {
+                download.Date = DateTime.UtcNow;
+                download.LinkPath = "/files/" + download.File.FileName.Replace(" ","");
+                Directory.CreateDirectory(_environment.WebRootPath + "/files");
+                using (var fileStream = new FileStream(_environment.WebRootPath + download.LinkPath, FileMode.Create))
+                {
+                    await download.File.CopyToAsync(fileStream);
+                }
             }
-            return View(download);
+            else
+            {
+                ModelState.AddModelError("File", "No File Chosen");
+                return View(download);
+            }
+
+            await _downloadRepository.Create(download);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Downloads/Edit/5
@@ -111,45 +107,43 @@ namespace TheConsultancyFirm
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(download);
+
+            if (download.File != null)
             {
-                if (download.File != null)
+                var file = new FileInfo(_environment.WebRootPath + download.LinkPath);
+                if (file.Exists)
                 {
-					var file = new FileInfo(_environment.WebRootPath + download.LinkPath);
-	                if (file.Exists)
-	                {
-		                file.Delete();
-	                }
-	                download.LinkPath = "/files/" + download.File.FileName.Replace(" ", "");
-
-					using (var fileStream = new FileStream(_environment.WebRootPath + download.LinkPath, FileMode.Create))
-                    {
-                        await download.File.CopyToAsync(fileStream);
-                    }
-                }else if (string.IsNullOrWhiteSpace(download.LinkPath))
-                {
-					ModelState.AddModelError("File", "No File Chosen");
-	                return View(download);
-				}
-
-                try
-                {
-	                await _downloadRepository.Update(download);
+                    file.Delete();
                 }
-                catch (DbUpdateConcurrencyException)
+
+                download.LinkPath = "/files/" + download.File.FileName.Replace(" ", "");
+                using (var fileStream = new FileStream(_environment.WebRootPath + download.LinkPath, FileMode.Create))
                 {
-                    if (!await DownloadExists(download.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    await download.File.CopyToAsync(fileStream);
                 }
-                return RedirectToAction(nameof(Index));
             }
-            return View(download);
+            else if (string.IsNullOrWhiteSpace(download.LinkPath))
+            {
+                ModelState.AddModelError("File", "No File Chosen");
+                return View(download);
+            }
+
+            try
+            {
+                await _downloadRepository.Update(download);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await DownloadExists(download.Id))
+                {
+                    return NotFound();
+                }
+
+                throw;
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Downloads/Delete/5
