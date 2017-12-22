@@ -26,31 +26,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return View(await _context.ApplicationUsers.ToListAsync());
         }
 
-        // GET: Dashboard/Users/Details/5 (Email, LastLogin en ander boeiende gegevens)
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var applicationUser = await _context.ApplicationUsers
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (applicationUser == null)
-            {
-                return NotFound();
-            }
-
-            return View(applicationUser);
-        }
-
         // GET: Dashboard/Users/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Dashboard/Users/Create (Email)
+        // POST: Dashboard/Users/Create (Email + misschien password, of hier wordt al een mail voor opgestuurd)
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -66,7 +48,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return View(applicationUser);
         }      
             
-        // GET: Dashboard/Users/Delete/5 
+        // GET: Dashboard/Users/Delete/5 (via modal!)
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
