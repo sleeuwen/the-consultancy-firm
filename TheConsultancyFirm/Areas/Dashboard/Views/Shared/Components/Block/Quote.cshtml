@@ -1,32 +1,40 @@
 ﻿@model QuoteBlock
 
-<div class="col-md-12 block quote-block">
-    <div class="block-header">
-        <img class="handle" src="~/images/dragndrop-handle.svg" />
+<div class="row">
+    <div class="col-md-12 block quote-block">
+        <div class="block-header">
+            <img class="handle" src="~/images/dragndrop-handle.svg" />
 
-        <span class="expand"></span>
+            <span class="expand"></span>
 
-        <strong>Quote: </strong>
-        &nbsp; @Model.Author
+            <strong>Quote: </strong>
+            &nbsp;
+            <span class="block-title">@Model.Author</span>
 
-        <span class="modifiedat" title="Last modified date">
-            @Model.LastModified.ToString("dd MMM, yyyy HH:mm")
-        </span>
+            <span class="modifiedat" title="Last modified date">
+                @Model.LastModified.ToString("dd MMM, yyyy HH:mm")
+            </span>
 
-        <span class="delete"></span>
-    </div>
-    <div class="block-content">
-        <div>
-            <div class="form-group">
-                <label asp-for="Author" class=""></label>
-                <input asp-for="Author" class="form-control" placeholder="Author..."/>
-                <span asp-validation-for="Author" class="invalid-feedback"></span>
-            </div>
+            <span class="delete"></span>
+        </div>
+        <div class="block-content">
+            <form asp-controller="Blocks" asp-action="CreateQuote">
+                <input type="hidden" name="type" value="quote"/>
+                <input type="hidden" asp-for="Id"/>
+                <input type="hidden" asp-for="Date"/>
+                <input type="hidden" asp-for="Order"/>
 
-            <div class="form-group">
-                <label asp-for="Text"></label>
-                <textarea asp-for="Text" class="form-control" placeholder="Content..."></textarea>
-            </div>
+                <div class="form-group">
+                    <label asp-for="Author" class=""></label>
+                    <input asp-for="Author" class="form-control" placeholder="Author..."/>
+                    <span asp-validation-for="Author" class="invalid-feedback"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Text"></label>
+                    <textarea asp-for="Text" class="form-control" placeholder="Content..."></textarea>
+                </div>
+            </form>
         </div>
     </div>
 </div>

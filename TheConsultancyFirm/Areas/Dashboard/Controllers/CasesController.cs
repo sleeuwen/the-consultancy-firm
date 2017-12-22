@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
+using TheConsultancyFirm.Repositories;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
@@ -14,10 +17,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     public class CasesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly ICaseRepository _caseRepository;
 
-        public CasesController(ApplicationDbContext context)
+        public CasesController(ApplicationDbContext context, ICaseRepository caseRepository)
         {
             _context = context;
+            _caseRepository = caseRepository;
         }
 
         // GET: Dashboard/Cases
@@ -55,18 +60,15 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Date,LastModified")] Case @case)
+        public async Task<ObjectResult> Create([Bind("Title")] Case @case)
         {
-            if (ModelState.IsValid)
-            {
-                @case.Date = DateTime.UtcNow;
-                @case.LastModified = DateTime.UtcNow;
-                _context.Add(@case);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
-            return View(@case);
+            @case.Date = DateTime.UtcNow;
+            @case.LastModified = DateTime.UtcNow;
+            _context.Cases.Add(@case);
+            await _context.SaveChangesAsync();
+            return new ObjectResult(@case.Id);
         }
 
         // GET: Dashboard/Cases/Edit/5
@@ -90,35 +92,32 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Date,LastModified")] Case @case)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Date")] Case @case)
         {
             if (id != @case.Id)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(@case);
+
+            try
             {
-                try
-                {
-                    @case.LastModified = DateTime.UtcNow;
-                    _context.Update(@case);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CaseExists(@case.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                @case.LastModified = DateTime.UtcNow;
+                _context.Update(@case);
+                await _context.SaveChangesAsync();
             }
-            return View(@case);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CaseExists(@case.Id))
+                {
+                    return NotFound();
+                }
+
+                throw;
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Dashboard/Cases/Delete/5

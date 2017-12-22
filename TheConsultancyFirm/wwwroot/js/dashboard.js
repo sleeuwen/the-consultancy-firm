@@ -1,11 +1,15 @@
 $(function () {
-    $('.block').find('.expand').on('click', function () {
+    var $blocksList = $('#blocksList');
+
+    $blocksList.on('click', '.expand', function () {
+        openBlock($(this).closest('.block'));
+    });
+    $blocksList.on('click', '.delete', function () {
         var $block = $(this).closest('.block');
-        $block.toggleClass('open');
-        $block.find('.block-content').slideToggle();
+        $block.remove();
     });
 
-    $('.block-reorder').each(function (idx, element) {
+    $blocksList.each(function (idx, element) {
         Sortable.create(element, {
             handle: '.handle',
             animation: 150,
@@ -19,11 +23,71 @@ $(function () {
         });
     });
 
-    tinymce.init({
-        selector: '.text-block textarea.form-control',
-        content_css: '/css/site.min.css,https://fonts.googleapis.com/css?family=Raleway:300%2C400%2C700|Ubuntu:400%2C500%2C700',
-        height: 400,
+    $('#chooseBlockModal').find('.block-choice').on('click', function () {
+        var block = $(this).data('block');
+
+        $.ajax({
+            method: 'GET',
+            url: '/dashboard/blocks/'+block,
+            type: 'html',
+            success: function (html) {
+                $blocksList.append(html);
+                $('#chooseBlockModal').modal('hide');
+
+                var $block = $blocksList.find('.block').last();
+                openBlock($block);
+
+                if (block === 'Text') {
+                    initTinyMCE();
+                }
+            },
+        });
     });
+
+    $('[data-blocks-submit]').on('click', function () {
+        var selector = $(this).data('blocks-submit');
+
+        $(selector).each(function () {
+            $.ajax({
+                method: 'POST',
+                url: $(this).attr('action'),
+                data: $(this).serialize(),
+                success: function (id) {
+                    console.log(id);
+
+                    $('#blocksList').find('.block').each(function (index, element) {
+                        console.log(arguments);
+
+                        $.ajax({
+                            method: 'POST',
+                            url: $(this).find('form').attr('action') + '?contentType=Case&id=' + id,
+                            data: $(this).find('form').serialize(),
+                            success: function () {
+                            },
+                        });
+                    });
+                },
+                error: function (err) {
+                    console.log(err);
+                },
+            });
+        });
+    });
+
+    function openBlock($block) {
+        $block.toggleClass('open');
+        $block.find('.block-content').slideToggle();
+    }
+
+    function initTinyMCE() {
+        tinymce.init({
+            selector: '.text-block textarea.form-control',
+            content_css: '/css/site.min.css,https://fonts.googleapis.com/css?family=Raleway:300%2C400%2C700|Ubuntu:400%2C500%2C700',
+            height: 400,
+        });
+    }
+
+    initTinyMCE();
 
     // Dashboard berichten badge
     function updateUnreadCounter() {

@@ -1,27 +1,33 @@
 ﻿@model TextBlock
 
-<div class="col-md-12 block text-block">
-    <div class="block-header">
-        <img class="handle" src="~/images/dragndrop-handle.svg" />
+<div class="row">
+    <div class="col-md-12 block text-block">
+        <div class="block-header">
+            <img class="handle" src="~/images/dragndrop-handle.svg" />
 
-        <span class="expand"></span>
+            <span class="expand"></span>
 
-        <strong>Text: </strong>
-        &nbsp;
-        <span>@Model.Text.Substring(0, 15)...</span>
+            <strong>Text: </strong>
+            &nbsp;
+            <span class="block-title">@Model.Text?.Substring(0, 15)...</span>
 
-        <span class="modifiedat" title="Last modified date">
-            @Model.LastModified.ToString("dd MMM, yyyy HH:mm")
-        </span>
+            <span class="modifiedat" title="Last modified date">
+                @Model.LastModified.ToString("dd MMM, yyyy HH:mm")
+            </span>
 
-        <span class="delete"></span>
-    </div>
-    <div class="block-content">
-        <div>
-            <div class="form-group">
-                <label asp-for="Text"></label>
-                <textarea asp-for="Text" id="" class="form-control" placeholder="Content..."></textarea>
-            </div>
+            <span class="delete"></span>
+        </div>
+        <div class="block-content">
+            <form asp-controller="Blocks" asp-action="CreateText">
+                <input type="hidden" name="type" value="text"/>
+                <input type="hidden" asp-for="Id"/>
+                <input type="hidden" asp-for="Order"/>
+
+                <div class="form-group">
+                    <label asp-for="Text"></label>
+                    <textarea asp-for="Text" id="" class="form-control" placeholder="Content..."></textarea>
+                </div>
+            </form>
         </div>
     </div>
 </div>

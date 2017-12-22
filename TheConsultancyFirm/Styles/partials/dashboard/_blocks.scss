@@ -127,7 +127,7 @@
 .block-choice {
     .thumbnail {
         overflow: hidden;
-        border: 1px solid $black;
+        border: 3px solid $black;
         border-radius: 2rem;
     }
 
@@ -136,7 +136,11 @@
         transition: transform .3s ease-in-out;
     }
 
-    &:hover img {
-        transform: scale(1.075);
+    &:hover {
+        cursor: pointer;
+
+        img {
+            transform: scale(1.075);
+        }
     }
 }

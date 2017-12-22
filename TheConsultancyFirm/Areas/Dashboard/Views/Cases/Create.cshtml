@@ -2,6 +2,15 @@
 
 @{
     ViewData["Title"] = "Create";
+
+    var blocks = new List<Block>
+    {
+        new TextBlock {Text = "Ik ben mijn eigen Opa.", LastModified = DateTime.UtcNow},
+        new QuoteBlock {Author = "Stephan van Leeuwen", Text = "Ik ben mijn eigen Opa.", LastModified = DateTime.UtcNow},
+//        new TextBlock {Text = @"What is Lorem Ipsum?
+//                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", LastModified = DateTime.UtcNow},
+//        new QuoteBlock {Author = "Kevin van Houdts", Text = "Ik ben mijn eigen Opa.", LastModified = DateTime.UtcNow}
+    };
 }
 
 <h2>Create</h2>
@@ -9,8 +18,8 @@
 <h4>Case</h4>
 <hr />
 
-<form asp-action="Create">
-    <div class="container-fluid px-0">
+<div class="container-fluid px-0">
+    <form asp-action="Create" class="blocks-form" id="createCase">
         <div class="row">
             <div class="col-md-4">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -22,92 +31,37 @@
 
             </div>
         </div>
+    </form>
 
-        <div class="block-reorder">
-            <div class="row">
-                @await Component.InvokeAsync("Block", new TextBlock{Text = "Ik ben mijn eigen Opa.", LastModified = DateTime.UtcNow})
-            </div>
-
-            <div class="row">
-                @await Component.InvokeAsync("Block", new QuoteBlock{Author = "Stephan van Leeuwen", Text = "Ik ben mijn eigen Opa.", LastModified = DateTime.UtcNow})
-            </div>
-
-            <div class="row">
-                @await Component.InvokeAsync("Block", new TextBlock{Text = @"What is Lorem Ipsum?
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", LastModified = DateTime.UtcNow})
-            </div>
-
-            <div class="row">
-                @await Component.InvokeAsync("Block", new QuoteBlock{Author = "Kevin van Houdts", Text = "Ik ben mijn eigen Opa.", LastModified = DateTime.UtcNow})
-            </div>
-        </div>
-
-        <div class="row mt-3">
-            <div class="col-12">
-                <button class="btn btn-default" data-toggle="modal" data-target="#chooseBlockModal" type="button">Add an Item</a>
-            </div>
-        </div>
+    <div id="blocksList">
+        @foreach (var block in blocks)
+        {
+            @await Component.InvokeAsync("Block", block)
+        }
     </div>
 
-    <div class="savebar">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-6">
-                    <a asp-action="Index">Back to List</a>
-                </div>
-                <div class="col-md-6">
-                    <input type="submit" value="Create" class="btn btn-default" style="float: right;"/>
-                </div>
-            </div>
+    <div class="row mt-3">
+        <div class="col-12">
+            <button class="btn btn-default" data-toggle="modal" data-target="#chooseBlockModal" type="button">Add an Item</button>
         </div>
     </div>
-</form>
+</div>
 
-<div class="modal fade" id="chooseBlockModal" tabindex="-1" role="dialog" aria-labelledby="chooseBlockModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="chooseBlockModalLabel">Choose an item to add</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+<div class="savebar">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <a asp-action="Index">Back to List</a>
             </div>
-            <div class="modal-body">
-                <div class="container-fluid text-center">
-                    <div class="row">
-                        <div class="col-md-6 mt-4 block-choice">
-                            <h4>Text</h4>
-                            <div class="thumbnail">
-                                <img src="http://via.placeholder.com/500x300" class="mw-100" />
-                            </div>
-                        </div>
-                        <div class="col-md-6 mt-4 block-choice">
-                            <h4>Quote</h4>
-                            <div class="thumbnail">
-                                <img src="http://via.placeholder.com/500x300" class="mw-100"/>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mt-4 block-choice">
-                            <h4>Carousel</h4>
-                            <div class="thumbnail">
-                                <img src="http://via.placeholder.com/500x300" class="mw-100"/>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mt-4 block-choice">
-                            <h4>Solution Advantages</h4>
-                            <div class="thumbnail">
-                                <img src="http://via.placeholder.com/500x300" class="mw-100"/>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer justify-content-start">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="col-md-6">
+                <input type="submit" value="Create" class="btn btn-default" style="float: right;" data-blocks-submit="#createCase"/>
             </div>
         </div>
     </div>
 </div>
+
+
+@Html.Partial("BlockChoiceModalPartial")
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

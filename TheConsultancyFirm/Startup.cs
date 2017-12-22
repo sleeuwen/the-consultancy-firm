@@ -38,6 +38,7 @@ namespace TheConsultancyFirm
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<IBlockRepository, BlockRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -69,7 +70,7 @@ namespace TheConsultancyFirm
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseStatusCodePagesWithReExecute("/Error/Index", "?statusCode={0}");
+//            app.UseStatusCodePagesWithReExecute("/Error/Index", "?statusCode={0}");
             app.UseStaticFiles();
 
             app.UseAuthentication();

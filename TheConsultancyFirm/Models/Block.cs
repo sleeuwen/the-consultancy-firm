@@ -8,5 +8,10 @@ namespace TheConsultancyFirm.Models
         public int Order { get; set; }
         public DateTime Date { get; set; }
         public DateTime LastModified { get; set; }
+
+        public int? CaseId { get; set; }
+        public int? DownloadId { get; set; }
+        public int? NewsItemId { get; set; }
+        public int? SolutionId { get; set; }
     }
 }
