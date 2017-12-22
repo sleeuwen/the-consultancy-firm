@@ -11,7 +11,7 @@ namespace TheConsultancyFirm.Models.ManageViewModels
         [Required]
         [StringLength(100, ErrorMessage = "Het {0} moet ten minste {2} en maximaal {1} karakters lang zijn.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "Nieuw wachtword")]
+        [Display(Name = "Nieuw wachtwoord")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
