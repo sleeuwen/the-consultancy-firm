@@ -148,7 +148,8 @@ namespace TheConsultancyFirm.Tests.Controllers
             _contactRepository.Verify(repo => repo.Update(model), Times.Never);
         }
 
-        [Fact] public async Task Details_ReadIsFalse()
+        [Fact]
+        public async Task Details_ReadIsFalse()
         {
             var model = new Contact
             {
