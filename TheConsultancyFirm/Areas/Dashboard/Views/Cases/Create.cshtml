@@ -2,15 +2,6 @@
 
 @{
     ViewData["Title"] = "Create";
-
-    var blocks = new List<Block>
-    {
-        new TextBlock {Text = "Ik ben mijn eigen Opa.", LastModified = DateTime.UtcNow},
-        new QuoteBlock {Author = "Stephan van Leeuwen", Text = "Ik ben mijn eigen Opa.", LastModified = DateTime.UtcNow},
-//        new TextBlock {Text = @"What is Lorem Ipsum?
-//                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.", LastModified = DateTime.UtcNow},
-//        new QuoteBlock {Author = "Kevin van Houdts", Text = "Ik ben mijn eigen Opa.", LastModified = DateTime.UtcNow}
-    };
 }
 
 <h2>Create</h2>
@@ -33,12 +24,7 @@
         </div>
     </form>
 
-    <div id="blocksList">
-        @foreach (var block in blocks)
-        {
-            @await Component.InvokeAsync("Block", block)
-        }
-    </div>
+    <div id="blocksList"></div>
 
     <div class="row mt-3">
         <div class="col-12">

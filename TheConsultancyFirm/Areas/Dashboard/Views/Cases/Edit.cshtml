@@ -8,26 +8,50 @@
 
 <h4>Case</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+
+<div class="container-fluid px-0">
+    <form asp-action="Edit" class="blocks-form" id="updateCase">
+        <div class="row">
+            <div class="col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Title" class="control-label"></label>
+                    <input asp-for="Title" class="form-control" placeholder="Title"/>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
+
             </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </form>
+        </div>
+    </form>
+
+    <div id="blocksList">
+        @foreach (var block in Model.Blocks.OrderBy(b => b.Order))
+        {
+            @await Component.InvokeAsync("Block", block)
+        }
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-12">
+            <button class="btn btn-default" data-toggle="modal" data-target="#chooseBlockModal" type="button">Add an Item</button>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
+<div class="savebar">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <a asp-action="Index">Back to List</a>
+            </div>
+            <div class="col-md-6">
+                <input type="submit" value="Save" class="btn btn-default" style="float: right;" data-blocks-submit="#updateCase"/>
+            </div>
+        </div>
+    </div>
 </div>
+
+@Html.Partial("BlockChoiceModalPartial")
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

@@ -13,6 +13,11 @@ namespace TheConsultancyFirm.Repositories
             _context = context;
         }
 
+        public Task<Block> Get(int id)
+        {
+            return _context.Blocks.FindAsync(id);
+        }
+
         public async Task Create(Block block)
         {
             _context.Add(block);

@@ -230,7 +230,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("LastModified");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -318,11 +319,13 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired();
 
                     b.Property<string>("LinkPath");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

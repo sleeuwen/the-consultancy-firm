@@ -79,7 +79,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var @case = await _context.Cases.SingleOrDefaultAsync(m => m.Id == id);
+            var @case = await _context.Cases.Include(c => c.Blocks).SingleOrDefaultAsync(m => m.Id == id);
             if (@case == null)
             {
                 return NotFound();
@@ -92,14 +92,14 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Date")] Case @case)
+        public async Task<ObjectResult> Edit(int id, [Bind("Id,Title,Date")] Case @case)
         {
             if (id != @case.Id)
             {
-                return NotFound();
+                return new NotFoundObjectResult(null);
             }
 
-            if (!ModelState.IsValid) return View(@case);
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
             try
             {
@@ -111,13 +111,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             {
                 if (!CaseExists(@case.Id))
                 {
-                    return NotFound();
+                    return new NotFoundObjectResult(null);
                 }
 
                 throw;
             }
 
-            return RedirectToAction(nameof(Index));
+            return new ObjectResult(@case.Id);
         }
 
         // GET: Dashboard/Cases/Delete/5

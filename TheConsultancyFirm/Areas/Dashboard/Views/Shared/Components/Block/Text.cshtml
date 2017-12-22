@@ -18,9 +18,10 @@
             <span class="delete"></span>
         </div>
         <div class="block-content">
-            <form asp-controller="Blocks" asp-action="CreateText">
+            <form asp-controller="Blocks" asp-action="Text">
                 <input type="hidden" name="type" value="text"/>
                 <input type="hidden" asp-for="Id"/>
+                <input type="hidden" asp-for="Date"/>
                 <input type="hidden" asp-for="Order"/>
 
                 <div class="form-group">

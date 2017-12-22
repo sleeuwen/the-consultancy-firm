@@ -14,7 +14,6 @@ $(function () {
             handle: '.handle',
             animation: 150,
             onChoose: function (e) {
-                console.log(e.item);
                 tinymce.execCommand('mceRemoveEditor', false, $(e.item).find('textarea').attr('id'));
             },
             onEnd: function (e) {
@@ -48,6 +47,8 @@ $(function () {
         var selector = $(this).data('blocks-submit');
 
         $(selector).each(function () {
+            tinymce.triggerSave();
+
             $.ajax({
                 method: 'POST',
                 url: $(this).attr('action'),
@@ -56,11 +57,11 @@ $(function () {
                     console.log(id);
 
                     $('#blocksList').find('.block').each(function (index, element) {
-                        console.log(arguments);
+                        $(this).find('form').find('input[name=Order]').val(index + 1);
 
                         $.ajax({
                             method: 'POST',
-                            url: $(this).find('form').attr('action') + '?contentType=Case&id=' + id,
+                            url: $(this).find('form').attr('action') + '?contentType=Case&contentId=' + id,
                             data: $(this).find('form').serialize(),
                             success: function () {
                             },
