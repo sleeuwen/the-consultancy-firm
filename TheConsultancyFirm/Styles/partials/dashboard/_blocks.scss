@@ -3,6 +3,27 @@
 .block {
     margin: 2px 0;
     color: $white;
+    position: relative;
+
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 15px;
+        bottom: 0;
+        left: 15px;
+        transition: background-color .3s ease-in-out;
+        pointer-events: none;
+    }
+
+    &.deleting::after {
+        background: rgba($black, .3);
+        pointer-events: all;
+    }
+
+    &.deleting:hover::after {
+        cursor: not-allowed;
+    }
 }
 
 .block-header {

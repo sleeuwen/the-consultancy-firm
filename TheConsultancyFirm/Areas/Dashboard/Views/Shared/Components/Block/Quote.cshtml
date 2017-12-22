@@ -1,7 +1,7 @@
 ﻿@model QuoteBlock
 
 <div class="row">
-    <div class="col-md-12 block quote-block">
+    <div class="col-md-12 block quote-block" data-id="@Model.Id">
         <div class="block-header">
             <img class="handle" src="~/images/dragndrop-handle.svg" />
 
@@ -20,7 +20,7 @@
         <div class="block-content">
             <form asp-controller="Blocks" asp-action="Quote">
                 <input type="hidden" name="type" value="quote"/>
-                <input type="hidden" asp-for="Id"/>
+                <input type="hidden" name="Id" value="@Model.Id"/>
                 <input type="hidden" asp-for="Date"/>
                 <input type="hidden" asp-for="Order"/>
 

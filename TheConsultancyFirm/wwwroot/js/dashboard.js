@@ -1,4 +1,4 @@
-$(function () {
+﻿$(function () {
     var $blocksList = $('#blocksList');
 
     $blocksList.on('click', '.expand', function () {
@@ -6,7 +6,24 @@ $(function () {
     });
     $blocksList.on('click', '.delete', function () {
         var $block = $(this).closest('.block');
-        $block.remove();
+        $block.removeClass('open');
+        var id = $block.data('id');
+
+        $.ajax({
+            method: 'DELETE',
+            url: '/dashboard/blocks/delete/'+id,
+            success: function () {
+                $block.slideUp(function () {
+                    $block.remove();
+                    $(this).dequeue();
+                });
+            },
+            error: function () {
+                console.log(arguments);
+                $block.removeClass('deleting');
+            },
+        });
+        $block.addClass('deleting');
     });
 
     $blocksList.each(function (idx, element) {

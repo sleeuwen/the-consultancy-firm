@@ -39,70 +39,24 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         [HttpPost]
-        public async Task CreateQuote(Enumeration.ContentItemType contentType, int contentId, [Bind("Order,Text,Author")] QuoteBlock block)
+        public async Task Quote(Enumeration.ContentItemType contentType, int contentId, [Bind("Id,Date,Order,Text,Author")] QuoteBlock block)
         {
-            block.Date = DateTime.UtcNow;
+            if (block.Id == 0) block.Date = DateTime.UtcNow;
             block.LastModified = DateTime.UtcNow;
-
             SetTypeId(block, contentType, contentId);
-
-            await _blockRepository.Create(block);
+            await _blockRepository.Update(block);
         }
 
         [HttpPost]
-        public async Task CreateText(Enumeration.ContentItemType contentType, int contentId, [Bind("Order,Text")] TextBlock block)
+        public async Task Text(Enumeration.ContentItemType contentType, int contentId, [Bind("Id,Date,Order,Text")] TextBlock block)
         {
-            block.Date = DateTime.UtcNow;
+            if (block.Id == 0) block.Date = DateTime.UtcNow;
             block.LastModified = DateTime.UtcNow;
-
             SetTypeId(block, contentType, contentId);
-
-            await _blockRepository.Create(block);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Quote(Enumeration.ContentItemType contentType, int contentId, [Bind("Id,Date,Order,Text,Author")] QuoteBlock quote)
-        {
-            var block = (QuoteBlock) await _blockRepository.Get(quote.Id);
-            if (block == null)
-            {
-                block = new QuoteBlock {Date = DateTime.UtcNow};
-                SetTypeId(block, contentType, contentId);
-            }
-
-            block.Author = quote.Author;
-            block.Text = quote.Text;
-            block.LastModified = DateTime.UtcNow;
             await _blockRepository.Update(block);
-
-            return Ok();
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Text(Enumeration.ContentItemType contentType, int contentId, [Bind("Id,Date,Order,Text")] TextBlock text)
-        {
-            var block = (TextBlock) await _blockRepository.Get(text.Id);
-            if (block == null)
-            {
-                block = new TextBlock {Date = DateTime.UtcNow};
-                SetTypeId(block, contentType, contentId);
-            }
-
-            block.Text = text.Text;
-            block.LastModified = DateTime.UtcNow;
-            await _blockRepository.Update(block);
-
-            return Ok();
-        }
-
-        [HttpPost]
-        [HttpPost("{id}")]
-        public async Task Save(int? id, BlockViewModel vm)
-        {
-            
-        }
-
-        [HttpDelete("{id}")]
+        [HttpDelete]
         public async Task Delete(int id)
         {
             await _blockRepository.Delete(id);
@@ -126,15 +80,5 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     break;
             }
         }
-    }
-
-    public class BlockViewModel
-    {
-        public int ContentId { get; set; }
-        public Enumeration.ContentItemType ContentType { get; set; }
-
-        public int Id { get; set; }
-        public string Text { get; set; }
-        public string Author { get; set; }
     }
 }

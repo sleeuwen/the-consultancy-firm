@@ -143,7 +143,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var @case = await _context.Cases.SingleOrDefaultAsync(m => m.Id == id);
+            var @case = await _context.Cases.Include(c => c.Blocks).SingleOrDefaultAsync(m => m.Id == id);
+            _context.Blocks.RemoveRange(@case.Blocks);
             _context.Cases.Remove(@case);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

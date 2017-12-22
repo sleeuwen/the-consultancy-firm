@@ -1,0 +1,12 @@
+﻿@model QuoteBlock
+
+<blockquote class="mt-4">
+    <div>
+        <i class="fa fa-quote-left" aria-hidden="true"></i>
+        <svg><path stroke="gray" d="M5 10 l50 0"/></svg>
+        <p>@Model.Author</p>
+    </div>
+    <p class="quote">
+        @Model.Text
+    </p>
+</blockquote>
