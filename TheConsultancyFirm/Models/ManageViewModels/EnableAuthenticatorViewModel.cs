@@ -10,9 +10,9 @@ namespace TheConsultancyFirm.Models.ManageViewModels
     public class EnableAuthenticatorViewModel
     {
             [Required]
-            [StringLength(7, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [StringLength(7, ErrorMessage = "Het {0} moet ten minste {2} en maximaal {1} karakters lang zijn.", MinimumLength = 6)]
             [DataType(DataType.Text)]
-            [Display(Name = "Verification Code")]
+            [Display(Name = "Verificatie Code")]
             public string Code { get; set; }
 
             [ReadOnly(true)]
