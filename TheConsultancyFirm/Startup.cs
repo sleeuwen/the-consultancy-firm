@@ -36,6 +36,7 @@ namespace TheConsultancyFirm
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
 
 			services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
