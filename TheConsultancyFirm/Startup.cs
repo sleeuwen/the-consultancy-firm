@@ -36,6 +36,7 @@ namespace TheConsultancyFirm
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
 
 			services.AddDbContext<ApplicationDbContext>(options =>
@@ -44,8 +45,13 @@ namespace TheConsultancyFirm
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-
+            
             services.Configure<MailSettings>(Configuration.GetSection("Mail"));
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            });
 
             services.AddMvc();
         }

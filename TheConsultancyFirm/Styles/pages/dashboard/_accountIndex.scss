@@ -1,0 +1,22 @@
+﻿@import '../../variables';
+
+#accountmenu {
+    list-style: none;
+    padding-left: 0;
+
+    li {
+        float: left;
+    }
+
+    a {
+        display: block;
+        color: $orange;
+        text-align: center;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .active a {
+        font-weight: bold;
+    }
+}
