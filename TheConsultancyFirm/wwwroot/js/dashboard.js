@@ -1,16 +1,17 @@
-﻿//Dahboard berichten badge
-$.ajax({
-    url: '/Dashboard/Contacts/CountUnreaded',
-    dataType: 'json',
-    success: function (result) {
-        console.log(result);
-        if (result !== 0)
-        {
-            $(".badge").css('display', 'inline-block');
-            $(".badge").text(result);
-        }
-        else
-            $(".badge").css('display', 'none');
-    },
-    timeout: 5000
-});
+﻿//Dashboard berichten badge
+
+function updateUnreadCounter() {
+    $.ajax({
+        url: '/api/dashboard/contacts/unread',
+        dataType: 'json',
+        success: function (result) {
+            $('.badge').text(result === 0 ? '' : result);
+        },
+        complete: function () {
+            setTimeout(updateUnreadCounter, 20000);
+        },
+        timeout: 5000
+    });
+}
+
+updateUnreadCounter();

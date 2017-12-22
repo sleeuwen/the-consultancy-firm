@@ -7,8 +7,9 @@ namespace TheConsultancyFirm.Repositories
 {
     public interface IContactRepository
     {
+        Task<Contact> Get(int id);
+        Task<IEnumerable<Contact>> GetAll();
         Task AddAsync(Contact contact);
-        IEnumerable<Contact> GetAll();
         Task Update(Contact contact);
         int CountUnreaded();
     }

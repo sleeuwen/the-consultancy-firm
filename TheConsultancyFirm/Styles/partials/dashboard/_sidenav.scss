@@ -73,7 +73,7 @@
     }
 
     .badge {
-        display: none;
+        display: inline-block;
         width: 2em;
         height: 2em;
         line-height: 1.5em;
@@ -81,5 +81,9 @@
         background: $turquoise;
         color: $white;
         border-radius: 50%;
+
+        &:empty {
+            display: none;
+        }
     }
 }

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using TheConsultancyFirm.Data;
-using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
@@ -25,7 +19,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> Index()
         {
             ViewData["Title"] = "Berichten";
-            return View(await _repository.GetAll().ToAsyncEnumerable().ToList());
+            return View(await _repository.GetAll());
         }
         
         // GET: Dashboard/Contacts/Details/5
@@ -37,24 +31,21 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var contact = await _repository.GetAll().ToAsyncEnumerable().SingleOrDefault(m => m.Id == id);
+            var contact = await _repository.Get((int)id);
             if (contact == null)
             {
                 return NotFound();
             }
 
-            contact.Readed = true;
-
-            await _repository.Update(contact);
+            if (!contact.Readed)
+            {
+                contact.Readed = true;
+                await _repository.Update(contact);
+            }
 
             return View(contact);
         }
-
-        public int CountUnreaded()
-        {
-            return _repository.CountUnreaded();
-        }
-
+        
         //// GET: Dashboard/Contacts/Delete/5
         //public async Task<IActionResult> Delete(int? id)
         //{
