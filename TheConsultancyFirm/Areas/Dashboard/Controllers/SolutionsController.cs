@@ -98,6 +98,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             if (ModelState.IsValid)
             {
+                solution.LastModified = DateTime.UtcNow;
                 try
                 {
                     await _solutionRepository.Update(solution);
