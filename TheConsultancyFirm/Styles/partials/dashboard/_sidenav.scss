@@ -81,5 +81,9 @@
         background: $turquoise;
         color: $white;
         border-radius: 50%;
+
+        &:empty {
+            display: none;
+        }
     }
 }

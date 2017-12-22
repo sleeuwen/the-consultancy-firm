@@ -39,7 +39,7 @@ namespace TheConsultancyFirm
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
 
-			services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
@@ -63,6 +63,10 @@ namespace TheConsultancyFirm
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseStatusCodePagesWithReExecute("/Error/Index", "?statusCode={0}");
