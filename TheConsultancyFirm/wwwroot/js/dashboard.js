@@ -60,12 +60,21 @@
         });
     });
 
+    var resetStatusTextTimeout = null;
     $('[data-blocks-submit]').on('click', function () {
         var selector = $(this).data('blocks-submit');
 
+        if (resetStatusTextTimeout !== null) {
+            clearTimeout(resetStatusTextTimeout);
+            resetStatusTextTimeout = null;
+        }
+
+        var $statusText = $('#statusText');
+        $statusText.removeClass('text-danger').addClass('text-muted');
         $(selector).each(function () {
             tinymce.triggerSave();
 
+            $statusText.text('Bezig met opslaan...');
             $.ajax({
                 method: 'POST',
                 url: $(this).attr('action'),
@@ -73,7 +82,10 @@
                 success: function (id) {
                     console.log(id);
 
-                    $('#blocksList').find('.block').each(function (index, element) {
+                    var $blocks = $blocksList.find('.block');
+                    var saved = 0;
+                    $statusText.text('Opslaan van de blokken: ' + saved + ' / ' + $blocks.length);
+                    $blocks.each(function (index, element) {
                         $(this).find('form').find('input[name=Order]').val(index + 1);
 
                         $.ajax({
@@ -81,12 +93,22 @@
                             url: $(this).find('form').attr('action') + '?contentType=Case&contentId=' + id,
                             data: $(this).find('form').serialize(),
                             success: function () {
+                                saved += 1;
+                                $statusText.text('Opslaan van de blokken: ' + saved + ' / ' + $blocks.length);
+
+                                if (saved === $blocks.length) {
+                                    $statusText.text('Opgeslagen.');
+                                    resetStatusTextTimeout = setTimeout(function () {
+                                        $statusText.text('');
+                                    }, 5000);
+                                }
                             },
                         });
                     });
                 },
                 error: function (err) {
                     console.log(err);
+                    $statusText.text('Er is een fout opgetreden tijdens het opslaan.').addClass('text-danger').removeClass('text-muted');
                 },
             });
         });

@@ -50,8 +50,11 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Cases/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Customers = await _context.Customers
+                .Select(c => new SelectListItem {Value = c.Id.ToString(), Text = c.Name})
+                .ToListAsync();
             return View();
         }
 
@@ -60,15 +63,25 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> Create([Bind("Title")] Case @case)
+        public async Task<ObjectResult> Create([Bind("Title,CustomerId")] Case @case)
         {
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
             @case.Date = DateTime.UtcNow;
             @case.LastModified = DateTime.UtcNow;
             _context.Cases.Add(@case);
-            await _context.SaveChangesAsync();
-            return new ObjectResult(@case.Id);
+            try
+            {
+                await _context.SaveChangesAsync();
+                return new ObjectResult(@case.Id);
+            }
+            catch (DbUpdateException)
+            {
+                return new ObjectResult(null)
+                {
+                    StatusCode = StatusCodes.Status500InternalServerError,
+                };
+            }
         }
 
         // GET: Dashboard/Cases/Edit/5
@@ -84,6 +97,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.Customers = await _context.Customers
+                .Select(c => new SelectListItem {Value = c.Id.ToString(), Text = c.Name})
+                .ToListAsync();
             return View(@case);
         }
 
@@ -92,7 +109,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> Edit(int id, [Bind("Id,Title,Date")] Case @case)
+        public async Task<ObjectResult> Edit(int id, [Bind("Id,CustomerId,Title,Date")] Case @case)
         {
             if (id != @case.Id)
             {

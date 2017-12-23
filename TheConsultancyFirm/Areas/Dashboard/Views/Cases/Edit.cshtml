@@ -1,10 +1,10 @@
-@model TheConsultancyFirm.Models.Case
+@model Case
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Aanpassen";
 }
 
-<h2>Edit</h2>
+<h2>Aanpassen</h2>
 
 <h4>Case</h4>
 <hr />
@@ -16,14 +16,35 @@
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
                     <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" placeholder="Title"/>
+                    <input asp-for="Title" class="form-control" placeholder="Titel"/>
                     <span asp-validation-for="Title" class="text-danger"></span>
                 </div>
-
+                <div class="form-group">
+                    <label asp-for="CustomerId" class="control-label"></label>
+                    <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.Customers">
+                    </select>
+                    <span asp-validation-for="CustomerId" class="invalid-feedback d-block"></span>
+                    @if (ViewBag.Customers.Count == 0) {
+                        <small id="customerHelp" class="form-text text-muted">
+                            Er zijn nog geen klanten toegevoegd, klik 
+                            <a asp-controller="Customers" asp-action="Create">hier</a>
+                            om een nieuwe klant toe te voegen.
+                        </small>
+                    }
+                    else
+                    {
+                        <small id="customerHelp" class="form-text text-muted">
+                            Zit de juiste klant er niet bij? Klik dan
+                            <a asp-controller="Customers" asp-action="Create">hier</a>
+                            om een nieuwe klant toe te voegen.
+                        </small>
+                    }
+                </div>
             </div>
         </div>
     </form>
 
+    <label>Content</label>
     <div id="blocksList">
         @foreach (var block in Model.Blocks.OrderBy(b => b.Order))
         {
@@ -33,19 +54,20 @@
 
     <div class="row mt-3">
         <div class="col-12">
-            <button class="btn btn-default" data-toggle="modal" data-target="#chooseBlockModal" type="button">Add an Item</button>
+            <button class="btn btn-default" data-toggle="modal" data-target="#chooseBlockModal" type="button">Voeg item toe</button>
         </div>
     </div>
 </div>
 
 <div class="savebar">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-md-6">
-                <a asp-action="Index">Back to List</a>
+                <a asp-action="Index">Terug naar de lijst</a>
             </div>
-            <div class="col-md-6">
-                <input type="submit" value="Save" class="btn btn-default" style="float: right;" data-blocks-submit="#updateCase"/>
+            <div class="col-md-6 d-flex justify-content-end align-items-center">
+                <small class="text-muted mr-3" id="statusText"></small>
+                <input type="submit" value="Opslaan" class="btn btn-default" data-blocks-submit="#updateCase"/>
             </div>
         </div>
     </div>
