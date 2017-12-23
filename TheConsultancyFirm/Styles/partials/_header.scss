@@ -16,7 +16,8 @@ header {
         color: $blackLink !important;
         text-align: center;
 
-        &:hover {
+        &:hover,
+        &.active {
             font-weight: $medium;
         }
 
