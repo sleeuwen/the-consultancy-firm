@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TheConsultancyFirm.Extensions;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Models.ManageViewModels;
 using TheConsultancyFirm.Services;

@@ -1,7 +1,11 @@
 ﻿using System;
+using System.IO;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Common;
+using TheConsultancyFirm.Extensions;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 
@@ -12,11 +16,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly ICaseRepository _caseRepository;
         private readonly IBlockRepository _blockRepository;
+        private readonly IHostingEnvironment _environment;
 
-        public BlocksController(IBlockRepository blockRepository, ICaseRepository caseRepository)
+        public BlocksController(IBlockRepository blockRepository, ICaseRepository caseRepository, IHostingEnvironment environment)
         {
             _blockRepository = blockRepository;
             _caseRepository = caseRepository;
+            _environment = environment;
         }
 
         public IActionResult Carousel()
@@ -60,6 +66,46 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task Delete(int id)
         {
             await _blockRepository.Delete(id);
+        }
+
+        [Route("/api/dashboard/blocks/upload")]
+        [HttpPost]
+        public async Task<ObjectResult> Upload(IFormFile file)
+        {
+            // File not sent
+            if (file == null || file.Length == 0)
+                return new BadRequestObjectResult((object) null);
+
+            // Only accept jpg or png images
+            var ext = Path.GetExtension(file.FileName);
+            if (ext != ".jpg" && ext != ".jpeg" && ext != ".png")
+                return new BadRequestObjectResult((object) null);
+
+            // Create directory to save image in.
+            var date = DateTime.UtcNow;
+            var path = $"/images/blocks/{date.Year}/{date.Month}/{date.Day}";
+            var dir = _environment.WebRootPath + path;
+            Directory.CreateDirectory(dir);
+
+            // Get unique filename
+            var filename = Path.GetFileNameWithoutExtension(file.FileName);
+            if (System.IO.File.Exists(dir + "/" + filename.Sluggify() + ext))
+            {
+                var n = 1;
+                while (System.IO.File.Exists(dir + "/" + (filename + " " + n).Sluggify() + ext))
+                    n++;
+
+                filename += " " + n;
+            }
+
+            // Save file as the slugged unique filename.
+            var filepath = path + "/" + filename.Sluggify() + ext;
+            using (var fileStream = new FileStream(_environment.WebRootPath + filepath, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            return new ObjectResult(new {location = filepath});
         }
 
         private void SetTypeId(Block block, Enumeration.ContentItemType type, int id)
