@@ -123,7 +123,7 @@
         tinymce.init({
             selector: '.text-block textarea.form-control',
             height: 400,
-            plugins: 'anchor autolink emoticons link lists image',
+            plugins: 'anchor autolink emoticons link lists image paste save charmap hr',
             body_class: 'content',
             content_css: [
                 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css',

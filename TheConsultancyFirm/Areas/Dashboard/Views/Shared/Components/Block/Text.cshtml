@@ -1,5 +1,10 @@
-﻿@model TextBlock
-
+﻿@using System.Text.RegularExpressions
+@model TextBlock
+@{
+    var newlineIdx = Model.Text?.IndexOf("\n", StringComparison.Ordinal) ?? -1;
+    var title = Model.Text?.Substring(0, newlineIdx < 0 ? Model.Text.Length : newlineIdx);
+    title = Regex.Replace(title, "<[^>]*>", "");
+}
 <div class="row">
     <div class="col-md-12 block text-block" data-id="@Model.Id">
         <div class="block-header">
@@ -7,9 +12,8 @@
 
             <span class="expand"></span>
 
-            <strong>Text: </strong>
-            &nbsp;
-            <span class="block-title">@Model.Text?.Substring(0, Math.Min(15, Model.Text.Length))...</span>
+            <strong>Text:</strong>
+            <span class="block-title">@title</span>
 
             <span class="modifiedat" title="Last modified date">
                 @Model.LastModified.ToString("dd MMM, yyyy HH:mm")
