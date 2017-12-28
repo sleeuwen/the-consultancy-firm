@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using TheConsultancyFirm.Extensions;
 
 namespace TheConsultancyFirm.Models
 {
     public class Case
     {
         public int Id { get; set; }
+
         [Required]
         [Display(Name = "Titel")]
         public string Title { get; set; }
@@ -19,5 +21,7 @@ namespace TheConsultancyFirm.Models
 
         public List<Block> Blocks { get; set; }
         public List<CaseTag> CaseTags { get; set; }
+
+        public string Slug => $"{Id}-{Title.Sluggify()}";
     }
 }
