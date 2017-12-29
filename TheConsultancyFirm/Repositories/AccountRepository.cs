@@ -15,6 +15,7 @@ namespace TheConsultancyFirm.Repositories
         {
             _context = context;
         }
+
         public ApplicationUser GetUserByEmail(string email)
         {
             return _context.Users.FirstOrDefault(a => a.Email == email);

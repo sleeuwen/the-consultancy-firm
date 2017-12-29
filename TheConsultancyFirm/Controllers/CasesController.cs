@@ -30,19 +30,17 @@ namespace TheConsultancyFirm.Controllers
         {
             var caseItem = await _caseRepository.Get(id);
             if (caseItem == null) return NotFound();
-            var Adjacents = await GetAdjacent(caseItem);
 
+            var (previous, next) = await GetAdjacent(caseItem);
             var relatedItems = _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
 
-            var model = new CaseDetailViewModel
+            return View(new CaseDetailViewModel
             {
                 CaseItem = caseItem,
                 ContentItems = relatedItems,
-                Next = Adjacents.Next,
-                Previous = Adjacents.Previous
-
-            };
-            return View(model);
+                Next = next,
+                Previous = previous
+            });
         }
 
         public async Task<(Case Previous, Case Next)> GetAdjacent(Case c)

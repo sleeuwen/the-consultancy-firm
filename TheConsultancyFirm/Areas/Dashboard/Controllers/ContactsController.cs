@@ -31,7 +31,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var contact = await _repository.Get((int)id);
+            var contact = await _repository.Get((int) id);
             if (contact == null)
             {
                 return NotFound();

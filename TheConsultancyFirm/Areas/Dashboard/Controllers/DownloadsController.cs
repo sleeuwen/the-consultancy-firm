@@ -92,6 +92,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             {
                 return NotFound();
             }
+
             return View(download);
         }
 
@@ -174,6 +175,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             {
                 file.Delete();
             }
+
             await _downloadRepository.Delete(id);
             return RedirectToAction(nameof(Index));
         }

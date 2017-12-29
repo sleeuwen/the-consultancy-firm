@@ -20,6 +20,7 @@ namespace TheConsultancyFirm.Models
 
         [DisplayName("Amount of downloads")]
         public int AmountOfDownloads { get; set; }
+
         public DateTime Date { get; set; }
 
         public string LinkPath { get; set; }

@@ -16,7 +16,8 @@ namespace TheConsultancyFirm.Repositories
 
         public Solution Get(int id)
         {
-            return _context.Solutions.Include(c => c.Blocks).Include(c => c.SolutionTags).ThenInclude(t => t.Tag).FirstOrDefault(c => c.Id == id);
+            return _context.Solutions.Include(c => c.Blocks).Include(c => c.SolutionTags).ThenInclude(t => t.Tag)
+                .FirstOrDefault(c => c.Id == id);
         }
 
         public IQueryable<Solution> GetAll()

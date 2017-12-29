@@ -12,6 +12,7 @@ namespace TheConsultancyFirm.Tests.Controllers
     public class ContactsControllerTest
     {
         private readonly Mock<IContactRepository> _contactRepository;
+
         public ContactsControllerTest()
         {
             _contactRepository = new Mock<IContactRepository>();
@@ -171,6 +172,5 @@ namespace TheConsultancyFirm.Tests.Controllers
 
             _contactRepository.Verify(repo => repo.Update(model), Times.Once);
         }
-
     }
 }

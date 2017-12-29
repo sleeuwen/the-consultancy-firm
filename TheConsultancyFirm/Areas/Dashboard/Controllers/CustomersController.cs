@@ -18,7 +18,6 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             _environment = environment;
             _customerRepository = customerRepository;
-
         }
 
         // GET: Dashboard/Customers
@@ -35,7 +34,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var customer = await _customerRepository.Get((int)id);
+            var customer = await _customerRepository.Get((int) id);
             if (customer == null)
             {
                 return NotFound();
@@ -67,7 +66,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     ModelState.AddModelError("Image", "The uploaded file was not an image");
                     return View(customer);
                 }
-                customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ","") + extension;
+
+                customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ", "") + extension;
                 using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
                 {
                     await customer.Image.CopyToAsync(fileStream);
@@ -78,6 +78,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 ModelState.AddModelError("Image", "Filesize to small");
                 return View(customer);
             }
+
             await _customerRepository.Create(customer);
             return RedirectToAction(nameof(Index));
         }
@@ -95,6 +96,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             {
                 return NotFound();
             }
+
             return View(customer);
         }
 
@@ -113,7 +115,6 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if (!ModelState.IsValid) return View(customer);
             try
             {
-
                 if (customer.Image.Length > 0)
                 {
                     var file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
@@ -121,18 +122,21 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     {
                         file.Delete();
                     }
+
                     var extension = Path.GetExtension(customer.Image.FileName);
                     if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
                     {
                         ModelState.AddModelError("Image", "The uploaded file was not an image");
                         return View(customer);
                     }
+
                     customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ", "") + extension;
                     using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
                     {
                         await customer.Image.CopyToAsync(fileStream);
                     }
                 }
+
                 await _customerRepository.Update(customer);
             }
             catch (DbUpdateConcurrencyException)
@@ -146,6 +150,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     throw;
                 }
             }
+
             return RedirectToAction(nameof(Index));
         }
 
@@ -157,7 +162,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var customer = await _customerRepository.Get((int)id);
+            var customer = await _customerRepository.Get((int) id);
             if (customer == null)
             {
                 return NotFound();
@@ -177,6 +182,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             {
                 file.Delete();
             }
+
             await _customerRepository.Delete(id);
             return RedirectToAction(nameof(Index));
         }

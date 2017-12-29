@@ -42,6 +42,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 ModelState.AddModelError("Text", "Tag text can't be empty");
                 return View(tag);
             }
+
             await _tagRepository.Create(tag);
             return RedirectToAction(nameof(Index));
         }

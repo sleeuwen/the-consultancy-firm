@@ -34,10 +34,10 @@ namespace TheConsultancyFirm.Tests.Services
                     Id = 1,
                     CaseTags = new List<CaseTag>
                     {
-                        new CaseTag{TagId = 1},
-                        new CaseTag{TagId = 2},
-                        new CaseTag{TagId = 3},
-                        new CaseTag{TagId = 4},
+                        new CaseTag {TagId = 1},
+                        new CaseTag {TagId = 2},
+                        new CaseTag {TagId = 3},
+                        new CaseTag {TagId = 4},
                     }
                 },
                 new Case
@@ -45,8 +45,8 @@ namespace TheConsultancyFirm.Tests.Services
                     Id = 2,
                     CaseTags = new List<CaseTag>
                     {
-                        new CaseTag{TagId = 1},
-                        new CaseTag{TagId = 2}
+                        new CaseTag {TagId = 1},
+                        new CaseTag {TagId = 2}
                     }
                 },
             };
@@ -56,11 +56,11 @@ namespace TheConsultancyFirm.Tests.Services
             _newsRepository.Setup(repo => repo.GetAll()).Returns(new List<NewsItem>().AsQueryable());
             _solutionRepository.Setup(repo => repo.GetAll()).Returns(new List<Solution>().AsQueryable());
 
-            var service = new RelatedItemsService(_caseRepository.Object ,_solutionRepository.Object , _newsRepository.Object , _downloadRepository.Object);
+            var service = new RelatedItemsService(_caseRepository.Object, _solutionRepository.Object, _newsRepository.Object, _downloadRepository.Object);
 
             var result = service.GetRelatedItems(1, Enumeration.ContentItemType.Case);
 
-            Assert.Equal(50,result.First().Score);
+            Assert.Equal(50, result.First().Score);
         }
 
         [Fact]
@@ -73,8 +73,8 @@ namespace TheConsultancyFirm.Tests.Services
                     Id = 1,
                     CaseTags = new List<CaseTag>
                     {
-                        new CaseTag{TagId = 3},
-                        new CaseTag{TagId = 4},
+                        new CaseTag {TagId = 3},
+                        new CaseTag {TagId = 4},
                     }
                 },
                 new Case
@@ -82,8 +82,8 @@ namespace TheConsultancyFirm.Tests.Services
                     Id = 2,
                     CaseTags = new List<CaseTag>
                     {
-                        new CaseTag{TagId = 1},
-                        new CaseTag{TagId = 2}
+                        new CaseTag {TagId = 1},
+                        new CaseTag {TagId = 2}
                     }
                 },
             };

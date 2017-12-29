@@ -16,7 +16,8 @@ namespace TheConsultancyFirm.Repositories
 
         public NewsItem Get(int id)
         {
-            return _context.NewsItems.Include(c => c.Blocks).Include(c => c.NewsItemTags).ThenInclude(t => t.Tag).FirstOrDefault(c => c.Id == id);
+            return _context.NewsItems.Include(c => c.Blocks).Include(c => c.NewsItemTags).ThenInclude(t => t.Tag)
+                .FirstOrDefault(c => c.Id == id);
         }
 
         public IQueryable<NewsItem> GetAll()

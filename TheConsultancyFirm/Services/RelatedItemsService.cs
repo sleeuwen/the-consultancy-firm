@@ -37,7 +37,7 @@ namespace TheConsultancyFirm.Services
                 var max = tags.Count > caseItem.CaseTags.Count ? tags.Count : caseItem.CaseTags.Count;
                 int score = (incommon.Count() * 100) / max;
 
-                matchingItems.Add(new ContentItem{Id = caseItem.Id, Type = Enumeration.ContentItemType.Case, Score = score});
+                matchingItems.Add(new ContentItem {Id = caseItem.Id, Type = Enumeration.ContentItemType.Case, Score = score});
             }
 
             foreach (var solutionItem in _solutionRepository.GetAll().Include(i => i.SolutionTags))
@@ -48,7 +48,7 @@ namespace TheConsultancyFirm.Services
                 var max = tags.Count > solutionItem.SolutionTags.Count ? tags.Count : solutionItem.SolutionTags.Count;
                 int score = (incommon.Count() * 100) / max;
 
-                matchingItems.Add(new ContentItem { Id = solutionItem.Id, Type = Enumeration.ContentItemType.Solution, Score = score });
+                matchingItems.Add(new ContentItem {Id = solutionItem.Id, Type = Enumeration.ContentItemType.Solution, Score = score});
             }
 
             foreach (var downloadItem in _downloadRepository.GetAll().Include(i => i.DownloadTags))
@@ -59,7 +59,7 @@ namespace TheConsultancyFirm.Services
                 var max = tags.Count > downloadItem.DownloadTags.Count ? tags.Count : downloadItem.DownloadTags.Count;
                 int score = (incommon.Count() * 100) / max;
 
-                matchingItems.Add(new ContentItem { Id = downloadItem.Id, Type = Enumeration.ContentItemType.Download, Score = score });
+                matchingItems.Add(new ContentItem {Id = downloadItem.Id, Type = Enumeration.ContentItemType.Download, Score = score});
             }
 
             foreach (var newsItem in _newsRepository.GetAll().Include(i => i.NewsItemTags))
@@ -70,7 +70,7 @@ namespace TheConsultancyFirm.Services
                 var max = tags.Count > newsItem.NewsItemTags.Count ? tags.Count : newsItem.NewsItemTags.Count;
                 int score = (incommon.Count() * 100) / max;
 
-                matchingItems.Add(new ContentItem { Id = newsItem.Id, Type = Enumeration.ContentItemType.Solution, Score = score });
+                matchingItems.Add(new ContentItem {Id = newsItem.Id, Type = Enumeration.ContentItemType.Solution, Score = score});
             }
 
             return matchingItems.OrderByDescending(item => item.Score).Take(3).ToList();
@@ -99,6 +99,7 @@ namespace TheConsultancyFirm.Services
                     tags = news.NewsItemTags.Select(t => t.TagId).ToList();
                     break;
             }
+
             return tags;
         }
     }
