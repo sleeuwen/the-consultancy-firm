@@ -25,8 +25,8 @@ namespace TheConsultancyFirm.Repositories
             var user = GetUserByEmail(email);
 
             if (user == null) return;
-            
-           _context.Users.Remove(user);
+
+            _context.Users.Remove(user);
         }
     }
 }

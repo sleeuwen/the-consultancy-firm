@@ -28,13 +28,13 @@ namespace TheConsultancyFirm.Controllers
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IAccountRepository accountRepository, 
+            IAccountRepository accountRepository,
             IMailService emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _accountRepository = accountRepository;
-           _emailSender = emailSender;
+            _emailSender = emailSender;
         }
 
         [TempData]
@@ -417,7 +417,7 @@ namespace TheConsultancyFirm.Controllers
             return false;
         }
 
-       
+
         #endregion
     }
 }

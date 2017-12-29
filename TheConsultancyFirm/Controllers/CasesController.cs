@@ -31,17 +31,17 @@ namespace TheConsultancyFirm.Controllers
             var caseItem = await _caseRepository.Get(id);
             if (caseItem == null) return NotFound();
             var Adjacents = await GetAdjacent(caseItem);
-            
+
             var relatedItems = _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
 
-	        var model = new CaseDetailViewModel
-	        {
-		        CaseItem = caseItem,
-				ContentItems = relatedItems,
-				Next = Adjacents.Next,
-				Previous = Adjacents.Previous
+            var model = new CaseDetailViewModel
+            {
+                CaseItem = caseItem,
+                ContentItems = relatedItems,
+                Next = Adjacents.Next,
+                Previous = Adjacents.Previous
 
-			};
+            };
             return View(model);
         }
 

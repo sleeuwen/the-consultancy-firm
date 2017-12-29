@@ -15,10 +15,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         private readonly IHostingEnvironment _environment;
         private readonly IDownloadRepository _downloadRepository;
 
-		public DownloadsController(IDownloadRepository downloadRepository, IHostingEnvironment environment)
+        public DownloadsController(IDownloadRepository downloadRepository, IHostingEnvironment environment)
         {
             _environment = environment;
-	        _downloadRepository = downloadRepository;
+            _downloadRepository = downloadRepository;
         }
 
         // GET: Downloads
@@ -35,7 +35,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-	        var download = await _downloadRepository.Get((int)id);
+            var download = await _downloadRepository.Get((int) id);
             if (download == null)
             {
                 return NotFound();
@@ -51,7 +51,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Downloads/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -62,7 +62,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if (download.File?.Length > 0)
             {
                 download.Date = DateTime.UtcNow;
-                download.LinkPath = "/files/" + download.File.FileName.Replace(" ","");
+                download.LinkPath = "/files/" + download.File.FileName.Replace(" ", "");
                 Directory.CreateDirectory(_environment.WebRootPath + "/files");
                 using (var fileStream = new FileStream(_environment.WebRootPath + download.LinkPath, FileMode.Create))
                 {
@@ -87,7 +87,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-	        var download = await _downloadRepository.Get((int) id);
+            var download = await _downloadRepository.Get((int) id);
             if (download == null)
             {
                 return NotFound();
@@ -96,7 +96,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Downloads/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -154,7 +154,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-	        var download = await _downloadRepository.Get((int) id);
+            var download = await _downloadRepository.Get((int) id);
             if (download == null)
             {
                 return NotFound();
@@ -168,13 +168,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-	        var download = await _downloadRepository.Get(id);
-	        var file = new FileInfo(_environment.WebRootPath + download.LinkPath);
-	        if (file.Exists)
-	        {
-		        file.Delete();
-	        }
-			await _downloadRepository.Delete(id);
+            var download = await _downloadRepository.Get(id);
+            var file = new FileInfo(_environment.WebRootPath + download.LinkPath);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+            await _downloadRepository.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 

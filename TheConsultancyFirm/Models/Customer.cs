@@ -9,18 +9,18 @@ namespace TheConsultancyFirm.Models
     {
         public int Id { get; set; }
 
-		[Required]
+        [Required]
         public string Name { get; set; }
         public string LogoPath { get; set; }
 
         [Url]
         [Required]
-		public string Link { get; set; }
+        public string Link { get; set; }
 
         public List<Case> Cases { get; set; }
         public List<CustomerSolution> CustomerSolutions { get; set; }
 
-		[NotMapped]
-		public IFormFile Image { get; set; }
-	}
+        [NotMapped]
+        public IFormFile Image { get; set; }
+    }
 }
