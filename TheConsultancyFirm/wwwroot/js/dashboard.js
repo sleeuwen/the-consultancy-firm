@@ -1,4 +1,4 @@
-﻿$(function () {
+$(function () {
     var $blocksList = $('#blocksList');
 
     $blocksList.on('click', '.expand', function () {

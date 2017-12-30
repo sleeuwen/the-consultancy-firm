@@ -1,4 +1,4 @@
-@model Case
+﻿@model Case
 
 @{
     ViewData["Title"] = Model?.Title + " - Aanpassen";
@@ -33,7 +33,7 @@
                     <span asp-validation-for="CustomerId" class="invalid-feedback d-block"></span>
                     @if (ViewBag.Customers.Count == 0) {
                         <small id="customerHelp" class="form-text text-muted">
-                            Er zijn nog geen klanten toegevoegd, klik 
+                            Er zijn nog geen klanten toegevoegd, klik
                             <a asp-controller="Customers" asp-action="Create">hier</a>
                             om een nieuwe klant toe te voegen.
                         </small>

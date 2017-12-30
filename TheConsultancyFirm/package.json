@@ -16,8 +16,5 @@
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
     "merge-stream": "^1.0.1"
-  },
-  "dependencies": {
-    "svgo": "^1.0.3"
   }
 }

@@ -14,11 +14,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         private readonly IHostingEnvironment _environment;
         private readonly ICustomerRepository _customerRepository;
 
-		public CustomersController(ICustomerRepository customerRepository, IHostingEnvironment environment)
+        public CustomersController(ICustomerRepository customerRepository, IHostingEnvironment environment)
         {
-	        _environment = environment;
-	        _customerRepository = customerRepository;
-
+            _environment = environment;
+            _customerRepository = customerRepository;
         }
 
         // GET: Dashboard/Customers
@@ -35,7 +34,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-	        var customer = await _customerRepository.Get((int)id);
+            var customer = await _customerRepository.Get((int) id);
             if (customer == null)
             {
                 return NotFound();
@@ -51,35 +50,37 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/Customers/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Image,Link")] Customer customer)
         {
-	        if (!ModelState.IsValid) return View(customer);
+            if (!ModelState.IsValid) return View(customer);
 
-	        if (customer.Image?.Length > 0)
-	        {
-		        var extension = Path.GetExtension(customer.Image.FileName);
-		        if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
-		        {
-			        ModelState.AddModelError("Image", "The uploaded file was not an image");
-			        return View(customer);
-				}
-		        customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ","") + extension;
-		        using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
-		        {
-			        await customer.Image.CopyToAsync(fileStream);
-		        }
-	        }
-	        else
-	        {
-		        ModelState.AddModelError("Image", "Filesize to small");
-		        return View(customer);
-	        }
-	        await _customerRepository.Create(customer);
-	        return RedirectToAction(nameof(Index));
+            if (customer.Image?.Length > 0)
+            {
+                var extension = Path.GetExtension(customer.Image.FileName);
+                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
+                {
+                    ModelState.AddModelError("Image", "The uploaded file was not an image");
+                    return View(customer);
+                }
+
+                customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ", "") + extension;
+                using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
+                {
+                    await customer.Image.CopyToAsync(fileStream);
+                }
+            }
+            else
+            {
+                ModelState.AddModelError("Image", "Filesize to small");
+                return View(customer);
+            }
+
+            await _customerRepository.Create(customer);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Dashboard/Customers/Edit/5
@@ -90,16 +91,17 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-	        var customer = await _customerRepository.Get((int) id);
+            var customer = await _customerRepository.Get((int) id);
             if (customer == null)
             {
                 return NotFound();
             }
+
             return View(customer);
         }
 
         // POST: Dashboard/Customers/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -110,43 +112,46 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-	        if (!ModelState.IsValid) return View(customer);
-	        try
-	        {
+            if (!ModelState.IsValid) return View(customer);
+            try
+            {
+                if (customer.Image.Length > 0)
+                {
+                    var file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
+                    if (file.Exists)
+                    {
+                        file.Delete();
+                    }
 
-		        if (customer.Image.Length > 0)
-		        {
-			        var file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
-			        if (file.Exists)
-			        {
-				        file.Delete();
-			        }
-					var extension = Path.GetExtension(customer.Image.FileName);
-			        if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
-			        {
-				        ModelState.AddModelError("Image", "The uploaded file was not an image");
-				        return View(customer);
-			        }
-					customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ", "") + extension;
-			        using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
-			        {
-				        await customer.Image.CopyToAsync(fileStream);
-			        }
-		        }
-		        await _customerRepository.Update(customer);
-	        }
-	        catch (DbUpdateConcurrencyException)
-	        {
-		        if (!await CustomerExists(customer.Id))
-		        {
-			        return NotFound();
-		        }
-		        else
-		        {
-			        throw;
-		        }
-	        }
-	        return RedirectToAction(nameof(Index));
+                    var extension = Path.GetExtension(customer.Image.FileName);
+                    if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
+                    {
+                        ModelState.AddModelError("Image", "The uploaded file was not an image");
+                        return View(customer);
+                    }
+
+                    customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ", "") + extension;
+                    using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
+                    {
+                        await customer.Image.CopyToAsync(fileStream);
+                    }
+                }
+
+                await _customerRepository.Update(customer);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await CustomerExists(customer.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Dashboard/Customers/Delete/5
@@ -157,8 +162,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var customer = await _customerRepository.Get((int)id);
-			if (customer == null)
+            var customer = await _customerRepository.Get((int) id);
+            if (customer == null)
             {
                 return NotFound();
             }
@@ -171,13 +176,14 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-	        var customer = await _customerRepository.Get(id);
-	        FileInfo file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
-	        if (file.Exists)
-	        {
-		        file.Delete();
-	        }
-			await _customerRepository.Delete(id);
+            var customer = await _customerRepository.Get(id);
+            FileInfo file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
+
+            await _customerRepository.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 

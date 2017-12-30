@@ -12,6 +12,7 @@ namespace TheConsultancyFirm.Tests.Controllers
     public class ContactsControllerTest
     {
         private readonly Mock<IContactRepository> _contactRepository;
+
         public ContactsControllerTest()
         {
             _contactRepository = new Mock<IContactRepository>();
@@ -27,7 +28,7 @@ namespace TheConsultancyFirm.Tests.Controllers
 
         [Fact]
         public async Task Details_Success()
-        { 
+        {
             var model = new Contact
             {
                 Id = 0,
@@ -35,17 +36,17 @@ namespace TheConsultancyFirm.Tests.Controllers
                 Email = "kevin@example.com",
                 Subject = "Anders",
                 Message = "I have a question.",
-                Readed = false
+                Read = false
             };
 
             _contactRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult<Contact>(model));
-            
+
             var controller = new ContactsController(_contactRepository.Object);
 
             var result = await controller.Details(model.Id);
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            model.Readed = true;
+            model.Read = true;
             Assert.Equal(model, viewResult.Model);
 
             _contactRepository.Verify(repo => repo.Update(model), Times.Once);
@@ -61,7 +62,7 @@ namespace TheConsultancyFirm.Tests.Controllers
                 Email = "kevin@example.com",
                 Subject = "Anders",
                 Message = "I have a question.",
-                Readed = false
+                Read = false
             };
 
             _contactRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult<Contact>(null));
@@ -85,7 +86,7 @@ namespace TheConsultancyFirm.Tests.Controllers
                 Email = "kevin@example.com",
                 Subject = "Anders",
                 Message = "I have a question.",
-                Readed = true
+                Read = true
             };
 
             _contactRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult(model));
@@ -110,7 +111,7 @@ namespace TheConsultancyFirm.Tests.Controllers
                 Email = "kevin@example.com",
                 Subject = "Anders",
                 Message = "I have a question.",
-                Readed = false
+                Read = false
             };
 
             _contactRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult<Contact>(null));
@@ -134,7 +135,7 @@ namespace TheConsultancyFirm.Tests.Controllers
                 Email = "kevin@example.com",
                 Subject = "Anders",
                 Message = "I have a question.",
-                Readed = true
+                Read = true
             };
 
             _contactRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult(model));
@@ -158,7 +159,7 @@ namespace TheConsultancyFirm.Tests.Controllers
                 Email = "kevin@example.com",
                 Subject = "Anders",
                 Message = "I have a question.",
-                Readed = false
+                Read = false
             };
 
             _contactRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult(model));
@@ -171,6 +172,5 @@ namespace TheConsultancyFirm.Tests.Controllers
 
             _contactRepository.Verify(repo => repo.Update(model), Times.Once);
         }
-
     }
 }

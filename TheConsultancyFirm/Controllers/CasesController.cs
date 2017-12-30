@@ -30,26 +30,25 @@ namespace TheConsultancyFirm.Controllers
         public async Task<IActionResult> Details(string id)
         {
             // Parse everything till the first '-' as integer into `caseId`
-            int.TryParse(id.Substring(0, id.IndexOf('-') < 0 ? id.Length : id.IndexOf('-')), out int caseId);
+            int.TryParse(id.Split('-', 2)[0], out int caseId);
 
             var caseItem = await _caseRepository.Get(caseId);
             if (caseItem == null) return NotFound();
 
+            // Force the right slug
             if (id != caseItem.Slug)
                 return RedirectToAction("Details", new {id = caseItem.Slug});
 
-            var adjacents = await GetAdjacent(caseItem);
-
+            var (previous, next) = await GetAdjacent(caseItem);
             var relatedItems = _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
 
-	        var model = new CaseDetailViewModel
-	        {
-		        CaseItem = caseItem,
-				ContentItems = relatedItems,
-				Next = adjacents.Next,
-				Previous = adjacents.Previous
-			};
-            return View(model);
+            return View(new CaseDetailViewModel
+            {
+                CaseItem = caseItem,
+                ContentItems = relatedItems,
+                Next = next,
+                Previous = previous
+            });
         }
 
         public async Task<(Case Previous, Case Next)> GetAdjacent(Case c)

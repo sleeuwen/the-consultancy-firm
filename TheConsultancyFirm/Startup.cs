@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,7 +46,7 @@ namespace TheConsultancyFirm
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            
+
             services.Configure<MailSettings>(Configuration.GetSection("Mail"));
             services.AddAuthentication().AddGoogle(googleOptions =>
             {
@@ -71,7 +70,7 @@ namespace TheConsultancyFirm
                 app.UseDeveloperExceptionPage();
             }
 
-//            app.UseStatusCodePagesWithReExecute("/Error/Index", "?statusCode={0}");
+            app.UseStatusCodePagesWithReExecute("/Error/Index", "?statusCode={0}");
             app.UseStaticFiles();
 
             app.UseAuthentication();

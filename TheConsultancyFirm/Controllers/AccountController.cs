@@ -14,8 +14,6 @@ using TheConsultancyFirm.Models.AccountViewModels;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
 
-//using TheConsultancyFirm.Services;
-
 namespace TheConsultancyFirm.Controllers
 {
     [Authorize]
@@ -29,13 +27,13 @@ namespace TheConsultancyFirm.Controllers
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IAccountRepository accountRepository, 
+            IAccountRepository accountRepository,
             IMailService emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _accountRepository = accountRepository;
-           _emailSender = emailSender;
+            _emailSender = emailSender;
         }
 
         [TempData]
@@ -58,25 +56,21 @@ namespace TheConsultancyFirm.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+
+            // This doesn't count login failures towards account lockout
+            // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+            if (result.Succeeded)
             {
-                // This doesn't count login failures towards account lockout
-                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
-                {
-                    await UpdateUserLastLoginAsync(model.Email);
-                    return RedirectToLocal(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToAction(nameof(LoginWith2fa), new { returnUrl, model.RememberMe });
-                }
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                return View(model);
+                await UpdateUserLastLoginAsync(model.Email);
+                return RedirectToLocal(returnUrl);
             }
 
-            // If we got this far, something failed, redisplay form
+            if (result.RequiresTwoFactor)
+                return RedirectToAction(nameof(LoginWith2fa), new {returnUrl, model.RememberMe});
+
+            ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             return View(model);
         }
 
@@ -92,7 +86,7 @@ namespace TheConsultancyFirm.Controllers
                 throw new ApplicationException($"Unable to load two-factor authentication user.");
             }
 
-            var model = new LoginWith2faViewModel { RememberMe = rememberMe };
+            var model = new LoginWith2faViewModel {RememberMe = rememberMe};
             ViewData["ReturnUrl"] = returnUrl;
 
             return View(model);
@@ -103,10 +97,7 @@ namespace TheConsultancyFirm.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginWith2fa(LoginWith2faViewModel model, bool rememberMe, string returnUrl = null)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
 
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
@@ -123,11 +114,9 @@ namespace TheConsultancyFirm.Controllers
                 await UpdateUserLastLoginAsync(user.Email);
                 return RedirectToLocal(returnUrl);
             }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
-                return View();
-            }
+
+            ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
+            return View();
         }
 
         [HttpGet]
@@ -142,7 +131,6 @@ namespace TheConsultancyFirm.Controllers
             }
 
             ViewData["ReturnUrl"] = returnUrl;
-
             return View();
         }
 
@@ -151,10 +139,7 @@ namespace TheConsultancyFirm.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> LoginWithRecoveryCode(LoginWithRecoveryCodeViewModel model, string returnUrl = null)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
 
             var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
             if (user == null)
@@ -163,7 +148,6 @@ namespace TheConsultancyFirm.Controllers
             }
 
             var recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
-
             var result = await _signInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
 
             if (result.Succeeded)
@@ -171,11 +155,9 @@ namespace TheConsultancyFirm.Controllers
                 await UpdateUserLastLoginAsync(user.Email);
                 return RedirectToLocal(returnUrl);
             }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
-                return View();
-            }
+
+            ModelState.AddModelError(string.Empty, "Invalid recovery code entered.");
+            return View();
         }
 
         public async Task<IActionResult> Logout()
@@ -190,7 +172,7 @@ namespace TheConsultancyFirm.Controllers
         public IActionResult ExternalLogin(string provider, string returnUrl = null)
         {
             // Request a redirect to the external login provider.
-            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new { returnUrl });
+            var redirectUrl = Url.Action(nameof(ExternalLoginCallback), "Account", new {returnUrl});
             var properties = _signInManager.ConfigureExternalAuthenticationProperties(provider, redirectUrl);
             return Challenge(properties, provider);
         }
@@ -204,6 +186,7 @@ namespace TheConsultancyFirm.Controllers
                 ErrorMessage = $"Error from external provider: {remoteError}";
                 return RedirectToAction(nameof(Login));
             }
+
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
@@ -214,21 +197,21 @@ namespace TheConsultancyFirm.Controllers
             {
                 return RedirectToAction("AccessDenied");
             }
+
             // Sign in the user with this external login provider if the user already has a login.
-            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false, bypassTwoFactor: true);
+            var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey,
+                isPersistent: false, bypassTwoFactor: true);
             if (result.Succeeded)
             {
                 await UpdateUserLastLoginAsync(info.Principal.FindFirstValue(ClaimTypes.Email));
                 return RedirectToLocal(returnUrl);
             }
-            else
-            {
-                // If the user does not have an account, then ask the user to create an account.
-                ViewData["ReturnUrl"] = returnUrl;
-                ViewData["LoginProvider"] = info.LoginProvider;
-                var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLogin", new ExternalLoginViewModel { Email = email });
-            }
+
+            // If the user does not have an account, then ask the user to create an account.
+            ViewData["ReturnUrl"] = returnUrl;
+            ViewData["LoginProvider"] = info.LoginProvider;
+            var email = info.Principal.FindFirstValue(ClaimTypes.Email);
+            return View("ExternalLogin", new ExternalLoginViewModel {Email = email});
         }
 
         [HttpPost]
@@ -244,8 +227,9 @@ namespace TheConsultancyFirm.Controllers
                 {
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
+
                 _accountRepository.DeleteDummyUser(model.Email);
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {
@@ -257,6 +241,7 @@ namespace TheConsultancyFirm.Controllers
                         return RedirectToLocal(returnUrl);
                     }
                 }
+
                 AddErrors(result);
             }
 
@@ -272,11 +257,13 @@ namespace TheConsultancyFirm.Controllers
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
+
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
             {
                 throw new ApplicationException($"Unable to load user with ID '{userId}'.");
             }
+
             var result = await _userManager.ConfirmEmailAsync(user, code);
             return View(result.Succeeded ? "ConfirmEmail" : "Error");
         }
@@ -293,25 +280,21 @@ namespace TheConsultancyFirm.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByEmailAsync(model.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    return RedirectToAction(nameof(ForgotPasswordConfirmation));
-                }
+            if (!ModelState.IsValid) return View(model);
 
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
-                await _emailSender.SendForgotPasswordMailAsync(model.Email, callbackUrl);
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+            {
+                // Don't reveal that the user does not exist or is not confirmed
                 return RedirectToAction(nameof(ForgotPasswordConfirmation));
             }
 
-            // If we got this far, something failed, redisplay form
-            return View(model);
+            // For more information on how to enable account confirmation and password reset please
+            // visit https://go.microsoft.com/fwlink/?LinkID=532713
+            var code = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var callbackUrl = Url.ResetPasswordCallbackLink(user.Id, code, Request.Scheme);
+            await _emailSender.SendForgotPasswordMailAsync(model.Email, callbackUrl);
+            return RedirectToAction(nameof(ForgotPasswordConfirmation));
         }
 
         [HttpGet]
@@ -329,7 +312,8 @@ namespace TheConsultancyFirm.Controllers
             {
                 throw new ApplicationException("A code must be supplied for password reset.");
             }
-            var model = new ResetPasswordViewModel { Code = code };
+
+            var model = new ResetPasswordViewModel {Code = code};
             return View(model);
         }
 
@@ -338,21 +322,21 @@ namespace TheConsultancyFirm.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+            if (!ModelState.IsValid) return View(model);
+
             var user = await _userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
+
             var result = await _userManager.ResetPasswordAsync(user, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction(nameof(ResetPasswordConfirmation));
             }
+
             AddErrors(result);
             return View();
         }
@@ -382,21 +366,15 @@ namespace TheConsultancyFirm.Controllers
             }
         }
 
-        public IActionResult Dashboard()
-        {
-            return View();
-        }
-
         private IActionResult RedirectToLocal(string returnUrl)
         {
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
-            else
-            {
-                return RedirectToAction(nameof(TheConsultancyFirm.Areas.Dashboard.Controllers.HomeController.Index), "Home", new {area = "Dashboard"});
-            }
+
+            return RedirectToAction(nameof(TheConsultancyFirm.Areas.Dashboard.Controllers.HomeController.Index),
+                "Home", new {area = "Dashboard"});
         }
 
         private async Task UpdateUserLastLoginAsync(string email)
@@ -408,17 +386,9 @@ namespace TheConsultancyFirm.Controllers
 
         private bool CheckIfGoogleAccountExists(string email)
         {
-            var userExists = _accountRepository.GetUserByEmail(email);
-
-            if (userExists != null)
-            {
-                return true;
-            }
-
-            return false;
+            return _accountRepository.GetUserByEmail(email) != null;
         }
 
-       
         #endregion
     }
 }
