@@ -1,4 +1,4 @@
-@import '../../variables';
+﻿@import '../../variables';
 
 .sidenav {
     background: $sidebarBg;
@@ -81,5 +81,9 @@
         background: $turquoise;
         color: $white;
         border-radius: 50%;
+
+        &:empty {
+            display: none;
+        }
     }
 }

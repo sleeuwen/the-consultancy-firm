@@ -1,0 +1,64 @@
+﻿@model TheConsultancyFirm.Models.Contact
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
+    <li class="breadcrumb-item"><a href="/Dashboard/Contacts">Berichten</a></li>
+    <li class="breadcrumb-item active">Bericht van: @Model.Name</li>
+</ol>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Berichten</h1>
+        </div>
+    </div>
+        <div class="row">
+            <div class="col">
+                <p>Lees hier het bericht van @Model.Name. </p>
+            </div>
+        </div>
+    <div class="row">
+        <div class="col">
+            <div>@Html.DisplayNameFor(model => model.Name)</div>
+        </div>
+        <div class="col">
+            <div>@Model.Name</div>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col">
+            <div>@Html.DisplayNameFor(model => model.Email)</div>
+        </div>
+        <div class="col">
+            <div>@Html.DisplayFor(model => model.Email)</div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <div>@Html.DisplayNameFor(model => model.Mobile)</div>
+        </div>
+        <div class="col">
+            <div>@Model.Mobile</div>
+        </div>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col">
+            <div>@Html.DisplayNameFor(model => model.Subject)</div>
+        </div>
+        <div class="col">
+            <div>@Model.Subject</div>
+        </div>
+    </div>
+    <hr/>
+    <div class="row">
+        <div class="col">
+            <p>@Html.DisplayNameFor(model => model.Message)</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div>@Model.Message</div>
+        </div>
+    </div>
+</div>

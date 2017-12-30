@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using TheConsultancyFirm.Models;
@@ -14,6 +15,18 @@ namespace TheConsultancyFirm.Services
         public MailService(IOptions<MailSettings> mailSettings)
         {
             _mailSettings = mailSettings.Value;
+        }
+
+        public Task SendForgotPasswordMailAsync(string email, string callbackUrl)
+        {
+            return SendMailAsync(email, "Reset Password",
+                $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+        }
+
+        public Task SendEmailConfirmationAsync(string email, string link)
+        {
+            return SendMailAsync(email, "Confirm your email",
+                $"Please confirm your account by clicking this link: <a href='{HtmlEncoder.Default.Encode(link)}'>link</a>");
         }
 
         public Task SendContactMailAsync(Contact contact)
