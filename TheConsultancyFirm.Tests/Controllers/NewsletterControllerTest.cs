@@ -13,7 +13,7 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public async void ValidSubscribe()
         {
-            var model = new Newsletter { Email = "info@valid.com" };
+            var model = new Newsletter {Email = "info@valid.com"};
 
             var newsletterRepository = new Mock<INewsletterRepository>();
             newsletterRepository.Setup(repo => repo.SubscribeAsync(model))

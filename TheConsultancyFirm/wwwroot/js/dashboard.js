@@ -1,4 +1,4 @@
-﻿//Dashboard berichten badge
+//Dashboard berichten badge
 
 function updateUnreadCounter() {
     $.ajax({

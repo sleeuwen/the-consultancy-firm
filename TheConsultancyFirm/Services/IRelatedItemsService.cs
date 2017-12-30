@@ -4,8 +4,8 @@ using TheConsultancyFirm.Models;
 
 namespace TheConsultancyFirm.Services
 {
-	public interface IRelatedItemsService
-	{
-		List<ContentItem> GetRelatedItems(int id, Enumeration.ContentItemType type);
-	}
+    public interface IRelatedItemsService
+    {
+        List<ContentItem> GetRelatedItems(int id, Enumeration.ContentItemType type);
+    }
 }

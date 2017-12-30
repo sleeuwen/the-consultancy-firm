@@ -12,22 +12,23 @@ namespace TheConsultancyFirm.Models
     {
         public int Id { get; set; }
 
-		[Required]
+        [Required]
         public string Title { get; set; }
 
-	    [Required]
-		public string Description { get; set; }
+        [Required]
+        public string Description { get; set; }
 
-	    [DisplayName("Amount of downloads")]
-		public int AmountOfDownloads { get; set; }
+        [DisplayName("Amount of downloads")]
+        public int AmountOfDownloads { get; set; }
+
         public DateTime Date { get; set; }
 
-		public string LinkPath { get; set; }
+        public string LinkPath { get; set; }
 
-		[NotMapped]
-	    public string Filename => LinkPath?.Split('/').Last();
+        [NotMapped]
+        public string Filename => LinkPath?.Split('/').Last();
 
-	    [NotMapped]
+        [NotMapped]
         public IFormFile File { get; set; }
 
         public List<Block> Blocks { get; set; }

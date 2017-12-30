@@ -15,6 +15,7 @@ namespace TheConsultancyFirm.Repositories
         {
             _context = context;
         }
+
         public ApplicationUser GetUserByEmail(string email)
         {
             return _context.Users.FirstOrDefault(a => a.Email == email);
@@ -25,8 +26,8 @@ namespace TheConsultancyFirm.Repositories
             var user = GetUserByEmail(email);
 
             if (user == null) return;
-            
-           _context.Users.Remove(user);
+
+            _context.Users.Remove(user);
         }
     }
 }
