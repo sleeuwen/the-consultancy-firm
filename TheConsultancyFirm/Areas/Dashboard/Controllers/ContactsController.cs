@@ -37,9 +37,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            if (!contact.Readed)
+            if (!contact.Read)
             {
-                contact.Readed = true;
+                contact.Read = true;
                 await _repository.Update(contact);
             }
 

@@ -22,16 +22,16 @@ namespace TheConsultancyFirm.Models
         public int AmountOfDownloads { get; set; }
 
         public DateTime Date { get; set; }
+        public DateTime LastModified { get; set; }
 
         public string LinkPath { get; set; }
+
+        public List<DownloadTag> DownloadTags { get; set; }
 
         [NotMapped]
         public string Filename => LinkPath?.Split('/').Last();
 
         [NotMapped]
         public IFormFile File { get; set; }
-
-        public List<Block> Blocks { get; set; }
-        public List<DownloadTag> DownloadTags { get; set; }
     }
 }
