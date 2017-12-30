@@ -23,7 +23,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [HttpGet("contacts/unread")]
         public int Get()
         {
-            return _contactRepository.CountUnreaded();
+            return _contactRepository.CountUnread();
         }
     }
 }
