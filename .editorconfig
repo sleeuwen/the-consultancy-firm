@@ -1,7 +1,7 @@
 root = true
 
 [*.cmd]
-charset = utf-8-bom
+charset = utf-8
 indent_size = 2
 indent_style = space
 end_of_line = crlf
