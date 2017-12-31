@@ -15,23 +15,23 @@ namespace TheConsultancyFirm.TagHelpers
 
         private const string ActiveClass = "active";
 
-        [HtmlAttributeName("active-action")]
-        public string Action { get; set; }
+        [HtmlAttributeName("active-area")]
+        public string Area { get; set; }
 
         [HtmlAttributeName("active-controller")]
         public string Controller { get; set; }
 
-        [HtmlAttributeName("active-area")]
-        public string Area { get; set; }
+        [HtmlAttributeName("active-action")]
+        public string Action { get; set; }
 
-        [HtmlAttributeName("asp-action")]
-        public string AspAction { get; set; }
+        [HtmlAttributeName("asp-area")]
+        public string AspArea { get; set; }
 
         [HtmlAttributeName("asp-controller")]
         public string AspController { get; set; }
 
-        [HtmlAttributeName("asp-area")]
-        public string AspArea { get; set; }
+        [HtmlAttributeName("asp-action")]
+        public string AspAction { get; set; }
 
         [HtmlAttributeNotBound]
         [ViewContext]
@@ -41,7 +41,7 @@ namespace TheConsultancyFirm.TagHelpers
 
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.Attributes.RemoveAll("active-route");
+            output.Attributes.RemoveAll("active-area");
             output.Attributes.RemoveAll("active-controller");
             output.Attributes.RemoveAll("active-action");
 
@@ -57,13 +57,13 @@ namespace TheConsultancyFirm.TagHelpers
 
         private void ProcessRouteTags(TagHelperContext context, TagHelperOutput output)
         {
-            if (Action != null && Action.Split(",").All(a => (string) RouteData["Action"] != a))
+            if (Area != null && Area.Split(",").All(a => (string) RouteData["Area"] != a))
                 return;
 
             if (Controller != null && Controller.Split(",").All(c => (string) RouteData["Controller"] != c))
                 return;
 
-            if (Area != null && Area.Split(",").All(a => (string) RouteData["Area"] != a))
+            if (Action != null && Action.Split(",").All(a => (string) RouteData["Action"] != a))
                 return;
 
             AddActiveClass(context, output);
@@ -71,13 +71,13 @@ namespace TheConsultancyFirm.TagHelpers
 
         private void ProcessAnchorTags(TagHelperContext context, TagHelperOutput output)
         {
-            if (AspAction != null && (string) RouteData["Action"] != AspAction)
+            if (AspArea != null && (string) RouteData["Area"] != AspArea)
                 return;
 
             if (AspController != null && (string) RouteData["Controller"] != AspController)
                 return;
 
-            if (AspArea != null && (string) RouteData["Area"] != AspArea)
+            if (AspAction != null && (string) RouteData["Action"] != AspAction)
                 return;
 
             AddActiveClass(context, output);
