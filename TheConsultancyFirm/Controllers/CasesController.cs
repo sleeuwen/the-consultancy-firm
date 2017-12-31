@@ -32,7 +32,7 @@ namespace TheConsultancyFirm.Controllers
             if (caseItem == null) return NotFound();
 
             var (previous, next) = await GetAdjacent(caseItem);
-            var relatedItems = _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
+            var relatedItems = await _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
 
             return View(new CaseDetailViewModel
             {
