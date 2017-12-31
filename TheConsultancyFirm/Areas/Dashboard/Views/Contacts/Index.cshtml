@@ -27,7 +27,7 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr class="@(item.Readed == false ? "active" : "")">
+                <tr class="@(item.Read == false ? "active" : "")">
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>

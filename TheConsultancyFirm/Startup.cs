@@ -45,7 +45,7 @@ namespace TheConsultancyFirm
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
-            
+
             services.Configure<MailSettings>(Configuration.GetSection("Mail"));
             services.AddAuthentication().AddGoogle(googleOptions =>
             {

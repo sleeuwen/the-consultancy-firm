@@ -32,9 +32,9 @@ namespace TheConsultancyFirm.Repositories
             return _context.SaveChangesAsync();
         }
 
-        public int CountUnreaded()
+        public int CountUnread()
         {
-            return _context.Contacts.Count(c => c.Readed == false);
+            return _context.Contacts.Count(c => c.Read == false);
         }
 
         public Task Update(Contact contact)

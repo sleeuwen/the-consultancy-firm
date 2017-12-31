@@ -5,10 +5,10 @@ using TheConsultancyFirm.Models;
 
 namespace TheConsultancyFirm.Repositories
 {
-	public interface ICaseRepository
-	{
-		Task<Case> Get(int id);
-		IQueryable<Case> GetAll();
-		Task<(Case Previous, Case Next)> GetAdjacent(Case c);
-	}
+    public interface ICaseRepository
+    {
+        Task<Case> Get(int id);
+        IQueryable<Case> GetAll();
+        Task<(Case Previous, Case Next)> GetAdjacent(Case c);
+    }
 }

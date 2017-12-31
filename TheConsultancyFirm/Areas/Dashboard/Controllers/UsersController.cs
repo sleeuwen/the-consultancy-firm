@@ -36,7 +36,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/Users/Create (Email + misschien password, of hier wordt al een mail voor opgestuurd)
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -48,10 +48,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             return View(applicationUser);
         }
-        
-            
+
         // GET: Dashboard/Users/Delete/5 (via modal!)
         public async Task<IActionResult> Delete(string id)
         {

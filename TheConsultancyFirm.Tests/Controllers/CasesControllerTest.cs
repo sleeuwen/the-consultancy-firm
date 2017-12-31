@@ -14,6 +14,7 @@ namespace TheConsultancyFirm.Tests.Controllers
     public class CasesControllerTest
     {
         private readonly Mock<ICaseRepository> _caseRepository;
+
         public CasesControllerTest()
         {
             _caseRepository = new Mock<ICaseRepository>();
@@ -22,7 +23,7 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public void Index()
         {
-            var controller = new CasesController(null,null);
+            var controller = new CasesController(null, null);
             var result = controller.Index();
             Assert.IsType<ViewResult>(result);
         }
@@ -34,39 +35,37 @@ namespace TheConsultancyFirm.Tests.Controllers
             {
                 Id = 2,
                 CaseTags = new List<CaseTag>
-                    {
-                        new CaseTag{CaseId=2,TagId = 1},
-                        new CaseTag{CaseId=2,TagId = 2},
-                    },
+                {
+                    new CaseTag {CaseId = 2, TagId = 1},
+                    new CaseTag {CaseId = 2, TagId = 2},
+                },
 
                 Date = new DateTime(2009, 6, 1, 7, 47, 0),
                 Title = "case2"
             };
 
-	        var cases = (new Case
-	        {
-		        Id = 1,
-		        CaseTags = new List<CaseTag>
-		        {
-			        new CaseTag{CaseId=1,TagId = 1},
-			        new CaseTag{CaseId=1,TagId = 2},
-		        },
-		        Date = new DateTime(2008, 6, 1, 7, 47, 0),
-		        Title = "case1"
-	        }, new Case
-	        {
-		        Id = 3,
-		        CaseTags = new List<CaseTag>
-		        {
-			        new CaseTag{CaseId=3,TagId = 1},
-			        new CaseTag{CaseId=3,TagId = 2},
+            var cases = (new Case
+            {
+                Id = 1,
+                CaseTags = new List<CaseTag>
+                {
+                    new CaseTag {CaseId = 1, TagId = 1},
+                    new CaseTag {CaseId = 1, TagId = 2},
+                },
+                Date = new DateTime(2008, 6, 1, 7, 47, 0),
+                Title = "case1"
+            }, new Case
+            {
+                Id = 3,
+                CaseTags = new List<CaseTag>
+                {
+                    new CaseTag {CaseId = 3, TagId = 1},
+                    new CaseTag {CaseId = 3, TagId = 2},
+                },
 
-		        },
-
-		        Date = new DateTime(2010, 6, 1, 7, 47, 0),
-		        Title = "case3"
-
-	        });
+                Date = new DateTime(2010, 6, 1, 7, 47, 0),
+                Title = "case3"
+            });
 
             _caseRepository.Setup(repo => repo.GetAdjacent(c)).Returns(Task.FromResult(cases));
 

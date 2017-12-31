@@ -25,6 +25,6 @@ namespace TheConsultancyFirm.Models
         [Display(Name = "Bericht")]
         public string Message { get; set; }
 
-        public bool Readed { get; set; }
+        public bool Read { get; set; }
     }
 }

@@ -21,7 +21,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             ViewData["Title"] = "Berichten";
             return View(await _repository.GetAll());
         }
-        
+
         // GET: Dashboard/Contacts/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -31,21 +31,21 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var contact = await _repository.Get((int)id);
+            var contact = await _repository.Get((int) id);
             if (contact == null)
             {
                 return NotFound();
             }
 
-            if (!contact.Readed)
+            if (!contact.Read)
             {
-                contact.Readed = true;
+                contact.Read = true;
                 await _repository.Update(contact);
             }
 
             return View(contact);
         }
-        
+
         //// GET: Dashboard/Contacts/Delete/5
         //public async Task<IActionResult> Delete(int? id)
         //{

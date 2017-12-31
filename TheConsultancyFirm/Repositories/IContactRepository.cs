@@ -11,6 +11,6 @@ namespace TheConsultancyFirm.Repositories
         Task<IEnumerable<Contact>> GetAll();
         Task AddAsync(Contact contact);
         Task Update(Contact contact);
-        int CountUnreaded();
+        int CountUnread();
     }
 }
