@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Moq;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Models;
@@ -25,7 +26,7 @@ namespace TheConsultancyFirm.Tests.Services
         }
 
         [Fact]
-        public void CalculateScore()
+        public async Task CalculateScore()
         {
             List<Case> cases = new List<Case>
             {
@@ -58,13 +59,13 @@ namespace TheConsultancyFirm.Tests.Services
 
             var service = new RelatedItemsService(_caseRepository.Object, _solutionRepository.Object, _newsRepository.Object, _downloadRepository.Object);
 
-            var result = service.GetRelatedItems(1, Enumeration.ContentItemType.Case);
+            var result = await service.GetRelatedItems(1, Enumeration.ContentItemType.Case);
 
             Assert.Equal(50, result.First().Score);
         }
 
         [Fact]
-        public void CalculateScoreNoCommonTags()
+        public async Task CalculateScoreNoCommonTags()
         {
             List<Case> cases = new List<Case>
             {
@@ -95,7 +96,7 @@ namespace TheConsultancyFirm.Tests.Services
 
             var service = new RelatedItemsService(_caseRepository.Object, _solutionRepository.Object, _newsRepository.Object, _downloadRepository.Object);
 
-            var result = service.GetRelatedItems(1, Enumeration.ContentItemType.Case);
+            var result = await service.GetRelatedItems(1, Enumeration.ContentItemType.Case);
 
             Assert.Equal(0, result.First().Score);
         }
