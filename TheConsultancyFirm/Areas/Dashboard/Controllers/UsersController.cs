@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
+using TheConsultancyFirm.Services;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
@@ -14,10 +15,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     public class UsersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly IMailService _emailSender;
 
-        public UsersController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context, MailService emailSender)
         {
             _context = context;
+            _emailSender = emailSender;
         }
 
         // GET: Dashboard/Users
@@ -37,16 +40,17 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LastLogin,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
+        public async Task<IActionResult> Create([Bind("Email")] ApplicationUser applicationUser)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && !string.IsNullOrEmpty(applicationUser.Email))
             {
                 _context.Add(applicationUser);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(applicationUser);
-        }      
+        }
+        
             
         // GET: Dashboard/Users/Delete/5 (via modal!)
         public async Task<IActionResult> Delete(string id)
