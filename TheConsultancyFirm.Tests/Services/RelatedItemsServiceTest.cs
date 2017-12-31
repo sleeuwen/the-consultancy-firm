@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Moq;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Common;
+using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
@@ -12,93 +14,108 @@ namespace TheConsultancyFirm.Tests.Services
 {
     public class RelatedItemsServiceTest
     {
-        private readonly Mock<ICaseRepository> _caseRepository;
-        private readonly Mock<IDownloadRepository> _downloadRepository;
-        private readonly Mock<INewsRepository> _newsRepository;
-        private readonly Mock<ISolutionRepository> _solutionRepository;
+        private DbContextOptions<ApplicationDbContext> _options;
 
         public RelatedItemsServiceTest()
         {
-            _caseRepository = new Mock<ICaseRepository>();
-            _downloadRepository = new Mock<IDownloadRepository>();
-            _newsRepository = new Mock<INewsRepository>();
-            _solutionRepository = new Mock<ISolutionRepository>();
+            _options = new DbContextOptionsBuilder<ApplicationDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
         }
 
         [Fact]
         public async Task CalculateScore()
         {
-            List<Case> cases = new List<Case>
+            using (var context = new ApplicationDbContext(_options))
             {
-                new Case
+                List<Tag> tags = await SeedTags(4);
+
+                var cases = new List<Case>
                 {
-                    Id = 1,
-                    CaseTags = new List<CaseTag>
+                    new Case
                     {
-                        new CaseTag {TagId = 1},
-                        new CaseTag {TagId = 2},
-                        new CaseTag {TagId = 3},
-                        new CaseTag {TagId = 4},
-                    }
-                },
-                new Case
-                {
-                    Id = 2,
-                    CaseTags = new List<CaseTag>
+                        CaseTags = new List<CaseTag>(tags.Select(t => new CaseTag {TagId = t.Id})),
+                    },
+                    new Case
                     {
-                        new CaseTag {TagId = 1},
-                        new CaseTag {TagId = 2}
+                        CaseTags = new List<CaseTag>
+                        {
+                            new CaseTag {TagId = tags.ElementAt(0).Id},
+                            new CaseTag {TagId = tags.ElementAt(1).Id}
+                        }
                     }
-                },
-            };
+                };
 
-            _caseRepository.Setup(repo => repo.GetAll()).Returns(cases.AsQueryable());
-            _downloadRepository.Setup(repo => repo.GetAll()).Returns(new List<Download>().AsQueryable());
-            _newsRepository.Setup(repo => repo.GetAll()).Returns(new List<NewsItem>().AsQueryable());
-            _solutionRepository.Setup(repo => repo.GetAll()).Returns(new List<Solution>().AsQueryable());
+                context.AddRange(cases);
+                context.SaveChanges();
+            }
 
-            var service = new RelatedItemsService(_caseRepository.Object, _solutionRepository.Object, _newsRepository.Object, _downloadRepository.Object);
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new RelatedItemsService(new CaseRepository(context), new SolutionRepository(context),
+                    new NewsRepository(context), new DownloadRepository(context));
 
-            var result = await service.GetRelatedItems(1, Enumeration.ContentItemType.Case);
+                var result = await service.GetRelatedItems(1, Enumeration.ContentItemType.Case);
 
-            Assert.Equal(50, result.First().Score);
+                Assert.Equal(0.5, result.First().Score);
+            }
         }
 
         [Fact]
         public async Task CalculateScoreNoCommonTags()
         {
-            List<Case> cases = new List<Case>
+            using (var context = new ApplicationDbContext(_options))
             {
-                new Case
+                List<Tag> tags = await SeedTags(4);
+
+                var cases = new List<Case>
                 {
-                    Id = 1,
-                    CaseTags = new List<CaseTag>
+                    new Case
                     {
-                        new CaseTag {TagId = 3},
-                        new CaseTag {TagId = 4},
+                        CaseTags = new List<CaseTag>
+                        {
+                            new CaseTag {TagId = tags.ElementAt(2).Id},
+                            new CaseTag {TagId = tags.ElementAt(3).Id}
+                        },
+                    },
+                    new Case
+                    {
+                        CaseTags = new List<CaseTag>
+                        {
+                            new CaseTag {TagId = tags.ElementAt(0).Id},
+                            new CaseTag {TagId = tags.ElementAt(1).Id}
+                        }
                     }
-                },
-                new Case
+                };
+
+                context.AddRange(cases);
+                context.SaveChanges();
+            }
+
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var service = new RelatedItemsService(new CaseRepository(context), new SolutionRepository(context), new NewsRepository(context), new DownloadRepository(context));
+
+                var result = await service.GetRelatedItems(1, Enumeration.ContentItemType.Case);
+
+                Assert.Equal(0, result.First().Score);
+            }
+        }
+
+        private async Task<List<Tag>> SeedTags(int amount)
+        {
+            using (var context = new ApplicationDbContext(_options))
+            {
+                var tags = new List<Tag>();
+                for (var i = 0; i < amount; i++)
                 {
-                    Id = 2,
-                    CaseTags = new List<CaseTag>
-                    {
-                        new CaseTag {TagId = 1},
-                        new CaseTag {TagId = 2}
-                    }
-                },
-            };
+                    tags.Add(new Tag {Text = $"Tag {i}"});
+                }
 
-            _caseRepository.Setup(repo => repo.GetAll()).Returns(cases.AsQueryable());
-            _downloadRepository.Setup(repo => repo.GetAll()).Returns(new List<Download>().AsQueryable());
-            _newsRepository.Setup(repo => repo.GetAll()).Returns(new List<NewsItem>().AsQueryable());
-            _solutionRepository.Setup(repo => repo.GetAll()).Returns(new List<Solution>().AsQueryable());
-
-            var service = new RelatedItemsService(_caseRepository.Object, _solutionRepository.Object, _newsRepository.Object, _downloadRepository.Object);
-
-            var result = await service.GetRelatedItems(1, Enumeration.ContentItemType.Case);
-
-            Assert.Equal(0, result.First().Score);
+                context.AddRange(tags);
+                await context.SaveChangesAsync();
+                return tags;
+            }
         }
     }
 }
