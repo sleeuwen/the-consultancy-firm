@@ -9,20 +9,52 @@
 
 .toc-item {
     position: relative;
-    font-family: 'Raleway', sans-serif;
-    font-size: 16px;
-    line-height: 24px;
-
-    @media screen and (min-width: $break-medium) {
-        font-size: 21px;
-        line-height: 30px;
-    }
 
     &.active > a,
     &.active > span,
-    a.active {
+    a.active,
+    a:hover {
         color: $white;
         text-decoration: none;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    li {
+        position: relative;
+
+        a {
+            color: $darkGrey;
+            padding: .25rem 2rem;
+
+            &:hover {
+                text-decoration: none;
+            }
+        }
+    }
+
+    a,
+    span {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    > a,
+    > span {
+        color: $sidebarTitle;
+        padding: .5rem 2rem;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: $bold;
+
+        @media screen and (min-width: $break-medium) {
+            font-size: 21px;
+            line-height: 30px;
+        }
     }
 
     a.active::before {
@@ -35,56 +67,6 @@
         background: $orange;
     }
 
-    > a,
-    > span {
-        font-weight: $bold;
-        color: $sidebarTitle;
-        padding: .5rem 2rem;
-    }
-
-    a,
-    span {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
-
-    a:hover {
-        color: $white;
-        text-decoration: none;
-        cursor: pointer;
-    }
-
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-    }
-
-    li {
-        position: relative;
-        font-family: 'Raleway', sans-serif;
-        font-size: 14px;
-        line-height: 23px;
-        color: $darkGrey;
-        font-weight: $regular;
-
-        @media screen and (min-width: $break-medium) {
-            font-size: 16px;
-            line-height: 25px;
-        }
-
-        a {
-            color: $darkGrey;
-            text-decoration: none;
-        }
-
-        > a,
-        > span {
-            padding: .25rem 2rem;
-        }
-    }
-
     .badge {
         display: inline-block;
         width: 2em;
@@ -93,7 +75,7 @@
         text-align: center;
         background: $turquoise;
         color: $white;
-        border-radius: 50%;
+        border-radius: 1em;
 
         &:empty {
             display: none;
