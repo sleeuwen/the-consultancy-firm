@@ -121,7 +121,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                         return View(customer);
                     }
 
-                    await _uploadService.Delete(customer.LogoPath);
+                    if (customer.LogoPath != null)
+                        await _uploadService.Delete(customer.LogoPath);
 
                     customer.LogoPath =
                         await _uploadService.Upload(customer.Image, "/images/CustomerLogos", customer.Name, extension);
@@ -167,7 +168,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var customer = await _customerRepository.Get(id);
-            await _uploadService.Delete(customer.LogoPath);
+            if (customer.LogoPath != null)
+                await _uploadService.Delete(customer.LogoPath);
             await _customerRepository.Delete(id);
 
             return RedirectToAction(nameof(Index));
