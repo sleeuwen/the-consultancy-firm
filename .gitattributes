@@ -1,0 +1,16 @@
+* text=auto
+
+*.cmd text eol=crlf
+*.cs text diff=csharp
+*.cshtml text
+*.csproj text eol=crlf
+*.css text
+*.html text
+*.js text
+*.json text
+*.md text
+*.scss text
+*.sln text eol=crlf
+*.svg text
+*.yaml text
+*.yml text

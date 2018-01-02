@@ -34,7 +34,10 @@ namespace TheConsultancyFirm
             services.AddScoped<INewsRepository, NewsRepository>();
             services.AddScoped<IDownloadRepository, DownloadRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
+            services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
+            services.AddScoped<IAccountRepository, AccountRepository>();
+            services.AddScoped<ITagRepository, TagRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -44,6 +47,11 @@ namespace TheConsultancyFirm
                 .AddDefaultTokenProviders();
 
             services.Configure<MailSettings>(Configuration.GetSection("Mail"));
+            services.AddAuthentication().AddGoogle(googleOptions =>
+            {
+                googleOptions.ClientId = Configuration["Authentication:Google:ClientId"];
+                googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
+            });
 
             services.AddMvc();
         }
@@ -55,6 +63,10 @@ namespace TheConsultancyFirm
             {
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
+            }
+            else
+            {
+                app.UseDeveloperExceptionPage();
             }
 
             app.UseStatusCodePagesWithReExecute("/Error/Index", "?statusCode={0}");

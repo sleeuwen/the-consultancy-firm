@@ -1,0 +1,51 @@
+﻿@model IEnumerable<TheConsultancyFirm.Models.Contact>
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/Dashboard">Dashboard</a></li>
+    <li class="breadcrumb-item active">Berichten</li>
+</ol>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>Berichten</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>Dit is de berichten pagina. Hier kun je de binnengekomen berichten lezen.</p>
+        </div>
+    </div>
+    <table id="contacts-table" class="table table-hover .table-responsive">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Email)</th>
+                <th>@Html.DisplayNameFor(model => model.Mobile)</th>
+                <th>@Html.DisplayNameFor(model => model.Subject)</th>
+                <th>Actie</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="@(item.Read == false ? "active" : "")">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mobile)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Subject)
+                    </td>
+                    <td>
+                        <a title="Lees het bericht van @item.Name" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+

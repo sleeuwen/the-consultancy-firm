@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Models;
 
 namespace TheConsultancyFirm.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Block> Blocks { get; set; }
         public DbSet<Case> Cases { get; set; }
@@ -22,6 +23,8 @@ namespace TheConsultancyFirm.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<CarouselBlock>();
             modelBuilder.Entity<QuoteBlock>();
             modelBuilder.Entity<SolutionAdvantagesBlock>();
