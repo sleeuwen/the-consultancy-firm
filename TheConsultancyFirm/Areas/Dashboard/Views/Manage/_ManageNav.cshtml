@@ -1,4 +1,4 @@
-﻿@using TheConsultancyFirm.Views.Manage
+﻿@using TheConsultancyFirm.Areas.Dashboard.Views.Manage
 @inject SignInManager<ApplicationUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
@@ -15,4 +15,3 @@
         <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)"><a asp-action="TwoFactorAuthentication">Two-factor authentication</a></li>
     </ul>
 </div>
-
