@@ -62,8 +62,6 @@ namespace TheConsultancyFirm.Tests.Controllers
             var result = await controller.Details(null);
             
             Assert.IsType<NotFoundResult>(result);
-           
-            _solutionRepository.Verify(repo => repo.Update(model), Times.Never);
         }
 
         [Fact]
@@ -83,8 +81,6 @@ namespace TheConsultancyFirm.Tests.Controllers
             var result = await controller.Details(2);
             
             Assert.IsType<NotFoundResult>(result);
-           
-            _solutionRepository.Verify(repo => repo.Update(model), Times.Never);
         }
 
         [Fact]
@@ -104,8 +100,6 @@ namespace TheConsultancyFirm.Tests.Controllers
             var result = await controller.Details(model.Id);
 
             Assert.IsType<NotFoundResult>(result);
-
         }
-
     }
 }
