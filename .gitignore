@@ -3,6 +3,7 @@ yarn.lock
 TheConsultancyFirm/wwwroot/css/*
 TheConsultancyFirm/wwwroot/js/*.min.js
 TheConsultancyFirm/wwwroot/files/*
+!TheConsultancyFirm/wwwroot/files/.gitignore
 
 ### VisualStudio template
 ## Ignore Visual Studio temporary files, build results, and

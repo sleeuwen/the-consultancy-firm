@@ -1,23 +1,23 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
+using TheConsultancyFirm.Services;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
     public class CustomersController : Controller
     {
-        private readonly IHostingEnvironment _environment;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IUploadService _uploadService;
 
-        public CustomersController(ICustomerRepository customerRepository, IHostingEnvironment environment)
+        public CustomersController(ICustomerRepository customerRepository, IUploadService uploadService)
         {
-            _environment = environment;
             _customerRepository = customerRepository;
+            _uploadService = uploadService;
         }
 
         // GET: Dashboard/Customers
@@ -67,11 +67,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     return View(customer);
                 }
 
-                customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ", "") + extension;
-                using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
-                {
-                    await customer.Image.CopyToAsync(fileStream);
-                }
+                customer.LogoPath =
+                    await _uploadService.Upload(customer.Image, "/images/CustomerLogos", customer.Name, extension);
             }
             else
             {
@@ -117,12 +114,6 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             {
                 if (customer.Image.Length > 0)
                 {
-                    var file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
-                    if (file.Exists)
-                    {
-                        file.Delete();
-                    }
-
                     var extension = Path.GetExtension(customer.Image.FileName);
                     if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
                     {
@@ -130,11 +121,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                         return View(customer);
                     }
 
-                    customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ", "") + extension;
-                    using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
-                    {
-                        await customer.Image.CopyToAsync(fileStream);
-                    }
+                    await _uploadService.Delete(customer.LogoPath);
+
+                    customer.LogoPath =
+                        await _uploadService.Upload(customer.Image, "/images/CustomerLogos", customer.Name, extension);
                 }
 
                 await _customerRepository.Update(customer);
@@ -177,13 +167,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var customer = await _customerRepository.Get(id);
-            FileInfo file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
-            if (file.Exists)
-            {
-                file.Delete();
-            }
-
+            await _uploadService.Delete(customer.LogoPath);
             await _customerRepository.Delete(id);
+
             return RedirectToAction(nameof(Index));
         }
 
