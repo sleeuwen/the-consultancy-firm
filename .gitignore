@@ -5,6 +5,8 @@ TheConsultancyFirm/wwwroot/js/*.min.js
 TheConsultancyFirm/wwwroot/files/*
 !TheConsultancyFirm/wwwroot/files/.gitignore
 TheConsultancyFirm/wwwroot/images/blocks/*/*
+TheConsultancyFirm/wwwroot/images/uploads/**
+!TheConsultancyFirm/wwwroot/images/uploads/.gitignore
 
 ### VisualStudio template
 ## Ignore Visual Studio temporary files, build results, and

@@ -5,7 +5,7 @@ namespace TheConsultancyFirm.Extensions
 {
     public static class StringExtensions
     {
-        public static string Sluggify(this string text, string separator = "-")
+        public static string Sluggify(this string text)
         {
             var str = text.Unidecode().ToLower();
             // Remove any characters not a-z, 0-9, '-' or spaces.

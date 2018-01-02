@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
+using TheConsultancyFirm.Services;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
@@ -21,13 +22,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ICaseRepository _caseRepository;
-        private readonly IHostingEnvironment _environment;
+        private readonly IUploadService _uploadService;
 
-        public CasesController(ApplicationDbContext context, ICaseRepository caseRepository, IHostingEnvironment environment)
+        public CasesController(ApplicationDbContext context, ICaseRepository caseRepository, IUploadService uploadService)
         {
             _context = context;
             _caseRepository = caseRepository;
-            _environment = environment;
+            _uploadService = uploadService;
         }
 
         // GET: Dashboard/Cases
@@ -85,15 +86,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     return new BadRequestObjectResult(ModelState);
                 }
 
-                do
-                {
-                    @case.PhotoPath = "/images/cases/" + Path.GetRandomFileName() + extension;
-                } while (new FileInfo(_environment.WebRootPath + @case.PhotoPath).Exists);
-
-                using (var fileStream = new FileStream(_environment.WebRootPath + @case.PhotoPath, FileMode.CreateNew))
-                {
-                    await @case.Image.CopyToAsync(fileStream);
-                }
+                @case.PhotoPath = await _uploadService.Upload(@case.Image, "/images/cases");
             }
 
             @case.CaseTags = @case.TagIds.Select(tagId => new CaseTag {Case = @case, TagId = tagId}).ToList();
@@ -163,18 +156,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     return new BadRequestObjectResult(ModelState);
                 }
 
-                var current = new FileInfo(_environment.WebRootPath + @case.PhotoPath);
-                if (current.Exists) current.Delete();
-
-                do
-                {
-                    @case.PhotoPath = "/images/cases/" + Path.GetRandomFileName() + extension;
-                } while (new FileInfo(_environment.WebRootPath + @case.PhotoPath).Exists);
-
-                using (var fileStream = new FileStream(_environment.WebRootPath + @case.PhotoPath, FileMode.CreateNew))
-                {
-                    await @case.Image.CopyToAsync(fileStream);
-                }
+                await _uploadService.Delete(@case.PhotoPath);
+                @case.PhotoPath = await _uploadService.Upload(@case.Image, "/images/cases");
             }
 
             @case.CaseTags.RemoveAll(ct => !(@case.TagIds?.Contains(ct.TagId) ?? false));

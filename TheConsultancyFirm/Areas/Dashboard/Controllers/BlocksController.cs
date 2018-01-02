@@ -8,6 +8,7 @@ using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Extensions;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
+using TheConsultancyFirm.Services;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
@@ -16,13 +17,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly ICaseRepository _caseRepository;
         private readonly IBlockRepository _blockRepository;
-        private readonly IHostingEnvironment _environment;
+        private readonly IUploadService _uploadService;
 
-        public BlocksController(IBlockRepository blockRepository, ICaseRepository caseRepository, IHostingEnvironment environment)
+        public BlocksController(IBlockRepository blockRepository, ICaseRepository caseRepository, IUploadService uploadService)
         {
             _blockRepository = blockRepository;
             _caseRepository = caseRepository;
-            _environment = environment;
+            _uploadService = uploadService;
         }
 
         public IActionResult Carousel()
@@ -81,29 +82,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if (ext != ".jpg" && ext != ".jpeg" && ext != ".png")
                 return new BadRequestObjectResult((object) null);
 
-            // Create directory to save image in.
-            var date = DateTime.UtcNow;
-            var path = $"/images/blocks/{date.Year}/{date.Month}/{date.Day}";
-            var dir = _environment.WebRootPath + path;
-            Directory.CreateDirectory(dir);
-
-            // Get unique filename
-            var filename = Path.GetFileNameWithoutExtension(file.FileName);
-            if (System.IO.File.Exists(dir + "/" + filename.Sluggify() + ext))
-            {
-                var n = 1;
-                while (System.IO.File.Exists(dir + "/" + (filename + " " + n).Sluggify() + ext))
-                    n++;
-
-                filename += " " + n;
-            }
-
-            // Save file as the slugged unique filename.
-            var filepath = path + "/" + filename.Sluggify() + ext;
-            using (var fileStream = new FileStream(_environment.WebRootPath + filepath, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
+            var filepath = await _uploadService.Upload(file, "/images/uploads");
 
             return new ObjectResult(new {location = filepath});
         }
