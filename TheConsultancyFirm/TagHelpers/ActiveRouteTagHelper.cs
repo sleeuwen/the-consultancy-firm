@@ -6,23 +6,17 @@ using Microsoft.AspNetCore.Routing;
 
 namespace TheConsultancyFirm.TagHelpers
 {
-    [HtmlTargetElement(Attributes = "active-action")]
     [HtmlTargetElement(Attributes = "active-controller")]
-    [HtmlTargetElement(Attributes = "active-area")]
     public class ActiveRouteTagHelper : TagHelper
     {
+        // In what order should this tag helper run compared to other tag helpers.
         public override int Order => 0;
 
         private const string ActiveClass = "active";
 
-        [HtmlAttributeName("active-area")]
-        public string Area { get; set; }
-
+        // Value specified in html via `active-controller="value"`
         [HtmlAttributeName("active-controller")]
         public string Controller { get; set; }
-
-        [HtmlAttributeName("active-action")]
-        public string Action { get; set; }
 
         [HtmlAttributeNotBound]
         [ViewContext]
@@ -30,36 +24,34 @@ namespace TheConsultancyFirm.TagHelpers
 
         private RouteValueDictionary RouteData => ViewContext.RouteData.Values;
 
+        // This method is called every time the `active-controller` attribute is encountered
         public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            output.Attributes.RemoveAll("active-area");
+            // remove the `active-controller` attribute from the html
             output.Attributes.RemoveAll("active-controller");
-            output.Attributes.RemoveAll("active-action");
 
-            // active-area matches
-            if (Area != null && Area.Split(",").All(a => (string) RouteData["Area"] != a))
-                return;
-
-            // active-controller matches
+            // Check if the value of `active-controller` matches the current route controller
             if (Controller != null && Controller.Split(",").All(c => (string) RouteData["Controller"] != c))
                 return;
 
-            // active-action matches
-            if (Action != null && Action.Split(",").All(a => (string) RouteData["Action"] != a))
-                return;
-
+            // Add the active class to the current tag
             AddActiveClass(output);
         }
 
         private void AddActiveClass(TagHelperOutput output)
         {
-            var currentClass = output.Attributes.FirstOrDefault(a => a.Name == "class");
             var newClass = ActiveClass;
+
+            // Get the current `class` attribute
+            var currentClass = output.Attributes.FirstOrDefault(a => a.Name == "class");
             if (currentClass != null)
             {
+                // Append the `ActiveClass` to the current class value and remove the current class attribute
                 newClass = $"{currentClass.Value} {ActiveClass}";
                 output.Attributes.Remove(currentClass);
             }
+
+            // Add the new class attribute with the active class
             output.Attributes.Add(new TagHelperAttribute("class", newClass));
         }
     }
