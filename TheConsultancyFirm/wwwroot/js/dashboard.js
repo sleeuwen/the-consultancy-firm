@@ -39,10 +39,10 @@ $(function () {
             handle: '.handle',
             animation: 150,
             onChoose: function (e) {
-                tinymce.execCommand('mceRemoveEditor', false, $(e.item).find('textarea').attr('id'));
+                tinymce.execCommand('mceRemoveEditor', false, $(e.item).find('.text-block textarea').attr('id'));
             },
             onEnd: function (e) {
-                tinymce.execCommand('mceAddEditor', false, $(e.item).find('textarea').attr('id'));
+                tinymce.execCommand('mceAddEditor', false, $(e.item).find('.text-block textarea').attr('id'));
             }
         });
     });
