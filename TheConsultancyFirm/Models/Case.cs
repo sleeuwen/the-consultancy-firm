@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
 using TheConsultancyFirm.Extensions;
 
 namespace TheConsultancyFirm.Models
@@ -24,8 +26,16 @@ namespace TheConsultancyFirm.Models
         public DateTime LastModified { get; set; }
 
         public List<Block> Blocks { get; set; }
+
         public List<CaseTag> CaseTags { get; set; }
 
         public string Slug => $"{Id}-{Title.Sluggify()}";
+
+        [NotMapped]
+        public IFormFile Image { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Tags")]
+        public List<int> TagIds { get; set; }
     }
 }

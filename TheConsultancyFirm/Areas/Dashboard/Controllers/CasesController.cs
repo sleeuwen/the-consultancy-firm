@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,11 +21,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ICaseRepository _caseRepository;
+        private readonly IHostingEnvironment _environment;
 
-        public CasesController(ApplicationDbContext context, ICaseRepository caseRepository)
+        public CasesController(ApplicationDbContext context, ICaseRepository caseRepository, IHostingEnvironment environment)
         {
             _context = context;
             _caseRepository = caseRepository;
+            _environment = environment;
         }
 
         // GET: Dashboard/Cases
@@ -63,9 +68,35 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> Create([Bind("Title,CustomerId")] Case @case)
+        public async Task<ObjectResult> Create([Bind("Title,CustomerId,Image,TagIds")]
+            Case @case)
         {
+            if (@case.Image != null && @case.Image?.Length == 0)
+                ModelState.AddModelError(nameof(@case.Image), "Filesize too small");
+
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+
+            if (@case.Image != null)
+            {
+                var extension = Path.GetExtension(@case.Image.FileName);
+                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
+                {
+                    ModelState.AddModelError(nameof(@case.Image), "The uploaded file was not an image.");
+                    return new BadRequestObjectResult(ModelState);
+                }
+
+                do
+                {
+                    @case.PhotoPath = "/images/cases/" + Path.GetRandomFileName() + extension;
+                } while (new FileInfo(_environment.WebRootPath + @case.PhotoPath).Exists);
+
+                using (var fileStream = new FileStream(_environment.WebRootPath + @case.PhotoPath, FileMode.CreateNew))
+                {
+                    await @case.Image.CopyToAsync(fileStream);
+                }
+            }
+
+            @case.CaseTags = @case.TagIds.Select(tagId => new CaseTag {Case = @case, TagId = tagId}).ToList();
 
             @case.Date = DateTime.UtcNow;
             @case.LastModified = DateTime.UtcNow;
@@ -107,16 +138,48 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // POST: Dashboard/Cases/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> Edit(int id, [Bind("Id,CustomerId,Title,Date")] Case @case)
+        public async Task<ObjectResult> EditPost(int? id)
         {
-            if (id != @case.Id)
-            {
-                return new NotFoundObjectResult(null);
-            }
+            var @case = await _caseRepository.Get(id ?? 0);
+
+            if (@case == null) return new NotFoundObjectResult(null);
+
+            // Bind POST variables Title, CustomerId, Image and TagIds to the model.
+            await TryUpdateModelAsync(@case, string.Empty, c => c.Title, c => c.CustomerId, c => c.Image, c => c.TagIds);
+
+            if (@case.Image != null && @case.Image?.Length == 0)
+                ModelState.AddModelError(nameof(@case.Image), "Filesize too small");
 
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+
+            if (@case.Image != null)
+            {
+                var extension = Path.GetExtension(@case.Image.FileName);
+                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
+                {
+                    ModelState.AddModelError(nameof(@case.Image), "The uploaded file was not an image.");
+                    return new BadRequestObjectResult(ModelState);
+                }
+
+                var current = new FileInfo(_environment.WebRootPath + @case.PhotoPath);
+                if (current.Exists) current.Delete();
+
+                do
+                {
+                    @case.PhotoPath = "/images/cases/" + Path.GetRandomFileName() + extension;
+                } while (new FileInfo(_environment.WebRootPath + @case.PhotoPath).Exists);
+
+                using (var fileStream = new FileStream(_environment.WebRootPath + @case.PhotoPath, FileMode.CreateNew))
+                {
+                    await @case.Image.CopyToAsync(fileStream);
+                }
+            }
+
+            @case.CaseTags.RemoveAll(ct => !(@case.TagIds?.Contains(ct.TagId) ?? false));
+            @case.CaseTags.AddRange(@case.TagIds?.Except(@case.CaseTags.Select(ct => ct.TagId))
+                .Select(tagId => new CaseTag {Case = @case, TagId = tagId}) ?? new List<CaseTag>());
 
             try
             {

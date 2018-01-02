@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -52,6 +53,15 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             await _tagRepository.Delete(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet("api/dashboard/[controller]")]
+        public async Task<ObjectResult> List()
+        {
+            return new ObjectResult(new
+            {
+                results = (await _tagRepository.GetAll()).Select(t => new {id = t.Id, text = t.Text})
+            });
         }
     }
 }

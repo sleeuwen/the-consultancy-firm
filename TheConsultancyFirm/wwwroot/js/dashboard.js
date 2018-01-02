@@ -7,7 +7,16 @@ $(function () {
     $blocksList.on('click', '.delete', function () {
         var $block = $(this).closest('.block');
         $block.removeClass('open');
+        $block.addClass('deleting');
+
         var id = $block.data('id');
+
+        if (id === 0) {
+            $block.slideUp(function () {
+                $block.remove();
+                $(this).dequeue();
+            });
+        }
 
         $.ajax({
             method: 'DELETE',
@@ -23,7 +32,6 @@ $(function () {
                 $block.removeClass('deleting');
             },
         });
-        $block.addClass('deleting');
     });
 
     $blocksList.each(function (idx, element) {
@@ -78,11 +86,21 @@ $(function () {
             $.ajax({
                 method: 'POST',
                 url: $(this).attr('action'),
-                data: $(this).serialize(),
+                enctype: 'multipart/form-data',
+                data: new FormData(this),
+                processData: false,
+                contentType: false,
                 success: function (id) {
-                    console.log(id);
-
                     var $blocks = $blocksList.find('.block');
+
+                    if ($blocks.length === 0) {
+                        $statusText.text('Opgeslagen.');
+                        resetStatusTextTimeout = setTimeout(function () {
+                            $statusText.text('');
+                        }, 5000);
+                        return;
+                    }
+
                     var saved = 0;
                     $statusText.text('Opslaan van de blokken: ' + saved + ' / ' + $blocks.length);
                     $blocks.each(function (index, element) {
@@ -179,4 +197,18 @@ $(function () {
     }
 
     updateUnreadCounter();
+
+    $('.select2').each(function () {
+        var self = this;
+        var ajaxPreload = $(this).data('select2-preload');
+        if (ajaxPreload != null) {
+            $.ajax($(self).data('select2-preload'), {
+                success: function (data) {
+                    console.log($(self).select2({data: data.results}));
+                }
+            })
+        } else {
+            $(self).select2();
+        }
+    });
 });

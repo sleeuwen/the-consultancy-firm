@@ -10,7 +10,6 @@ namespace TheConsultancyFirm.Models
         public DateTime LastModified { get; set; }
 
         public int? CaseId { get; set; }
-        public int? DownloadId { get; set; }
         public int? NewsItemId { get; set; }
         public int? SolutionId { get; set; }
     }

@@ -16,53 +16,78 @@
 </div>
 <hr />
 
-<div class="container-fluid px-0">
-    <form asp-action="Edit" class="blocks-form" id="updateCase">
-        <div class="row">
-            <div class="col-md-4">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" placeholder="Titel"/>
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="CustomerId" class="control-label"></label>
-                    <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.Customers">
-                    </select>
-                    <span asp-validation-for="CustomerId" class="invalid-feedback d-block"></span>
-                    @if (ViewBag.Customers.Count == 0) {
-                        <small id="customerHelp" class="form-text text-muted">
-                            Er zijn nog geen klanten toegevoegd, klik
-                            <a asp-controller="Customers" asp-action="Create">hier</a>
-                            om een nieuwe klant toe te voegen.
-                        </small>
-                    }
-                    else
-                    {
-                        <small id="customerHelp" class="form-text text-muted">
-                            Zit de juiste klant er niet bij? Klik dan
-                            <a asp-controller="Customers" asp-action="Create">hier</a>
-                            om een nieuwe klant toe te voegen.
-                        </small>
-                    }
-                </div>
+<form asp-action="Edit" class="blocks-form" id="updateCase" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" placeholder="Titel" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CustomerId" class="control-label"></label>
+                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.Customers">
+                </select>
+                <span asp-validation-for="CustomerId" class="invalid-feedback d-block"></span>
+                @if (ViewBag.Customers.Count == 0)
+                {
+                    <small id="customerHelp" class="form-text text-muted">
+                        Er zijn nog geen klanten toegevoegd, klik
+                        <a asp-controller="Customers" asp-action="Create">hier</a>
+                        om een nieuwe klant toe te voegen.
+                    </small>
+                }
+                else
+                {
+                    <small id="customerHelp" class="form-text text-muted">
+                        Zit de juiste klant er niet bij? Klik dan
+                        <a asp-controller="Customers" asp-action="Create">hier</a>
+                        om een nieuwe klant toe te voegen.
+                    </small>
+                }
             </div>
         </div>
-    </form>
 
-    <label>Content</label>
-    <div id="blocksList">
-        @foreach (var block in Model.Blocks.OrderBy(b => b.Order))
-        {
-            @await Component.InvokeAsync("Block", block)
-        }
-    </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="Image" class="control-label"></label>
+                <div class="custom-file d-block">
+                    <input asp-for="Image" class="custom-file-input" />
+                    <span class="custom-file-control">Choose file...</span>
+                </div>
 
-    <div class="row mt-3">
-        <div class="col-12">
-            <button class="btn btn-default" data-toggle="modal" data-target="#chooseBlockModal" type="button">Voeg item toe</button>
+                <span asp-validation-for="Image" class="invalid-feedback d-block"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TagIds" class="control-label"></label>
+                <select asp-for="TagIds" class="form-control select2" data-select2-preload="@Url.Action("List", "Tags")"
+                        data-selected="@Model.CaseTags" data-close-on-select="false" data-placeholder="Select related tags"></select>
+            </div>
         </div>
+
+        <div class="col-md-4">
+            <label>Current</label>
+            @if (!string.IsNullOrEmpty(Model.PhotoPath))
+            {
+                <img class="img-fluid" src="@Model.PhotoPath" />
+            }
+        </div>
+    </div>
+</form>
+
+<label>Content</label>
+<div id="blocksList">
+    @foreach (var block in Model.Blocks.OrderBy(b => b.Order))
+    {
+        @await Component.InvokeAsync("Block", block)
+    }
+</div>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <button class="btn btn-default" data-toggle="modal" data-target="#chooseBlockModal" type="button">Voeg item toe</button>
     </div>
 </div>
 

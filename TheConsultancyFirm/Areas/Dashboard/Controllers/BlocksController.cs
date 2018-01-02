@@ -115,9 +115,6 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 case Enumeration.ContentItemType.Case:
                     block.CaseId = id;
                     break;
-                case Enumeration.ContentItemType.Download:
-                    block.DownloadId = id;
-                    break;
                 case Enumeration.ContentItemType.News:
                     block.NewsItemId = id;
                     break;
