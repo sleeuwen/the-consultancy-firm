@@ -40,7 +40,7 @@ namespace TheConsultancyFirm.Controllers
                 return RedirectToAction("Details", new {id = caseItem.Slug});
 
             var (previous, next) = await GetAdjacent(caseItem);
-            var relatedItems = _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
+            var relatedItems = await _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
 
             return View(new CaseDetailViewModel
             {
