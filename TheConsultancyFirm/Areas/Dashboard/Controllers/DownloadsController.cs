@@ -109,7 +109,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             if (download.File != null)
             {
-                await _uploadService.Delete(download.LinkPath);
+                if (download.LinkPath != null)
+                    await _uploadService.Delete(download.LinkPath);
 
                 download.LinkPath = await _uploadService.Upload(download.File, "/files",
                     Path.GetFileNameWithoutExtension(download.File.FileName));
@@ -160,7 +161,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var download = await _downloadRepository.Get(id);
-            await _uploadService.Delete(download.LinkPath);
+            if (download.LinkPath != null)
+                await _uploadService.Delete(download.LinkPath);
             await _downloadRepository.Delete(id);
 
             return RedirectToAction(nameof(Index));
