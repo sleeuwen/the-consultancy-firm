@@ -1,24 +1,24 @@
 ﻿using System;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
+using TheConsultancyFirm.Services;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
     public class DownloadsController : Controller
     {
-        private readonly IHostingEnvironment _environment;
         private readonly IDownloadRepository _downloadRepository;
+        private readonly IUploadService _uploadService;
 
-        public DownloadsController(IDownloadRepository downloadRepository, IHostingEnvironment environment)
+        public DownloadsController(IDownloadRepository downloadRepository, IUploadService uploadService)
         {
-            _environment = environment;
             _downloadRepository = downloadRepository;
+            _uploadService = uploadService;
         }
 
         // GET: Downloads
@@ -62,12 +62,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if (download.File?.Length > 0)
             {
                 download.Date = DateTime.UtcNow;
-                download.LinkPath = "/files/" + download.File.FileName.Replace(" ", "");
-                Directory.CreateDirectory(_environment.WebRootPath + "/files");
-                using (var fileStream = new FileStream(_environment.WebRootPath + download.LinkPath, FileMode.Create))
-                {
-                    await download.File.CopyToAsync(fileStream);
-                }
+
+                download.LinkPath = await _uploadService.Upload(download.File, "/files",
+                    Path.GetFileNameWithoutExtension(download.File.FileName));
             }
             else
             {
@@ -112,17 +109,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             if (download.File != null)
             {
-                var file = new FileInfo(_environment.WebRootPath + download.LinkPath);
-                if (file.Exists)
-                {
-                    file.Delete();
-                }
+                await _uploadService.Delete(download.LinkPath);
 
-                download.LinkPath = "/files/" + download.File.FileName.Replace(" ", "");
-                using (var fileStream = new FileStream(_environment.WebRootPath + download.LinkPath, FileMode.Create))
-                {
-                    await download.File.CopyToAsync(fileStream);
-                }
+                download.LinkPath = await _uploadService.Upload(download.File, "/files",
+                    Path.GetFileNameWithoutExtension(download.File.FileName));
             }
             else if (string.IsNullOrWhiteSpace(download.LinkPath))
             {
@@ -170,13 +160,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var download = await _downloadRepository.Get(id);
-            var file = new FileInfo(_environment.WebRootPath + download.LinkPath);
-            if (file.Exists)
-            {
-                file.Delete();
-            }
-
+            await _uploadService.Delete(download.LinkPath);
             await _downloadRepository.Delete(id);
+
             return RedirectToAction(nameof(Index));
         }
 
