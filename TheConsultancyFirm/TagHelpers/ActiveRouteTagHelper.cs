@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.AspNetCore.Razor.TagHelpers;
@@ -31,7 +32,8 @@ namespace TheConsultancyFirm.TagHelpers
             output.Attributes.RemoveAll("active-controller");
 
             // Check if the value of `active-controller` matches the current route controller
-            if (Controller != null && Controller.Split(",").All(c => (string) RouteData["Controller"] != c))
+            if (Controller != null && Controller.Split(",")
+                    .All(c => !c.Equals((string) RouteData["Controller"], StringComparison.InvariantCultureIgnoreCase)))
                 return;
 
             // Add the active class to the current tag
