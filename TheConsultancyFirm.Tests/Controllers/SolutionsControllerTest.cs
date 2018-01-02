@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheConsultancyFirm.Areas.Dashboard.Controllers;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
-using TheConsultancyFirm.Services;
 using Xunit;
 
 namespace TheConsultancyFirm.Tests.Controllers
@@ -48,7 +46,7 @@ namespace TheConsultancyFirm.Tests.Controllers
         }
     
         [Fact]
-        public async Task FailedDetailCall()
+        public async Task FailedDetailCallNull()
         {
             var model = new Solution
             {
@@ -66,6 +64,47 @@ namespace TheConsultancyFirm.Tests.Controllers
             Assert.IsType<NotFoundResult>(result);
            
             _solutionRepository.Verify(repo => repo.Update(model), Times.Never);
+        }
+
+        [Fact]
+        public async Task FailedDetailCall()
+        {
+            var model = new Solution
+            {
+                Id = 0,
+                LastModified = DateTime.UtcNow,
+                Title = "Title 1"
+            };
+
+            _solutionRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult<Solution>(null));
+       
+            var controller = new SolutionsController(_solutionRepository.Object);
+            
+            var result = await controller.Details(2);
+            
+            Assert.IsType<NotFoundResult>(result);
+           
+            _solutionRepository.Verify(repo => repo.Update(model), Times.Never);
+        }
+
+        [Fact]
+        public async Task InvalidDetailModel()
+        {
+            var model = new Solution
+            {
+                Id = 0,
+                LastModified = DateTime.UtcNow,
+                Title = "Title 1"
+            };
+
+            _solutionRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult<Solution>(null));
+
+            var controller = new SolutionsController(_solutionRepository.Object);
+
+            var result = await controller.Details(model.Id);
+
+            Assert.IsType<NotFoundResult>(result);
+
         }
 
     }
