@@ -24,15 +24,6 @@ namespace TheConsultancyFirm.TagHelpers
         [HtmlAttributeName("active-action")]
         public string Action { get; set; }
 
-        [HtmlAttributeName("asp-area")]
-        public string AspArea { get; set; }
-
-        [HtmlAttributeName("asp-controller")]
-        public string AspController { get; set; }
-
-        [HtmlAttributeName("asp-action")]
-        public string AspAction { get; set; }
-
         [HtmlAttributeNotBound]
         [ViewContext]
         public ViewContext ViewContext { get; set; }
@@ -45,50 +36,30 @@ namespace TheConsultancyFirm.TagHelpers
             output.Attributes.RemoveAll("active-controller");
             output.Attributes.RemoveAll("active-action");
 
-            if (Action != null || Controller != null || Area != null)
-            {
-                ProcessRouteTags(context, output);
-            }
-            else if (AspAction != null || AspController != null || AspArea != null)
-            {
-                ProcessAnchorTags(context, output);
-            }
-        }
-
-        private void ProcessRouteTags(TagHelperContext context, TagHelperOutput output)
-        {
+            // active-area matches
             if (Area != null && Area.Split(",").All(a => (string) RouteData["Area"] != a))
                 return;
 
+            // active-controller matches
             if (Controller != null && Controller.Split(",").All(c => (string) RouteData["Controller"] != c))
                 return;
 
+            // active-action matches
             if (Action != null && Action.Split(",").All(a => (string) RouteData["Action"] != a))
                 return;
 
-            AddActiveClass(context, output);
+            AddActiveClass(output);
         }
 
-        private void ProcessAnchorTags(TagHelperContext context, TagHelperOutput output)
-        {
-            if (AspArea != null && (string) RouteData["Area"] != AspArea)
-                return;
-
-            if (AspController != null && (string) RouteData["Controller"] != AspController)
-                return;
-
-            if (AspAction != null && (string) RouteData["Action"] != AspAction)
-                return;
-
-            AddActiveClass(context, output);
-        }
-
-        private void AddActiveClass(TagHelperContext context, TagHelperOutput output)
+        private void AddActiveClass(TagHelperOutput output)
         {
             var currentClass = output.Attributes.FirstOrDefault(a => a.Name == "class");
             var newClass = ActiveClass;
-            if (currentClass != null) newClass += $" {currentClass.Value}";
-            if (currentClass != null) output.Attributes.Remove(currentClass);
+            if (currentClass != null)
+            {
+                newClass = $"{currentClass.Value} {ActiveClass}";
+                output.Attributes.Remove(currentClass);
+            }
             output.Attributes.Add(new TagHelperAttribute("class", newClass));
         }
     }
