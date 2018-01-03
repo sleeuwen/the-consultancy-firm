@@ -62,8 +62,13 @@
 
             <div class="form-group">
                 <label asp-for="TagIds" class="control-label"></label>
-                <select asp-for="TagIds" class="form-control select2" data-select2-preload="@Url.Action("List", "Tags")"
-                        data-selected="@Model.CaseTags" data-close-on-select="false" data-placeholder="Select related tags"></select>
+                <select asp-for="TagIds" class="form-control select2" data-ajax--url="@Url.Action("List", "Tags")"
+                        data-close-on-select="false" data-placeholder="Select related tags">
+                    @foreach (var tag in Model.CaseTags)
+                    {
+                        <option value="@tag.TagId" selected>@tag.Tag.Text</option>
+                    }
+                </select>
             </div>
         </div>
 

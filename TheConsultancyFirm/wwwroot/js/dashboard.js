@@ -198,17 +198,5 @@ $(function () {
 
     updateUnreadCounter();
 
-    $('.select2').each(function () {
-        var self = this;
-        var ajaxPreload = $(this).data('select2-preload');
-        if (ajaxPreload != null) {
-            $.ajax($(self).data('select2-preload'), {
-                success: function (data) {
-                    console.log($(self).select2({data: data.results}));
-                }
-            })
-        } else {
-            $(self).select2();
-        }
-    });
+    $('.select2').select2();
 });

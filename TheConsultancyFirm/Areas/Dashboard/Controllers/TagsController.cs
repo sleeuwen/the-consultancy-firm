@@ -56,11 +56,11 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         [HttpGet("api/dashboard/[controller]")]
-        public async Task<ObjectResult> List()
+        public async Task<ObjectResult> List(string term = "")
         {
             return new ObjectResult(new
             {
-                results = (await _tagRepository.GetAll()).Select(t => new {id = t.Id, text = t.Text})
+                results = (await _tagRepository.Search(term)).Select(t => new {id = t.Id, text = t.Text})
             });
         }
     }

@@ -111,12 +111,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Dashboard/Cases/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var @case = await _context.Cases.Include(c => c.Blocks).SingleOrDefaultAsync(m => m.Id == id);
+            var @case = await _caseRepository.Get(id ?? 0);
             if (@case == null)
             {
                 return NotFound();
