@@ -42,19 +42,13 @@ namespace TheConsultancyFirm.Tests.Controllers
             var result = await controller.Details(model.Id);
             
             var viewResult = Assert.IsType<ViewResult>(result);
+
             Assert.Equal(model, viewResult.Model);
         }
     
         [Fact]
         public async Task FailedDetailCallNull()
         {
-            var model = new Solution
-            {
-                Id = 0,
-                LastModified = DateTime.UtcNow,
-                Title = "Title 1"
-            };
-
             _solutionRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult<Solution>(null));
        
             var controller = new SolutionsController(_solutionRepository.Object);
@@ -62,18 +56,15 @@ namespace TheConsultancyFirm.Tests.Controllers
             var result = await controller.Details(null);
             
             Assert.IsType<NotFoundResult>(result);
+<<<<<<< HEAD
+=======
+           
+>>>>>>> Removed unnecessary model creations, and fixed the spacing
         }
 
         [Fact]
         public async Task FailedDetailCall()
         {
-            var model = new Solution
-            {
-                Id = 0,
-                LastModified = DateTime.UtcNow,
-                Title = "Title 1"
-            };
-
             _solutionRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult<Solution>(null));
        
             var controller = new SolutionsController(_solutionRepository.Object);
