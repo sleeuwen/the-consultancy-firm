@@ -40,7 +40,7 @@ namespace TheConsultancyFirm.Tests.Services
 
             var filePath = await uploadService.Upload(FileMock(filename, content), "/", "test", "txt", FileMode.Create);
             Assert.Equal($"/{filename}", filePath);
-            Assert.Equal(1, Directory.EnumerateFileSystemEntries(_tempDir).Count());
+            Assert.Single(Directory.EnumerateFileSystemEntries(_tempDir));
             Assert.Equal(filename, Path.GetFileName(Directory.EnumerateFileSystemEntries(_tempDir).First()));
             Assert.Equal(content, File.ReadAllText(Directory.EnumerateFileSystemEntries(_tempDir).First()));
         }
@@ -54,7 +54,7 @@ namespace TheConsultancyFirm.Tests.Services
 
             var filePath = await uploadService.Upload(FileMock(filename, content), "/", null, "txt", FileMode.Create);
             Assert.NotEqual($"/{filename}", filePath);
-            Assert.Equal(1, Directory.EnumerateFileSystemEntries(_tempDir).Count());
+            Assert.Single(Directory.EnumerateFileSystemEntries(_tempDir));
             Assert.NotEqual(filename, Path.GetFileName(Directory.EnumerateFileSystemEntries(_tempDir).First()));
             Assert.Equal(content, File.ReadAllText(Directory.EnumerateFileSystemEntries(_tempDir).First()));
         }
@@ -68,7 +68,7 @@ namespace TheConsultancyFirm.Tests.Services
 
             var filePath = await uploadService.Upload(FileMock(filename, content), "/", "test", null, FileMode.Create);
             Assert.Equal($"/{filename}", filePath);
-            Assert.Equal(1, Directory.EnumerateFileSystemEntries(_tempDir).Count());
+            Assert.Single(Directory.EnumerateFileSystemEntries(_tempDir));
             Assert.Equal(filename, Path.GetFileName(Directory.EnumerateFileSystemEntries(_tempDir).First()));
             Assert.Equal(content, File.ReadAllText(Directory.EnumerateFileSystemEntries(_tempDir).First()));
         }
@@ -83,7 +83,7 @@ namespace TheConsultancyFirm.Tests.Services
             var filePath = await uploadService.Upload(FileMock(filename, content), "/", null, null, FileMode.Create);
             Assert.NotEqual($"/{filename}", filePath);
             Assert.Equal(".html", Path.GetExtension(filePath));
-            Assert.Equal(1, Directory.EnumerateFileSystemEntries(_tempDir).Count());
+            Assert.Single(Directory.EnumerateFileSystemEntries(_tempDir));
             Assert.NotEqual(filename, Path.GetFileName(Directory.EnumerateFileSystemEntries(_tempDir).First()));
             Assert.Equal(".html", Path.GetExtension(Directory.EnumerateFileSystemEntries(_tempDir).First()));
             Assert.Equal(content, File.ReadAllText(Directory.EnumerateFileSystemEntries(_tempDir).First()));
