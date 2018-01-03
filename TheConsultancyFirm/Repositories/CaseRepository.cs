@@ -15,10 +15,19 @@ namespace TheConsultancyFirm.Repositories
             _context = context;
         }
 
-        public Task<Case> Get(int id)
+        public async Task<Case> Get(int id)
         {
-            return _context.Cases.Include(c => c.Blocks).Include(c => c.CaseTags).ThenInclude(t => t.Tag)
+            var @case = await _context.Cases.Include(c => c.Blocks).Include(c => c.CaseTags).ThenInclude(t => t.Tag)
                 .FirstOrDefaultAsync(c => c.Id == id);
+
+            // Load the slides from all CarouselBlock's
+            var ids = @case.Blocks.OfType<CarouselBlock>().Select(c => c.Id).ToList();
+            _context.Blocks.OfType<CarouselBlock>()
+                .Where(c => ids.Contains(c.Id))
+                .Include(c => c.Slides)
+                .Load();
+
+            return @case;
         }
 
         public IQueryable<Case> GetAll()

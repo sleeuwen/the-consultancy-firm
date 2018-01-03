@@ -13,9 +13,18 @@ namespace TheConsultancyFirm.Repositories
             _context = context;
         }
 
-        public Task<Block> Get(int id)
+        public async Task<Block> Get(int id)
         {
-            return _context.Blocks.FindAsync(id);
+            var block = await _context.Blocks.FindAsync(id);
+
+            if (block is CarouselBlock carousel)
+            {
+                await _context.Entry(carousel)
+                    .Collection(c => c.Slides)
+                    .LoadAsync();
+            }
+
+            return block;
         }
 
         public async Task Create(Block block)

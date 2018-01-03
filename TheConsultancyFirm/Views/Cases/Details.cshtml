@@ -21,15 +21,15 @@
     </div>
 </header>
 
-<div class="container casedetail">
+<div class="casedetail">
+    @foreach (var block in Model.CaseItem.Blocks.OrderBy(b => b.Order))
+    {
+        @await Component.InvokeAsync("Block", block)
+    }
+</div>
+<div class="container">
     <div class="row">
-        <div class="col-12 col-md-1"></div>
-        <div class="col-12 col-md-10">
-            @foreach (var block in Model.CaseItem.Blocks.OrderBy(b => b.Order))
-            {
-                @await Component.InvokeAsync("Block", block)
-            }
-
+        <div class="col-12 col-md-10 mx-auto">
             <div class="sharing">
                 <span class="introtext">
                     <i class="fa fa-share-alt"></i>

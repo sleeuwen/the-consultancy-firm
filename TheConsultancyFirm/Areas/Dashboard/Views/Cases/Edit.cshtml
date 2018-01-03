@@ -51,12 +51,11 @@
 
         <div class="col-md-4">
             <div class="form-group">
-                <label asp-for="Image" class="control-label"></label>
-                <div class="custom-file d-block">
-                    <input asp-for="Image" class="custom-file-input" />
-                    <span class="custom-file-control">Choose file...</span>
+                <label asp-for="Image"></label>
+                <div class="custom-file">
+                    <input class="custom-file-input" asp-for="Image">
+                    <label class="custom-file-label" asp-for="Image">Choose file</label>
                 </div>
-
                 <span asp-validation-for="Image" class="invalid-feedback d-block"></span>
             </div>
 

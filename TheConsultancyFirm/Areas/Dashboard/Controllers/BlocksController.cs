@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
@@ -26,23 +27,69 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             _uploadService = uploadService;
         }
 
-        public IActionResult Carousel()
+        public async Task<IActionResult> Carousel(Enumeration.ContentItemType contentType, int contentId)
         {
-            return ViewComponent("Block", new CarouselBlock());
+            var block = new CarouselBlock();
+            SetTypeId(block, contentType, contentId);
+            await _blockRepository.Create(block);
+
+            return ViewComponent("Block", block);
         }
 
-        public IActionResult Quote()
+        public async Task<IActionResult> Quote(Enumeration.ContentItemType contentType, int contentId)
         {
-            return ViewComponent("Block", new QuoteBlock());
+            var block = new QuoteBlock();
+            SetTypeId(block, contentType, contentId);
+            await _blockRepository.Create(block);
+
+            return ViewComponent("Block", block);
         }
 
-        public IActionResult SolutionAdvantages()
+        public async Task<IActionResult> SolutionAdvantages(Enumeration.ContentItemType contentType, int contentId)
         {
-            return ViewComponent("Block", new SolutionAdvantagesBlock());
+            var block = new SolutionAdvantagesBlock();
+            SetTypeId(block, contentType, contentId);
+            await _blockRepository.Create(block);
+
+            return ViewComponent("Block", block);
         }
-        public IActionResult Text()
+
+        public async Task<IActionResult> Text(Enumeration.ContentItemType contentType, int contentId)
         {
-            return ViewComponent("Block", new TextBlock());
+            var block = new TextBlock();
+            SetTypeId(block, contentType, contentId);
+            await _blockRepository.Create(block);
+
+            return ViewComponent("Block", block);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task Carousel(Enumeration.ContentItemType contentType, int contentId, int id)
+        {
+            var block = await _blockRepository.Get(id);
+            if (!(block is CarouselBlock carousel)) return;
+
+            await TryUpdateModelAsync(carousel, string.Empty, c => c.Order, c => c.LinkText, c => c.LinkPath,
+                c => c.Slides);
+
+            foreach (var slide in carousel.Slides)
+            {
+                if (slide.Image != null)
+                {
+                    // Only accept jpg or png images
+                    var ext = Path.GetExtension(slide.Image.FileName);
+                    if (ext != ".jpg" && ext != ".jpeg" && ext != ".png")
+                        continue; // TODO: return error
+
+                    if (slide.PhotoPath != null) await _uploadService.Delete(slide.PhotoPath);
+                    slide.PhotoPath = await _uploadService.Upload(slide.Image, "/images/uploads");
+                }
+            }
+
+            block.LastModified = DateTime.UtcNow;
+            SetTypeId(block, contentType, contentId);
+            await _blockRepository.Update(block);
         }
 
         [HttpPost]

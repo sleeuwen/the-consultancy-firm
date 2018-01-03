@@ -1,7 +1,49 @@
 ﻿@model TheConsultancyFirm.Models.CarouselBlock
 
-<div class="row">
-    <div class="block carousel-block">
-        This is a carousel block.
+<div class="container container-wide my-5 carousel-horizontal">
+    <div class="row">
+        <div class="col-12 col-lg-10">
+            <div id="carousel1" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div class="carousel-inner" role="listbox">
+                    @for (var i = 0; i < (Model.Slides?.Count ?? 0); i++)
+                    {
+                        if (Model.Slides[i].PhotoPath == null)
+                        {
+                            continue;
+                        }
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <img src="@(Model.Slides[i].PhotoPath)" alt="" class="d-block w-100" />
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-2 carousel-aside">
+            <div class="carousel-navigation">
+                <a href="#carousel1" class="fa fa-arrow-left" aria-hidden="true" role="button" data-slide="prev"></a>
+                <a href="#carousel1" class="fa fa-arrow-right" aria-hidden="true" role="button" data-slide="next"></a>
+            </div>
+
+            <div class="carousel slide" data-ride="carousel" data-interval="false" data-carousel-follow="carousel1">
+                <div class="carousel-inner" role="listbox">
+                    @for (var i = 0; i < (Model.Slides?.Count ?? 0); i++)
+                    {
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <div class="carousel-caption" role="option">
+                                <p>@(Model.Slides?[i].Text ?? "")</p>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+
+            @if (Model.LinkPath != null && Model.LinkText != null)
+            {
+                <a href="@Model.LinkPath" class="more-link">
+                    @Model.LinkText
+                </a>
+            }
+        </div>
     </div>
 </div>

@@ -6,6 +6,7 @@ namespace TheConsultancyFirm.Models
     {
         public int Id { get; set; }
         public int Order { get; set; }
+        public bool Active { get; set; }
         public DateTime Date { get; set; }
         public DateTime LastModified { get; set; }
 
