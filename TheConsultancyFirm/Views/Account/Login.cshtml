@@ -31,15 +31,13 @@
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <div class="checkbox">
-                            <label asp-for="RememberMe">
-                                <input asp-for="RememberMe"/>
-                                Onthoud mij
-                            </label>
+                        <div class="form-check">
+                            <input asp-for="RememberMe" class="form-check-input" />
+                            <label asp-for="RememberMe" class="form-check-label">Onthoud mij</label>
                         </div>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-default btn-block">Inloggen</button>
+                        <button type="submit" class="btn btn-secondary btn-block">Inloggen</button>
                     </div>
                     <div class="form-group">
                         <p>
@@ -53,8 +51,8 @@
                 @{
                     var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
                 }
-                <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                    <div>
+                <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                    <div class="form-group">
                         <p>
                             @foreach (var provider in loginProviders)
                             {
