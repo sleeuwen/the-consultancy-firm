@@ -151,7 +151,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     return new BadRequestObjectResult(ModelState);
                 }
 
-                await _uploadService.Delete(@case.PhotoPath);
+                if (@case.PhotoPath != null)
+                    await _uploadService.Delete(@case.PhotoPath);
                 @case.PhotoPath = await _uploadService.Upload(@case.Image, "/images/cases");
             }
 

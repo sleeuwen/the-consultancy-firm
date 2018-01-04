@@ -12,6 +12,7 @@ body {
     flex: auto;
     display: flex;
     flex-direction: row;
+    min-height: 0;
 
     > .row {
         flex: auto;
@@ -23,4 +24,5 @@ body {
     padding-bottom: 1rem;
     overflow: auto;
     position: relative;
+    height: 100%;
 }

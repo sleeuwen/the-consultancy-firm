@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -173,6 +174,15 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             await _customerRepository.Delete(id);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet("api/dashboard/[controller]/[action]")]
+        public async Task<ObjectResult> Autocomplete(string term = "")
+        {
+            return new ObjectResult(new
+            {
+                results = (await _customerRepository.Search(term)).Select(t => new {id = t.Id, text = t.Name})
+            });
         }
 
         private async Task<bool> CustomerExists(int id)

@@ -18,6 +18,7 @@ namespace TheConsultancyFirm.Repositories
         public async Task<Case> Get(int id)
         {
             var @case = await _context.Cases.Include(c => c.Blocks).Include(c => c.CaseTags).ThenInclude(t => t.Tag)
+                .Include(c => c.Customer)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             // Load the slides from all CarouselBlock's

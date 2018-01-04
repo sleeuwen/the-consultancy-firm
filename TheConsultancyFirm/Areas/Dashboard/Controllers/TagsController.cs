@@ -55,8 +55,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [HttpGet("api/dashboard/[controller]")]
-        public async Task<ObjectResult> List(string term = "")
+        [HttpGet("api/dashboard/[controller]/[action]")]
+        public async Task<ObjectResult> Autocomplete(string term = "")
         {
             return new ObjectResult(new
             {

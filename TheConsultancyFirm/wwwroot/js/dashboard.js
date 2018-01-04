@@ -204,7 +204,7 @@ $(function () {
 
     updateUnreadCounter();
 
-    $('.select2').select2();
+    $('.select2').select2({ theme: 'bootstrap' });
 
     var tabId = 1;
     $blocksList.on('click', '.carousel-block #add-slide', function (e) {
@@ -267,13 +267,19 @@ $(function () {
                     $(this).closest('.box').removeClass('is-dragover');
                 })
                 .on('drop', function(e) {
-                    droppedFiles = e.originalEvent.dataTransfer.files;
-
+                    var droppedFiles = e.originalEvent.dataTransfer.files;
+                    if (droppedFiles.length > 0) {
+                        $(this).find('input[type=file]')[0].files = droppedFiles;
+                    }
                 });
 
             $boxes.find('input[type=file]').on('change', function (e) {
                 if (e.target.files.length > 0) {
                     $(e.target).parent().find('label').text(e.target.files[0].name);
+
+                    if ('createObjectURL' in window.URL) {
+                        $(e.target).closest('.box').css('background-image', 'linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)), url('+window.URL.createObjectURL(e.target.files[0])+')')
+                    }
                 } else {
                     $(e.target).parent().find('label').html('<strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.');
                 }

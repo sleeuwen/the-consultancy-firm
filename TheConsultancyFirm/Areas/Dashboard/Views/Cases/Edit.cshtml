@@ -27,25 +27,15 @@
             </div>
             <div class="form-group">
                 <label asp-for="CustomerId" class="control-label"></label>
-                <select asp-for="CustomerId" class="form-control" asp-items="ViewBag.Customers">
+                <select asp-for="CustomerId" class="form-control select2" data-ajax--url="@Url.Action("Autocomplete", "Customers")">
+                    <option value="@Model.CustomerId" selected>@Model.Customer.Name</option>
                 </select>
                 <span asp-validation-for="CustomerId" class="invalid-feedback d-block"></span>
-                @if (ViewBag.Customers.Count == 0)
-                {
-                    <small id="customerHelp" class="form-text text-muted">
-                        Er zijn nog geen klanten toegevoegd, klik
-                        <a asp-controller="Customers" asp-action="Create">hier</a>
-                        om een nieuwe klant toe te voegen.
-                    </small>
-                }
-                else
-                {
-                    <small id="customerHelp" class="form-text text-muted">
-                        Zit de juiste klant er niet bij? Klik dan
-                        <a asp-controller="Customers" asp-action="Create">hier</a>
-                        om een nieuwe klant toe te voegen.
-                    </small>
-                }
+                <small id="customerHelp" class="form-text text-muted">
+                    Zit de juiste klant er niet bij? Klik dan
+                    <a asp-controller="Customers" asp-action="Create" target="_blank">hier</a>
+                    om een nieuwe klant toe te voegen.
+                </small>
             </div>
         </div>
 
@@ -61,7 +51,7 @@
 
             <div class="form-group">
                 <label asp-for="TagIds" class="control-label"></label>
-                <select asp-for="TagIds" class="form-control select2" data-ajax--url="@Url.Action("List", "Tags")"
+                <select asp-for="TagIds" class="form-control select2" data-ajax--url="@Url.Action("Autocomplete", "Tags")"
                         data-close-on-select="false" data-placeholder="Select related tags">
                     @foreach (var tag in Model.CaseTags)
                     {

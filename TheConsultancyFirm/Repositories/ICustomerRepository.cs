@@ -8,6 +8,7 @@ namespace TheConsultancyFirm.Repositories
     {
         Task<Customer> Get(int id);
         Task<List<Customer>> GetAll();
+        Task<List<Customer>> Search(string term);
         Task Create(Customer customer);
         Task Update(Customer customer);
         Task Delete(int id);
