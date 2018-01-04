@@ -21,10 +21,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     public class CasesController : Controller
     {
         private readonly ICaseRepository _caseRepository;
-        private readonly BlockRepository _blockRepository;
+        private readonly IBlockRepository _blockRepository;
         private readonly IUploadService _uploadService;
 
-        public CasesController(ICaseRepository caseRepository, BlockRepository blockRepository, IUploadService uploadService)
+        public CasesController(ICaseRepository caseRepository, IBlockRepository blockRepository, IUploadService uploadService)
         {
             _caseRepository = caseRepository;
             _blockRepository = blockRepository;
