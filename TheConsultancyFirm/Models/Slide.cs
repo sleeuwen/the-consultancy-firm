@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Http;
 
 namespace TheConsultancyFirm.Models
@@ -10,6 +11,7 @@ namespace TheConsultancyFirm.Models
         public string Text { get; set; }
         public string PhotoPath { get; set; }
 
+        [Required]
         public CarouselBlock Block { get; set; }
 
         [NotMapped]

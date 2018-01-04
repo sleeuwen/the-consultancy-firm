@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Common;
-using TheConsultancyFirm.Extensions;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
@@ -69,6 +67,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             var block = await _blockRepository.Get(id);
             if (!(block is CarouselBlock carousel)) return;
 
+            List<string> photoPaths = carousel.Slides.Select(s => s.PhotoPath).ToList();
+
             await TryUpdateModelAsync(carousel, string.Empty, c => c.Order, c => c.LinkText, c => c.LinkPath);
             UpdateCarouselSlides(carousel, slides);
 
@@ -86,9 +86,18 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 }
             }
 
-            block.LastModified = DateTime.UtcNow;
-            SetTypeId(block, contentType, contentId);
-            await _blockRepository.Update(block);
+            carousel.LastModified = DateTime.UtcNow;
+            SetTypeId(carousel, contentType, contentId);
+            await _blockRepository.Update(carousel);
+
+            var newPaths = carousel.Slides.Select(s => s.PhotoPath).ToList();
+            foreach (var photoPath in photoPaths)
+            {
+                if (!newPaths.Contains(photoPath))
+                {
+                    await _uploadService.Delete(photoPath);
+                }
+            }
         }
 
         [HttpPost]
@@ -114,6 +123,14 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [HttpDelete]
         public async Task Delete(int id)
         {
+            var block = await _blockRepository.Get(id);
+            if (block is CarouselBlock carousel)
+            {
+                foreach (var slide in carousel.Slides)
+                {
+                    if (slide.PhotoPath != null) await _uploadService.Delete(slide.PhotoPath);
+                }
+            }
             await _blockRepository.Delete(id);
         }
 
@@ -161,11 +178,25 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             slides = slides.OrderBy(s => s.Order).ToList();
             int i;
+
             for (i = 0; i < slides.Count; i++)
             {
-                carousel.Slides[i].Text = slides[i].Text;
-                carousel.Slides[i].Image = slides[i].Image;
-                carousel.Slides[i].Order = i;
+                if (carousel.Slides.Count == i)
+                {
+                    carousel.Slides.Add(new Slide
+                    {
+                        Text = slides[i].Text,
+                        Image = slides[i].Image,
+                        Order = i
+                    });
+                }
+                else
+                {
+                    carousel.Slides[i].Text = slides[i].Text;
+                    carousel.Slides[i].Image = slides[i].Image;
+                    carousel.Slides[i].PhotoPath = slides[i].PhotoPath;
+                    carousel.Slides[i].Order = i;
+                }
             }
 
             carousel.Slides.RemoveRange(i, carousel.Slides.Count - i);
