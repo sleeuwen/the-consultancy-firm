@@ -2,9 +2,7 @@
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
-using System.Linq;
 using TheConsultancyFirm.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheConsultancyFirm.ViewModels;
 

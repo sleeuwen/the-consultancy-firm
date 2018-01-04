@@ -41,7 +41,14 @@ namespace TheConsultancyFirm.Repositories
 
         public async Task Delete(int id)
         {
-            var block = await _context.Blocks.FindAsync(id);
+            var block = await Get(id);
+            if (block is CarouselBlock carousel)
+            {
+                foreach (var slide in carousel.Slides)
+                {
+                    _context.Remove(slide);
+                }
+            }
             _context.Remove(block);
             await _context.SaveChangesAsync();
         }
