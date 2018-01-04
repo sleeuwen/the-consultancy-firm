@@ -67,6 +67,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             var block = await _blockRepository.Get(id);
             if (!(block is CarouselBlock carousel)) return;
 
+            List<string> photoPaths = carousel.Slides.Select(s => s.PhotoPath).ToList();
+
             await TryUpdateModelAsync(carousel, string.Empty, c => c.Order, c => c.LinkText, c => c.LinkPath);
             UpdateCarouselSlides(carousel, slides);
 
@@ -84,9 +86,18 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 }
             }
 
-            block.LastModified = DateTime.UtcNow;
-            SetTypeId(block, contentType, contentId);
-            await _blockRepository.Update(block);
+            carousel.LastModified = DateTime.UtcNow;
+            SetTypeId(carousel, contentType, contentId);
+            await _blockRepository.Update(carousel);
+
+            var newPaths = carousel.Slides.Select(s => s.PhotoPath).ToList();
+            foreach (var photoPath in photoPaths)
+            {
+                if (!newPaths.Contains(photoPath))
+                {
+                    await _uploadService.Delete(photoPath);
+                }
+            }
         }
 
         [HttpPost]
@@ -169,6 +180,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             int i;
 
             for (i = 0; i < slides.Count; i++)
+            {
                 if (carousel.Slides.Count == i)
                 {
                     carousel.Slides.Add(new Slide
@@ -182,8 +194,11 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 {
                     carousel.Slides[i].Text = slides[i].Text;
                     carousel.Slides[i].Image = slides[i].Image;
+                    carousel.Slides[i].PhotoPath = slides[i].PhotoPath;
                     carousel.Slides[i].Order = i;
                 }
+            }
+
             carousel.Slides.RemoveRange(i, carousel.Slides.Count - i);
         }
     }
