@@ -20,33 +20,27 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     [Area("Dashboard")]
     public class CasesController : Controller
     {
-        private readonly ApplicationDbContext _context;
         private readonly ICaseRepository _caseRepository;
+        private readonly BlockRepository _blockRepository;
         private readonly IUploadService _uploadService;
 
-        public CasesController(ApplicationDbContext context, ICaseRepository caseRepository, IUploadService uploadService)
+        public CasesController(ICaseRepository caseRepository, BlockRepository blockRepository, IUploadService uploadService)
         {
-            _context = context;
             _caseRepository = caseRepository;
+            _blockRepository = blockRepository;
             _uploadService = uploadService;
         }
 
         // GET: Dashboard/Cases
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Cases.ToListAsync());
+            return View(await _caseRepository.GetAll().ToListAsync());
         }
 
         // GET: Dashboard/Cases/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var @case = await _context.Cases
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var @case = await _caseRepository.Get(id ?? 0);
             if (@case == null)
             {
                 return NotFound();
@@ -56,11 +50,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Cases/Create
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
-            ViewBag.Customers = await _context.Customers
-                .Select(c => new SelectListItem {Value = c.Id.ToString(), Text = c.Name})
-                .ToListAsync();
             return View();
         }
 
@@ -86,17 +77,16 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     return new BadRequestObjectResult(ModelState);
                 }
 
-                @case.PhotoPath = await _uploadService.Upload(@case.Image, "/images/cases");
+                @case.PhotoPath = await _uploadService.Upload(@case.Image, "/images/uploads/cases");
             }
 
             @case.CaseTags = @case.TagIds.Select(tagId => new CaseTag {Case = @case, TagId = tagId}).ToList();
 
             @case.Date = DateTime.UtcNow;
             @case.LastModified = DateTime.UtcNow;
-            _context.Cases.Add(@case);
             try
             {
-                await _context.SaveChangesAsync();
+                await _caseRepository.Create(@case);
                 return new ObjectResult(@case.Id);
             }
             catch (DbUpdateException)
@@ -117,9 +107,6 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            ViewBag.Customers = await _context.Customers
-                .Select(c => new SelectListItem {Value = c.Id.ToString(), Text = c.Name})
-                .ToListAsync();
             return View(@case);
         }
 
@@ -153,7 +140,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
                 if (@case.PhotoPath != null)
                     await _uploadService.Delete(@case.PhotoPath);
-                @case.PhotoPath = await _uploadService.Upload(@case.Image, "/images/cases");
+                @case.PhotoPath = await _uploadService.Upload(@case.Image, "/images/uploads/cases");
             }
 
             @case.CaseTags.RemoveAll(ct => !(@case.TagIds?.Contains(ct.TagId) ?? false));
@@ -163,12 +150,11 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             try
             {
                 @case.LastModified = DateTime.UtcNow;
-                _context.Update(@case);
-                await _context.SaveChangesAsync();
+                await _caseRepository.Update(@case);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CaseExists(@case.Id))
+                if (!await CaseExists(@case.Id))
                 {
                     return new NotFoundObjectResult(null);
                 }
@@ -182,13 +168,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Dashboard/Cases/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var @case = await _context.Cases
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var @case = await _caseRepository.Get(id ?? 0);
             if (@case == null)
             {
                 return NotFound();
@@ -200,18 +180,34 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // POST: Dashboard/Cases/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            var @case = await _context.Cases.Include(c => c.Blocks).SingleOrDefaultAsync(m => m.Id == id);
-            _context.Blocks.RemoveRange(@case.Blocks);
-            _context.Cases.Remove(@case);
-            await _context.SaveChangesAsync();
+            var @case = await _caseRepository.Get(id ?? 0);
+            if (@case == null)
+            {
+                return NotFound();
+            }
+
+            foreach (var block in @case.Blocks)
+            {
+                if (block is CarouselBlock carousel)
+                {
+                    foreach (var slide in carousel.Slides.Where(s => s.PhotoPath != null))
+                    {
+                        await _uploadService.Delete(slide.PhotoPath);
+                    }
+                }
+
+                await _blockRepository.Delete(block.Id);
+            }
+
+            await _caseRepository.Delete(@case.Id);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool CaseExists(int id)
+        private async Task<bool> CaseExists(int id)
         {
-            return _context.Cases.Any(e => e.Id == id);
+            return (await _caseRepository.Get(id)) != null;
         }
     }
 }

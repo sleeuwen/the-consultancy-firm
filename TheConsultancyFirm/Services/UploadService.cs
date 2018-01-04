@@ -51,6 +51,7 @@ namespace TheConsultancyFirm.Services
                 } while (new FileInfo(_environment.WebRootPath + filePath).Exists);
             }
 
+            Directory.CreateDirectory(_environment.WebRootPath + "/" + directory.Trim('/'));
             using (var fileStream = new FileStream(_environment.WebRootPath + filePath, fileMode))
             {
                 await file.CopyToAsync(fileStream);

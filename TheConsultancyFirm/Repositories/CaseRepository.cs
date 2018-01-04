@@ -50,5 +50,24 @@ namespace TheConsultancyFirm.Repositories
 
             return (previous, next);
         }
+
+        public Task Create(Case @case)
+        {
+            _context.Cases.Add(@case);
+            return _context.SaveChangesAsync();
+        }
+
+        public Task Update(Case @case)
+        {
+            _context.Cases.Update(@case);
+            return _context.SaveChangesAsync();
+        }
+
+        public async Task Delete(int id)
+        {
+            var @case = await Get(id);
+            _context.Cases.Remove(@case);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -228,29 +228,34 @@
     .box__error {
         display: none;
     }
+
     .box.has-advanced-upload {
         background-color: $blockBg;
         outline: 2px dashed $black;
         outline-offset: -10px;
     }
+
     .box.has-advanced-upload .box__dragndrop {
         display: inline;
     }
+
     .box.is-dragover {
         background: $grey !important;
     }
+
     .box.is-uploading .box__input {
         visibility: hidden;
     }
+
     .box.is-uploading .box__uploading {
         display: block;
     }
+
     .box__success {
         transition: appear-from-inside .25s ease-in-out;
     }
 
-    .box
-    {
+    .box {
         font-size: 1.25rem; /* 20 */
         position: relative;
         padding: 100px 20px;
@@ -260,35 +265,29 @@
         background-repeat: no-repeat;
     }
 
-    .box.has-advanced-upload
-    {
+    .box.has-advanced-upload {
         outline: 2px dashed $white;
         outline-offset: -10px;
 
-        -webkit-transition: outline-offset .15s ease-in-out, background .15s linear;
         transition: outline-offset .15s ease-in-out, background .15s linear;
     }
 
-    .box.is-dragover
-    {
+    .box.is-dragover {
         outline-offset: -20px;
         outline-color: $sidebarBg;
         background: #b6bbc9 !important;
     }
 
     .box__dragndrop,
-    .box__icon
-    {
+    .box__icon {
         display: none;
     }
 
-    .box.has-advanced-upload .box__dragndrop
-    {
+    .box.has-advanced-upload .box__dragndrop {
         display: inline;
     }
 
-    .box.has-advanced-upload .box__icon
-    {
+    .box.has-advanced-upload .box__icon {
         width: 100%;
         height: 80px;
         fill: $white;
@@ -298,55 +297,48 @@
 
     .box.is-uploading .box__input,
     .box.is-success .box__input,
-    .box.is-error .box__input
-    {
+    .box.is-error .box__input {
         visibility: hidden;
     }
 
     .box__uploading,
     .box__success,
-    .box__error
-    {
+    .box__error {
         display: none;
     }
 
     .box.is-uploading .box__uploading,
     .box.is-success .box__success,
-    .box.is-error .box__error
-    {
+    .box.is-error .box__error {
         display: block;
         position: absolute;
         top: 50%;
         right: 0;
         left: 0;
-
-        -webkit-transform: translateY( -50% );
-        transform: translateY( -50% );
+        transform: translateY(-50%);
     }
-    .box__uploading
-    {
+
+    .box__uploading {
         font-style: italic;
     }
-    .box__success
-    {
-        -webkit-animation: appear-from-inside .25s ease-in-out;
+
+    .box__success {
         animation: appear-from-inside .25s ease-in-out;
     }
-    @-webkit-keyframes appear-from-inside
-    {
-        from	{ -webkit-transform: translateY( -50% ) scale( 0 ); }
-        75%		{ -webkit-transform: translateY( -50% ) scale( 1.1 ); }
-        to		{ -webkit-transform: translateY( -50% ) scale( 1 ); }
-    }
-    @keyframes appear-from-inside
-    {
-        from	{ transform: translateY( -50% ) scale( 0 ); }
-        75%		{ transform: translateY( -50% ) scale( 1.1 ); }
-        to		{ transform: translateY( -50% ) scale( 1 ); }
+
+    @keyframes appear-from-inside {
+        from {
+            transform: translateY(-50%) scale(0);
+        }
+        75% {
+            transform: translateY(-50%) scale(1.1);
+        }
+        to {
+            transform: translateY(-50%) scale(1);
+        }
     }
 
-    .box__file
-    {
+    .box__file {
         width: 0.1px;
         height: 0.1px;
         opacity: 0;
@@ -354,8 +346,8 @@
         position: absolute;
         z-index: -1;
     }
-    .box__file + label
-    {
+
+    .box__file + label {
         max-width: 80%;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -363,21 +355,14 @@
         display: inline-block;
         overflow: hidden;
     }
+
     .box__file + label:hover strong,
     .box__file:focus + label strong,
-    .box__file.has-focus + label strong
-    {
+    .box__file.has-focus + label strong {
         color: #b6bbc9;
     }
-    .box__file:focus + label,
-    .box__file.has-focus + label
-    {
-        outline: 1px dotted $black;
-        outline: -webkit-focus-ring-color auto 5px;
-    }
 
-    .no-js .box__file + label
-    {
+    .no-js .box__file + label {
         display: none;
     }
 
@@ -386,7 +371,6 @@
         width: 100%;
         max-width: 100%;
         text-align: center;
-        outline: none !important;
     }
 
     .box__input svg {

@@ -16,14 +16,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     [Area("Dashboard")]
     public class BlocksController : Controller
     {
-        private readonly ICaseRepository _caseRepository;
         private readonly IBlockRepository _blockRepository;
         private readonly IUploadService _uploadService;
 
-        public BlocksController(IBlockRepository blockRepository, ICaseRepository caseRepository, IUploadService uploadService)
+        public BlocksController(IBlockRepository blockRepository, IUploadService uploadService)
         {
             _blockRepository = blockRepository;
-            _caseRepository = caseRepository;
             _uploadService = uploadService;
         }
 
@@ -93,6 +91,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task Quote(Enumeration.ContentItemType contentType, int contentId, [Bind("Id,Date,Order,Text,Author")] QuoteBlock block)
         {
             if (block.Id == 0) block.Date = DateTime.UtcNow;
@@ -102,6 +101,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task Text(Enumeration.ContentItemType contentType, int contentId, [Bind("Id,Date,Order,Text")] TextBlock block)
         {
             if (block.Id == 0) block.Date = DateTime.UtcNow;
