@@ -63,8 +63,10 @@ gulp.task("min:js", function () {
     var tasks = getBundles(regex.js).map(function (bundle) {
         return gulp.src(bundle.inputFiles, { base: "." })
             .pipe(plumber())
+            .pipe(sourcemaps.init())
             .pipe(concat(bundle.outputFileName))
             .pipe(uglify())
+            .pipe(sourcemaps.write())
             .pipe(gulp.dest("."));
     });
     if (tasks.length === 0) return;

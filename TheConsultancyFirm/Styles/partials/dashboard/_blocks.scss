@@ -222,10 +222,7 @@
     }
 
     /// Upload drag and drop box
-    .box__dragndrop,
-    .box__uploading,
-    .box__success,
-    .box__error {
+    .box__dragndrop {
         display: none;
     }
 
@@ -245,14 +242,6 @@
 
     .box.is-uploading .box__input {
         visibility: hidden;
-    }
-
-    .box.is-uploading .box__uploading {
-        display: block;
-    }
-
-    .box__success {
-        transition: appear-from-inside .25s ease-in-out;
     }
 
     .box {
@@ -299,43 +288,6 @@
     .box.is-success .box__input,
     .box.is-error .box__input {
         visibility: hidden;
-    }
-
-    .box__uploading,
-    .box__success,
-    .box__error {
-        display: none;
-    }
-
-    .box.is-uploading .box__uploading,
-    .box.is-success .box__success,
-    .box.is-error .box__error {
-        display: block;
-        position: absolute;
-        top: 50%;
-        right: 0;
-        left: 0;
-        transform: translateY(-50%);
-    }
-
-    .box__uploading {
-        font-style: italic;
-    }
-
-    .box__success {
-        animation: appear-from-inside .25s ease-in-out;
-    }
-
-    @keyframes appear-from-inside {
-        from {
-            transform: translateY(-50%) scale(0);
-        }
-        75% {
-            transform: translateY(-50%) scale(1.1);
-        }
-        to {
-            transform: translateY(-50%) scale(1);
-        }
     }
 
     .box__file {
