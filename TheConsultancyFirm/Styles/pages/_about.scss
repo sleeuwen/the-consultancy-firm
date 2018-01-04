@@ -34,48 +34,6 @@
     transform: translateY(-50%);
 }
 
-.aboutCarousel {
-    display: flex;
-
-    p {
-        color: black;
-    }
-}
-
-#descriptionBox {
-    margin-bottom: 50px;
-
-    @media screen and (max-width: $break-medium - 1px) {
-        min-height: 290px;
-        margin-bottom: 10px;
-    }
-
-    .carousel-item {
-        width: 100% !important;
-    }
-}
-
-.videoCarouselItem {
-    height: 307px;
-    margin: 0 auto;
-    max-width: 100%;
-}
-
-@media screen and (max-width: $break-medium - 1px) {
-    .videoCarouselItemDescription {
-        height: 200px !important;
-    }
-}
-
-.carouselcontainer {
-    display: flex;
-    flex-direction: column;
-}
-
-#descriptions {
-    flex: 1;
-}
-
 .aboutdescription {
     padding-left: 0;
     padding-right: 0;
@@ -92,52 +50,5 @@
         @media screen and (max-width: $break-medium - 1px) {
             width: 100%;
         }
-    }
-}
-
-.carousel-navigation {
-    padding: 1rem 0;
-
-    a {
-        padding: 15px;
-        border-radius: 100%;
-        box-shadow: 0 0 0 2px #f7f7f7;
-        margin-right: 10px;
-        color: $black;
-
-        &:hover {
-            background-color: $orange;
-            cursor: pointer;
-            color: $white;
-            text-decoration: none;
-        }
-    }
-}
-
-@media screen and (max-width: $break-medium - 1px) {
-    .carousel-navigation {
-        margin-top: 10px !important;
-    }
-}
-
-.carousel-caption {
-    position: initial;
-    text-align: initial;
-    color: black;
-
-    @media screen and (max-width: $break-medium - 1px) {
-        display: inline !important;
-
-        p {
-            padding-top: 20px;
-        }
-    }
-}
-
-#myCarousel .carousel-item {
-    &.active,
-    &-next,
-    &-prev {
-        display: flex !important;
     }
 }
