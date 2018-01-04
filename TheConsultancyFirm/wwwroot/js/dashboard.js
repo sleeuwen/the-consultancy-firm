@@ -108,8 +108,8 @@ $(function () {
                     $statusText.text('Opslaan van de blokken: ' + saved + ' / ' + $blocks.length);
                     $blocks.each(function (index, element) {
                         $(this).find('form').find('input[name=Order]').val(index + 1);
-                        $(this).find('form [data-value=order]').each(function () {
-                            $(this).val($(this).parent().index());
+                        $(this).find('form [data-value]').each(function () {
+                            $(this).val($(this).parent().attr('data-' + $(this).attr('data-value')));
                         });
 
                         $.ajax({
@@ -210,24 +210,25 @@ $(function () {
     $('.select2').select2({ theme: 'bootstrap' });
 
     var tabId = 10;
-    $blocksList.on('click', '.carousel-block #add-slide', function (e) {
+    $blocksList.on('click', '.carousel-block .add-slide', function (e) {
         e.preventDefault();
         e.stopPropagation();
 
         tabId += 1;
 
+        var tabLinkTemplate = '<a class="nav-item nav-link" id="carousel-nav-slide-{{blockId}}-{{order}}" data-toggle="tab" role="tab" href="#carousel-tab-slide-{{blockId}}-{{order}}">Slide <span>{{order1}}</span><i class="fa fa-times"></i></a>';
+
+        var tabContentTemplate = '<div class="tab-pane fade" id="carousel-tab-slide-{{blockId}}-{{order}}" role="tabpanel" data-id="0" data-order="{{order}}"><input type="hidden" id="" data-value="order" data-val="true" data-val-required="The Order field is required." name="Slides[{{order}}].Order" value="{{order}}" /><input type="hidden" id="" name="Slides[{{order}}].PhotoPath" value="" /><div class="row"><div class="col-8"><div class="box"><div class="box__input"><svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43"><path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"></path></svg><input class="box__file" accept="image/png,image/jpeg" id="{{blockId}}-Slides-{{order}}-Image" type="file" name="Slides[{{order}}].Image"><label for="{{blockId}}-Slides-{{order}}-Image"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label></div><div class="box__uploading">Uploading…</div><div class="box__success">Done! <a class="box__restart" role="button">Upload more?</a></div><div class="box__error">Error! <span></span>. <a class="box__restart" role="button">Try again!</a></div></div></div><div class="col-4"><label for="{{blockId}}-Slides-{{order}}-Text">Description</label><textarea class="carousel-description form-control" placeholder="Place carousel slide text here" id="{{blockId}}-Slides-{{order}}-Text" name="Slides[{{order}}].Text"></textarea></div></div></div>';
+
         var $nav = $(this).closest('.nav-tabs');
-
-        var tabLinkTemplate = '<a class="nav-item nav-link" id="carousel-nav-slide-{{tabId}}" data-toggle="tab" role="tab" href="#carousel-tab-slide-{{tabId}}">Slide {{tabIndex}} <i class="fa fa-times"></i></a>';
-        var tabContentTemplate = '<div class="tab-pane fade" id="carousel-tab-slide-{{tabId}}" role="tabpanel"><div class="row"><div class="col-8"><div class="box"><div class="box__input"><svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43"><path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"></path></svg><input type="file" name="Slides[{{tabIndex0}}].Image" id="file" class="box__file" accept="image/png,image/jpeg"><label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label></div><div class="box__uploading">Uploading…</div><div class="box__success">Done! <a class="box__restart" role="button">Upload more?</a></div><div class="box__error">Error! <span></span>. <a class="box__restart" role="button">Try again!</a></div><input type="hidden" name="ajax" value="1"></div></div><div class="col-4"><label>Description</label><textarea class="carousel-description form-control" placeholder="Place carousel slide text here" name="Slides[{{tabIndex0}}].Text"></textarea></div></div></div>';
-
-        var tabIndex = $nav.children().length;
-        $(this).before(tabLinkTemplate.replace(/\{\{tabId\}\}/g, tabId).replace(/\{\{tabIndex\}\}/g, tabIndex));
-        $(this).closest('.slides').find('.tab-content').append(tabContentTemplate.replace(/\{\{tabId\}\}/g, tabId).replace(/\{\{tabIndex\}\}/g, tabIndex).replace(/\{\{tabIndex0\}\}/g, tabIndex - 1));
+        var blockId = $(this).closest('.block').data('id');
+        var order = $nav.children().length - 1;
+        $(this).before(tabLinkTemplate.replace(/\{\{blockId\}\}/g, blockId).replace(/\{\{order\}\}/g, order).replace(/\{\{order1\}\}/g, order + 1));
+        $(this).closest('.slides').find('.tab-content').append(tabContentTemplate.replace(/\{\{blockId\}\}/g, blockId).replace(/\{\{order\}\}/g, order).replace(/\{\{order1\}\}/g, order + 1));
 
         initDragndrop();
 
-        $nav.children().eq(tabIndex - 1).click();
+        $nav.children().eq(order).click();
     });
     $blocksList.on('click', '.fa-times', function (e) {
         e.preventDefault();
@@ -238,18 +239,48 @@ $(function () {
         var $tabContent = $($tabItem.attr('href'));
         var idx = $tabItem.index();
         $tabItem.remove();
+        $tabContent.addClass('removing');
 
-        if ($tabList.children().length > 1) {
-            if (idx === 0 || idx === $tabList.children().length) {
-                $tabList.children().first().click();
-            } else {
-                $tabList.children().eq(idx - 1).click();
+        if ($tabItem.is('.active')) {
+            if ($tabList.children().length > 1) {
+                if (idx === 0 || idx === $tabList.children().length) {
+                    $tabList.children().first().click();
+                } else {
+                    $tabList.children().eq(idx - 1).click();
+                }
             }
+
+            $tabContent.delay(150).queue(function () {
+                $tabContent.remove();
+                $(this).dequeue();
+            });
+        } else {
+            $tabContent.remove();
         }
 
-        $tabContent.delay(150).queue(function () {
-            $tabContent.remove();
-            $(this).dequeue();
+        var $block = $tabList.closest('.block');
+        var blockId = $block.data('id');
+        $block.find('.nav-link').not('.add-slide').each(function (newOrder) {
+            $(this).attr('id', 'carousel-nav-slide-' + blockId + '-' + newOrder);
+            $(this).attr('href', '#carousel-tab-slide-' + blockId + '-' + newOrder);
+            $(this).find('span').text(newOrder + 1);
+        });
+        $block.find('.tab-pane').not('.removing').each(function (newOrder) {
+            var oldOrder = $(this).attr('data-order');
+
+            $(this).attr('id', 'carousel-tab-slide-' + blockId + '-' + newOrder);
+            $(this).attr('data-order', newOrder);
+
+            $(this).find('input,textarea').each(function () {
+                var id = $(this).attr('id');
+                var newId = id.replace(new RegExp('-' + oldOrder + '-'), '-' + newOrder + '-');
+                $('[for="' + id + '"]').attr('for', newId);
+                $(this).attr('id', newId);
+
+                var name = $(this).attr('name');
+                var newName = name.replace(new RegExp('\\[' + oldOrder + '\\]'), '[' + newOrder + ']');
+                $(this).attr('name', newName);
+            });
         });
     });
 

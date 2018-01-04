@@ -25,12 +25,12 @@
             <form asp-controller="Blocks" asp-action="Text">
                 <input type="hidden" name="type" value="text"/>
                 <input type="hidden" name="Id" value="@Model.Id"/>
-                <input type="hidden" asp-for="Date"/>
-                <input type="hidden" asp-for="Order"/>
+                <input type="hidden" id="" asp-for="Date"/>
+                <input type="hidden" id="" asp-for="Order"/>
 
                 <div class="form-group">
-                    <label asp-for="Text"></label>
-                    <textarea asp-for="Text" id="" class="form-control" placeholder="Content..."></textarea>
+                    <label for="@Model.Id-Text" asp-for="Text"></label>
+                    <textarea id="@Model.Id-Text" asp-for="Text" id="" class="form-control" placeholder="Content..."></textarea>
                 </div>
             </form>
         </div>
