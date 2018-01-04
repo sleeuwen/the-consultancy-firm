@@ -108,6 +108,9 @@ $(function () {
                     $statusText.text('Opslaan van de blokken: ' + saved + ' / ' + $blocks.length);
                     $blocks.each(function (index, element) {
                         $(this).find('form').find('input[name=Order]').val(index + 1);
+                        $(this).find('form [data-value=order]').each(function () {
+                            $(this).val($(this).parent().index());
+                        });
 
                         $.ajax({
                             method: 'POST',

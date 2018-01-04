@@ -1,16 +1,18 @@
 ﻿@model TheConsultancyFirm.Models.CarouselBlock
-
+@{
+    var slides = (Model?.Slides ?? new List<Slide>()).OrderBy(s => s.Order).ToList();
+}
 <div class="container container-wide my-5 carousel-horizontal">
     <div class="row">
         <div class="col-12 col-lg-10">
             <div id="carousel1" class="carousel slide" data-ride="carousel" data-interval="false">
                 <div class="carousel-inner" role="listbox">
-                    @for (var i = 0; i < (Model.Slides?.Count ?? 0); i++)
+                    @for (var i = 0; i < slides.Count; i++)
                     {
                         <div class="carousel-item @(i == 0 ? "active" : "")">
-                            @if (Model.Slides[i].PhotoPath != null)
+                            @if (slides[i].PhotoPath != null)
                             {
-                                <img src="@(Model.Slides[i].PhotoPath)" alt="" class="d-block w-100" />
+                                <img src="@(slides[i].PhotoPath)" alt="" class="d-block w-100" />
                             }
                         </div>
                     }
@@ -26,11 +28,11 @@
 
             <div class="carousel slide" data-ride="carousel" data-interval="false" data-carousel-follow="carousel1">
                 <div class="carousel-inner" role="listbox">
-                    @for (var i = 0; i < (Model.Slides?.Count ?? 0); i++)
+                    @for (var i = 0; i < slides.Count; i++)
                     {
                         <div class="carousel-item @(i == 0 ? "active" : "")">
                             <div class="carousel-caption" role="option">
-                                <p>@(Model.Slides?[i].Text ?? "")</p>
+                                <p>@(slides[i].Text ?? "")</p>
                             </div>
                         </div>
                     }

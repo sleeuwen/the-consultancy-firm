@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -63,13 +64,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task Carousel(Enumeration.ContentItemType contentType, int contentId, int id)
+        public async Task Carousel(Enumeration.ContentItemType contentType, int contentId, int id, List<Slide> slides)
         {
             var block = await _blockRepository.Get(id);
             if (!(block is CarouselBlock carousel)) return;
 
-            await TryUpdateModelAsync(carousel, string.Empty, c => c.Order, c => c.LinkText, c => c.LinkPath,
-                c => c.Slides);
+            await TryUpdateModelAsync(carousel, string.Empty, c => c.Order, c => c.LinkText, c => c.LinkPath);
+            UpdateCarouselSlides(carousel, slides);
 
             foreach (var slide in carousel.Slides)
             {
@@ -148,6 +149,26 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     block.SolutionId = id;
                     break;
             }
+        }
+
+        private void UpdateCarouselSlides(CarouselBlock carousel, List<Slide> slides)
+        {
+            if (slides == null)
+            {
+                carousel.Slides.RemoveAll(s => true);
+                return;
+            }
+
+            slides = slides.OrderBy(s => s.Order).ToList();
+            int i;
+            for (i = 0; i < slides.Count; i++)
+            {
+                carousel.Slides[i].Text = slides[i].Text;
+                carousel.Slides[i].Image = slides[i].Image;
+                carousel.Slides[i].Order = i;
+            }
+
+            carousel.Slides.RemoveRange(i, carousel.Slides.Count - i);
         }
     }
 }
