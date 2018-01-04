@@ -206,7 +206,7 @@ $(function () {
 
     $('.select2').select2({ theme: 'bootstrap' });
 
-    var tabId = 1;
+    var tabId = 10;
     $blocksList.on('click', '.carousel-block #add-slide', function (e) {
         e.preventDefault();
         e.stopPropagation();
@@ -214,34 +214,40 @@ $(function () {
         tabId += 1;
 
         var $nav = $(this).closest('.nav-tabs');
-        var n = $nav.children().length;
 
         var tabLinkTemplate = '<a class="nav-item nav-link" id="carousel-nav-slide-{{tabId}}" data-toggle="tab" role="tab" href="#carousel-tab-slide-{{tabId}}">Slide {{tabIndex}} <i class="fa fa-times"></i></a>';
-        var tabContentTemplate = '<div class="tab-pane fade show" id="carousel-tab-slide-{{tabId}}" role="tabpanel"><div class="row"><div class="col-8"><div class="box"><div class="box__input"><svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43"><path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"></path></svg><input type="file" name="Slides[{{tabIndex0}}].Image" id="file" class="box__file" accept="image/png,image/jpeg"><label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label></div><div class="box__uploading">Uploading…</div><div class="box__success">Done! <a class="box__restart" role="button">Upload more?</a></div><div class="box__error">Error! <span></span>. <a class="box__restart" role="button">Try again!</a></div><input type="hidden" name="ajax" value="1"></div></div><div class="col-4"><label>Description</label><textarea class="carousel-description form-control" placeholder="Place carousel slide text here" name="Slides[{{tabIndex0}}].Text"></textarea></div></div></div>';
+        var tabContentTemplate = '<div class="tab-pane fade" id="carousel-tab-slide-{{tabId}}" role="tabpanel"><div class="row"><div class="col-8"><div class="box"><div class="box__input"><svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43"><path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"></path></svg><input type="file" name="Slides[{{tabIndex0}}].Image" id="file" class="box__file" accept="image/png,image/jpeg"><label for="file"><strong>Choose a file</strong><span class="box__dragndrop"> or drag it here</span>.</label></div><div class="box__uploading">Uploading…</div><div class="box__success">Done! <a class="box__restart" role="button">Upload more?</a></div><div class="box__error">Error! <span></span>. <a class="box__restart" role="button">Try again!</a></div><input type="hidden" name="ajax" value="1"></div></div><div class="col-4"><label>Description</label><textarea class="carousel-description form-control" placeholder="Place carousel slide text here" name="Slides[{{tabIndex0}}].Text"></textarea></div></div></div>';
 
         var tabIndex = $nav.children().length;
         $(this).before(tabLinkTemplate.replace(/\{\{tabId\}\}/g, tabId).replace(/\{\{tabIndex\}\}/g, tabIndex));
         $(this).closest('.slides').find('.tab-content').append(tabContentTemplate.replace(/\{\{tabId\}\}/g, tabId).replace(/\{\{tabIndex\}\}/g, tabIndex).replace(/\{\{tabIndex0\}\}/g, tabIndex - 1));
-        $(this).prev().tab('show');
+
         initDragndrop();
+
+        $nav.children().eq(tabIndex - 1).click();
     });
     $blocksList.on('click', '.fa-times', function (e) {
         e.preventDefault();
         e.stopPropagation();
 
         var $tabItem = $(this).parent();
-        console.log($tabItem.parent().children());
-        if ($tabItem.parent().children().length > 2) {
-            var newTab;
-            if ($tabItem.index() === $tabItem.parent().children().length - 2) {
-                newTab = $tabItem.parent().children()[0];
-            } else {
-                newTab = $tabItem.next();
-            }
-            $(newTab).tab('show');
-        }
-        $($tabItem.attr('href')).remove();
+        var $tabList = $tabItem.parent();
+        var $tabContent = $($tabItem.attr('href'));
+        var idx = $tabItem.index();
         $tabItem.remove();
+
+        if ($tabList.children().length > 1) {
+            if (idx === 0 || idx === $tabList.children().length) {
+                $tabList.children().first().click();
+            } else {
+                $tabList.children().eq(idx - 1).click();
+            }
+        }
+
+        $tabContent.delay(150).queue(function () {
+            $tabContent.remove();
+            $(this).dequeue();
+        });
     });
 
     var isAdvancedUpload = function() {
@@ -253,8 +259,6 @@ $(function () {
         if (isAdvancedUpload) {
             var $boxes = $('.carousel-block .box');
             $boxes.addClass('has-advanced-upload');
-
-            var droppedFiles = false;
 
             $boxes.on('drag dragstart dragend dragover dragenter dragleave drop', function(e) {
                 e.preventDefault();

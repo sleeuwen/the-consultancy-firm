@@ -113,7 +113,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if (!ModelState.IsValid) return View(customer);
             try
             {
-                if (customer.Image.Length > 0)
+                if (customer.Image?.Length > 0)
                 {
                     var extension = Path.GetExtension(customer.Image.FileName);
                     if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
