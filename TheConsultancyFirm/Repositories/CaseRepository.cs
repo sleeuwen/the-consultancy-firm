@@ -21,8 +21,10 @@ namespace TheConsultancyFirm.Repositories
                 .Include(c => c.Customer)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
+            if (@case == null) return null;
+
             // Load the slides from all CarouselBlock's
-            var ids = @case?.Blocks.OfType<CarouselBlock>().Select(c => c.Id).ToList();
+            var ids = @case.Blocks.OfType<CarouselBlock>().Select(c => c.Id).ToList();
             _context.Blocks.OfType<CarouselBlock>()
                 .Where(c => ids.Contains(c.Id))
                 .Include(c => c.Slides)
