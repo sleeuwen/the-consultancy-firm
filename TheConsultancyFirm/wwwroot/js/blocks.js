@@ -2,7 +2,7 @@ function template(tmpl, vars) {
     // Replace all text inside {{}} with the value from the object with the same key
     return tmpl.replace(/\{\{(\w+)\}\}/g, function (_, key) {
         // `key` is what was within the brackets
-        return vars[key] || '{{' + key + '}}';
+        return vars.hasOwnProperty(key) ? vars[key] : '{{' + key + '}}';
     });
 }
 
@@ -31,7 +31,7 @@ jQuery(function ($) {
             success: function () {
                 // Remove block when successful
                 $block.slideUp(function () {
-                    $block.remove();
+                    $block.parent().remove();
                 });
             },
             error: function () {
@@ -207,9 +207,9 @@ jQuery(function ($) {
                     var blocksSaved = 0;
                     setStatusText('Opslaan van de blokken: ' + blocksSaved + ' / ' + $blocks.length);
                     var promises = [];
-                    $blocks.each(function () {
+                    $blocks.each(function (order) {
                         promises.push(
-                            saveBlock(this, type, id).then(function () {
+                            saveBlock(this, type, id, order).then(function () {
                                 blocksSaved += 1;
                                 console.log(blocksSaved);
                                 setStatusText('Opslaan van de blokken: ' + blocksSaved + ' / ' + $blocks.length);
@@ -278,7 +278,8 @@ jQuery(function ($) {
         }));
     }
 
-    function saveBlock(block, contentType, contentId) {
+    function saveBlock(block, contentType, contentId, order) {
+        $(block).find('input[name=Order]').val(order);
         updateDataValueElements(block);
 
         return Promise.resolve($.ajax({
