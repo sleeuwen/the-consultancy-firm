@@ -1,0 +1,18 @@
+﻿@model QuoteBlock
+
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-10 mx-auto">
+            <blockquote class="mt-4">
+                <div class="author">
+                    <i class="fa fa-quote-left" aria-hidden="true"></i>
+                    <p>@Model.Author</p>
+                </div>
+
+                <p class="quote">
+                    @Model.Text
+                </p>
+            </blockquote>
+        </div>
+    </div>
+</div>

@@ -2,9 +2,7 @@
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
-using System.Linq;
 using TheConsultancyFirm.Models;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheConsultancyFirm.ViewModels;
 
@@ -26,10 +24,18 @@ namespace TheConsultancyFirm.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Details(int id)
+        [HttpGet("[controller]/{id}")]
+        public async Task<IActionResult> Details(string id)
         {
-            var caseItem = await _caseRepository.Get(id);
+            // Parse everything till the first '-' as integer into `caseId`
+            int.TryParse(id.Split('-', 2)[0], out int caseId);
+
+            var caseItem = await _caseRepository.Get(caseId);
             if (caseItem == null) return NotFound();
+
+            // Force the right slug
+            if (id != caseItem.Slug)
+                return RedirectToAction("Details", new {id = caseItem.Slug});
 
             var (previous, next) = await GetAdjacent(caseItem);
             var relatedItems = await _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);

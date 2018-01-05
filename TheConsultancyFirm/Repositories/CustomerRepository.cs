@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
@@ -23,6 +24,15 @@ namespace TheConsultancyFirm.Repositories
         public Task<List<Customer>> GetAll()
         {
             return _context.Customers.ToListAsync();
+        }
+
+        public async Task<List<Customer>> Search(string term)
+        {
+            if (term == null || term.Trim() == "")
+                return await GetAll();
+
+            var q = term.Trim().ToLower();
+            return await _context.Customers.Where(c => c.Name.ToLower().Contains(q)).ToListAsync();
         }
 
         public Task Create(Customer customer)

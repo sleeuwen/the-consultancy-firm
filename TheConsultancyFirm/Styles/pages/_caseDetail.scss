@@ -5,7 +5,7 @@
     position: relative;
     padding: 10rem 0;
     margin: 2rem;
-    height: initial;
+    height: auto;
     background: no-repeat center;
     background-size: cover;
 
@@ -24,6 +24,7 @@
     }
 }
 
+// TODO: Should this be on .content
 .casedetail {
     img {
         max-width: 100%;
