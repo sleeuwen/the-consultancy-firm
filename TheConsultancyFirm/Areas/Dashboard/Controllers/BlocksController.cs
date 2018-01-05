@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TheConsultancyFirm.Areas.Dashboard.ViewModels;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
@@ -70,7 +71,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> Carousel(Enumeration.ContentItemType contentType, int contentId, int id, List<Slide> slides)
+        public async Task<ObjectResult> Carousel(Enumeration.ContentItemType contentType, int contentId, int id,
+            List<SlideViewModel> slides)
         {
             var block = await _blockRepository.Get(id);
             if (!(block is CarouselBlock carousel)) return new NotFoundObjectResult(null);
@@ -224,7 +226,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
         }
 
-        private void UpdateCarouselSlides(CarouselBlock carousel, List<Slide> slides)
+        private void UpdateCarouselSlides(CarouselBlock carousel, List<SlideViewModel> slides)
         {
             if (slides == null)
             {
@@ -243,7 +245,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     {
                         Text = slides[i].Text,
                         Image = slides[i].Image,
-                        Order = i
+                        Order = i,
+                        Block = carousel,
                     });
                 }
                 else
