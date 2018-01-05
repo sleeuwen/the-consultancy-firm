@@ -19,7 +19,7 @@ namespace TheConsultancyFirm.Models
 
         [Required]
         [Display(Name = "Klant")]
-        public int CustomerId { get; set; }
+        public int? CustomerId { get; set; }
         public Customer Customer { get; set; }
 
         public DateTime Date { get; set; }

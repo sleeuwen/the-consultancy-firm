@@ -63,24 +63,25 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<ObjectResult> Create([Bind("Title,CustomerId,Image,TagIds")]
             Case @case)
         {
-            if (@case.Image != null && @case.Image?.Length == 0)
-                ModelState.AddModelError(nameof(@case.Image), "Filesize too small");
+            if (@case.Image == null)
+                ModelState.AddModelError(nameof(@case.Image), "The Image field is required.");
+            if (@case.Image != null)
+            {
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(@case.Image.FileName)))
+                    ModelState.AddModelError(nameof(@case.Image), "Invalid image type, only png and jpg images are allowed");
+
+                if (@case.Image?.Length < 1)
+                    ModelState.AddModelError(nameof(@case.Image), "Filesize too small");
+            }
 
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
             if (@case.Image != null)
             {
-                var extension = Path.GetExtension(@case.Image.FileName);
-                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
-                {
-                    ModelState.AddModelError(nameof(@case.Image), "The uploaded file was not an image.");
-                    return new BadRequestObjectResult(ModelState);
-                }
-
                 @case.PhotoPath = await _uploadService.Upload(@case.Image, "/images/uploads/cases");
             }
 
-            @case.CaseTags = @case.TagIds.Select(tagId => new CaseTag {Case = @case, TagId = tagId}).ToList();
+            @case.CaseTags = @case.TagIds?.Select(tagId => new CaseTag {Case = @case, TagId = tagId}).ToList();
 
             @case.Date = DateTime.UtcNow;
             @case.LastModified = DateTime.UtcNow;

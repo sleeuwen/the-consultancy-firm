@@ -63,7 +63,6 @@ jQuery(function ($) {
             '<input class="form-control" type="text" id="{{blockId}}-Advantages-{{order}}" name="Advantages[{{order}}]" />' +
         '</li>';
     $blocksList.on('keyup', '.solution-advantages-block .advantages input', function (e) {
-        console.log(arguments, $(this).parent().is(':last-child'), $(this).val());
         if ($(this).parent().is(':last-child') && $(this).val() !== '') {
             var templateVariables = {
                 blockId: $(this).closest('.block').attr('data-id'),
@@ -213,8 +212,15 @@ jQuery(function ($) {
 
             setStatusText('Bezig met opslaan...');
 
+            var $form = $(this);
+            clearErrors(this);
+            clearErrors($blocksList);
             saveForm(this)
                 .then(function (id) {
+                    if ($form.attr('action').indexOf('/Create') > 0) {
+                        $form.attr('action', $form.attr('action').replace('/Create', '/Edit/' + id));
+                    }
+
                     var $blocks = $blocksList.find('.block');
                     if ($blocks.length === 0) {
                         return $.Deferred().resolve();
@@ -227,7 +233,6 @@ jQuery(function ($) {
                         promises.push(
                             saveBlock(this, type, id, order).then(function () {
                                 blocksSaved += 1;
-                                console.log(blocksSaved);
                                 setStatusText('Opslaan van de blokken: ' + blocksSaved + ' / ' + $blocks.length);
                             })
                         );
@@ -236,13 +241,13 @@ jQuery(function ($) {
                     return Promise.all(promises);
                 })
                 .then(function () {
-                    console.log('done');
                     setStatusText('Opgeslagen.');
                     clearStatusText(5000);
                 })
                 .catch(function (err) {
-                    console.error(err);
+                    console.error(arguments);
                     setStatusText('Er is een fout opgetreden tijdens het opslaan.', true);
+                    handleErrorResponse(err);
                     $saveButton.prop('disabled', false);
                 })
                 .finally(function () {
@@ -284,27 +289,62 @@ jQuery(function ($) {
     }
 
     function saveForm(form) {
-        return Promise.resolve($.ajax({
-            method: 'POST',
-            url: $(form).attr('action'),
-            enctype: 'multipart/form-data',
-            processData: false,
-            contentType: false,
-            data: new FormData(form),
-        }));
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                method: 'POST',
+                url: $(form).attr('action'),
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                data: new FormData(form),
+                success: function (data) {
+                    resolve(data);
+                },
+                error: function (jqXhr) {
+                    jqXhr.originalForm = form;
+                    reject(jqXhr);
+                },
+            });
+        });
     }
 
     function saveBlock(block, contentType, contentId, order) {
         $(block).find('input[name=Order]').val(order);
         updateDataValueElements(block);
 
-        return Promise.resolve($.ajax({
-            method: 'POST',
-            url: $(block).find('form').attr('action') + '?contentType=' + contentType + '&contentId=' + contentId,
-            enctype: 'multipart/form-data',
-            processData: false,
-            contentType: false,
-            data: new FormData($(block).find('form')[0]),
-        }));
+        return new Promise(function (resolve, reject) {
+            $.ajax({
+                method: 'POST',
+                url: $(block).find('form').attr('action') + '?contentType=' + contentType + '&contentId=' + contentId,
+                enctype: 'multipart/form-data',
+                processData: false,
+                contentType: false,
+                data: new FormData($(block).find('form')[0]),
+                success: function (data) {
+                    resolve(data);
+                },
+                error: function (jqXhr) {
+                    jqXhr.originalForm = $(block).find('form')[0];
+                    reject(jqXhr);
+                },
+            });
+        });
+    }
+
+    function clearErrors(el) {
+        $(el).find('.invalid-feedback').text('');
+        $(el).find('.block.is-invalid').removeClass('is-invalid');
+    }
+
+    function handleErrorResponse(err) {
+        if (err.status !== 400 || err.originalForm == null) return;
+
+        var $form = $(err.originalForm);
+        if ($form.length === 0) return;
+
+        $form.closest('.block').addClass('is-invalid');
+        $.each(err.responseJSON, function (key, errors) {
+            $form.find('[name="' + key + '"]').closest('.form-group').find('.invalid-feedback').text(errors[0]);
+        });
     }
 });

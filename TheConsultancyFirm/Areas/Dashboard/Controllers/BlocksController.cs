@@ -29,6 +29,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             var block = new CarouselBlock();
             SetTypeId(block, contentType, contentId);
+            block.LastModified = block.Date = DateTime.UtcNow;
             await _blockRepository.Create(block);
 
             return ViewComponent("Block", block);
@@ -39,6 +40,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             var block = new QuoteBlock();
             SetTypeId(block, contentType, contentId);
+            block.LastModified = block.Date = DateTime.UtcNow;
             await _blockRepository.Create(block);
 
             return ViewComponent("Block", block);
@@ -49,6 +51,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             var block = new SolutionAdvantagesBlock();
             SetTypeId(block, contentType, contentId);
+            block.LastModified = block.Date = DateTime.UtcNow;
             await _blockRepository.Create(block);
 
             return ViewComponent("Block", block);
@@ -59,6 +62,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             var block = new TextBlock();
             SetTypeId(block, contentType, contentId);
+            block.LastModified = block.Date = DateTime.UtcNow;
             await _blockRepository.Create(block);
 
             return ViewComponent("Block", block);
@@ -66,32 +70,32 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task Carousel(Enumeration.ContentItemType contentType, int contentId, int id, List<Slide> slides)
+        public async Task<ObjectResult> Carousel(Enumeration.ContentItemType contentType, int contentId, int id, List<Slide> slides)
         {
             var block = await _blockRepository.Get(id);
-            if (!(block is CarouselBlock carousel)) return;
+            if (!(block is CarouselBlock carousel)) return new NotFoundObjectResult(null);
 
             List<string> photoPaths = carousel.Slides.Select(s => s.PhotoPath).ToList();
 
             await TryUpdateModelAsync(carousel, string.Empty, c => c.Order, c => c.LinkText, c => c.LinkPath);
             UpdateCarouselSlides(carousel, slides);
 
+            for (var i = 0; i < slides.Count; i++)
+                ValidateImageExtension(slides[i].Image, $"Slides[{i}].Image");
+
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+
             foreach (var slide in carousel.Slides)
             {
                 if (slide.Image != null)
                 {
-                    // Only accept jpg or png images
-                    var ext = Path.GetExtension(slide.Image.FileName);
-                    if (ext != ".jpg" && ext != ".jpeg" && ext != ".png")
-                        continue; // TODO: return error
-
                     if (slide.PhotoPath != null) await _uploadService.Delete(slide.PhotoPath);
                     slide.PhotoPath = await _uploadService.Upload(slide.Image, "/images/uploads");
                 }
             }
 
+            SetTypeId(block, contentType, contentId);
             carousel.LastModified = DateTime.UtcNow;
-            SetTypeId(carousel, contentType, contentId);
             await _blockRepository.Update(carousel);
 
             var newPaths = carousel.Slides.Select(s => s.PhotoPath).ToList();
@@ -102,59 +106,73 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     await _uploadService.Delete(photoPath);
                 }
             }
+
+            return new OkObjectResult(null);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task Quote(Enumeration.ContentItemType contentType, int contentId, [Bind("Id,Date,Order,Text,Author")] QuoteBlock block)
-        {
-            if (block.Id == 0) block.Date = DateTime.UtcNow;
-            block.LastModified = DateTime.UtcNow;
-            SetTypeId(block, contentType, contentId);
-            await _blockRepository.Update(block);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task SolutionAdvantages(Enumeration.ContentItemType contentType, int contentId, int id)
+        public async Task<ObjectResult> Quote(Enumeration.ContentItemType contentType, int contentId, int id)
         {
             var block = await _blockRepository.Get(id);
-            if (!(block is SolutionAdvantagesBlock solutionAdvantagesBlock)) return;
+            if (!(block is QuoteBlock quote)) return new NotFoundObjectResult(null);
 
-            await TryUpdateModelAsync(solutionAdvantagesBlock, string.Empty, s => s.Image, s => s.Advantages);
+            await TryUpdateModelAsync(quote, string.Empty, q => q.Order, q => q.Author, q => q.Text);
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
-            if (solutionAdvantagesBlock.Image != null)
-            {
-                // Only accept jpg or png images
-                var ext = Path.GetExtension(solutionAdvantagesBlock.Image.FileName);
-                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg")
-                    return; // TODO: return error
+            SetTypeId(block, contentType, contentId);
+            block.LastModified = DateTime.UtcNow;
+            await _blockRepository.Update(block);
 
-                if (solutionAdvantagesBlock.PhotoPath != null)
-                    await _uploadService.Delete(solutionAdvantagesBlock.PhotoPath);
-                solutionAdvantagesBlock.PhotoPath =
-                    await _uploadService.Upload(solutionAdvantagesBlock.Image, "/images/uploads");
-            }
-
-            solutionAdvantagesBlock.LastModified = DateTime.UtcNow;
-            SetTypeId(solutionAdvantagesBlock, contentType, contentId);
-            await _blockRepository.Update(solutionAdvantagesBlock);
+            return new OkObjectResult(null);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task Text(Enumeration.ContentItemType contentType, int contentId, [Bind("Id,Date,Order,Text")] TextBlock block)
+        public async Task<ObjectResult> SolutionAdvantages(Enumeration.ContentItemType contentType, int contentId, int id)
         {
-            if (block.Id == 0) block.Date = DateTime.UtcNow;
-            block.LastModified = DateTime.UtcNow;
+            var block = await _blockRepository.Get(id);
+            if (!(block is SolutionAdvantagesBlock advantages)) return new NotFoundObjectResult(null);
+
+            await TryUpdateModelAsync(advantages, string.Empty, s => s.Order, s => s.Image, s => s.Advantages);
+            ValidateImageExtension(advantages.Image, nameof(advantages.Image));
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+
+            if (advantages.Image != null)
+            {
+                if (advantages.PhotoPath != null) await _uploadService.Delete(advantages.PhotoPath);
+                advantages.PhotoPath = await _uploadService.Upload(advantages.Image, "/images/uploads");
+            }
+
             SetTypeId(block, contentType, contentId);
+            advantages.LastModified = DateTime.UtcNow;
+            await _blockRepository.Update(advantages);
+
+            return new OkObjectResult(null);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ObjectResult> Text(Enumeration.ContentItemType contentType, int contentId, int id)
+        {
+            var block = await _blockRepository.Get(id);
+            if (!(block is TextBlock text)) return new NotFoundObjectResult(null);
+
+            await TryUpdateModelAsync(text, string.Empty, t => t.Order, t => t.Text);
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+
+            SetTypeId(block, contentType, contentId);
+            block.LastModified = DateTime.UtcNow;
             await _blockRepository.Update(block);
+
+            return new OkObjectResult(null);
         }
 
         [HttpDelete]
         public async Task Delete(int id)
         {
             var block = await _blockRepository.Get(id);
+
             if (block is CarouselBlock carousel)
             {
                 foreach (var slide in carousel.Slides)
@@ -162,6 +180,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     if (slide.PhotoPath != null) await _uploadService.Delete(slide.PhotoPath);
                 }
             }
+
+            if (block is SolutionAdvantagesBlock advantages)
+            {
+                if (advantages.PhotoPath != null) await _uploadService.Delete(advantages.PhotoPath);
+            }
+
             await _blockRepository.Delete(id);
         }
 
@@ -231,6 +255,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
 
             carousel.Slides.RemoveRange(i, carousel.Slides.Count - i);
+        }
+
+        private void ValidateImageExtension(IFormFile image, string key)
+        {
+            var extensions = new[] {".png", ".jpg", ".jpeg"};
+            if (image != null && !extensions.Contains(Path.GetExtension(image.FileName)))
+                ModelState.AddModelError(key, "Invalid image type, only png and jpg images are allowed");
         }
     }
 }

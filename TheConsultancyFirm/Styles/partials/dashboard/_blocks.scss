@@ -78,6 +78,12 @@
         color: $white;
         flex: 0 0 auto;
         margin-right: .5rem;
+
+        .block.is-invalid &:before {
+            content: '\f071';
+            font-family: FontAwesome, sans-serif;
+            margin-right: .5rem;
+        }
     }
 
     .block-title {
