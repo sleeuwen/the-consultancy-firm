@@ -129,24 +129,25 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> SolutionAdvantages(Enumeration.ContentItemType contentType, int contentId, int id)
+        public async Task<ObjectResult> SolutionAdvantages(Enumeration.ContentItemType contentType, int contentId, int id, List<string> advantages)
         {
             var block = await _blockRepository.Get(id);
-            if (!(block is SolutionAdvantagesBlock advantages)) return new NotFoundObjectResult(null);
+            if (!(block is SolutionAdvantagesBlock saBlock)) return new NotFoundObjectResult(null);
 
-            await TryUpdateModelAsync(advantages, string.Empty, s => s.Order, s => s.Image, s => s.Advantages);
-            ValidateImageExtension(advantages.Image, nameof(advantages.Image));
+            saBlock.Advantages = advantages;
+            await TryUpdateModelAsync(saBlock, string.Empty, s => s.Order, s => s.Image);
+            ValidateImageExtension(saBlock.Image, nameof(saBlock.Image));
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
-            if (advantages.Image != null)
+            if (saBlock.Image != null)
             {
-                if (advantages.PhotoPath != null) await _uploadService.Delete(advantages.PhotoPath);
-                advantages.PhotoPath = await _uploadService.Upload(advantages.Image, "/images/uploads");
+                if (saBlock.PhotoPath != null) await _uploadService.Delete(saBlock.PhotoPath);
+                saBlock.PhotoPath = await _uploadService.Upload(saBlock.Image, "/images/uploads");
             }
 
             SetTypeId(block, contentType, contentId);
-            advantages.LastModified = DateTime.UtcNow;
-            await _blockRepository.Update(advantages);
+            saBlock.LastModified = DateTime.UtcNow;
+            await _blockRepository.Update(saBlock);
 
             return new OkObjectResult(null);
         }

@@ -9,9 +9,26 @@ var emptyFileListTemplate = '' +
     '<span class="box__dragndrop"> or drag it here</span>.';
 
 function initDragDrop() {
+    var $boxes = $('.block .box');
+    $boxes.find('input[type=file]').on('change', function (e) {
+        if (e.target.files.length > 0) {
+            // Set the label text to the filename
+            $(e.target).parent().find('label').text(e.target.files[0].name);
+
+            if (isAdvancedUpload) {
+                // Show the selected file as background image
+                var objectUrl = window.URL.createObjectURL(e.target.files[0]);
+                $(e.target).closest('.box')
+                    .css('background-image',
+                        'linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(' + objectUrl + ')')
+            }
+        } else {
+            $(e.target).parent().find('label').html(emptyFileListTemplate);
+        }
+    });
+
     if (!isAdvancedUpload) return;
 
-    var $boxes = $('.block .box');
     $boxes.addClass('has-advanced-upload');
 
     // Remove all registered drag/drop event handlers
@@ -36,23 +53,6 @@ function initDragDrop() {
                 $(this).find('input[type=file]')[0].files = droppedFiles;
             }
         });
-
-    $boxes.find('input[type=file]').on('change', function (e) {
-        if (e.target.files.length > 0) {
-            // Set the label text to the filename
-            $(e.target).parent().find('label').text(e.target.files[0].name);
-
-            if ('createObjectURL' in window.URL) {
-                // Show the selected file as background image
-                var objectUrl = window.URL.createObjectURL(e.target.files[0]);
-                $(e.target).closest('.box')
-                    .css('background-image',
-                        'linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)), url(' + objectUrl + ')')
-            }
-        } else {
-            $(e.target).parent().find('label').html(emptyFileListTemplate);
-        }
-    });
 }
 
 jQuery(function () {
