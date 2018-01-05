@@ -15,13 +15,21 @@ namespace TheConsultancyFirm.Repositories
             _context = context;
         }
 
-        public async Task<Case> Get(int id)
+        public async Task<Case> Get(int id, bool includeInactive = false)
         {
-            var @case = await _context.Cases.Include(c => c.Blocks).Include(c => c.CaseTags).ThenInclude(t => t.Tag)
+            var @case = await _context.Cases
+                .Include(c => c.CaseTags).ThenInclude(t => t.Tag)
                 .Include(c => c.Customer)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (@case == null) return null;
+
+            // Load only active blocks, or all if includeInactive is true
+            await _context.Entry(@case)
+                .Collection(c => c.Blocks)
+                .Query()
+                .Where(b => b.Active || includeInactive)
+                .LoadAsync();
 
             // Load the slides from all CarouselBlock's
             var ids = @case.Blocks.OfType<CarouselBlock>().Select(c => c.Id).ToList();

@@ -97,6 +97,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
 
             SetTypeId(block, contentType, contentId);
+            carousel.Active = true;
             carousel.LastModified = DateTime.UtcNow;
             await _blockRepository.Update(carousel);
 
@@ -122,9 +123,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             await TryUpdateModelAsync(quote, string.Empty, q => q.Order, q => q.Author, q => q.Text);
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
-            SetTypeId(block, contentType, contentId);
-            block.LastModified = DateTime.UtcNow;
-            await _blockRepository.Update(block);
+            SetTypeId(quote, contentType, contentId);
+            quote.Active = true;
+            quote.LastModified = DateTime.UtcNow;
+            await _blockRepository.Update(quote);
 
             return new OkObjectResult(null);
         }
@@ -148,6 +150,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
 
             SetTypeId(block, contentType, contentId);
+            saBlock.Active = true;
             saBlock.LastModified = DateTime.UtcNow;
             await _blockRepository.Update(saBlock);
 
@@ -164,9 +167,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             await TryUpdateModelAsync(text, string.Empty, t => t.Order, t => t.Text);
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
-            SetTypeId(block, contentType, contentId);
-            block.LastModified = DateTime.UtcNow;
-            await _blockRepository.Update(block);
+            SetTypeId(text, contentType, contentId);
+            text.Active = true;
+            text.LastModified = DateTime.UtcNow;
+            await _blockRepository.Update(text);
 
             return new OkObjectResult(null);
         }

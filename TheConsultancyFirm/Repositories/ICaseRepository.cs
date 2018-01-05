@@ -6,7 +6,7 @@ namespace TheConsultancyFirm.Repositories
 {
     public interface ICaseRepository
     {
-        Task<Case> Get(int id);
+        Task<Case> Get(int id, bool includeInactive = false);
         IQueryable<Case> GetAll();
         Task<(Case Previous, Case Next)> GetAdjacent(Case c);
         Task Create(Case @case);

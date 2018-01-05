@@ -60,8 +60,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> Create([Bind("Title,CustomerId,Image,TagIds")]
-            Case @case)
+        public async Task<ObjectResult> Create([Bind("Title,CustomerId,Image,TagIds")] Case @case)
         {
             if (@case.Image == null)
                 ModelState.AddModelError(nameof(@case.Image), "The Image field is required.");
@@ -102,7 +101,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Dashboard/Cases/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            var @case = await _caseRepository.Get(id ?? 0);
+            var @case = await _caseRepository.Get(id ?? 0, true);
             if (@case == null)
             {
                 return NotFound();
@@ -118,7 +117,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ObjectResult> EditPost(int? id)
         {
-            var @case = await _caseRepository.Get(id ?? 0);
+            var @case = await _caseRepository.Get(id ?? 0, true);
 
             if (@case == null) return new NotFoundObjectResult(null);
 
@@ -169,7 +168,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Dashboard/Cases/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            var @case = await _caseRepository.Get(id ?? 0);
+            var @case = await _caseRepository.Get(id ?? 0, true);
             if (@case == null)
             {
                 return NotFound();
@@ -183,7 +182,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            var @case = await _caseRepository.Get(id ?? 0);
+            var @case = await _caseRepository.Get(id ?? 0, true);
             if (@case == null)
             {
                 return NotFound();
