@@ -217,22 +217,21 @@ jQuery(function ($) {
                         );
                     });
 
-                    $.when(promises).then(function () {
-                        console.log('done');
-                        setStatusText('Opgeslagen.');
-                        clearStatusText(5000);
-                    }).catch(function (err) {
-                        console.error(err);
-                        setStatusText('Er is een fout opgetreden tijdens het opslaan.', true);
-                    }).always(function () {
-                        $saveButton.prop('disabled', false);
-                    });
+                    return Promise.all(promises);
+                })
+                .then(function () {
+                    console.log('done');
+                    setStatusText('Opgeslagen.');
+                    clearStatusText(5000);
                 })
                 .catch(function (err) {
                     console.error(err);
                     setStatusText('Er is een fout opgetreden tijdens het opslaan.', true);
                     $saveButton.prop('disabled', false);
                 })
+                .finally(function () {
+                    $saveButton.prop('disabled', false);
+                });
         });
     });
 
@@ -269,26 +268,26 @@ jQuery(function ($) {
     }
 
     function saveForm(form) {
-        return $.ajax({
+        return Promise.resolve($.ajax({
             method: 'POST',
             url: $(form).attr('action'),
             enctype: 'multipart/form-data',
             processData: false,
             contentType: false,
             data: new FormData(form),
-        });
+        }));
     }
 
     function saveBlock(block, contentType, contentId) {
         updateDataValueElements(block);
 
-        return $.ajax({
+        return Promise.resolve($.ajax({
             method: 'POST',
             url: $(block).find('form').attr('action') + '?contentType=' + contentType + '&contentId=' + contentId,
             enctype: 'multipart/form-data',
             processData: false,
             contentType: false,
             data: new FormData($(block).find('form')[0]),
-        });
+        }));
     }
 });
