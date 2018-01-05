@@ -245,8 +245,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     {
                         Text = slides[i].Text,
                         Image = slides[i].Image,
-                        Order = i,
-                        Block = carousel,
+                        Order = i
                     });
                 }
                 else
