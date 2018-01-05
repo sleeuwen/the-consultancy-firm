@@ -222,7 +222,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CustomerId");
+                    b.Property<int?>("CustomerId")
+                        .IsRequired();
 
                     b.Property<DateTime>("Date");
 
@@ -476,7 +477,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<string>("Author");
 
-                    b.Property<string>("Text");
+                    b.Property<string>("Text")
+                        .IsRequired();
 
                     b.ToTable("QuoteBlock");
 
@@ -564,7 +566,7 @@ namespace TheConsultancyFirm.Migrations
                         .WithMany("Blocks")
                         .HasForeignKey("NewsItemId");
 
-                    b.HasOne("TheConsultancyFirm.Models.Solution")
+                    b.HasOne("TheConsultancyFirm.Models.Solution", "Solution")
                         .WithMany("Blocks")
                         .HasForeignKey("SolutionId");
                 });
