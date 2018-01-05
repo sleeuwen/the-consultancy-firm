@@ -3,15 +3,19 @@
 // Abstracts
 @import 'abstracts/breadcrumbs';
 @import 'abstracts/typography';
+@import 'abstracts/upload-box';
+
+// Layout
+@import 'layout/dashboard';
 
 // Partials
 @import 'partials/header';
+@import 'partials/dashboard/block-modal';
 @import 'partials/dashboard/blocks';
 @import 'partials/dashboard/header';
 @import 'partials/dashboard/sidenav';
 
 // Pages
-@import 'pages/dashboard/layout';
 @import 'pages/dashboard/contacts';
 @import 'pages/dashboard/accountIndex';
 @import 'pages/dashboard/customerDetail';

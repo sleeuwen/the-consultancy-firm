@@ -1,0 +1,86 @@
+@import '../variables';
+
+.box {
+    font-size: 1.25rem; /* 20 */
+    position: relative;
+    padding: 100px 20px;
+    background-color: $sidebarBg;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+
+    &.has-advanced-upload {
+        background-color: $blockBg;
+        outline: 2px dashed $white;
+        outline-offset: -10px;
+        transition: outline-offset .15s ease-in-out, background .15s linear;
+
+        .box__dragndrop {
+            display: inline;
+        }
+
+        .box__dragndrop {
+            display: inline;
+        }
+
+        .box__icon {
+            width: 100%;
+            height: 80px;
+            fill: $white;
+            display: block;
+            margin-bottom: 40px;
+        }
+    }
+
+    &.is-dragover {
+        outline-offset: -20px;
+        outline-color: $sidebarBg;
+        background: #b6bbc9 !important;
+    }
+
+    &__dragndrop {
+        display: none;
+    }
+
+    &__dragndrop,
+    &__icon {
+        display: none;
+    }
+
+    &__file {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+
+        + label {
+            max-width: 80%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        + label:hover strong,
+        &:focus + label strong,
+        &.has-focus + label strong {
+            color: #b6bbc9;
+        }
+    }
+
+    &__input {
+        label {
+            color: $white;
+            width: 100%;
+            max-width: 100%;
+            text-align: center;
+        }
+
+        svg {
+            color: $white;
+        }
+    }
+}
