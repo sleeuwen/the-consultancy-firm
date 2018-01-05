@@ -24,6 +24,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             _uploadService = uploadService;
         }
 
+        [HttpGet]
         public async Task<IActionResult> Carousel(Enumeration.ContentItemType contentType, int contentId)
         {
             var block = new CarouselBlock();
@@ -33,6 +34,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return ViewComponent("Block", block);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Quote(Enumeration.ContentItemType contentType, int contentId)
         {
             var block = new QuoteBlock();
@@ -42,6 +44,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return ViewComponent("Block", block);
         }
 
+        [HttpGet]
         public async Task<IActionResult> SolutionAdvantages(Enumeration.ContentItemType contentType, int contentId)
         {
             var block = new SolutionAdvantagesBlock();
@@ -51,6 +54,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return ViewComponent("Block", block);
         }
 
+        [HttpGet]
         public async Task<IActionResult> Text(Enumeration.ContentItemType contentType, int contentId)
         {
             var block = new TextBlock();
@@ -108,6 +112,33 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             block.LastModified = DateTime.UtcNow;
             SetTypeId(block, contentType, contentId);
             await _blockRepository.Update(block);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task SolutionAdvantages(Enumeration.ContentItemType contentType, int contentId, int id)
+        {
+            var block = await _blockRepository.Get(id);
+            if (!(block is SolutionAdvantagesBlock solutionAdvantagesBlock)) return;
+
+            await TryUpdateModelAsync(solutionAdvantagesBlock, string.Empty, s => s.Image, s => s.Advantages);
+
+            if (solutionAdvantagesBlock.Image != null)
+            {
+                // Only accept jpg or png images
+                var ext = Path.GetExtension(solutionAdvantagesBlock.Image.FileName);
+                if (ext != ".png" && ext != ".jpg" && ext != ".jpeg")
+                    return; // TODO: return error
+
+                if (solutionAdvantagesBlock.PhotoPath != null)
+                    await _uploadService.Delete(solutionAdvantagesBlock.PhotoPath);
+                solutionAdvantagesBlock.PhotoPath =
+                    await _uploadService.Upload(solutionAdvantagesBlock.Image, "/images/uploads");
+            }
+
+            solutionAdvantagesBlock.LastModified = DateTime.UtcNow;
+            SetTypeId(solutionAdvantagesBlock, contentType, contentId);
+            await _blockRepository.Update(solutionAdvantagesBlock);
         }
 
         [HttpPost]

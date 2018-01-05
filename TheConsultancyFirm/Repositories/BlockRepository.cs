@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 
@@ -15,7 +16,7 @@ namespace TheConsultancyFirm.Repositories
 
         public async Task<Block> Get(int id)
         {
-            var block = await _context.Blocks.FindAsync(id);
+            var block = await _context.Blocks.Include(b => b.Solution).SingleOrDefaultAsync(b => b.Id == id);
 
             if (block is CarouselBlock carousel)
             {

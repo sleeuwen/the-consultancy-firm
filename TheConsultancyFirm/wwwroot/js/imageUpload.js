@@ -11,7 +11,7 @@ var emptyFileListTemplate = '' +
 function initDragDrop() {
     if (!isAdvancedUpload) return;
 
-    var $boxes = $('.carousel-block .box');
+    var $boxes = $('.block .box');
     $boxes.addClass('has-advanced-upload');
 
     // Remove all registered drag/drop event handlers

@@ -20,7 +20,7 @@ jQuery(function ($) {
                     initTinyMCE();
                 }
 
-                if (block === 'Carousel') {
+                if (block === 'Carousel' || block === 'SolutionAdvantages') {
                     initDragDrop();
                 }
             },

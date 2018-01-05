@@ -13,5 +13,6 @@ namespace TheConsultancyFirm.Models
         public int? CaseId { get; set; }
         public int? NewsItemId { get; set; }
         public int? SolutionId { get; set; }
+        public Solution Solution { get; set; }
     }
 }

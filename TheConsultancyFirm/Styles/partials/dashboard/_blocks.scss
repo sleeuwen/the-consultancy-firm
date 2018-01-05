@@ -220,112 +220,90 @@
         height: 326px;
         resize: none;
     }
+}
 
-    /// Upload drag and drop box
-    .box__dragndrop {
-        display: none;
-    }
+/// Upload drag and drop box
+.box {
+    font-size: 1.25rem; /* 20 */
+    position: relative;
+    padding: 100px 20px;
+    background-color: $sidebarBg;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
 
-    .box.has-advanced-upload {
+    &.has-advanced-upload {
         background-color: $blockBg;
-        outline: 2px dashed $black;
-        outline-offset: -10px;
-    }
-
-    .box.has-advanced-upload .box__dragndrop {
-        display: inline;
-    }
-
-    .box.is-dragover {
-        background: $grey !important;
-    }
-
-    .box.is-uploading .box__input {
-        visibility: hidden;
-    }
-
-    .box {
-        font-size: 1.25rem; /* 20 */
-        position: relative;
-        padding: 100px 20px;
-        background-color: $sidebarBg;
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-    }
-
-    .box.has-advanced-upload {
         outline: 2px dashed $white;
         outline-offset: -10px;
-
         transition: outline-offset .15s ease-in-out, background .15s linear;
+
+        .box__dragndrop {
+            display: inline;
+        }
+
+        .box__dragndrop {
+            display: inline;
+        }
+
+        .box__icon {
+            width: 100%;
+            height: 80px;
+            fill: $white;
+            display: block;
+            margin-bottom: 40px;
+        }
     }
 
-    .box.is-dragover {
+    &.is-dragover {
         outline-offset: -20px;
         outline-color: $sidebarBg;
         background: #b6bbc9 !important;
     }
 
-    .box__dragndrop,
-    .box__icon {
+    &__dragndrop {
         display: none;
     }
 
-    .box.has-advanced-upload .box__dragndrop {
-        display: inline;
+    &__dragndrop,
+    &__icon {
+        display: none;
     }
 
-    .box.has-advanced-upload .box__icon {
-        width: 100%;
-        height: 80px;
-        fill: $white;
-        display: block;
-        margin-bottom: 40px;
-    }
-
-    .box.is-uploading .box__input,
-    .box.is-success .box__input,
-    .box.is-error .box__input {
-        visibility: hidden;
-    }
-
-    .box__file {
+    &__file {
         width: 0.1px;
         height: 0.1px;
         opacity: 0;
         overflow: hidden;
         position: absolute;
         z-index: -1;
+
+        + label {
+            max-width: 80%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            cursor: pointer;
+            display: inline-block;
+            overflow: hidden;
+        }
+
+        + label:hover strong,
+        &:focus + label strong,
+        &.has-focus + label strong {
+            color: #b6bbc9;
+        }
     }
 
-    .box__file + label {
-        max-width: 80%;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        cursor: pointer;
-        display: inline-block;
-        overflow: hidden;
-    }
+    &__input {
+        label {
+            color: $white;
+            width: 100%;
+            max-width: 100%;
+            text-align: center;
+        }
 
-    .box__file + label:hover strong,
-    .box__file:focus + label strong,
-    .box__file.has-focus + label strong {
-        color: #b6bbc9;
-    }
-
-    .no-js .box__file + label {
-        display: none;
-    }
-
-    .box__input label {
-        color: $white;
-        width: 100%;
-        max-width: 100%;
-        text-align: center;
-    }
-
-    .box__input svg {
-        color: $white;
+        svg {
+            color: $white;
+        }
     }
 }

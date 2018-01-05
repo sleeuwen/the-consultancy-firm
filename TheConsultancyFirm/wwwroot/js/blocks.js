@@ -58,6 +58,22 @@ jQuery(function ($) {
         });
     });
 
+    var advantageListItemTemplate =
+        '<li class="form-group">' +
+            '<input class="form-control" type="text" id="{{blockId}}-Advantages-{{order}}" name="Advantages[{{order}}]" />' +
+        '</li>';
+    $blocksList.on('keyup', '.solution-advantages-block .advantages input', function (e) {
+        console.log(arguments, $(this).parent().is(':last-child'), $(this).val());
+        if ($(this).parent().is(':last-child') && $(this).val() !== '') {
+            var templateVariables = {
+                blockId: $(this).closest('.block').attr('data-id'),
+                order: $(this).parent().parent().children().length,
+            };
+
+            $(this).parent().parent().append(template(advantageListItemTemplate, templateVariables));
+        }
+    });
+
     /****** Carousel block ******/
 
     // These templates should be equivalent to the markup in Area/Dashboard/Views/Components/Block/Carousel.html

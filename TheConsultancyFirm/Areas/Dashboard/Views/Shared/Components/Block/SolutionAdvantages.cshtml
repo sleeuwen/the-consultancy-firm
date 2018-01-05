@@ -1,7 +1,62 @@
 ﻿@model TheConsultancyFirm.Models.SolutionAdvantagesBlock
 
 <div class="row">
-    <div class="block block-solution-advantages">
-        This is a solutions advantages block.
+    <div class="col-md-12 block solution-advantages-block" data-id="@Model.Id">
+        <div class="block-header">
+            <img class="handle" src="~/images/dragndrop-handle.svg" />
+
+            <span class="expand"></span>
+
+            <strong>Solution Advantages: </strong>
+            &nbsp;
+            <span class="block-title">@Model.Solution?.Title</span>
+
+            <span class="modifiedat" title="Last modified date">
+                @Model.LastModified.ToString("dd MMM, yyyy HH:mm")
+            </span>
+
+            <span class="delete"></span>
+        </div>
+        <div class="block-content">
+            <form asp-controller="Blocks" asp-action="SolutionAdvantages">
+                <input type="hidden" name="type" value="SolutionAdvantages"/>
+                <input type="hidden" name="Id" value="@Model.Id"/>
+                <input type="hidden" id="" asp-for="Date"/>
+                <input type="hidden" id="" asp-for="Order"/>
+
+                <div class="row">
+                    <div class="col-8">
+                        <div class="box" style="@(Model.PhotoPath != null ? "background-image:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)), url(" + Model.PhotoPath + ")" : "")">
+                            <div class="box__input">
+                                <svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43">
+                                    <path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z" />
+                                </svg>
+                                <input class="box__file" accept="image/png,image/jpeg"
+                                       id="@Model.Id-Image" asp-for="Image">
+                                <label for="@Model.Id-Image" asp-for="Image">
+                                    <strong>Choose a file</strong>
+                                    <span class="box__dragndrop"> or drag it here</span>.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <label for="@Model.Id-Advantages" asp-for="Advantages"></label>
+                        <ul class="list-unstyled advantages">
+                            @for (var i = 0; i < Model.Advantages.Count; i++)
+                            {
+                                <li class="form-group"><input class="form-control" asp-for="Advantages[i]" /></li>
+                            }
+                            <li class="form-group">
+                                <input class="form-control" type="text"
+                                       id="@Model.Id-Advantages-@(Model.Advantages.Count)"
+                                       name="Advantages[@(Model.Advantages.Count)]" />
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
