@@ -17,7 +17,8 @@ namespace TheConsultancyFirm.Models
         public List<string> Advantages
         {
             get => (Text?.Length ?? 0) > 0 ? Text.Split("\n").ToList() : new List<string>();
-            set => Text = string.Join('\n', value ?? new List<string>()).Trim();
+            set => Text = string.Join('\n',
+                value?.Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()) ?? new List<string>());
         }
     }
 }
