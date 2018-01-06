@@ -32,18 +32,6 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return View(await _newsItemRepository.GetAll().ToListAsync());
         }
 
-        // GET: Dashboard/NewsItems/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            var newsItem = await _newsItemRepository.Get(id ?? 0);
-            if (newsItem == null)
-            {
-                return NotFound();
-            }
-
-            return View(newsItem);
-        }
-
         // GET: Dashboard/NewsItems/Create
         public IActionResult Create()
         {
@@ -122,7 +110,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
-            if (newsItem != null)
+            if (newsItem.Image != null)
             {
                 var extension = Path.GetExtension(newsItem.Image.FileName);
                 if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")

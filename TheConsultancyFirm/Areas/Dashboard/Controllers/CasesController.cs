@@ -37,18 +37,6 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return View(await _caseRepository.GetAll().ToListAsync());
         }
 
-        // GET: Dashboard/Cases/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            var @case = await _caseRepository.Get(id ?? 0);
-            if (@case == null)
-            {
-                return NotFound();
-            }
-
-            return View(@case);
-        }
-
         // GET: Dashboard/Cases/Create
         public IActionResult Create()
         {

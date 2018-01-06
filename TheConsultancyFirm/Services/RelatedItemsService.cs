@@ -74,7 +74,7 @@ namespace TheConsultancyFirm.Services
 
             foreach (var newsItem in await _newsItemRepository.GetAll().Include(i => i.NewsItemTags).ToListAsync())
             {
-                if (type == Enumeration.ContentItemType.News && newsItem.Id == id) continue;
+                if (type == Enumeration.ContentItemType.NewsItem && newsItem.Id == id) continue;
 
                 double score = CalculateScore(tags, newsItem.NewsItemTags.Select(i => i.TagId).ToList());
 
@@ -108,7 +108,7 @@ namespace TheConsultancyFirm.Services
                         .Where(i => i.Id == id)
                         .SelectMany(i => i.DownloadTags.Select(t => t.TagId))
                         .ToListAsync();
-                case Enumeration.ContentItemType.News:
+                case Enumeration.ContentItemType.NewsItem:
                     return _newsItemRepository.GetAll().Include(i => i.NewsItemTags)
                         .Where(i => i.Id == id)
                         .SelectMany(i => i.NewsItemTags.Select(t => t.TagId))

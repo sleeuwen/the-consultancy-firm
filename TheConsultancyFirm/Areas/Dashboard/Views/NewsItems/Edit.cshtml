@@ -7,9 +7,9 @@
 <h2>@ViewBag.Title</h2>
 
 <div class="d-flex align-items-baseline">
-    <h4>Case</h4>
+    <h4>Nieuws</h4>
     <small class="text-muted ml-2">
-        <a asp-area="" asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Id" target="_blank" title="Opent in een nieuw tabblad">
+        <a asp-area="" asp-controller="News" asp-action="Details" asp-route-id="@Model.Id" target="_blank" title="Opent in een nieuw tabblad">
             Bekijk op de website
         </a>
     </small>
@@ -68,40 +68,6 @@
     </div>
 </form>
 
-@*<h4>NewsItem</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <input type="hidden" asp-for="Id" />
-                <div class="form-group">
-                    <label asp-for="Title" class="control-label"></label>
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PhotoPath" class="control-label"></label>
-                    <input asp-for="PhotoPath" class="form-control" />
-                    <span asp-validation-for="PhotoPath" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Date" class="control-label"></label>
-                    <input asp-for="Date" class="form-control" />
-                    <span asp-validation-for="Date" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="LastModified" class="control-label"></label>
-                    <input asp-for="LastModified" class="form-control" />
-                    <span asp-validation-for="LastModified" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Save" class="btn btn-default" />
-                </div>
-            </form>
-        </div>
-    </div>*@
-
 <h4>Content items</h4>
 <div id="blocksList">
     @foreach (var block in Model.Blocks.OrderBy(b => b.Order))
@@ -124,7 +90,7 @@
             </div>
             <div class="col-md-6 d-flex justify-content-end align-items-center">
                 <small class="text-muted mr-3" id="statusText"></small>
-                <input type="submit" value="Opslaan" class="btn btn-secondary" data-blocks-submit="#updateCase" />
+                <input type="submit" value="Opslaan" class="btn btn-secondary" data-blocks-submit="#updateNewsItem" />
             </div>
         </div>
     </div>

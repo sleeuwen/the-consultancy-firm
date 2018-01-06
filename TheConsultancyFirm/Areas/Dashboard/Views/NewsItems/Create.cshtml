@@ -1,7 +1,7 @@
 ﻿@model NewsItem
 
 @{
-    ViewData["Title"] = "Niews";
+    ViewData["Title"] = "Nieuws";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -47,36 +47,6 @@
         </div>
     </div>
 </form>
-@*<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PhotoPath" class="control-label"></label>
-                <input asp-for="PhotoPath" class="form-control" />
-                <span asp-validation-for="PhotoPath" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Date" class="control-label"></label>
-                <input asp-for="Date" class="form-control" />
-                <span asp-validation-for="Date" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LastModified" class="control-label"></label>
-                <input asp-for="LastModified" class="form-control" />
-                <span asp-validation-for="LastModified" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-    </div>
-</div>*@
 
 <h4>Content items</h4>
 <div id="blocksList"></div>
@@ -95,7 +65,7 @@
             </div>
             <div class="col-md-6 d-flex justify-content-end align-items-center">
                 <small class="text-muted mr-3" id="statusText"></small>
-                <input type="submit" value="Opslaan" class="btn btn-secondary" data-blocks-submit="#createCase" />
+                <input type="submit" value="Opslaan" class="btn btn-secondary" data-blocks-submit="#createNewsItem" />
             </div>
         </div>
     </div>
