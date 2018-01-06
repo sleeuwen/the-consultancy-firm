@@ -1,5 +1,6 @@
 ﻿@model NewsItemDetailViewModel
 @{
+    ViewBag.Title = Model.NewsItem.Title;
     Layout = "_Layout";
     string image = Model.NewsItem.PhotoPath;
 }
