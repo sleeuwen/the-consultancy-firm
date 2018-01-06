@@ -13,7 +13,7 @@
             <div asp-validation-summary="ModelOnly" class="invalid-feedback d-block"></div>
             <div class="form-group">
                 <label asp-for="Title"></label>
-                <input asp-for="Title" value=""class="form-control" />
+                <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="invalid-feedback d-block"></span>
             </div>
             <div class="form-group">
@@ -23,8 +23,16 @@
             </div>
             <div class="form-group">
                 <label asp-for="File"></label>
-                <input asp-for="File" class="form-control" />
+                <div class="custom-file">
+                    <input class="custom-file-input" asp-for="File">
+                    <label class="custom-file-label" asp-for="File">Choose file</label>
+                </div>
                 <span asp-validation-for="File" class="invalid-feedback d-block"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TagIds"></label>
+                <select asp-for="TagIds" class="form-control select2" data-placeholder="Select related tags"
+                        data-ajax--url="@Url.Action("Autocomplete", "Tags")" data-close-on-select="false"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-secondary" />
@@ -32,7 +40,6 @@
         </form>
     </div>
 </div>
-
 
 <div>
     <a asp-action="Index">Back to List</a>

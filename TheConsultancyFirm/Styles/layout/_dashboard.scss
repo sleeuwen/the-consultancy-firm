@@ -34,3 +34,10 @@ body {
     outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
 }
+
+.custom-file-label {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 80px;
+}

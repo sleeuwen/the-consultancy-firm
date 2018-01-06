@@ -33,5 +33,9 @@ namespace TheConsultancyFirm.Models
 
         [NotMapped]
         public IFormFile File { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Tags")]
+        public List<int> TagIds { get; set; }
     }
 }
