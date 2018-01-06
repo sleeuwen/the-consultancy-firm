@@ -204,9 +204,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if (file == null || file.Length == 0)
                 return new BadRequestObjectResult((object) null);
 
-            // Only accept jpg or png images
-            var ext = Path.GetExtension(file.FileName);
-            if (ext != ".jpg" && ext != ".jpeg" && ext != ".png")
+            if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(file.FileName)?.ToLower()))
                 return new BadRequestObjectResult((object) null);
 
             var filepath = await _uploadService.Upload(file, "/images/uploads");
@@ -267,7 +265,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         private void ValidateImageExtension(IFormFile image, string key)
         {
             var extensions = new[] {".png", ".jpg", ".jpeg"};
-            if (image != null && !extensions.Contains(Path.GetExtension(image.FileName)))
+            if (image != null && !extensions.Contains(Path.GetExtension(image.FileName)?.ToLower()))
                 ModelState.AddModelError(key, "Invalid image type, only png and jpg images are allowed");
         }
     }
