@@ -42,8 +42,7 @@ namespace TheConsultancyFirm.Services
                     Type = Enumeration.ContentItemType.Case,
                     Score = score,
                     PhotoPath = caseItem.PhotoPath,
-                    Titel = caseItem.Title,
-                    LinkPath = "/case/" + caseItem.Id
+                    Title = caseItem.Title,
                 });
             }
 
@@ -58,8 +57,7 @@ namespace TheConsultancyFirm.Services
                     Id = solutionItem.Id,
                     Type = Enumeration.ContentItemType.Solution,
                     Score = score,
-                    Titel = solutionItem.Title,
-                    LinkPath = "/solution/" + solutionItem.Id
+                    Title = solutionItem.Title,
                 });
             }
 
@@ -74,8 +72,7 @@ namespace TheConsultancyFirm.Services
                     Id = downloadItem.Id,
                     Type = Enumeration.ContentItemType.Download,
                     Score = score,
-                    Titel = downloadItem.Title,
-                    LinkPath = "/downloads"
+                    Title = downloadItem.Title,
                 });
             }
 
@@ -91,8 +88,7 @@ namespace TheConsultancyFirm.Services
                     Type = Enumeration.ContentItemType.NewsItem,
                     Score = score,
                     PhotoPath = newsItem.PhotoPath,
-                    Titel = newsItem.Title,
-                    LinkPath = "/news/" + newsItem.Id
+                    Title = newsItem.Title,
                 });
             }
 
