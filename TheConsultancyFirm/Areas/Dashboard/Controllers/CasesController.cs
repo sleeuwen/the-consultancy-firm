@@ -64,12 +64,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             if (@case.Image == null)
                 ModelState.AddModelError(nameof(@case.Image), "The Image field is required.");
-            if (@case.Image != null)
+            else
             {
-                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(@case.Image.FileName)))
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(@case.Image.FileName)?.ToLower()))
                     ModelState.AddModelError(nameof(@case.Image), "Invalid image type, only png and jpg images are allowed");
 
-                if (@case.Image?.Length < 1)
+                if (@case.Image.Length < 1)
                     ModelState.AddModelError(nameof(@case.Image), "Filesize too small");
             }
 
@@ -124,20 +124,19 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             // Bind POST variables Title, CustomerId, Image and TagIds to the model.
             await TryUpdateModelAsync(@case, string.Empty, c => c.Title, c => c.CustomerId, c => c.Image, c => c.TagIds);
 
-            if (@case.Image != null && @case.Image?.Length == 0)
-                ModelState.AddModelError(nameof(@case.Image), "Filesize too small");
+            if (@case.Image != null)
+            {
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(@case.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(@case.Image), "Invalid image type, only png and jpg images are allowed");
+
+                if (@case.Image.Length == 0)
+                    ModelState.AddModelError(nameof(@case.Image), "Filesize too small");
+            }
 
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
             if (@case.Image != null)
             {
-                var extension = Path.GetExtension(@case.Image.FileName);
-                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
-                {
-                    ModelState.AddModelError(nameof(@case.Image), "The uploaded file was not an image.");
-                    return new BadRequestObjectResult(ModelState);
-                }
-
                 if (@case.PhotoPath != null)
                     await _uploadService.Delete(@case.PhotoPath);
                 @case.PhotoPath = await _uploadService.Upload(@case.Image, "/images/uploads/cases");

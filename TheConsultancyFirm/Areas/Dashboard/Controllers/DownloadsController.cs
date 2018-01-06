@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -55,23 +57,25 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Title,Description,File,LinkPath")] Download download)
+        public async Task<IActionResult> Create([Bind("Title,Description,File,LinkPath,TagIds")] Download download)
         {
+            if (download.File == null)
+                ModelState.AddModelError(nameof(download.File), "The File field is required.");
+            else if (download.File.Length < 1)
+                ModelState.AddModelError(nameof(download.File), "Filesize too small");
+
             if (!ModelState.IsValid) return View(download);
 
-            if (download.File?.Length > 0)
+            if (download.File != null)
             {
-                download.Date = DateTime.UtcNow;
-
                 download.LinkPath = await _uploadService.Upload(download.File, "/files",
                     Path.GetFileNameWithoutExtension(download.File.FileName));
             }
-            else
-            {
-                ModelState.AddModelError("File", "No File Chosen");
-                return View(download);
-            }
 
+            download.DownloadTags = download.TagIds
+                ?.Select(tagId => new DownloadTag {Download = download, TagId = tagId}).ToList();
+
+            download.LastModified = download.Date = DateTime.UtcNow;
             await _downloadRepository.Create(download);
             return RedirectToAction(nameof(Index));
         }
@@ -96,14 +100,18 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // POST: Downloads/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Date,File,LinkPath")] Download download)
+        public async Task<IActionResult> EditPost(int? id)
         {
-            if (id != download.Id)
-            {
-                return NotFound();
-            }
+            var download = await _downloadRepository.Get(id ?? 0);
+            if (download == null) return NotFound();
+
+            await TryUpdateModelAsync(download, string.Empty, d => d.Title, d => d.Description, d => d.File,
+                d => d.TagIds);
+
+            if (download.File != null && download.File.Length < 1)
+                ModelState.AddModelError(nameof(download.File), "Filesize too small");
 
             if (!ModelState.IsValid) return View(download);
 
@@ -115,14 +123,15 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 download.LinkPath = await _uploadService.Upload(download.File, "/files",
                     Path.GetFileNameWithoutExtension(download.File.FileName));
             }
-            else if (string.IsNullOrWhiteSpace(download.LinkPath))
-            {
-                ModelState.AddModelError("File", "No File Chosen");
-                return View(download);
-            }
+
+            download.DownloadTags.RemoveAll(dt => !(download.TagIds?.Contains(dt.TagId) ?? false));
+            download.DownloadTags.AddRange(
+                download.TagIds?.Except(download.DownloadTags.Select(dt => dt.TagId))
+                    .Select(tagId => new DownloadTag {Download = download, TagId = tagId}) ?? new List<DownloadTag>());
 
             try
             {
+                download.LastModified = DateTime.UtcNow;
                 await _downloadRepository.Update(download);
             }
             catch (DbUpdateConcurrencyException)
