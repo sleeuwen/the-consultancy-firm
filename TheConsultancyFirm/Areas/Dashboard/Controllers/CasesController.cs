@@ -201,6 +201,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 await _blockRepository.Delete(block.Id);
             }
 
+            if (@case.PhotoPath != null)
+                await _uploadService.Delete(@case.PhotoPath);
+
             await _caseRepository.Delete(@case.Id);
             return RedirectToAction(nameof(Index));
         }

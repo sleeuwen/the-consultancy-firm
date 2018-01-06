@@ -53,7 +53,7 @@ namespace TheConsultancyFirm.Tests.Services
             using (var context = new ApplicationDbContext(_options))
             {
                 var service = new RelatedItemsService(new CaseRepository(context), new SolutionRepository(context),
-                    new NewsRepository(context), new DownloadRepository(context));
+                    new NewsItemRepository(context), new DownloadRepository(context));
 
                 var result = await service.GetRelatedItems(1, Enumeration.ContentItemType.Case);
 
@@ -94,7 +94,7 @@ namespace TheConsultancyFirm.Tests.Services
 
             using (var context = new ApplicationDbContext(_options))
             {
-                var service = new RelatedItemsService(new CaseRepository(context), new SolutionRepository(context), new NewsRepository(context), new DownloadRepository(context));
+                var service = new RelatedItemsService(new CaseRepository(context), new SolutionRepository(context), new NewsItemRepository(context), new DownloadRepository(context));
 
                 var result = await service.GetRelatedItems(1, Enumeration.ContentItemType.Case);
 
