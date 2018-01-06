@@ -1,28 +1,18 @@
-﻿<div class="row">
+﻿@model List<ContentItem>
+<div class="row">
     <div class="relatedtitle">
         <h2>Gerelateerd</h2>
     </div>
 </div>
 <div class="row">
+    @foreach (var item in Model)
+    {
     <div class="col-md-4 relateditem">
-        <div class="innerrelateditem flexcase">
-            <p>Solution</p>
-            <h3>Document Wizard</h3>
-            <a class="buttonHover">LEES MEER</a>
+        <div class="innerrelateditem flexcase" style="background-image: url(@item.PhotoPath)">
+            <p>@item.TypeString</p>
+            <h3>@item.Titel</h3>
+            <a href=@($"{Context.Request.Scheme}://{Context.Request.Host}{item.LinkPath}") class="buttonHover">LEES MEER</a>
         </div>
     </div>
-    <div class="col-md-4 relateditem">
-        <div class="innerrelateditem flexcase">
-            <p>Solution</p>
-            <h3>Zorg voor de juiste bestandstype per gebruiker</h3>
-            <a class="buttonHover">LEES MEER</a>
-        </div>
-    </div>
-    <div class="col-md-4 relateditem">
-        <div class="innerrelateditem flexcase">
-            <p>Download</p>
-            <h3>Lorem ipsum dolar sumit avec</h3>
-            <a class="buttonHover">LEES MEER</a>
-        </div>
-    </div>
+    }
 </div>
