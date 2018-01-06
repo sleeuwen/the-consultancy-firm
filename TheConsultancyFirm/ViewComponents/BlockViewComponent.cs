@@ -1,8 +1,7 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Models;
 
-namespace TheConsultancyFirm.Areas.Dashboard.ViewComponents
+namespace TheConsultancyFirm.ViewComponents
 {
     public class BlockViewComponent : ViewComponent
     {

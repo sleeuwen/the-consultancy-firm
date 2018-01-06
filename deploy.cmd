@@ -86,11 +86,7 @@ IF !ERRORLEVEL! NEQ 0 goto error
 
 :: 5. Run Migrations
 cd TheConsultancyFirm
-<<<<<<< HEAD
 SET ASPNETCORE_ENVIRONMENT=Production
-=======
-SET ASPNETCORE_ENVIRONMENT=Release
->>>>>>> Run migrations after successful deployment
 call :ExecuteCmd dotnet ef database update
 IF !ERRORLEVEL! NEQ 0 goto error
 cd ..

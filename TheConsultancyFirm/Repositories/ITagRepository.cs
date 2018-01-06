@@ -8,6 +8,7 @@ namespace TheConsultancyFirm.Repositories
     {
         Task<Tag> Get(int id);
         Task<IEnumerable<Tag>> GetAll();
+        Task<IEnumerable<Tag>> Search(string term);
         Task Create(Tag tag);
         Task Delete(int id);
     }

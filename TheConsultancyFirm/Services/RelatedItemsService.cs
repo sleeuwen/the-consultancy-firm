@@ -13,15 +13,15 @@ namespace TheConsultancyFirm.Services
     {
         private readonly ICaseRepository _caseRepository;
         private readonly ISolutionRepository _solutionRepository;
-        private readonly INewsRepository _newsRepository;
+        private readonly INewsItemRepository _newsItemRepository;
         private readonly IDownloadRepository _downloadRepository;
 
         public RelatedItemsService(ICaseRepository caseRepository, ISolutionRepository solutionRepository,
-            INewsRepository newsRepository, IDownloadRepository downloadRepository)
+            INewsItemRepository newsItemRepository, IDownloadRepository downloadRepository)
         {
             _caseRepository = caseRepository;
             _solutionRepository = solutionRepository;
-            _newsRepository = newsRepository;
+            _newsItemRepository = newsItemRepository;
             _downloadRepository = downloadRepository;
         }
 
@@ -72,9 +72,9 @@ namespace TheConsultancyFirm.Services
                 });
             }
 
-            foreach (var newsItem in await _newsRepository.GetAll().Include(i => i.NewsItemTags).ToListAsync())
+            foreach (var newsItem in await _newsItemRepository.GetAll().Include(i => i.NewsItemTags).ToListAsync())
             {
-                if (type == Enumeration.ContentItemType.News && newsItem.Id == id) continue;
+                if (type == Enumeration.ContentItemType.NewsItem && newsItem.Id == id) continue;
 
                 double score = CalculateScore(tags, newsItem.NewsItemTags.Select(i => i.TagId).ToList());
 
@@ -108,8 +108,8 @@ namespace TheConsultancyFirm.Services
                         .Where(i => i.Id == id)
                         .SelectMany(i => i.DownloadTags.Select(t => t.TagId))
                         .ToListAsync();
-                case Enumeration.ContentItemType.News:
-                    return _newsRepository.GetAll().Include(i => i.NewsItemTags)
+                case Enumeration.ContentItemType.NewsItem:
+                    return _newsItemRepository.GetAll().Include(i => i.NewsItemTags)
                         .Where(i => i.Id == id)
                         .SelectMany(i => i.NewsItemTags.Select(t => t.TagId))
                         .ToListAsync();

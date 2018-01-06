@@ -1,5 +1,41 @@
-﻿@model TheConsultancyFirm.Models.QuoteBlock
+﻿@model QuoteBlock
 
-<div class="block quote-block">
-This is a quote.
+<div class="row">
+    <div class="col-md-12 block quote-block" data-id="@Model.Id">
+        <div class="block-header">
+            <img class="handle" src="~/images/dragndrop-handle.svg" />
+
+            <span class="expand"></span>
+
+            <strong>Quote: </strong>
+            &nbsp;
+            <span class="block-title">@Model.Author</span>
+
+            <span class="modifiedat" title="Last modified date">
+                @Model.LastModified.ToString("dd MMM, yyyy HH:mm")
+            </span>
+
+            <span class="delete"></span>
+        </div>
+        <div class="block-content">
+            <form asp-controller="Blocks" asp-action="Quote">
+                <input type="hidden" name="type" value="quote"/>
+                <input type="hidden" name="Id" value="@Model.Id"/>
+                <input type="hidden" id="" asp-for="Date"/>
+                <input type="hidden" id="" asp-for="Order"/>
+
+                <div class="form-group">
+                    <label for="@Model.Id-Author" asp-for="Author" class=""></label>
+                    <input id="@Model.Id-Author" asp-for="Author" class="form-control" placeholder="Author..."/>
+                    <span asp-validation-for="Author" class="invalid-feedback d-block"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="@Model.Id-Text" asp-for="Text"></label>
+                    <textarea id="@Model.Id-Text" asp-for="Text" class="form-control" placeholder="Content..."></textarea>
+                    <span asp-validation-for="Text" class="invalid-feedback d-block"></span>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

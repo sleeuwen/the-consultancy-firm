@@ -187,6 +187,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Active");
+
                     b.Property<int?>("CaseId");
 
                     b.Property<DateTime>("Date");
@@ -220,7 +222,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CustomerId");
+                    b.Property<int?>("CustomerId")
+                        .IsRequired();
 
                     b.Property<DateTime>("Date");
 
@@ -398,7 +401,9 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("BlockId");
+                    b.Property<int>("BlockId");
+
+                    b.Property<int>("Order");
 
                     b.Property<string>("PhotoPath");
 
@@ -457,6 +462,9 @@ namespace TheConsultancyFirm.Migrations
                 {
                     b.HasBaseType("TheConsultancyFirm.Models.Block");
 
+                    b.Property<string>("LinkPath");
+
+                    b.Property<string>("LinkText");
 
                     b.ToTable("CarouselBlock");
 
@@ -469,7 +477,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<string>("Author");
 
-                    b.Property<string>("Text");
+                    b.Property<string>("Text")
+                        .IsRequired();
 
                     b.ToTable("QuoteBlock");
 
@@ -557,7 +566,7 @@ namespace TheConsultancyFirm.Migrations
                         .WithMany("Blocks")
                         .HasForeignKey("NewsItemId");
 
-                    b.HasOne("TheConsultancyFirm.Models.Solution")
+                    b.HasOne("TheConsultancyFirm.Models.Solution", "Solution")
                         .WithMany("Blocks")
                         .HasForeignKey("SolutionId");
                 });
@@ -626,7 +635,8 @@ namespace TheConsultancyFirm.Migrations
                 {
                     b.HasOne("TheConsultancyFirm.Models.CarouselBlock", "Block")
                         .WithMany("Slides")
-                        .HasForeignKey("BlockId");
+                        .HasForeignKey("BlockId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TheConsultancyFirm.Models.SolutionTag", b =>

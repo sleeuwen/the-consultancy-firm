@@ -17,7 +17,9 @@ namespace TheConsultancyFirm.Repositories
 
         public Task<Download> Get(int id)
         {
-            return _context.Downloads.FirstOrDefaultAsync(c => c.Id == id);
+            return _context.Downloads
+                .Include(d => d.DownloadTags).ThenInclude(dt => dt.Tag)
+                .FirstOrDefaultAsync(c => c.Id == id);
         }
 
         public IQueryable<Download> GetAll()

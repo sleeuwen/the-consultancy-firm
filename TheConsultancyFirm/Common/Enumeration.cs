@@ -6,7 +6,7 @@
         {
             Download,
             Solution,
-            News,
+            NewsItem,
             Case
         }
     }

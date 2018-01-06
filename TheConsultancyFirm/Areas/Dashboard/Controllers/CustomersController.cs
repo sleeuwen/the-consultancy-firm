@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -56,25 +57,21 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Image,Link")] Customer customer)
         {
-            if (!ModelState.IsValid) return View(customer);
-
-            if (customer.Image?.Length > 0)
-            {
-                var extension = Path.GetExtension(customer.Image.FileName);
-                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
-                {
-                    ModelState.AddModelError("Image", "The uploaded file was not an image");
-                    return View(customer);
-                }
-
-                customer.LogoPath =
-                    await _uploadService.Upload(customer.Image, "/images/CustomerLogos", customer.Name, extension);
-            }
+            if (customer.Image == null)
+                ModelState.AddModelError(nameof(customer.Image), "The Image field is required.");
             else
             {
-                ModelState.AddModelError("Image", "Filesize to small");
-                return View(customer);
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(customer.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(customer.Image), "Invalid image type, only png and jpg images are allowed");
+
+                if (customer.Image.Length < 1)
+                    ModelState.AddModelError(nameof(customer.Image), "Filesize too small");
             }
+
+            if (!ModelState.IsValid) return View(customer);
+
+            customer.LogoPath =
+                await _uploadService.Upload(customer.Image, "/images/CustomerLogos", customer.Name);
 
             await _customerRepository.Create(customer);
             return RedirectToAction(nameof(Index));
@@ -109,23 +106,26 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
+            if (customer.Image != null)
+            {
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(customer.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(customer.Image), "Invalid image type, only png and jpg images are allowed");
+
+                if (customer.Image.Length == 0)
+                    ModelState.AddModelError(nameof(customer.Image), "Filesize too small");
+            }
+
             if (!ModelState.IsValid) return View(customer);
+
             try
             {
-                if (customer.Image.Length > 0)
+                if (customer.Image != null)
                 {
-                    var extension = Path.GetExtension(customer.Image.FileName);
-                    if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
-                    {
-                        ModelState.AddModelError("Image", "The uploaded file was not an image");
-                        return View(customer);
-                    }
-
                     if (customer.LogoPath != null)
                         await _uploadService.Delete(customer.LogoPath);
 
                     customer.LogoPath =
-                        await _uploadService.Upload(customer.Image, "/images/CustomerLogos", customer.Name, extension);
+                        await _uploadService.Upload(customer.Image, "/images/uploads/customers", customer.Name);
                 }
 
                 await _customerRepository.Update(customer);
@@ -173,6 +173,15 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             await _customerRepository.Delete(id);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet("api/dashboard/[controller]/[action]")]
+        public async Task<ObjectResult> Autocomplete(string term = "")
+        {
+            return new ObjectResult(new
+            {
+                results = (await _customerRepository.Search(term)).Select(t => new {id = t.Id, text = t.Name})
+            });
         }
 
         private async Task<bool> CustomerExists(int id)
