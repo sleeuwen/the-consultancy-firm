@@ -56,10 +56,6 @@ namespace TheConsultancyFirm.Tests.Controllers
             var result = await controller.Details(null);
             
             Assert.IsType<NotFoundResult>(result);
-<<<<<<< HEAD
-=======
-           
->>>>>>> Removed unnecessary model creations, and fixed the spacing
         }
 
         [Fact]
