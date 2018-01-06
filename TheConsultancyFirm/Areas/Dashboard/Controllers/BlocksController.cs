@@ -219,7 +219,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 case Enumeration.ContentItemType.Case:
                     block.CaseId = id;
                     break;
-                case Enumeration.ContentItemType.News:
+                case Enumeration.ContentItemType.NewsItem:
                     block.NewsItemId = id;
                     break;
                 case Enumeration.ContentItemType.Solution:

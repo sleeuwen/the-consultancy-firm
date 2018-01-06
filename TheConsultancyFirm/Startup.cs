@@ -32,7 +32,7 @@ namespace TheConsultancyFirm
             //Repositories
             services.AddScoped<ICaseRepository, CaseRepository>();
             services.AddScoped<ISolutionRepository, SolutionRepository>();
-            services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<INewsItemRepository, NewsItemRepository>();
             services.AddScoped<IDownloadRepository, DownloadRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();

@@ -125,7 +125,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                         await _uploadService.Delete(customer.LogoPath);
 
                     customer.LogoPath =
-                        await _uploadService.Upload(customer.Image, "/images/CustomerLogos", customer.Name);
+                        await _uploadService.Upload(customer.Image, "/images/uploads/customers", customer.Name);
                 }
 
                 await _customerRepository.Update(customer);

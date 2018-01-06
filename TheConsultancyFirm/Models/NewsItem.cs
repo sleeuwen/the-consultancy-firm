@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.AspNetCore.Http;
+using TheConsultancyFirm.Extensions;
 
 namespace TheConsultancyFirm.Models
 {
@@ -9,6 +12,7 @@ namespace TheConsultancyFirm.Models
         public int Id { get; set; }
 
         [Required]
+        [Display(Name = "Titel")]
         public string Title { get; set; }
 
         public string PhotoPath { get; set; }
@@ -18,5 +22,14 @@ namespace TheConsultancyFirm.Models
 
         public List<Block> Blocks { get; set; }
         public List<NewsItemTag> NewsItemTags { get; set; }
+
+        public string Slug => $"{Id}-{Title.Sluggify()}";
+
+        [NotMapped]
+        public IFormFile Image { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Tags")]
+        public List<int> TagIds { get; set; }
     }
 }
