@@ -266,11 +266,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired();
-<<<<<<< HEAD
-
+                        
                     b.Property<bool>("Read");
-=======
->>>>>>> Stash this in this branch
 
                     b.Property<string>("Subject")
                         .IsRequired();
