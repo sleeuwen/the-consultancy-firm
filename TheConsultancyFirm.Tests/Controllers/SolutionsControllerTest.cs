@@ -20,7 +20,7 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public async Task Index()
         {
-            var controller = new SolutionsController(_solutionRepository.Object);
+            var controller = new SolutionsController(_solutionRepository.Object,null,null);
             var result = await controller.Index();
             Assert.IsType<ViewResult>(result);
         }
@@ -35,10 +35,10 @@ namespace TheConsultancyFirm.Tests.Controllers
                 Title = "Title 1"
             };
             
-            _solutionRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult<Solution>(model));
-                       
-            var controller = new SolutionsController(_solutionRepository.Object);
-            
+            _solutionRepository.Setup(repo => repo.Get(0,true)).Returns(Task.FromResult<Solution>(model));
+
+            var controller = new SolutionsController(_solutionRepository.Object, null, null);
+
             var result = await controller.Details(model.Id);
             
             var viewResult = Assert.IsType<ViewResult>(result);
@@ -49,10 +49,10 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public async Task FailedDetailCallNull()
         {
-            _solutionRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult<Solution>(null));
-       
-            var controller = new SolutionsController(_solutionRepository.Object);
-            
+            _solutionRepository.Setup(repo => repo.Get(0, true)).Returns(Task.FromResult<Solution>(null));
+
+            var controller = new SolutionsController(_solutionRepository.Object, null, null);
+
             var result = await controller.Details(null);
             
             Assert.IsType<NotFoundResult>(result);
@@ -61,10 +61,10 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public async Task FailedDetailCall()
         {
-            _solutionRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult<Solution>(null));
-       
-            var controller = new SolutionsController(_solutionRepository.Object);
-            
+            _solutionRepository.Setup(repo => repo.Get(0, true)).Returns(Task.FromResult<Solution>(null));
+
+            var controller = new SolutionsController(_solutionRepository.Object, null, null);
+
             var result = await controller.Details(2);
             
             Assert.IsType<NotFoundResult>(result);
@@ -80,9 +80,9 @@ namespace TheConsultancyFirm.Tests.Controllers
                 Title = "Title 1"
             };
 
-            _solutionRepository.Setup(repo => repo.Get(0)).Returns(Task.FromResult<Solution>(null));
+            _solutionRepository.Setup(repo => repo.Get(0, true)).Returns(Task.FromResult<Solution>(null));
 
-            var controller = new SolutionsController(_solutionRepository.Object);
+            var controller = new SolutionsController(_solutionRepository.Object, null, null);
 
             var result = await controller.Details(model.Id);
 

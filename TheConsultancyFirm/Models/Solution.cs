@@ -31,5 +31,9 @@ namespace TheConsultancyFirm.Models
         [NotMapped]
         [Display(Name = "Tags")]
         public List<int> TagIds { get; set; }
+
+        [NotMapped]
+        [Display(Name="Klanten")]
+        public List<int> CustomerIds { get; set; }
     }
 }
