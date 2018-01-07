@@ -7,12 +7,12 @@ using TheConsultancyFirm.ViewModels;
 
 namespace TheConsultancyFirm.Controllers
 {
-    public class NewsController : Controller
+    public class NewsItemsController : Controller
     {
         private readonly IRelatedItemsService _relatedItemsService;
         private readonly INewsItemRepository _newsItemRepository;
 
-        public NewsController(IRelatedItemsService relatedItemsService, INewsItemRepository newsItemRepository)
+        public NewsItemsController(IRelatedItemsService relatedItemsService, INewsItemRepository newsItemRepository)
         {
             _relatedItemsService = relatedItemsService;
             _newsItemRepository = newsItemRepository;

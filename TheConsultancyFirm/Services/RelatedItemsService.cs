@@ -40,7 +40,9 @@ namespace TheConsultancyFirm.Services
                 {
                     Id = caseItem.Id,
                     Type = Enumeration.ContentItemType.Case,
-                    Score = score
+                    Score = score,
+                    PhotoPath = caseItem.PhotoPath,
+                    Title = caseItem.Title,
                 });
             }
 
@@ -54,7 +56,8 @@ namespace TheConsultancyFirm.Services
                 {
                     Id = solutionItem.Id,
                     Type = Enumeration.ContentItemType.Solution,
-                    Score = score
+                    Score = score,
+                    Title = solutionItem.Title,
                 });
             }
 
@@ -68,7 +71,8 @@ namespace TheConsultancyFirm.Services
                 {
                     Id = downloadItem.Id,
                     Type = Enumeration.ContentItemType.Download,
-                    Score = score
+                    Score = score,
+                    Title = downloadItem.Title,
                 });
             }
 
@@ -81,8 +85,10 @@ namespace TheConsultancyFirm.Services
                 matchingItems.Add(new ContentItem
                 {
                     Id = newsItem.Id,
-                    Type = Enumeration.ContentItemType.Solution,
-                    Score = score
+                    Type = Enumeration.ContentItemType.NewsItem,
+                    Score = score,
+                    PhotoPath = newsItem.PhotoPath,
+                    Title = newsItem.Title,
                 });
             }
 

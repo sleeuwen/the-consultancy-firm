@@ -8,7 +8,7 @@
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
     <li class="breadcrumb-item"><a asp-controller="News" asp-action="Index">Nieuws</a></li>
-    <li class="breadcrumb-item active">Pensioen in eigen beheer</li>
+    <li class="breadcrumb-item active">@Model.NewsItem.Title</li>
 </ol>
 
 <div class="container-fluid fluidpadding">
@@ -48,5 +48,5 @@
     </div>
 </div>
 <div class="container related">
-    @Html.Partial("RelatedCasesPartial")
+    @Html.Partial("RelatedCasesPartial", Model.ContentItems)
 </div>
