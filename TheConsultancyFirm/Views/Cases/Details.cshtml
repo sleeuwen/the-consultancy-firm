@@ -45,7 +45,7 @@
         </div>
     </div>
 
-    @Html.Partial("RelatedCasesPartial")
+    @Html.Partial("RelatedCasesPartial", Model.ContentItems)
 </div>
 
 @if (Model.Next != null && Model.Previous != null)
@@ -58,16 +58,16 @@
         </div>
 
         <div class="row">
-            <div class="col-12 col-md-6 case" style="background-image:url(/images/foto1.png)">
+            <div class="col-12 col-md-6 case" style="background-image:url(@Model.Previous.PhotoPath)">
                 <p class="subtitle"> @Model.Previous.Customer.Name</p>
                 <h3 class="title">@Model.Previous.Title</h3>
-                <a href="#" class="buttonHover">VORIGE CASE</a>
+                <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Previous.Id" class="buttonHover">VORIGE CASE</a>
             </div>
 
-            <div class="col-12 col-md-6 case" style="background-image: url(/images/foto1.png)">
+            <div class="col-12 col-md-6 case" style="background-image: url(@Model.Next.PhotoPath)">
                 <p class="subtitle">@Model.Next.Customer.Name</p>
                 <h3 class="title">@Model.Next.Title</h3>
-                <a href="#" class="buttonHover">VOLGENDE CASE</a>
+                <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Next.Id" class="buttonHover">VOLGENDE CASE</a>
             </div>
         </div>
     </div>
