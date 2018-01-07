@@ -69,7 +69,7 @@ namespace TheConsultancyFirm.Tests.Controllers
 
             _caseRepository.Setup(repo => repo.GetAdjacent(c)).Returns(Task.FromResult(cases));
 
-            var service = new Mock<IRelatedItemsService>();
+            var service = new Mock<IRelatedItemsRepository>();
 
             var controller = new CasesController(service.Object, _caseRepository.Object);
 
@@ -77,7 +77,6 @@ namespace TheConsultancyFirm.Tests.Controllers
 
             int result = DateTime.Compare(list.Result.Previous.Date, c.Date);
             int result2 = DateTime.Compare(list.Result.Next.Date, c.Date);
-
 
             Assert.Equal(-1, result);
             Assert.Equal(1, result2);

@@ -27,7 +27,6 @@ namespace TheConsultancyFirm
             //Services
             services.AddSingleton<IMailService, MailService>();
             services.AddSingleton<IUploadService, UploadService>();
-            services.AddScoped<IRelatedItemsService, RelatedItemsService>();
 
             //Repositories
             services.AddScoped<ICaseRepository, CaseRepository>();
