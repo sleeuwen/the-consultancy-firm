@@ -17,6 +17,7 @@ jQuery(function ($) {
         // Open search form but don't submit when the searchform is closed
         e.preventDefault();
         $searchform.toggleClass('open');
+        $searchform.find('input').focus();
         $navbar.find('.navbar-collapse').removeClass('open');
     });
 

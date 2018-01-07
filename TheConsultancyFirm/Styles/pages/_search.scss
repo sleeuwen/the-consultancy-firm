@@ -13,14 +13,9 @@
         padding: 10px;
         border: none;
 
-        &:hover::placeholder,
         &:focus::placeholder,
         &:active::placeholder {
             color: transparent;
-        }
-
-        &:hover {
-            cursor: pointer;
         }
 
         &:focus {
