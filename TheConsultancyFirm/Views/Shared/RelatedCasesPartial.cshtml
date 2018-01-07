@@ -7,12 +7,12 @@
 <div class="row">
     @foreach (var item in Model)
     {
-    <div class="col-md-4 relateditem">
-        <div class="innerrelateditem flexcase" style="background-image: url(@item.PhotoPath)">
-            <p>@Html.DisplayFor(_ => item.Type)</p>
-            <h3>@item.Title</h3>
-            <a href="@Url.Action("Details", item.Type.ToString() + 's', new {id = item.Id})" class="buttonHover">LEES MEER</a>
+        <div class="col-md-4 relateditem">
+            <div class="innerrelateditem flexcase" style="@(item.PhotoPath != null ? "background-image: url(" + item.PhotoPath + ")" : "")">
+                <p>@Html.DisplayFor(_ => item.Type)</p>
+                <h3>@item.Title</h3>
+                <a href="@Url.Action("Details", item.Type.ToString() + 's', new {id = item.Id})" class="buttonHover">LEES MEER</a>
+            </div>
         </div>
-    </div>
     }
 </div>

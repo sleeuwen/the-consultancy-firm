@@ -9,12 +9,12 @@ namespace TheConsultancyFirm.Controllers
 {
     public class NewsItemsController : Controller
     {
-        private readonly IRelatedItemsService _relatedItemsService;
+        private readonly IRelatedItemsRepository _relatedItemsRepository;
         private readonly INewsItemRepository _newsItemRepository;
 
-        public NewsItemsController(IRelatedItemsService relatedItemsService, INewsItemRepository newsItemRepository)
+        public NewsItemsController(IRelatedItemsRepository relatedItemsRepository, INewsItemRepository newsItemRepository)
         {
-            _relatedItemsService = relatedItemsService;
+            _relatedItemsRepository = relatedItemsRepository;
             _newsItemRepository = newsItemRepository;
         }
 
@@ -36,7 +36,7 @@ namespace TheConsultancyFirm.Controllers
             if (id != newsItem.Slug)
                 return RedirectToAction("Details", new { id = newsItem.Slug });
 
-            var relatedItems = await _relatedItemsService.GetRelatedItems(newsItem.Id, Enumeration.ContentItemType.NewsItem);
+            var relatedItems = await _relatedItemsRepository.GetRelatedItems(newsItem.Id, Enumeration.ContentItemType.NewsItem);
 
             return View(new NewsItemDetailViewModel
             {
