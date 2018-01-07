@@ -41,7 +41,7 @@ namespace TheConsultancyFirm.Controllers
                 AllDownloads = await _downloadRepository.GetAll().Where(c => c.Id != id).ToListAsync()
             };
 
-            return View("Index", viewModel);
+            return View("/Views/Downloads/Index.cshtml", viewModel);
         }
     }
 }
