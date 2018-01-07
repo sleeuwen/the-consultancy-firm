@@ -32,7 +32,7 @@
                     @Model.Selected.Title
                 </h3>
                 <p>
-                    @Model.Selected.Date.ToString("dd MMM yyyy")
+                    @Model.Selected.Date.ToString("dd MMMM yyyy")
                 </p>
                 <p>
                     @Model.Selected.Description
@@ -58,7 +58,7 @@
                     @Model.MostRecent.Title
                 </h3>
                 <p>
-                    @Model.MostRecent.Date.ToString("dd MMM yyyy")
+                    @Model.MostRecent.Date.ToString("dd MMMM yyyy")
                 </p>
                 <p>
                     @Model.MostRecent.Description
@@ -81,13 +81,13 @@
                     @Model.MostDownloaded.Title
                 </h3>
                 <p>
-                    @Model.MostDownloaded.Date.ToString("dd MMM yyyy")
+                    @Model.MostDownloaded.Date.ToString("dd MMMM yyyy")
                 </p>
                 <p>
                     @Model.MostDownloaded.Description
                 </p>
-                <a href="#">
-                    <img src="~@Model.MostDownloaded.LinkPath" alt="download" class="downloadsvg">
+                <a href="@Model.MostDownloaded.LinkPath" download>
+                    <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
                     Downloaden
                 </a>
             </div>

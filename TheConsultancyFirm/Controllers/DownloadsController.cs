@@ -16,26 +16,32 @@ namespace TheConsultancyFirm.Controllers
             _downloadRepository = downloadRepository;
         }
 
-        public async Task<IActionResult> Index(int? id)
+        public async Task<IActionResult> Index()
         {
-            var viewModel = new DownloadsViewModel();
-
-            if (id != null)
+            var viewModel = new DownloadsViewModel
             {
-                viewModel.Selected = await _downloadRepository.Get((int) id);
-                viewModel.AllDownloads = await _downloadRepository.GetAll().Where(c => c.Id != id).ToListAsync();
-            }
-            else
-            {
-                viewModel.MostDownloaded =
-                    await _downloadRepository.GetAll().OrderByDescending(d => d.AmountOfDownloads).FirstOrDefaultAsync();
-                viewModel.MostRecent =
-                    await _downloadRepository.GetAll().OrderByDescending(c => c.Date).FirstOrDefaultAsync();
+                MostDownloaded = await _downloadRepository.GetAll().OrderByDescending(d => d.AmountOfDownloads)
+                    .FirstOrDefaultAsync(),
+                MostRecent = await _downloadRepository.GetAll().OrderByDescending(c => c.Date).FirstOrDefaultAsync()
+            };
 
-                viewModel.AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id).OrderBy(c => c.Date).Skip(1).ToListAsync();
-            }
+
+            viewModel.AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id)
+                .OrderBy(c => c.Date).Skip(1).ToListAsync();
 
             return View(viewModel);
+        }
+
+        [HttpGet("[controller]/{id}")]
+        public async Task<IActionResult> Details(int id)
+        {
+            var viewModel = new DownloadsViewModel
+            {
+                Selected = await _downloadRepository.Get(id),
+                AllDownloads = await _downloadRepository.GetAll().Where(c => c.Id != id).ToListAsync()
+            };
+
+            return View("Index", viewModel);
         }
     }
 }
