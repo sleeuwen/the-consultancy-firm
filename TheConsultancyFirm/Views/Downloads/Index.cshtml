@@ -37,8 +37,8 @@
                 <p>
                     @Model.Selected.Description
                 </p>
-                <a href="#">
-                    <img src="~@Model.Selected.LinkPath" alt="download" class="downloadsvg">
+                <a href="@Model.Selected.LinkPath" download>
+                    <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
                     Downloaden
                 </a>
             </div>
@@ -63,8 +63,8 @@
                 <p>
                     @Model.MostRecent.Description
                 </p>
-                <a href="#">
-                    <img src="~@Model.MostRecent.LinkPath" alt="download" class="downloadsvg">
+                <a href="@Model.MostRecent.LinkPath" download>
+                    <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
                     Downloaden
                 </a>
             </div>
