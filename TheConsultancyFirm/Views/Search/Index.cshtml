@@ -14,9 +14,9 @@
         <p class="col d-flex justify-content-center">Er zijn 666 zoekresultaten voor de term: "@ViewBag.Search"</p>
     </div>
     <div class="row">
-        <form class="search-form">
+        <form asp-action="Index" class="search-form" method="get">
             <div class="search-container">
-                <input placeholder="Nieuwe zoekterm" type="search" name="search" />
+                <input placeholder="Nieuwe zoekterm" type="search" name="q" value="@ViewBag.Search" />
                 <button type="submit">
                     <i class="fa fa-search"></i>
                 </button>

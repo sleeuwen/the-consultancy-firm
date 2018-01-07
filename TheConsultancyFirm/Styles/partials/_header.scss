@@ -220,6 +220,7 @@ header {
             width: 0 !important;
             transition: all .3s ease-in-out;
             margin-right: 0 !important;
+            padding: 8px 0 7px;
         }
 
         &.open {
@@ -229,7 +230,7 @@ header {
 
             input {
                 width: 377px !important;
-                padding-right: 30px !important;
+                padding: 8px 12px 7px;
             }
 
             .fa-times {
