@@ -17,7 +17,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IMailService _emailSender;
 
-        public UsersController(ApplicationDbContext context, MailService emailSender)
+        public UsersController(ApplicationDbContext context, IMailService emailSender)
         {
             _context = context;
             _emailSender = emailSender;
