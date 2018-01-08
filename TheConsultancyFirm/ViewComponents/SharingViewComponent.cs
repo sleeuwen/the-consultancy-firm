@@ -16,7 +16,7 @@ namespace TheConsultancyFirm.ViewComponents
             {
                 case Case c:
                     model.Title = c.Title;
-                    model.Description = HttpUtility.UrlEncode(c.SharingDescription);
+                    model.Description = c.SharingDescription;
                     model.Link = "/cases/" + c.Id;
                     model.ImageUrl = c.PhotoPath;
                     break;
