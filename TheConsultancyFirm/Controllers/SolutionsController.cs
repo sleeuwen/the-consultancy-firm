@@ -11,12 +11,12 @@ namespace TheConsultancyFirm.Controllers
 {
     public class SolutionsController : Controller
     {
-        private readonly IRelatedItemsService _relatedItemsService;
+        private readonly IRelatedItemsRepository _relatedItemsRepository;
         private readonly ISolutionRepository _solutionRepository;
 
-        public SolutionsController(IRelatedItemsService relatedItemsService, ISolutionRepository solutionRepository, ICustomerRepository customerRepository)
+        public SolutionsController(IRelatedItemsRepository relatedItemsRepository, ISolutionRepository solutionRepository, ICustomerRepository customerRepository)
         {
-            _relatedItemsService = relatedItemsService;
+            _relatedItemsRepository = relatedItemsRepository;
             _solutionRepository = solutionRepository;
         }
 
@@ -38,7 +38,7 @@ namespace TheConsultancyFirm.Controllers
                 return RedirectToAction("Details", new { id = solutionItem.Slug });
 
             var relatedItems =
-                await _relatedItemsService.GetRelatedItems(solutionItem.Id, Enumeration.ContentItemType.Solution);
+                await _relatedItemsRepository.GetRelatedItems(solutionItem.Id, Enumeration.ContentItemType.Solution);
 
             var relatedCustomers = solutionItem.CustomerSolutions.Select(cs => cs.Customer).ToList();
                 

@@ -1,6 +1,6 @@
 ﻿@model SolutionDetailViewModel
 @{
-    ViewData["Title"] = "Solutions";
+    ViewData["Title"] = @Model.Solution.Title;
 }
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
