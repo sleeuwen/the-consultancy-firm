@@ -31,19 +31,7 @@
                 {
                     @await Component.InvokeAsync("Block", block)
                 }
-
-                <div class="sharing col-md-10 mx-auto">
-                    <span class="introtext">
-                        <i class="fa fa-share-alt"></i>
-                        share
-                    </span>
-
-                    <a href="#" class="share-link fa fa-linkedin"></a>
-                    <a href="#" class="share-link fa fa-twitter"></a>
-                    <a href="#" class="share-link fa fa-google-plus"></a>
-                    <a href="#" class="share-link fa fa-facebook"></a>
-                    <a href="#" class="share-link fa fa-envelope"></a>
-                </div>
+                @await Component.InvokeAsync("Sharing", Model.NewsItem)
             </div>
     </div>
 </div>
