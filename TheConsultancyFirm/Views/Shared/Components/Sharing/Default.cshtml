@@ -3,6 +3,20 @@
 @{
     Layout = null;
     Model.Twitter += "&url=" + HttpUtility.UrlEncode($"{Context.Request.Scheme}://{Context.Request.Host}{Model.Link}");
+    Model.LinkedIn = "https://www.linkedin.com/cws/share?url=" + HttpUtility.UrlEncode("https://stackoverflow.com/questions/10713542/how-to-make-custom-linkedin-share-button");
+    Model.Facebook = "https://www.facebook.com/sharer/sharer.php?u=" + HttpUtility.UrlEncode("https://stackoverflow.com/questions/10713542/how-to-make-custom-linkedin-share-button");
+    Model.Google = "https://plus.google.com/share?url=" + HttpUtility.UrlEncode("https://stackoverflow.com/questions/10713542/how-to-make-custom-linkedin-share-button");
+    var link = $"{Context.Request.Scheme}://{Context.Request.Host}{Model.Link}";
+    var image = $"{Context.Request.Scheme}://{Context.Request.Host}{Model.ImageUrl}";
+}
+
+@section metas
+    {
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:image" content=@image />
+    <meta property="og:description" content=@Model.Description />
+    <meta property="og:url" content=@link />
+    <meta name="og:url" content="@link" />
 }
 
 <div class="sharing col-md-10 mx-auto">
@@ -11,9 +25,8 @@
         share
     </span>
 
-    <a href="#" class="share-link fa fa-linkedin"></a>
-    <a href="@Model.Twitter" class="share-link fa fa-twitter"></a>
-    <a href="#" class="share-link fa fa-google-plus"></a>
-    <a href="#" class="share-link fa fa-facebook"></a>
-    <a href="#" class="share-link fa fa-envelope"></a>
+    <a href="#" onclick="Share('@Model.LinkedIn')" class="share-link fa fa-linkedin"></a>
+    <a href="#" onclick="Share('@Model.Twitter')" class="share-link fa fa-twitter"></a>
+    <a href="#" onclick="Share('@Model.Google')" class="share-link fa fa-google-plus"></a>
+    <a href="#" onclick="Share('@Model.Facebook')" class="share-link fa fa-facebook"></a>
 </div>
