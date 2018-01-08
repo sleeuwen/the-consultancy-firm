@@ -1,16 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Moq;
 using TheConsultancyFirm.Controllers;
+using TheConsultancyFirm.Repositories;
 using Xunit;
 
 namespace TheConsultancyFirm.Tests.Controllers
 {
     public class HomeControllerTest
     {
-        [Fact]
-        public void Index()
+        private Mock<ICustomerRepository> _customerRepository;
+        public HomeControllerTest()
         {
-            var controller = new HomeController(null);
-            var result = controller.Index();
+            _customerRepository = new Mock<ICustomerRepository>();
+        }
+         
+        [Fact]
+        public async Task Index()
+        {
+            var controller = new HomeController(_customerRepository.Object);
+            var result = await controller.Index();
 
             Assert.IsType<ViewResult>(result);
         }
