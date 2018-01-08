@@ -37,5 +37,10 @@ namespace TheConsultancyFirm.Models
         [NotMapped]
         [Display(Name = "Tags")]
         public List<int> TagIds { get; set; }
+
+        [Display(Name = "Sharing omschrijving")]
+        public string SharingDescription { get; set; }
+
+        public bool Enabled { get; set; }
     }
 }

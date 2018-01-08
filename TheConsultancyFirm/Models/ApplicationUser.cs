@@ -6,5 +6,7 @@ namespace TheConsultancyFirm.Models
     public class ApplicationUser : IdentityUser
     {
         public DateTime? LastLogin { get; set; }
+
+        public bool Enabled { get; set; }
     }
 }
