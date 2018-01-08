@@ -43,7 +43,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> Create([Bind("Title,CustomerId,Image,TagIds")] Case @case)
+        public async Task<ObjectResult> Create([Bind("Title,CustomerId,Image,TagIds,SharingDescription")] Case @case)
         {
             if (@case.Image == null)
                 ModelState.AddModelError(nameof(@case.Image), "The Image field is required.");
@@ -105,7 +105,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if (@case == null) return new NotFoundObjectResult(null);
 
             // Bind POST variables Title, CustomerId, Image and TagIds to the model.
-            await TryUpdateModelAsync(@case, string.Empty, c => c.Title, c => c.CustomerId, c => c.Image, c => c.TagIds);
+            await TryUpdateModelAsync(@case, string.Empty, c => c.Title, c => c.CustomerId, c => c.Image, c => c.TagIds, c => c.SharingDescription);
 
             if (@case.Image != null)
             {
