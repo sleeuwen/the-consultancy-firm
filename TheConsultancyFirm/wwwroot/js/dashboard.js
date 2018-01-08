@@ -1,5 +1,11 @@
-//Dashboard berichten badge
+function showDeleteModal(data) {
+    $("#deleteModal .modal-body").html("Email: " + data)
+    $("#deleteModal").modal()
+    $('#deleteModal').modal('show')
+    console.log("hai")
+}
 
+//Dashboard berichten badge
 function updateUnreadCounter() {
     $.ajax({
         url: '/api/dashboard/contacts/unread',
@@ -15,3 +21,5 @@ function updateUnreadCounter() {
 }
 
 updateUnreadCounter();
+
+
