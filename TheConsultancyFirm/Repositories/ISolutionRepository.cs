@@ -4,10 +4,11 @@ using TheConsultancyFirm.Models;
 
 namespace TheConsultancyFirm.Repositories
 {
-	public interface ISolutionRepository
-	{
-		Task<Solution> Get(int id, bool includeInactive);
-		IQueryable<Solution> GetAll();
+    public interface ISolutionRepository
+    {
+        Task<Solution> Get(int id, bool includeInactive);
+        IQueryable<Solution> GetAll();
+
 
 	    Task Create(Solution solution);
 	    Task Update(Solution solution);

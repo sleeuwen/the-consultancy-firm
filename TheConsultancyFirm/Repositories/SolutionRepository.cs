@@ -7,16 +7,16 @@ using TheConsultancyFirm.Models;
 
 namespace TheConsultancyFirm.Repositories
 {
-	public class SolutionRepository : ISolutionRepository
-	{
-	    private ApplicationDbContext _context;
+    public class SolutionRepository : ISolutionRepository
+    {
+        private readonly ApplicationDbContext _context;
 
-	    public SolutionRepository(ApplicationDbContext context)
-	    {
-		    _context = context;
-	    }
+        public SolutionRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         
-		public async Task<Solution> Get(int id, bool includeInactive = false)
+        public async Task<Solution> Get(int id, bool includeInactive = false)
         {
             var solution = await _context.Solutions
                 .Include(c => c.SolutionTags).ThenInclude(t => t.Tag)
@@ -52,17 +52,17 @@ namespace TheConsultancyFirm.Repositories
 	        return _context.SaveChangesAsync();
 	    }
 
-	    public Task Update(Solution solution)
-	    {
-	        _context.Update(solution);
-	        return _context.SaveChangesAsync();
-	    }
+        public Task Update(Solution solution)
+        {
+            _context.Update(solution);
+            return _context.SaveChangesAsync();
+        }
 
-	    public Task Delete(Solution solution)
-	    {
-	        _context.Remove(solution);
-	        return _context.SaveChangesAsync();
-	    }
-	}
+        public Task Delete(Solution solution)
+        {
+            _context.Remove(solution);
+            return _context.SaveChangesAsync();
+        }
+    }
 }
 
