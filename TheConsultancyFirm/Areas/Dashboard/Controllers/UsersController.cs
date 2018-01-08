@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Services;
 using Microsoft.AspNetCore.Identity;
@@ -15,21 +12,19 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     [Area("Dashboard")]
     public class UsersController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        private readonly IMailService _emailSender;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IMailService _emailSender;
 
-        public UsersController(ApplicationDbContext context, IMailService emailSender, UserManager<ApplicationUser> userManager)
+        public UsersController(UserManager<ApplicationUser> userManager, IMailService emailSender)
         {
-            _context = context;
-            _emailSender = emailSender;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         // GET: Dashboard/Users
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ApplicationUsers.ToListAsync());
+            return View(await _userManager.Users.ToListAsync());
         }
 
         // GET: Dashboard/Users/Create
@@ -39,52 +34,41 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/Users/Create (Email + misschien password, of hier wordt al een mail voor opgestuurd)
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Email")] ApplicationUser applicationUser)
         {
             if (ModelState.IsValid && !string.IsNullOrEmpty(applicationUser.Email))
             {
-                string message;
-                string password = GenerateRandonPassword();
-                await _userManager.AddPasswordAsync(applicationUser,password);
-                
-                message = "Beste nieuwe gebruiker, <br/><br/>" +
-                    "Er is een account aangemaakt voor je met dit email address. <br/>" +
-                    "Er is ook een wachtwoord aangemaakt voor je en dat is: " + password + "<br/><br/>" +
-                    "The Consultancy Firm";
+                var userPass = GenerateRandomPassword();
+                applicationUser.UserName = applicationUser.Email;
+                await _userManager.CreateAsync(applicationUser);
+                await _userManager.AddPasswordAsync(applicationUser, userPass);
 
-                await _emailSender.SendMailAsync(applicationUser.Email, "Nieuw account aangemaakt", message);
+                await _emailSender.SendMailAsync(applicationUser.Email, "Er is een account gecreëerd voor u op de website.", $@"
+Beste gebruiker,<br/>
+<br/>
+Er is een account voor u aangemaakt op de website.<br/>
+Het wachtwoord voor de eerste keer inloggen in de applicatie is: <b>{userPass}</b><br/>
+Als u voor de eerste keer inlogt, wordt u verwezen naar de wachtwoord veranderen pagina, waar u dan de optie heeft om uw wachtwoord aan te passen.<br/>
+<br/>
+Met vriendelijke groet,<br/>
+Het TCF-team");
 
-                _context.Add(applicationUser);
-                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-
             return View(applicationUser);
         }
 
-        /// <summary>
-        /// Genereerd een random wachtwoord met minimaal een hoofletter, speciaal karakter en een cijfer.
-        /// </summary>
-        /// <returns></returns>
-        private string GenerateRandonPassword()
-        {
-            return "Test123!";
-        }
-
         // GET: Dashboard/Users/Delete/5 (via modal!)
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string email)
         {
-            if (id == null)
+            if (email == null)
             {
                 return NotFound();
             }
-
-            var applicationUser = await _context.ApplicationUsers
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var applicationUser = await _userManager.FindByEmailAsync(email);
+            
             if (applicationUser == null)
             {
                 return NotFound();
@@ -96,12 +80,42 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // POST: Dashboard/Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string email)
         {
-            var applicationUser = await _context.ApplicationUsers.SingleOrDefaultAsync(m => m.Id == id);
-            _context.ApplicationUsers.Remove(applicationUser);
-            await _context.SaveChangesAsync();
+            var applicationUser = await _userManager.FindByEmailAsync(email);
+            await _userManager.DeleteAsync(applicationUser);
+            
             return RedirectToAction(nameof(Index));
+        }
+
+        private static string GenerateRandomPassword()
+        {
+            var randomPassword = "";
+            for (var i = 0; i < 10; i++)
+            {
+                var num = 0;
+                var rand = new Random();
+                if (i == 1)
+                {
+                    randomPassword += rand.Next(0,9);
+                }
+                else if (i == 4)
+                {
+                    randomPassword += "?";
+                }
+                else if (i == 8)
+                {
+                    num = rand.Next(0, 26);
+                    
+                    randomPassword += Char.ToUpper((char)('a' + num));
+                }
+                else
+                {
+                    num = rand.Next(0, 26);
+                    randomPassword += (char)('a' + num);
+                }
+            }
+            return randomPassword;
         }
     }
 }
