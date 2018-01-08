@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
@@ -16,11 +17,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IMailService _emailSender;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UsersController(ApplicationDbContext context, IMailService emailSender)
+        public UsersController(ApplicationDbContext context, IMailService emailSender, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _emailSender = emailSender;
+            _userManager = userManager;
         }
 
         // GET: Dashboard/Users
@@ -44,12 +47,32 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             if (ModelState.IsValid && !string.IsNullOrEmpty(applicationUser.Email))
             {
+                string message;
+                string password = GenerateRandonPassword();
+                await _userManager.AddPasswordAsync(applicationUser,password);
+                
+                message = "Beste nieuwe gebruiker, <br/><br/>" +
+                    "Er is een account aangemaakt voor je met dit email address. <br/>" +
+                    "Er is ook een wachtwoord aangemaakt voor je en dat is: " + password + "<br/><br/>" +
+                    "The Consultancy Firm";
+
+                await _emailSender.SendMailAsync(applicationUser.Email, "Nieuw account aangemaakt", message);
+
                 _context.Add(applicationUser);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
             return View(applicationUser);
+        }
+
+        /// <summary>
+        /// Genereerd een random wachtwoord met minimaal een hoofletter, speciaal karakter en een cijfer.
+        /// </summary>
+        /// <returns></returns>
+        private string GenerateRandonPassword()
+        {
+            return "Test123!";
         }
 
         // GET: Dashboard/Users/Delete/5 (via modal!)
