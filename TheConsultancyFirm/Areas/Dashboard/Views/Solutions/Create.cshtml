@@ -4,7 +4,7 @@
     ViewData["Title"] = "Create";
 }
 
-<h2>Create</h2>
+<h2>@ViewBag.Title</h2>
 
 <h4>Solution</h4>
 <hr />
@@ -43,7 +43,13 @@
                     <div class="form-group">
                         <label asp-for="CustomerIds"></label>
                         <select asp-for="CustomerIds" class="form-control select2" data-placeholder="Selecteer klanten"
-                                data-ajax--url="@Url.Action("Autocomplete", "Customers" )" data-close-on-select="false"></select>
+                                data-ajax--url="@Url.Action("Autocomplete", "Customers")" data-close-on-select="false">
+                        </select>
+                        <small id="customerHelp" class="form-text text-muted">
+                            Zit de juiste klant er niet bij? Klik dan
+                            <a asp-controller="Customers" asp-action="Create" target="_blank">hier</a>
+                            om een nieuwe klant toe te voegen.
+                        </small>
                     </div>
                 </div>
 

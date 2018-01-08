@@ -43,14 +43,13 @@ namespace TheConsultancyFirm.Repositories
 
 	    public IQueryable<Solution> GetAll()
 	    {
-	        return  _context.Solutions;
+	        return _context.Solutions;
 	    }
 
-	    public Task Add(Solution solution)
+	    public Task Create(Solution solution)
 	    {
 	        _context.AddAsync(solution);
 	        return _context.SaveChangesAsync();
-
 	    }
 
 	    public Task Update(Solution solution)

@@ -435,10 +435,6 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("CustomerCaption");
-
-                    b.Property<string>("CustomerIntrotext");
-
                     b.Property<DateTime>("Date");
 
                     b.Property<bool>("Enabled");

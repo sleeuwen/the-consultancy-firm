@@ -33,16 +33,21 @@
 
     @Html.Partial("RelatedCasesPartial", Model.ContentItems)
 
-    <div class="solution-customers">
-        <div class="introtext">
-            <h2>Klanten die @Model.Solution.Title gebruiken</h2>
-            Er zijn veel klanten die gebruik maken van @Model.Solution.Title<br/>
-            vanwege de open source aangepast naar eigen wensen en
-            voorkeuren
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <h2>Klanten die @Model.Solution.Title gebruiken</h2>
+                <p class="introtext">
+                    Er zijn veel klanten die gebruik maken van @Model.Solution.Title<br/>
+                    vanwege de open source aangepast naar eigen wensen en
+                    voorkeuren
+                </p>
+            </div>
         </div>
-        @Html.Partial("OurCustomersPartial", @Model.Customers)
+        @Html.Partial("OurCustomersPartial", Model.Customers)
     </div>
+
 </div>
 
-    @Html.Partial("NewsLetterPartial")
+@Html.Partial("NewsLetterPartial")
 

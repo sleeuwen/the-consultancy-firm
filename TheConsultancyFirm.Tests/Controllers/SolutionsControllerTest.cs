@@ -62,7 +62,7 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public async Task FailedDetailCall()
         {
-            _solutionRepository.Setup(repo => repo.Get(0, true)).Returns(Task.FromResult<Solution>(null));
+            _solutionRepository.Setup(repo => repo.Get(2, true)).Returns(Task.FromResult<Solution>(null));
 
             var controller = new SolutionsController(_solutionRepository.Object, null, null);
 

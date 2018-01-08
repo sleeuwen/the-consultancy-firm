@@ -93,7 +93,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             try
             {
-                await _solutionRepository.Add(solution);
+                await _solutionRepository.Create(solution);
                 return new ObjectResult(solution.Id);
             }
             catch (DbUpdateException)
@@ -157,6 +157,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             solution.SolutionTags.RemoveAll(ct => !(solution.TagIds?.Contains(ct.TagId) ?? false));
             solution.SolutionTags.AddRange(solution.TagIds?.Except(solution.SolutionTags.Select(ct => ct.TagId))
                                         .Select(tagId => new SolutionTag { Solution = solution, TagId = tagId }) ?? new List<SolutionTag>());
+
+            solution.CustomerSolutions.RemoveAll(ct => !(solution.CustomerIds?.Contains(ct.CustomerId) ?? false));
+            solution.CustomerSolutions.AddRange(solution.CustomerIds?.Except(solution.CustomerSolutions.Select(ct => ct.CustomerId))
+                                               .Select(customerId => new CustomerSolution { Solution = solution, CustomerId = customerId }) ?? new List<CustomerSolution>());
 
             try
             {
