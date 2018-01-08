@@ -27,7 +27,6 @@ namespace TheConsultancyFirm
             //Services
             services.AddSingleton<IMailService, MailService>();
             services.AddSingleton<IUploadService, UploadService>();
-            services.AddScoped<IRelatedItemsService, RelatedItemsService>();
 
             //Repositories
             services.AddScoped<ICaseRepository, CaseRepository>();
@@ -40,6 +39,7 @@ namespace TheConsultancyFirm
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IBlockRepository, BlockRepository>();
+            services.AddScoped<IRelatedItemsRepository, RelatedItemsRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

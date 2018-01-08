@@ -35,5 +35,10 @@ namespace TheConsultancyFirm.Models
         [NotMapped]
         [Display(Name="Klanten")]
         public List<int> CustomerIds { get; set; }
+
+        [Display(Name = "Omschrijving voor delen")]
+        public string SharingDescription { get; set; }
+
+        public bool Enabled { get; set; }
     }
 }

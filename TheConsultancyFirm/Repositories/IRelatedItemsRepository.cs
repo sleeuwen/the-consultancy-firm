@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Models;
 
-namespace TheConsultancyFirm.Services
+namespace TheConsultancyFirm.Repositories
 {
-    public interface IRelatedItemsService
+    public interface IRelatedItemsRepository
     {
         Task<List<ContentItem>> GetRelatedItems(int id, Enumeration.ContentItemType type);
     }

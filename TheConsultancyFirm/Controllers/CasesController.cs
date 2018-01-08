@@ -10,12 +10,12 @@ namespace TheConsultancyFirm.Controllers
 {
     public class CasesController : Controller
     {
-        private readonly IRelatedItemsService _relatedItemsService;
+        private readonly IRelatedItemsRepository _relatedItemsRepository;
         private readonly ICaseRepository _caseRepository;
 
-        public CasesController(IRelatedItemsService relatedItemsService, ICaseRepository caseRepository)
+        public CasesController(IRelatedItemsRepository relatedItemsRepository, ICaseRepository caseRepository)
         {
-            _relatedItemsService = relatedItemsService;
+            _relatedItemsRepository = relatedItemsRepository;
             _caseRepository = caseRepository;
         }
 
@@ -38,7 +38,7 @@ namespace TheConsultancyFirm.Controllers
                 return RedirectToAction("Details", new {id = caseItem.Slug});
 
             var (previous, next) = await GetAdjacent(caseItem);
-            var relatedItems = await _relatedItemsService.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
+            var relatedItems = await _relatedItemsRepository.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
 
             return View(new CaseDetailViewModel
             {
