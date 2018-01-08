@@ -38,7 +38,7 @@ namespace TheConsultancyFirm.Models
         [Display(Name = "Tags")]
         public List<int> TagIds { get; set; }
 
-        [Display(Name = "Sharing omschrijving")]
+        [Display(Name = "Omschrijving voor delen")]
         public string SharingDescription { get; set; }
 
         public bool Enabled { get; set; }
