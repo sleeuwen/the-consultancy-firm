@@ -12,7 +12,7 @@
         <h1 class="col d-flex justify-content-center">Zoekresultaten</h1>
     </div>
     <div class="row">
-        <p class="col d-flex justify-content-center">Er zijn 666 zoekresultaten voor de term: "@ViewBag.Search"</p>
+        <p class="col d-flex justify-content-center">Er zijn @Model.Count() zoekresultaten voor de term: "@ViewBag.Search"</p>
     </div>
     <div class="row">
         <form asp-action="Index" class="search-form" method="get">
