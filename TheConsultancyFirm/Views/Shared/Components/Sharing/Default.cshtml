@@ -1,0 +1,19 @@
+﻿@using System.Web
+@model SharingViewModel
+@{
+    Layout = null;
+    Model.Twitter += "&url=" + HttpUtility.UrlEncode($"{Context.Request.Scheme}://{Context.Request.Host}{Model.Link}");
+}
+
+<div class="sharing col-md-10 mx-auto">
+    <span class="introtext">
+        <i class="fa fa-share-alt"></i>
+        share
+    </span>
+
+    <a href="#" class="share-link fa fa-linkedin"></a>
+    <a href="@Model.Twitter" class="share-link fa fa-twitter"></a>
+    <a href="#" class="share-link fa fa-google-plus"></a>
+    <a href="#" class="share-link fa fa-facebook"></a>
+    <a href="#" class="share-link fa fa-envelope"></a>
+</div>
