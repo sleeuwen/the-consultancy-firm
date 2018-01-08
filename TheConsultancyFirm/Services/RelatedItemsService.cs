@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Models;
@@ -11,96 +13,132 @@ namespace TheConsultancyFirm.Services
     {
         private readonly ICaseRepository _caseRepository;
         private readonly ISolutionRepository _solutionRepository;
-        private readonly INewsRepository _newsRepository;
+        private readonly INewsItemRepository _newsItemRepository;
         private readonly IDownloadRepository _downloadRepository;
 
         public RelatedItemsService(ICaseRepository caseRepository, ISolutionRepository solutionRepository,
-            INewsRepository newsRepository, IDownloadRepository downloadRepository)
+            INewsItemRepository newsItemRepository, IDownloadRepository downloadRepository)
         {
             _caseRepository = caseRepository;
             _solutionRepository = solutionRepository;
-            _newsRepository = newsRepository;
+            _newsItemRepository = newsItemRepository;
             _downloadRepository = downloadRepository;
         }
 
-        public List<ContentItem> GetRelatedItems(int id, Enumeration.ContentItemType type)
+        public async Task<List<ContentItem>> GetRelatedItems(int id, Enumeration.ContentItemType type)
         {
-            var tags = GetTags(id, type);
+            var tags = await GetTags(id, type);
             var matchingItems = new List<ContentItem>();
 
-            foreach (var caseItem in _caseRepository.GetAll().Include(i => i.CaseTags))
+            foreach (var caseItem in await _caseRepository.GetAll().Include(i => i.CaseTags).ToListAsync())
             {
                 if (type == Enumeration.ContentItemType.Case && caseItem.Id == id) continue;
 
+                double score = CalculateScore(tags, caseItem.CaseTags.Select(i => i.TagId).ToList());
 
-                var incommon = tags.Intersect(caseItem.CaseTags.Select(i => i.TagId));
-                var max = tags.Count > caseItem.CaseTags.Count ? tags.Count : caseItem.CaseTags.Count;
-                int score = (incommon.Count() * 100) / max;
-
-                matchingItems.Add(new ContentItem {Id = caseItem.Id, Type = Enumeration.ContentItemType.Case, Score = score});
+                matchingItems.Add(new ContentItem
+                {
+                    Id = caseItem.Id,
+                    Type = Enumeration.ContentItemType.Case,
+                    Score = score,
+                    PhotoPath = caseItem.PhotoPath,
+                    Title = caseItem.Title,
+                });
             }
 
-            foreach (var solutionItem in _solutionRepository.GetAll().Include(i => i.SolutionTags))
+            foreach (var solutionItem in await _solutionRepository.GetAll().Include(i => i.SolutionTags).ToListAsync())
             {
                 if (type == Enumeration.ContentItemType.Solution && solutionItem.Id == id) continue;
 
-                var incommon = tags.Intersect(solutionItem.SolutionTags.Select(i => i.TagId));
-                var max = tags.Count > solutionItem.SolutionTags.Count ? tags.Count : solutionItem.SolutionTags.Count;
-                int score = (incommon.Count() * 100) / max;
+                double score = CalculateScore(tags, solutionItem.SolutionTags.Select(i => i.TagId).ToList());
 
-                matchingItems.Add(new ContentItem {Id = solutionItem.Id, Type = Enumeration.ContentItemType.Solution, Score = score});
+                matchingItems.Add(new ContentItem
+                {
+                    Id = solutionItem.Id,
+                    Type = Enumeration.ContentItemType.Solution,
+                    Score = score,
+                    Title = solutionItem.Title,
+                });
             }
 
-            foreach (var downloadItem in _downloadRepository.GetAll().Include(i => i.DownloadTags))
+            foreach (var downloadItem in await _downloadRepository.GetAll().Include(i => i.DownloadTags).ToListAsync())
             {
                 if (type == Enumeration.ContentItemType.Download && downloadItem.Id == id) continue;
 
-                var incommon = tags.Intersect(downloadItem.DownloadTags.Select(i => i.TagId));
-                var max = tags.Count > downloadItem.DownloadTags.Count ? tags.Count : downloadItem.DownloadTags.Count;
-                int score = (incommon.Count() * 100) / max;
+                double score = CalculateScore(tags, downloadItem.DownloadTags.Select(i => i.TagId).ToList());
 
-                matchingItems.Add(new ContentItem {Id = downloadItem.Id, Type = Enumeration.ContentItemType.Download, Score = score});
+                matchingItems.Add(new ContentItem
+                {
+                    Id = downloadItem.Id,
+                    Type = Enumeration.ContentItemType.Download,
+                    Score = score,
+                    Title = downloadItem.Title,
+                });
             }
 
-            foreach (var newsItem in _newsRepository.GetAll().Include(i => i.NewsItemTags))
+            foreach (var newsItem in await _newsItemRepository.GetAll().Include(i => i.NewsItemTags).ToListAsync())
             {
-                if (type == Enumeration.ContentItemType.News && newsItem.Id == id) continue;
+                if (type == Enumeration.ContentItemType.NewsItem && newsItem.Id == id) continue;
 
-                var incommon = tags.Intersect(newsItem.NewsItemTags.Select(i => i.TagId));
-                var max = tags.Count > newsItem.NewsItemTags.Count ? tags.Count : newsItem.NewsItemTags.Count;
-                int score = (incommon.Count() * 100) / max;
+                double score = CalculateScore(tags, newsItem.NewsItemTags.Select(i => i.TagId).ToList());
 
-                matchingItems.Add(new ContentItem {Id = newsItem.Id, Type = Enumeration.ContentItemType.Solution, Score = score});
+                matchingItems.Add(new ContentItem
+                {
+                    Id = newsItem.Id,
+                    Type = Enumeration.ContentItemType.NewsItem,
+                    Score = score,
+                    PhotoPath = newsItem.PhotoPath,
+                    Title = newsItem.Title,
+                });
             }
 
             return matchingItems.OrderByDescending(item => item.Score).Take(3).ToList();
         }
 
-        private List<int> GetTags(int id, Enumeration.ContentItemType type)
+        private Task<List<int>> GetTags(int id, Enumeration.ContentItemType type)
         {
-            List<int> tags = new List<int>();
-
             switch (type)
             {
                 case Enumeration.ContentItemType.Case:
-                    var c = _caseRepository.GetAll().Include(i => i.CaseTags).FirstOrDefault(i => i.Id == id);
-                    tags = c.CaseTags.Select(t => t.TagId).ToList();
-                    break;
+                    return _caseRepository.GetAll().Include(i => i.CaseTags)
+                        .Where(i => i.Id == id)
+                        .SelectMany(i => i.CaseTags.Select(t => t.TagId))
+                        .ToListAsync();
                 case Enumeration.ContentItemType.Solution:
-                    var solution = _solutionRepository.GetAll().Include(i => i.SolutionTags).FirstOrDefault(i => i.Id == id);
-                    tags = solution.SolutionTags.Select(t => t.TagId).ToList();
-                    break;
+                    return _solutionRepository.GetAll().Include(i => i.SolutionTags)
+                        .Where(i => i.Id == id)
+                        .SelectMany(i => i.SolutionTags.Select(t => t.TagId))
+                        .ToListAsync();
                 case Enumeration.ContentItemType.Download:
-                    var download = _downloadRepository.GetAll().Include(i => i.DownloadTags).FirstOrDefault(i => i.Id == id);
-                    tags = download.DownloadTags.Select(t => t.TagId).ToList();
-                    break;
-                case Enumeration.ContentItemType.News:
-                    var news = _newsRepository.GetAll().Include(i => i.NewsItemTags).FirstOrDefault(i => i.Id == id);
-                    tags = news.NewsItemTags.Select(t => t.TagId).ToList();
-                    break;
+                    return _downloadRepository.GetAll().Include(i => i.DownloadTags)
+                        .Where(i => i.Id == id)
+                        .SelectMany(i => i.DownloadTags.Select(t => t.TagId))
+                        .ToListAsync();
+                case Enumeration.ContentItemType.NewsItem:
+                    return _newsItemRepository.GetAll().Include(i => i.NewsItemTags)
+                        .Where(i => i.Id == id)
+                        .SelectMany(i => i.NewsItemTags.Select(t => t.TagId))
+                        .ToListAsync();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, "Invalid type");
             }
+        }
 
-            return tags;
+        /// <summary>
+        /// Calculate the related item score for two tag lists
+        /// </summary>
+        /// <param name="tags">The tag list of the original item</param>
+        /// <param name="myTags">The tag list of the related item</param>
+        /// <returns>
+        /// A score between 0 and 1 how related the two items are.
+        /// 0 being not related at all, 1 being completely related.
+        /// </returns>
+        private static double CalculateScore(ICollection<int> tags, ICollection<int> myTags)
+        {
+            double intersection = tags.Intersect(myTags).Count();
+            double union = tags.Union(myTags).Count();
+
+            return intersection / union;
         }
     }
 }

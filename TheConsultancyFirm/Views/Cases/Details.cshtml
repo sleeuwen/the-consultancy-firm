@@ -1,234 +1,35 @@
 ﻿@model CaseDetailViewModel
 @{
-    ViewBag.Title = "Nationale-Nederlanden";
+    ViewBag.Title = Model.CaseItem.Title;
     Layout = "_Layout";
 }
 
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
     <li class="breadcrumb-item active"><a asp-controller="Cases" asp-action="Index">Cases</a></li>
-    <li class="breadcrumb-item active">Nationale-Nederlanden</li>
+    <li class="breadcrumb-item active">@Model.CaseItem.Customer.Name</li>
 </ol>
 
-<header class="pageheader" style="background-image: url(/images/banner1.svg)">
+<header class="pageheader" style="background-image: url(@Url.Content("~" + Model.CaseItem.PhotoPath))">
     <div class="container">
         <div class="row">
             <div class="col-12 col-xl-9">
-                <h4>Nationale-Nederlanden</h4>
-                <h1>“Output als enabler blijkt succesfactor</h1>
+                <h4>@Model.CaseItem.Customer.Name</h4>
+                <h1>@Model.CaseItem.Title</h1>
             </div>
         </div>
     </div>
 </header>
 
-<div class="container casedetail">
-    <div class="row">
-        <div class="col-12 col-md-1"></div>
-        <div class="col-12 col-md-10">
-            <h2>Verzekeraar komt met banksparen</h2>
-
-            <p class="introtext">
-                Nationale-Nederlanden introduceerde deze maand nieuwe producten in het kader van banksparen.
-                De verzekeraar ontwikkelde daartoe een compleet nieuwe bankapplicatie waarin moderne
-                documentoutput essentieel is. Veertig nieuwe, complexe documenten waren daarvoor nodig.
-                Klanten kunnen nu per direct een bevestigingsbericht krijgen. Transactiesnelheid neemt
-                enorm toe.
-            </p>
-
-            <h3>Nationale-Nederlanden</h3>
-
-            <p>
-                Nationale-Nederlanden behoort met ruim vijf miljoen particuliere en zakelijke klanten tot
-                de grootste verzekeraars van Ndederland. In oktober 2009 heeft ING Groep - waar
-                Nationale-Nederlanden onderdeel van is - aangekondigd dat zij vóór eind 2013 de
-                verzekerings- en vermogensbeheeractiviteiten gaat scheiden van de bancaire activiteiten.
-            </p>
-
-            <p>
-                Sinds 1 januari 2008 kreeg de verzekeringsbranche te maken met een toenemende concurrentie
-                vanuit de banksector. Toen werd het voor banken namelijk mogelijk om producten aan te bieden
-                die klanten in staat stellen fiscaal aantrekkelijk vermogen op te bouwen. Deze producten
-                vallen onder de noemer banksparen; ze zijn populair bij de consument.
-            </p>
-
-            <blockquote class="mt-4">
-                <div>
-                    <i class="fa fa-quote-left" aria-hidden="true"></i>
-                    <svg><path stroke="gray" d="M5 10 l50 0"/></svg>
-                    <p>Stijn van Schendel, Marketing Corporaate Clients, Nationale-Nederlanden</p>
-                </div>
-                <p class="quote">
-                    Het bouwen van een bankapplicatie in een verzekeringsomgeving is een uitdaging
-                </p>
-            </blockquote>
-
-            <p>
-                Verzekeraar Nationale-Nederlanden besloot al enige tijd geleden producten voor banksparen te
-                ontwikkelen. In oktober 2011 heeft de feitelijke lancering plaatsgevonden. Het bleek voor de
-                verzekeraar complex om een typisch bankproduct, met alle bijbehorende processen en
-                documenten te implementeren. "Het bouwen van een bankapplicatie in een verzekeringsomgeving
-                is systeemtechnisch een uitdaging. Nationale-Nederlanden beschikt over verschillende
-                IT-domeinen waarin applicaties worden aangestuurd. We hebben bsloten een nieuw
-                IT-domein te bouwen voor banksparen", vertelt Melvin Welters, programma manager banksparen
-                bij Nationale-Nederlanden. Volgens hem liggen er ten opzichte van verzekeren andere regels
-                ten grondslag aan banksparen, bijvoorbeeld als het gaat om boekhouding en administratie.
-                Om zo'n applicatie in een bestaande omgeving in te passen heeft dan een zeker risico.
-            </p>
-        </div>
-    </div>
+<div class="casedetail content">
+    @foreach (var block in Model.CaseItem.Blocks.OrderBy(b => b.Order))
+    {
+        @await Component.InvokeAsync("Block", block)
+    }
 </div>
-
-<div class="container container-wide my-5 carousel-horizontal">
+<div class="container">
     <div class="row">
-        <div class="col-12 col-lg-10">
-            <div id="carousel1" class="carousel slide" data-ride="carousel" data-interval="false">
-                <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <img src="~/images/meeting-room.png" alt="Vergader kamer" class="d-block w-100"/>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="~/images/meeting-room.png" alt="Vergader kamer" class="d-block w-100"/>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="~/images/meeting-room.png" alt="Vergader kamer" class="d-block w-100"/>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-lg-2 carousel-aside">
-            <div class="carousel-navigation">
-                <a href="#carousel1" class="fa fa-arrow-left" aria-hidden="true" role="button" data-slide="prev"></a>
-                <a href="#carousel1" class="fa fa-arrow-right" aria-hidden="true" role="button" data-slide="next"></a>
-            </div>
-
-            <div class="carousel slide" data-ride="carousel" data-interval="false" data-carousel-follow="carousel1">
-                <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <div class="carousel-caption" role="option">
-                            <p>
-                                We hebben een ruime kamer die gebruikt kan worden voor vergaderingen
-                                met of door de klant.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="carousel-caption" role="option">
-                            <p>
-                                We hebben een ruime kamer die gebruikt kan worden voor vergaderingen
-                                met of door de klant.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="carousel-caption" role="option">
-                            <p>
-                                We hebben een ruime kamer die gebruikt kan worden voor vergaderingen
-                                met of door de klant.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <a href="https://nn.nl/" class="more-link">
-                Meer over ons
-            </a>
-        </div>
-    </div>
-</div>
-
-<div class="container casedetail">
-    <div class="row">
-        <div class="col-12 col-md-1"></div>
-        <div class="col-12 col-md-10">
-            <h3>Real-time</h3>
-
-            <p>
-                Als een basis administratiesysteem heeft Nationale-Nederlanden gekozen voor Europort+
-                van Syntel, vooraanstaand leverancier van bankapplicaties. Dit systeem is eenvoudig
-                te koppelen aan de systemen van bijvoorbeeld de Belastingdienst of Equens (dat het
-                betalingsverkeer beheert), maar uiteraart ook aan de overige IT-domeinen van
-                verzekeringen particulieren en zakelijk. Aan de voorkaant van Europoort+ is de
-                frontoffice gebouwd, waar data en informatie via fysieke en virtuele loketten op basis
-                van de oplossingen van Opentext Streamserve. Welters: "We hebben bewust gekozen
-                voor een specifieke outputoplossing". Onze basis-IT biedt ook mogelijkheden voor
-                documentoutput, maar die zijn niet sterk genoeg voor onze wensen en eisen. Een
-                belangrijk uitgangspunt van de benadering van Nationale-Nederlanden is dat de klant
-                praktisch real-time een bevestiging of een andere reactie krijgt op het moment dat
-                hij een aanvraag indient. De klant die bij een tussenpersoon zit, moet bijvoorbeeld
-                ter plekke op zijn smartphone een PDF offerte kunnen ontvangen. Deze snelheid van
-                handele en de integriteit die daarbij komt kijken, vergen nogal wat van een
-                outputomgeving. Dan moet je kiezen voor een navenante oplossing.' En om het
-                technische plaatje compleet te maken: de interface tussen het bankingsysteem en de
-                outputomgeving wordt geregeld met Tibco. Deze business proces managementtool zorgt
-                er onder meer voor dat alle intelligentie en alle businessrules in het
-                administratiesysteem worden vertaald naar de juiste output.
-            </p>
-
-            <blockquote class="mt-4">
-                <div>
-                    <i class="fa fa-quote-left" aria-hidden="true"></i>
-                    <svg><path stroke="gray" d="M5 10 l50 0"/></svg>
-                    <p>Peter van der klis, IT Corporate Clients, Nationale-Nederlanden</p>
-                </div>
-                <p class="quote">
-                    Nationale-Nederlanden heeft bewust gekozen voor een specifieke outputoplossing
-                </p>
-            </blockquote>
-
-            <h3>Optimale ervaring</h3>
-
-            <p>
-                Daarmee is de volgende uitdaging genoemd: het bouwen van de documenten. 'Een
-                inventarisatie van alle processen van het bankspaarproducten wees uit dat we 40
-                documenten dienden te bouwen. Documenten met een hoge complexiteit. Niet alleen
-                vanwege de vele businessrules die te maken hebben met het fiscale karakter van
-                productenen dus met strenge wetgeving. Maar ook vanwege het feit dat outputkanalen
-                door elkaar heen lopen. Nu eens zal een document fysiek moeten worden verstuurd
-                (zoals jaaroverzichten-red.) en dan weer kan worden volstaan met een bericht per
-                e-mail. Waar wij daarnaast mee te maken hebben is het documentverkeer met
-                tussenpersonen. We dienen goed te definieren welke klantinformatie waar terecht mag
-                komen. Tussenpersonen communiceren met ons via de digitale postbus: een apart
-                outputkanaal dat via het extranet van Nationale-Nederlanden wordt gevoed. En ten
-                slotte hebben we ook nog eens ons serviceaanbod. Denk hierbij aan het verwittigen
-                van de klant als stortingen zijn ontvangen. Al deze transactie- en
-                communicatiemomenten leiden tot een set van triggers die de outputstromen aansturen.
-                'Het resultaat,' conculdeert Welters, 'is een omvangrijke matrix van regels die
-                ervoor zorgt dat documenten en uiteindelijk ook mailpacks of elektronische berichten
-                op de juiste manier worden samengesteld. Efficient voor Nationale-Nederlanden en
-                toch zodanig uitgevoerd dat de klant een optimale ervaring beleeft van de service.'
-            </p>
-
-            <img src="~/images/foto1.png"/>
-
-            <h3>Output als enabler </h3>
-
-            <p>
-                Het was al snel duidelijk dat de complexiteit en omvang van het project om veertig
-                documenten te ontwikkelen om externe expertise vroeg. Het verzekeringsbedrijf
-                wendde zich tot The Consultancy Firm, dat is gespecialiseerd in het bouwen van
-                outputoplossingen op basis van StreamServe. Onder andere huisstijlspecificaties,
-                beschrijvingen van bron data en van businessrules omtrent de output zorgen er nu
-                voor dat alle teksten en tekstblokken op de juiste plaats komen te staan. Ook de
-                keuze voor een outputkanaal is geeffectueerd en getest. 'Het bouwen, testen en
-                opleveren van de eerste vijf documenten gebeurde in zeven dagen. De volgende
-                deadline die we hanteerden was nog eens vijftien documenten in vijftien dagen en in
-                dat tempo werd de complete set documenten gebouwd', aldus Welters.
-            </p>
-
-            <p>
-                Begin 2011 is het systeem getest. De nieuwe applicatie draaide zonder noemenswaardige
-                hobbels. Sindsdien heeft Welters de toepassing binnen verschillende geledingen van
-                Nationale-Nederlanden getoond. 'Het is iedere keer weer goed om te zien hoe positief
-                verrast men is wanneer na een druk op de knop 'Bevestigen' in de web-omgeving er
-                direct een smartphone begint te trillen omdat de welkomstboodschap in de mail zit.
-                En daar zit ook de kracht van de complete applicatie. De outputomgeving is een
-                'enabler' van een van de krachtigste elementen van het product. De klant kan als hij
-                wil binnen vijf minuten een transactie afsluiten, waarbij hij direct over alle
-                benodigde content beschikt.'
-            </p>
-
+        <div class="col-12 col-md-10 mx-auto">
             <div class="sharing">
                 <span class="introtext">
                     <i class="fa fa-share-alt"></i>
@@ -244,7 +45,7 @@
         </div>
     </div>
 
-    @Html.Partial("RelatedCasesPartial")
+    @Html.Partial("RelatedCasesPartial", Model.ContentItems)
 </div>
 
 @if (Model.Next != null && Model.Previous != null)
@@ -257,16 +58,16 @@
         </div>
 
         <div class="row">
-            <div class="col-12 col-md-6 case" style="background-image:url()">
+            <div class="col-12 col-md-6 case" style="background-image:url(@Model.Previous.PhotoPath)">
                 <p class="subtitle"> @Model.Previous.Customer.Name</p>
                 <h3 class="title">@Model.Previous.Title</h3>
-                <a href="#" class="buttonHover">VORIGE CASE</a>
+                <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Previous.Id" class="buttonHover">VORIGE CASE</a>
             </div>
 
-            <div class="col-12 col-md-6 case" style="background-image: url()">
+            <div class="col-12 col-md-6 case" style="background-image: url(@Model.Next.PhotoPath)">
                 <p class="subtitle">@Model.Next.Customer.Name</p>
                 <h3 class="title">@Model.Next.Title</h3>
-                <a href="#" class="buttonHover">VOLGENDE CASE</a>
+                <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Next.Id" class="buttonHover">VOLGENDE CASE</a>
             </div>
         </div>
     </div>

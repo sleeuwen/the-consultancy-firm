@@ -17,7 +17,8 @@
                     <h1>
                         "Zes miljoen pagina's minder printen dankzij StreamServe
                     </h1>
-                    <a class="buttonHover" asp-controller="Cases" asp-action="Details">BEKIJK CASE</a>
+                    @* asp-route-id should be `case.Slug` *@
+                    <a class="buttonHover" asp-controller="Cases" asp-action="Details" asp-route-id="2">BEKIJK CASE</a>
                 </div>
             </div>
         </div>

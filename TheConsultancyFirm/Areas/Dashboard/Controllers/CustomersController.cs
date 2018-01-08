@@ -1,23 +1,24 @@
 ﻿using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
+using TheConsultancyFirm.Services;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
     public class CustomersController : Controller
     {
-        private readonly IHostingEnvironment _environment;
         private readonly ICustomerRepository _customerRepository;
+        private readonly IUploadService _uploadService;
 
-        public CustomersController(ICustomerRepository customerRepository, IHostingEnvironment environment)
+        public CustomersController(ICustomerRepository customerRepository, IUploadService uploadService)
         {
-            _environment = environment;
             _customerRepository = customerRepository;
+            _uploadService = uploadService;
         }
 
         // GET: Dashboard/Customers
@@ -56,28 +57,21 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Image,Link")] Customer customer)
         {
-            if (!ModelState.IsValid) return View(customer);
-
-            if (customer.Image?.Length > 0)
-            {
-                var extension = Path.GetExtension(customer.Image.FileName);
-                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
-                {
-                    ModelState.AddModelError("Image", "The uploaded file was not an image");
-                    return View(customer);
-                }
-
-                customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ", "") + extension;
-                using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
-                {
-                    await customer.Image.CopyToAsync(fileStream);
-                }
-            }
+            if (customer.Image == null)
+                ModelState.AddModelError(nameof(customer.Image), "The Image field is required.");
             else
             {
-                ModelState.AddModelError("Image", "Filesize to small");
-                return View(customer);
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(customer.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(customer.Image), "Invalid image type, only png and jpg images are allowed");
+
+                if (customer.Image.Length < 1)
+                    ModelState.AddModelError(nameof(customer.Image), "Filesize too small");
             }
+
+            if (!ModelState.IsValid) return View(customer);
+
+            customer.LogoPath =
+                await _uploadService.Upload(customer.Image, "/images/CustomerLogos", customer.Name);
 
             await _customerRepository.Create(customer);
             return RedirectToAction(nameof(Index));
@@ -112,29 +106,26 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
+            if (customer.Image != null)
+            {
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(customer.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(customer.Image), "Invalid image type, only png and jpg images are allowed");
+
+                if (customer.Image.Length == 0)
+                    ModelState.AddModelError(nameof(customer.Image), "Filesize too small");
+            }
+
             if (!ModelState.IsValid) return View(customer);
+
             try
             {
-                if (customer.Image.Length > 0)
+                if (customer.Image != null)
                 {
-                    var file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
-                    if (file.Exists)
-                    {
-                        file.Delete();
-                    }
+                    if (customer.LogoPath != null)
+                        await _uploadService.Delete(customer.LogoPath);
 
-                    var extension = Path.GetExtension(customer.Image.FileName);
-                    if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
-                    {
-                        ModelState.AddModelError("Image", "The uploaded file was not an image");
-                        return View(customer);
-                    }
-
-                    customer.LogoPath = "/images/CustomerLogos/" + customer.Name.Replace(" ", "") + extension;
-                    using (var fileStream = new FileStream(_environment.WebRootPath + customer.LogoPath, FileMode.Create))
-                    {
-                        await customer.Image.CopyToAsync(fileStream);
-                    }
+                    customer.LogoPath =
+                        await _uploadService.Upload(customer.Image, "/images/uploads/customers", customer.Name);
                 }
 
                 await _customerRepository.Update(customer);
@@ -177,14 +168,20 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var customer = await _customerRepository.Get(id);
-            FileInfo file = new FileInfo(_environment.WebRootPath + customer.LogoPath);
-            if (file.Exists)
-            {
-                file.Delete();
-            }
-
+            if (customer.LogoPath != null)
+                await _uploadService.Delete(customer.LogoPath);
             await _customerRepository.Delete(id);
+
             return RedirectToAction(nameof(Index));
+        }
+
+        [HttpGet("api/dashboard/[controller]/[action]")]
+        public async Task<ObjectResult> Autocomplete(string term = "")
+        {
+            return new ObjectResult(new
+            {
+                results = (await _customerRepository.Search(term)).Select(t => new {id = t.Id, text = t.Name})
+            });
         }
 
         private async Task<bool> CustomerExists(int id)

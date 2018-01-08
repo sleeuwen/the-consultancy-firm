@@ -26,18 +26,20 @@ namespace TheConsultancyFirm
         {
             //Services
             services.AddSingleton<IMailService, MailService>();
+            services.AddSingleton<IUploadService, UploadService>();
             services.AddScoped<IRelatedItemsService, RelatedItemsService>();
 
             //Repositories
             services.AddScoped<ICaseRepository, CaseRepository>();
             services.AddScoped<ISolutionRepository, SolutionRepository>();
-            services.AddScoped<INewsRepository, NewsRepository>();
+            services.AddScoped<INewsItemRepository, NewsItemRepository>();
             services.AddScoped<IDownloadRepository, DownloadRepository>();
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
+            services.AddScoped<IBlockRepository, BlockRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

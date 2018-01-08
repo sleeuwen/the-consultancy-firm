@@ -11,9 +11,9 @@ namespace TheConsultancyFirm.Controllers
     public class SearchController : Controller
     {
         // GET: /<controller>/
-        public IActionResult Index(string search)
+        public IActionResult Index(string q)
         {
-            ViewBag.Search = search;
+            ViewBag.Search = q;
 
             //Todo Model stuff. Get all cases, news and downloads wich contains the search keyword.
 

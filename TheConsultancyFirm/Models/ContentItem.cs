@@ -8,6 +8,8 @@ namespace TheConsultancyFirm.Models
     {
         public int Id { get; set; }
         public Enumeration.ContentItemType Type { get; set; }
-        public int Score { get; set; }
+        public double Score { get; set; }
+        public string PhotoPath { get; set; }
+        public string Title { get; set; }
     }
 }

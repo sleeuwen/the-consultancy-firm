@@ -15,10 +15,30 @@ namespace TheConsultancyFirm.Repositories
             _context = context;
         }
 
-        public Task<Case> Get(int id)
+        public async Task<Case> Get(int id, bool includeInactive = false)
         {
-            return _context.Cases.Include(c => c.Blocks).Include(c => c.CaseTags).ThenInclude(t => t.Tag)
+            var @case = await _context.Cases
+                .Include(c => c.CaseTags).ThenInclude(t => t.Tag)
+                .Include(c => c.Customer)
                 .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (@case == null) return null;
+
+            // Load only active blocks, or all if includeInactive is true
+            await _context.Entry(@case)
+                .Collection(c => c.Blocks)
+                .Query()
+                .Where(b => b.Active || includeInactive)
+                .LoadAsync();
+
+            // Load the slides from all CarouselBlock's
+            var ids = @case.Blocks.OfType<CarouselBlock>().Select(c => c.Id).ToList();
+            _context.Blocks.OfType<CarouselBlock>()
+                .Where(c => ids.Contains(c.Id))
+                .Include(c => c.Slides)
+                .Load();
+
+            return @case;
         }
 
         public IQueryable<Case> GetAll()
@@ -39,6 +59,25 @@ namespace TheConsultancyFirm.Repositories
                            .FirstOrDefaultAsync();
 
             return (previous, next);
+        }
+
+        public Task Create(Case @case)
+        {
+            _context.Cases.Add(@case);
+            return _context.SaveChangesAsync();
+        }
+
+        public Task Update(Case @case)
+        {
+            _context.Cases.Update(@case);
+            return _context.SaveChangesAsync();
+        }
+
+        public async Task Delete(int id)
+        {
+            var @case = await Get(id);
+            _context.Cases.Remove(@case);
+            await _context.SaveChangesAsync();
         }
     }
 }
