@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
@@ -84,6 +85,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
 
             solution.SolutionTags = solution.TagIds?.Select(tagId => new SolutionTag { Solution = solution, TagId = tagId }).ToList();
+            solution.CustomerSolutions = solution.CustomerIds?.Select(customerId =>
+                new CustomerSolution {CustomerId = customerId, Solution = solution}).ToList();
 
             solution.LastModified = DateTime.UtcNow;
             solution.Date = DateTime.UtcNow;
@@ -122,36 +125,55 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // POST: Dashboard/Solutions/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Date,LastModified")] Solution solution)
+        public async Task<IActionResult> EditPost(int? id)
         {
-            if (id != solution.Id)
+            var solution = await _solutionRepository.Get(id ?? 0, true);
+
+            if (solution == null) return new NotFoundObjectResult(null);
+
+            // Bind POST variables Title, CustomerId, Image and TagIds to the model.
+            await TryUpdateModelAsync(solution, string.Empty, s => s.Title, s => s.CustomerIds, s => s.Image, s => s.TagIds);
+
+            if (solution.Image != null)
             {
-                return NotFound();
+                if (!(new[] { ".png", ".jpg", ".jpeg" }).Contains(Path.GetExtension(solution.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(solution.Image), "Invalid image type, only png and jpg images are allowed");
+
+                if (solution.Image.Length == 0)
+                    ModelState.AddModelError(nameof(solution.Image), "Filesize too small");
             }
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+
+            if (solution.Image != null)
+            {
+                if (solution.PhotoPath != null)
+                    await _uploadService.Delete(solution.PhotoPath);
+                solution.PhotoPath = await _uploadService.Upload(solution.Image, "/images/uploads/solutions");
+            }
+
+            solution.SolutionTags.RemoveAll(ct => !(solution.TagIds?.Contains(ct.TagId) ?? false));
+            solution.SolutionTags.AddRange(solution.TagIds?.Except(solution.SolutionTags.Select(ct => ct.TagId))
+                                        .Select(tagId => new SolutionTag { Solution = solution, TagId = tagId }) ?? new List<SolutionTag>());
+
+            try
             {
                 solution.LastModified = DateTime.UtcNow;
-                try
-                {
-                    await _solutionRepository.Update(solution);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!SolutionExists(solution.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                await _solutionRepository.Update(solution);
             }
-            return View(solution);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await SolutionExists(solution.Id))
+                {
+                    return new NotFoundObjectResult(null);
+                }
+
+                throw;
+            }
+
+            return new ObjectResult(solution.Id);
         }
 
         // GET: Dashboard/Solutions/Delete/5
@@ -181,9 +203,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool SolutionExists(int id)
+        private async Task<bool> SolutionExists(int id)
         {
-            return _solutionRepository.Get(id, true) == null;
+            return await _solutionRepository.Get(id, true) == null;
         }
     }
 }

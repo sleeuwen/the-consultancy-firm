@@ -36,9 +36,17 @@
                     <div class="form-group">
                         <label asp-for="TagIds"></label>
                         <select asp-for="TagIds" class="form-control select2" data-placeholder="Select related tags"
-                                data-ajax--url="@Url.Action("Autocomplete", "Tags")" data-close-on-select="false"></select>
+                                data-ajax--url="@Url.Action("Autocomplete", "Tags" )" data-close-on-select="false"></select>
                     </div>
                 </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CustomerIds"></label>
+                        <select asp-for="CustomerIds" class="form-control select2" data-placeholder="Selecteer klanten"
+                                data-ajax--url="@Url.Action("Autocomplete", "Customers" )" data-close-on-select="false"></select>
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>

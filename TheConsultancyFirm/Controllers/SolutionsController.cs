@@ -40,7 +40,8 @@ namespace TheConsultancyFirm.Controllers
 
             return View(new SolutionDetailViewModel()
             {
-                Solution = solutionItem
+                Solution = solutionItem,
+                ContentItems = relatedItems
             });
         }
     }
