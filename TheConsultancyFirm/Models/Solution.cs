@@ -18,7 +18,7 @@ namespace TheConsultancyFirm.Models
         public List<SolutionTag> SolutionTags { get; set; }
         public List<CustomerSolution> CustomerSolutions { get; set; }
 
-        [Display(Name = "Sharing omschrijving")]
+        [Display(Name = "Omschrijving voor delen")]
         public string SharingDescription { get; set; }
 
         public bool Enabled { get; set; }
