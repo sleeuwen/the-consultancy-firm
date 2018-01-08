@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<ContentItem>
+@{
     ViewBag.Title = "Zoekresultaten";
     Layout = "_Layout";
 }
@@ -25,20 +26,21 @@
     </div>
 </div>
 <div class="container result-container">
-    @for (int i = 0; i < 5; i++)
+    @foreach (var item in Model)
     {
         <div class="row result">
             <div class="col-sm-12">
-                <span class="introtext">Case</span>
+                <span class="introtext">@Html.DisplayFor(_ => item.Type)</span>
             </div>
             <div class="col-sm-12">
-                <h2 class="">Hier komt vaak een lange titel te staan omdat het kan</h2>
+                <h2>@item.Title</h2>
             </div>
             <div class="col-sm-12">
-                <a class="buttonHover">LEES MEER</a>
+                <a class="buttonHover" href="@Url.Action("Details", $"{item.Type}s", new {id = item.Id})">LEES MEER</a>
             </div>
         </div>
     }
+
     <div class="paging" id="newspaging">
         <a href="#" class="fa fa-arrow-left pagearrow" aria-hidden="true"></a>
         <ul>
