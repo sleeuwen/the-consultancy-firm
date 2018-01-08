@@ -144,6 +144,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
+                    b.Property<bool>("Enabled");
+
                     b.Property<DateTime?>("LastLogin");
 
                     b.Property<bool>("LockoutEnabled");
@@ -187,6 +189,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Active");
+
                     b.Property<int?>("CaseId");
 
                     b.Property<DateTime>("Date");
@@ -220,13 +224,18 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("CustomerId");
+                    b.Property<int?>("CustomerId")
+                        .IsRequired();
 
                     b.Property<DateTime>("Date");
+
+                    b.Property<bool>("Enabled");
 
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("PhotoPath");
+
+                    b.Property<string>("SharingDescription");
 
                     b.Property<string>("Title")
                         .IsRequired();
@@ -282,6 +291,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Enabled");
+
                     b.Property<string>("Link")
                         .IsRequired();
 
@@ -320,6 +331,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<string>("Description")
                         .IsRequired();
 
+                    b.Property<bool>("Enabled");
+
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("LinkPath");
@@ -352,9 +365,13 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Enabled");
+
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("PhotoPath");
+
+                    b.Property<string>("SharingDescription");
 
                     b.Property<string>("Title")
                         .IsRequired();
@@ -398,7 +415,9 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("BlockId");
+                    b.Property<int>("BlockId");
+
+                    b.Property<int>("Order");
 
                     b.Property<string>("PhotoPath");
 
@@ -418,7 +437,11 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Enabled");
+
                     b.Property<DateTime>("LastModified");
+
+                    b.Property<string>("SharingDescription");
 
                     b.Property<string>("Title")
                         .IsRequired();
@@ -457,6 +480,9 @@ namespace TheConsultancyFirm.Migrations
                 {
                     b.HasBaseType("TheConsultancyFirm.Models.Block");
 
+                    b.Property<string>("LinkPath");
+
+                    b.Property<string>("LinkText");
 
                     b.ToTable("CarouselBlock");
 
@@ -469,7 +495,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<string>("Author");
 
-                    b.Property<string>("Text");
+                    b.Property<string>("Text")
+                        .IsRequired();
 
                     b.ToTable("QuoteBlock");
 
@@ -557,7 +584,7 @@ namespace TheConsultancyFirm.Migrations
                         .WithMany("Blocks")
                         .HasForeignKey("NewsItemId");
 
-                    b.HasOne("TheConsultancyFirm.Models.Solution")
+                    b.HasOne("TheConsultancyFirm.Models.Solution", "Solution")
                         .WithMany("Blocks")
                         .HasForeignKey("SolutionId");
                 });
@@ -626,7 +653,8 @@ namespace TheConsultancyFirm.Migrations
                 {
                     b.HasOne("TheConsultancyFirm.Models.CarouselBlock", "Block")
                         .WithMany("Slides")
-                        .HasForeignKey("BlockId");
+                        .HasForeignKey("BlockId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TheConsultancyFirm.Models.SolutionTag", b =>

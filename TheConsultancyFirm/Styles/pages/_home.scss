@@ -19,32 +19,6 @@
     }
 }
 
-.carousel-horizontal {
-    .carousel-caption {
-        h4 .content {
-            color: $black;
-            margin-left: 1rem;
-        }
-
-        .buttonHover:hover {
-            color: $black !important;
-        }
-    }
-
-    .carousel-item {
-        &.active,
-        &-prev,
-        &-next {
-            display: flex;
-            justify-content: center;
-        }
-
-        img {
-            max-width: 100%;
-        }
-    }
-}
-
 .carousel-home {
     display: none;
 
@@ -60,10 +34,16 @@
         letter-spacing: 1px;
     }
 
-    .carousel-item > img {
-        object-fit: cover;
-        width: 100%;
+    .carousel-item {
         max-height: 600px;
+
+        > img,
+        > video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
     }
 
     .carousel-caption {
@@ -76,6 +56,7 @@
         display: flex !important;
         flex-direction: column;
         justify-content: center;
+        text-align: left;
 
         .links {
             display: flex;

@@ -1,48 +1,48 @@
 ﻿<aside>
     <nav>
         <div class="toc-item">
-            <a asp-controller="Home" asp-action="Index" class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Home" ? "active" : "")">Dashboard <i class="fa fa-fw fa-dashboard"></i></a>
+            <a active-controller="Home" asp-controller="Home" asp-action="Index">Dashboard <i class="fa fa-fw fa-dashboard"></i></a>
         </div>
 
         <div class="toc-item">
-            <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Users" ? "active" : "")" asp-controller="Users" asp-action="Index">Gebruikers <i class="fa fa-fw fa-user"></i></a>
+            <a active-controller="Users" asp-controller="Users" asp-action="Index">Gebruikers <i class="fa fa-fw fa-user"></i></a>
         </div>
 
-        <div class="toc-item">
-            <span >Website <i class="fa fa-fw fa-cubes"></i></span>
+        <div class="toc-item" active-controller="Contacts,Homepage,Newsletter">
+            <span>Website <i class="fa fa-fw fa-cubes"></i></span>
             <ul>
                 <li>
-                    <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Contacts" ? "active" : "")" asp-controller="Contacts" asp-action="Index">Berichten <span class="badge"></span></a>
+                    <a active-controller="Contacts" asp-controller="Contacts" asp-action="Index">Berichten <span class="badge"></span></a>
                 </li>
                 <li>
-                    <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Homepage" ? "active" : "")" asp-controller="Homepage" asp-action="Index">Homepage</a>
+                    <a active-controller="Homepage" asp-controller="Homepage" asp-action="Index">Homepage</a>
                 </li>
                 <li>
-                    <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Newsletter" ? "active" : "")" asp-controller="Newsletter">Nieuwsbrief</a>
+                    <a active-controller="Newsletter" asp-controller="Newsletter">Nieuwsbrief</a>
                 </li>
             </ul>
         </div>
 
-        <div class="toc-item">
-            <span >Content <i class="fa fa-fw fa-archive"></i></span>
+        <div class="toc-item" active-controller="Cases,Solutions,NewsItems,Downloads,Customers,Tags">
+            <span>Content <i class="fa fa-fw fa-archive"></i></span>
             <ul>
                 <li>
-                    <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Cases" ? "active" : "")" asp-controller="Cases" asp-action="Index">Cases</a>
+                    <a active-controller="Cases" asp-controller="Cases" asp-action="Index">Cases</a>
                 </li>
                 <li>
-                    <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Solutions" ? "active" : "")" asp-controller="Solutions" asp-action="Index">Solutions</a>
+                    <a active-controller="Solutions" asp-controller="Solutions" asp-action="Index">Solutions</a>
                 </li>
                 <li>
-                    <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "News" ? "active" : "")" asp-controller="News" asp-action="Index">Nieuws</a>
+                    <a active-controller="NewsItems" asp-controller="NewsItems" asp-action="Index">Nieuws</a>
                 </li>
                 <li>
-                    <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Downloads" ? "active" : "")" asp-controller="Downloads" asp-action="Index">Downloads</a>
+                    <a active-controller="Downloads" asp-controller="Downloads" asp-action="Index">Downloads</a>
                 </li>
                 <li>
-                    <a class="@(ViewContext.RouteData.Values["Controller"].ToString() == "Customers" ? "active" : "")" asp-controller="Customers" asp-action="Index">Klanten</a>
+                    <a active-controller="Customers" asp-controller="Customers" asp-action="Index">Klanten</a>
                 </li>
                 <li>
-                    <a asp-controller="Tags" asp-action="Index">Tags</a>
+                    <a active-controller="Tags" asp-controller="Tags" asp-action="Index">Tags</a>
                 </li>
             </ul>
         </div>

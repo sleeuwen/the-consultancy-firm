@@ -26,6 +26,15 @@ namespace TheConsultancyFirm.Repositories
             return await _context.Tags.ToListAsync();
         }
 
+        public async Task<IEnumerable<Tag>> Search(string term)
+        {
+            if (term == null || term.Trim() == "")
+                return await GetAll();
+
+            var q = term.Trim().ToLower();
+            return await _context.Tags.Where(t => t.Text.ToLower().Contains(q)).ToListAsync();
+        }
+
         public async Task Create(Tag tag)
         {
             await _context.Tags.AddAsync(tag);

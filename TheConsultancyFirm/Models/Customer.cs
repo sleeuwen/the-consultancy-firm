@@ -23,5 +23,7 @@ namespace TheConsultancyFirm.Models
 
         [NotMapped]
         public IFormFile Image { get; set; }
+
+        public bool Enabled { get; set; }
     }
 }

@@ -1,0 +1,22 @@
+﻿@model TheConsultancyFirm.Models.SolutionAdvantagesBlock
+
+<div class="container container-wide solution-advantages">
+    <div class="row">
+        <div class="col-12 col-lg-7">
+            <img src="@Url.Content("~" + Model.PhotoPath)" />
+        </div>
+        <div class="col-12 col-lg-5">
+            @if (Model.Solution != null)
+            {
+                <h3>Voordelen @Model.Solution.Title</h3>
+            }
+
+            <ul>
+                @foreach (var advantage in Model.Advantages)
+                {
+                    <li>@advantage</li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

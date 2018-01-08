@@ -1,28 +1,20 @@
-﻿<div class="row">
+﻿@model List<ContentItem>
+<div class="row">
     <div class="relatedtitle">
         <h2>Gerelateerd</h2>
     </div>
 </div>
 <div class="row">
-    <div class="col-md-4 relateditem">
-        <div class="innerrelateditem flexcase">
-            <p>Solution</p>
-            <h3>Document Wizard</h3>
-            <a class="buttonHover">LEES MEER</a>
+    @foreach (var item in Model)
+    {
+        var title = item.Title.Length > 35 ? item.Title.Substring(0, 35) + "..." : item.Title;
+
+        <div class="col-md-4 relateditem">
+            <div class="innerrelateditem flexcase" style="@(item.PhotoPath != null ? "background-image: url(" + item.PhotoPath + ")" : "")">
+                <p>@Html.DisplayFor(_ => item.Type)</p>
+                <h3>@title</h3>
+                <a href="@Url.Action("Details", item.Type.ToString() + 's', new {id = item.Id})" class="buttonHover">LEES MEER</a>
+            </div>
         </div>
-    </div>
-    <div class="col-md-4 relateditem">
-        <div class="innerrelateditem flexcase">
-            <p>Solution</p>
-            <h3>Zorg voor de juiste bestandstype per gebruiker</h3>
-            <a class="buttonHover">LEES MEER</a>
-        </div>
-    </div>
-    <div class="col-md-4 relateditem">
-        <div class="innerrelateditem flexcase">
-            <p>Download</p>
-            <h3>Lorem ipsum dolar sumit avec</h3>
-            <a class="buttonHover">LEES MEER</a>
-        </div>
-    </div>
+    }
 </div>

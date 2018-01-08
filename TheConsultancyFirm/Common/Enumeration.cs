@@ -1,4 +1,6 @@
-﻿namespace TheConsultancyFirm.Common
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TheConsultancyFirm.Common
 {
     public class Enumeration
     {
@@ -6,7 +8,8 @@
         {
             Download,
             Solution,
-            News,
+            [Display(Name = "Nieuws")]
+            NewsItem,
             Case
         }
     }
