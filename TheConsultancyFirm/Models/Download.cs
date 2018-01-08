@@ -37,5 +37,7 @@ namespace TheConsultancyFirm.Models
         [NotMapped]
         [Display(Name = "Tags")]
         public List<int> TagIds { get; set; }
+
+        public bool Enabled { get; set; }
     }
 }
