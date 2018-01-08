@@ -20,6 +20,7 @@ namespace TheConsultancyFirm.Repositories
         {
             var solution = await _context.Solutions
                 .Include(c => c.SolutionTags).ThenInclude(t => t.Tag)
+                .Include(c => c.CustomerSolutions).ThenInclude(cs => cs.Customer)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
 

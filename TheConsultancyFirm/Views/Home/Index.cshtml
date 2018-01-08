@@ -1,4 +1,6 @@
-﻿@{
+﻿@model HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -276,8 +278,15 @@
         </div>
     </div>
 </div>
+<div class="solution-customers">
+    <div class="introtext">
+        <h2>Onze klanten</h2>
+        Met wederzijdse trots kunnen wij zeggen dat we vaste <br />
+        partners zijn van onderstaande ondernemingen.
+    </div>
+    @Html.Partial("OurCustomersPartial", Model.Customers)
+</div>
 
-@Html.Partial("OurCustomersPartial")
 
 <div class="container container-wide home-section">
     <div class="row">

@@ -18,7 +18,7 @@ namespace TheConsultancyFirm.Models
         public DateTime LastModified { get; set; }
 
         public string PhotoPath { get; set; }
-
+       
         public List<Block> Blocks { get; set; }
         public List<SolutionTag> SolutionTags { get; set; }
         public List<CustomerSolution> CustomerSolutions { get; set; }

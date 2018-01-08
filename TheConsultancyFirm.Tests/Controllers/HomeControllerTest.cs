@@ -9,7 +9,7 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public void Index()
         {
-            var controller = new HomeController();
+            var controller = new HomeController(null);
             var result = controller.Index();
 
             Assert.IsType<ViewResult>(result);

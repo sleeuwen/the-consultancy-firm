@@ -32,41 +32,17 @@
     </div>
 
     @Html.Partial("RelatedCasesPartial", Model.ContentItems)
+
+    <div class="solution-customers">
+        <div class="introtext">
+            <h2>Klanten die @Model.Solution.Title gebruiken</h2>
+            Er zijn veel klanten die gebruik maken van @Model.Solution.Title<br/>
+            vanwege de open source aangepast naar eigen wensen en
+            voorkeuren
+        </div>
+        @Html.Partial("OurCustomersPartial", @Model.Customers)
+    </div>
 </div>
 
-    <div class="container-fluid" id="casecustomers">
-        <div class="introtext">
-            <h2>Klanten die OpenText Extream gebruiken</h2>
-            ER zijn veel klanten die gebruik maken van OpenText Extream<br/>
-            vanwege de open sourse aangepast naar eigen wensen en<br/>
-            voorkeuren.
-        </div>
-        <div class="row logos">
-            <div class="col-6 col-md-3">
-                <img class="image" src="~/images/CustomerLogos/achmea.png"/>
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="image" src="~/images/CustomerLogos/centraalbeheer.png"/>
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="image" src="~/images/CustomerLogos/fbto.png"/>
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="image" src="~/images/CustomerLogos/interpolis.png"/>
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="image" src="~/images/CustomerLogos/avero.png"/>
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="image" src="~/images/CustomerLogos/inshared.png"/>
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="image" src="~/images/CustomerLogos/ohra.png"/>
-            </div>
-            <div class="col-6 col-md-3">
-                <img class="image" src="~/images/CustomerLogos/deltalloyd.png"/>
-            </div>
-        </div>
-    </div>
     @Html.Partial("NewsLetterPartial")
-</div>
+

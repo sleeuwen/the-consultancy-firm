@@ -21,9 +21,9 @@ namespace TheConsultancyFirm.Repositories
             return _context.Customers.FindAsync(id);
         }
 
-        public Task<List<Customer>> GetAll()
+        public async Task<List<Customer>> GetAll()
         {
-            return _context.Customers.ToListAsync();
+            return await _context.Customers.ToListAsync();
         }
 
         public async Task<List<Customer>> Search(string term)

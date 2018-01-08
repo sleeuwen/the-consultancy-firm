@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
@@ -12,7 +14,7 @@ namespace TheConsultancyFirm.Controllers
         private readonly IRelatedItemsService _relatedItemsService;
         private readonly ISolutionRepository _solutionRepository;
 
-        public SolutionsController(IRelatedItemsService relatedItemsService, ISolutionRepository solutionRepository)
+        public SolutionsController(IRelatedItemsService relatedItemsService, ISolutionRepository solutionRepository, ICustomerRepository customerRepository)
         {
             _relatedItemsService = relatedItemsService;
             _solutionRepository = solutionRepository;
@@ -38,10 +40,13 @@ namespace TheConsultancyFirm.Controllers
             var relatedItems =
                 await _relatedItemsService.GetRelatedItems(solutionItem.Id, Enumeration.ContentItemType.Solution);
 
+            var relatedCustomers = solutionItem.CustomerSolutions.Select(cs => cs.Customer).ToList();
+                
             return View(new SolutionDetailViewModel()
             {
                 Solution = solutionItem,
-                ContentItems = relatedItems
+                ContentItems = relatedItems,
+                Customers = relatedCustomers
             });
         }
     }

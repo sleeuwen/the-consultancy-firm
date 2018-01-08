@@ -10,6 +10,6 @@ namespace TheConsultancyFirm.ViewModels
     {
         public Solution Solution { get; set; }
         public List<ContentItem> ContentItems { get; set; }
-        public List<CustomerSolution> Customers { get; set; }
+        public List<Customer> Customers { get; set; }
     }
 }

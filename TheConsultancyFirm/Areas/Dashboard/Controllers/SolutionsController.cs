@@ -63,7 +63,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> Create([Bind("Id,Title,Image,Date,LastModified, CustomerIds, TagIds")] Solution solution)
+        public async Task<ObjectResult> Create([Bind("Id,Title,Image,Date,LastModified, CustomerIds, TagIds, CustomerCaption, CustomerIntrotext")] Solution solution)
         {
             if (solution.Image == null)
                 ModelState.AddModelError(nameof(solution.Image), "The Image field is required.");
