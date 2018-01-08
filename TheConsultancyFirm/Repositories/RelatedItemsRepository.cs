@@ -16,7 +16,7 @@ namespace TheConsultancyFirm.Repositories
 @"WITH MyTags AS (
     SELECT TagId FROM {0}Tag WHERE {0}Id = @id
 )
-SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / NULLIF(t.TotalTags, 0) AS score FROM (
+SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / (CASE WHEN t.TotalTags = 0 THEN 1 ELSE t.TotalTags END) AS score FROM (
   SELECT
     'Case' AS type,
     Cases.Id,
@@ -25,8 +25,8 @@ SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / NULLIF(t.TotalTags, 0) 
     COUNT(*) + 0.0 AS CommonTags,
     (SELECT COUNT(*) FROM (SELECT TagId FROM CaseTag WHERE CaseTag.CaseId = Cases.Id UNION SELECT TagId FROM MyTags) t) AS TotalTags
   FROM Cases
-  JOIN CaseTag ON Cases.Id = CaseTag.CaseId
-  JOIN MyTags ON MyTags.TagId = CaseTag.TagId
+  LEFT JOIN CaseTag ON Cases.Id = CaseTag.CaseId
+  LEFT JOIN MyTags ON MyTags.TagId = CaseTag.TagId
   GROUP BY Cases.Id, Cases.Title, Cases.PhotoPath
 
   UNION
@@ -39,8 +39,8 @@ SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / NULLIF(t.TotalTags, 0) 
     COUNT(*) + 0.0,
     (SELECT COUNT(*) FROM (SELECT TagId FROM NewsItemTag WHERE NewsItemTag.NewsItemId = NewsItems.Id UNION SELECT TagId FROM MyTags) t)
   FROM NewsItems
-  JOIN NewsItemTag ON NewsItems.Id = NewsItemTag.NewsItemId
-  JOIN MyTags ON MyTags.TagId = NewsItemTag.TagId
+  LEFT JOIN NewsItemTag ON NewsItems.Id = NewsItemTag.NewsItemId
+  LEFT JOIN MyTags ON MyTags.TagId = NewsItemTag.TagId
   GROUP BY NewsItems.Id, NewsItems.Title, NewsItems.PhotoPath
 
   UNION
@@ -53,8 +53,8 @@ SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / NULLIF(t.TotalTags, 0) 
     COUNT(*) + 0.0,
     (SELECT COUNT(*) FROM (SELECT TagId FROM DownloadTag WHERE DownloadTag.DownloadId = Downloads.Id UNION SELECT TagId FROM MyTags) t)
   FROM Downloads
-  JOIN DownloadTag ON Downloads.Id = DownloadTag.DownloadId
-  JOIN MyTags ON MyTags.TagId = DownloadTag.TagId
+  LEFT JOIN DownloadTag ON Downloads.Id = DownloadTag.DownloadId
+  LEFT JOIN MyTags ON MyTags.TagId = DownloadTag.TagId
   GROUP BY Downloads.Id, Downloads.Title
 
   UNION
@@ -67,8 +67,8 @@ SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / NULLIF(t.TotalTags, 0) 
     COUNT(*) + 0.0,
     (SELECT COUNT(*) FROM (SELECT TagId FROM SolutionTag WHERE SolutionTag.SolutionId = Solutions.Id UNION SELECT TagId FROM MyTags) t)
   FROM Solutions
-  JOIN SolutionTag ON Solutions.Id = SolutionTag.SolutionId
-  JOIN MyTags ON MyTags.TagId = SolutionTag.TagId
+  LEFT JOIN SolutionTag ON Solutions.Id = SolutionTag.SolutionId
+  LEFT JOIN MyTags ON MyTags.TagId = SolutionTag.TagId
   GROUP BY Solutions.Id, Solutions.Title
 ) t
 WHERE NOT (t.type = '{0}' AND t.id = @id)
