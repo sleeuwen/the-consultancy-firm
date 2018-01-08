@@ -33,7 +33,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return View();
         }
 
-        // POST: Dashboard/Users/Create (Email + misschien password, of hier wordt al een mail voor opgestuurd)
+        // POST: Dashboard/Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Email")] ApplicationUser applicationUser)

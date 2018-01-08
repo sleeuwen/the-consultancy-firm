@@ -36,7 +36,7 @@
                             <td>@item.Email</td>
                             <td>@item.LastLogin</td>
                             <td>
-                            <a asp-action="Delete" asp-route-email="@item.Email"><i class="fa fa-trash"></i></a>
+                            <a><i onclick="showDeleteModal( '@item.Email')" class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                     }
@@ -55,7 +55,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p>Email: </p>
+                <p></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger">Verwijder <i class="fa fa-trash"></i></button>
