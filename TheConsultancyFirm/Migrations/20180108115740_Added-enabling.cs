@@ -58,6 +58,13 @@ namespace TheConsultancyFirm.Migrations
                 table: "AspNetUsers",
                 nullable: false,
                 defaultValue: false);
+
+            migrationBuilder.Sql("UPDATE Solutions SET Enabled = 1;");
+            migrationBuilder.Sql("UPDATE NewsItems SET Enabled = 1;");
+            migrationBuilder.Sql("UPDATE Cases SET Enabled = 1;");
+            migrationBuilder.Sql("UPDATE Downloads SET Enabled = 1;");
+            migrationBuilder.Sql("UPDATE AspNetUsers SET Enabled = 1;");
+            migrationBuilder.Sql("UPDATE Customers SET Enabled = 1;");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
