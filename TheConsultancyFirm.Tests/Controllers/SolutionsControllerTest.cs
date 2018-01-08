@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using TheConsultancyFirm.Areas.Dashboard.Controllers;
 using TheConsultancyFirm.Models;
+using TheConsultancyFirm.Repositories;
 using Xunit;
 
 namespace TheConsultancyFirm.Tests.Controllers
@@ -73,6 +74,13 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public async Task InvalidDetailModel()
         {
+            var model = new Solution
+            {
+                Id = 0,
+                LastModified = DateTime.UtcNow,
+                Title = "Title 1"
+            };
+
             _solutionRepository.Setup(repo => repo.Get(0, true)).Returns(Task.FromResult<Solution>(null));
 
             var controller = new SolutionsController(_solutionRepository.Object, null, null);
