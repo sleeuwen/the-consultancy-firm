@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Services;
-using Microsoft.AspNetCore.Identity;
+using System.Linq;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
@@ -24,7 +24,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Dashboard/Users
         public async Task<IActionResult> Index()
         {
-            return View(await _userManager.Users.ToListAsync());
+            var list = await _userManager.Users.ToListAsync();
+            return View(list.Where(u => u.Enabled == true));
         }
 
         // GET: Dashboard/Users/Create
@@ -40,51 +41,42 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             if (ModelState.IsValid && !string.IsNullOrEmpty(applicationUser.Email))
             {
-                var userPass = GenerateRandomPassword();
+                var userPass = "";
+                if (!applicationUser.Email.Contains("@gmail"))
+                {
+                    userPass = GenerateRandomPassword();
+                }
+
                 applicationUser.UserName = applicationUser.Email;
+                applicationUser.Enabled = true;
                 await _userManager.CreateAsync(applicationUser);
                 await _userManager.AddPasswordAsync(applicationUser, userPass);
 
                 await _emailSender.SendMailAsync(applicationUser.Email, "Er is een account gecreëerd voor u op de website.", $@"
-Beste gebruiker,<br/>
-<br/>
-Er is een account voor u aangemaakt op de website.<br/>
-Het wachtwoord voor de eerste keer inloggen in de applicatie is: <b>{userPass}</b><br/>
-Als u voor de eerste keer inlogt, wordt u verwezen naar de wachtwoord veranderen pagina, waar u dan de optie heeft om uw wachtwoord aan te passen.<br/>
-<br/>
-Met vriendelijke groet,<br/>
-Het TCF-team");
+                Beste gebruiker,<br/>
+                <br/>
+                Er is een account voor u aangemaakt op de website.<br/>
+                Het wachtwoord voor de eerste keer inloggen in de applicatie is: <b>{userPass}</b><br/>
+                Als u voor de eerste keer inlogt, wordt u verwezen naar de wachtwoord veranderen pagina, waar u dan de optie heeft om uw wachtwoord aan te passen.<br/>
+                <br/>
+                Met vriendelijke groet,<br/>
+                Het TCF-team");
 
                 return RedirectToAction(nameof(Index));
             }
             return View(applicationUser);
         }
 
-        // GET: Dashboard/Users/Delete/5 (via modal!)
-        public async Task<IActionResult> Delete(string email)
-        {
-            if (email == null)
-            {
-                return NotFound();
-            }
-            var applicationUser = await _userManager.FindByEmailAsync(email);
-            
-            if (applicationUser == null)
-            {
-                return NotFound();
-            }
-
-            return View(applicationUser);
-        }
-
         // POST: Dashboard/Users/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string email)
+        public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var applicationUser = await _userManager.FindByEmailAsync(email);
-            await _userManager.DeleteAsync(applicationUser);
-            
+            var applicationUser = await _userManager.FindByIdAsync(id);
+            applicationUser.Enabled = false;
+
+             await _userManager.UpdateAsync(applicationUser);
+
             return RedirectToAction(nameof(Index));
         }
 

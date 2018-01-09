@@ -36,7 +36,7 @@
                             <td>@item.Email</td>
                             <td>@item.LastLogin</td>
                             <td>
-                            <a><i onclick="showDeleteModal( '@item.Email')" class="fa fa-trash"></i></a>
+                            <a><i onclick="showDeleteModal( '@item.Email', '@item.Id')" class="fa fa-trash"></i></a>
                             </td>
                         </tr>
                     }
@@ -58,7 +58,11 @@
                 <p></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Verwijder <i class="fa fa-trash"></i></button>
+                <form asp-action="Delete">
+                    <input type="hidden" name="id" />
+                    <button type="submit" class="btn btn-danger">Verwijder <i class="fa fa-trash"></i></button>
+                </form>
+
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
