@@ -26,6 +26,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Downloads
         public async Task<IActionResult> Index(bool showDisabled = false)
         {
+            ViewBag.ShowDisabled = showDisabled;
             if (showDisabled)
             {
                 return View(await _downloadRepository.GetAll().OrderByDescending(d => d.Date).ToListAsync());

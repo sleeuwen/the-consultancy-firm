@@ -8,7 +8,15 @@
 
 <p>
     <a asp-action="Create">Create New</a>
-    <a href="@Url.Action("Index", new { showDisabled = true })">Show disabled</a>
+    @if (ViewBag.ShowDisabled)
+    {
+        <a asp-action="Index">Hide disabled</a>
+
+    }
+    else
+    {
+        <a href="@Url.Action("Index", new { showDisabled = true })">Show disabled</a>             
+    }
 </p>
 <table class="table">
     <thead>

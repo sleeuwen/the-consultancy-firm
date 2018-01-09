@@ -27,6 +27,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Dashboard/Solutions
         public async Task<IActionResult> Index(bool showDisabled = false)
         {
+            ViewBag.ShowDisabled = showDisabled;
             if (showDisabled)
             {
                 return View(await _solutionRepository.GetAll().OrderByDescending(s => s.Date).ToListAsync());

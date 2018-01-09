@@ -2,13 +2,22 @@
 
 @{
     ViewData["Title"] = "Cases";
+
 }
 
 <h2>@ViewBag.Title</h2>
 
 <p>
     <a asp-action="Create">Nieuwe Toevoegen</a>
-    <a href="@Url.Action("Index", new { showDisabled = true })">Show disabled</a>
+    @if (ViewBag.ShowDisabled)
+    {
+        <a asp-action="Index">Hide disabled</a>
+
+    }
+    else
+    {
+        <a href="@Url.Action("Index", new { showDisabled = true })">Show disabled</a>             
+    }
 </p>
 <table class="table">
     <thead>

@@ -27,6 +27,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Dashboard/NewsItems
         public async Task<IActionResult> Index(bool showDisabled = false)
         {
+            ViewBag.ShowDisabled = showDisabled;
             if (showDisabled)
             {
                 return View(await _newsItemRepository.GetAll().OrderByDescending(n => n.Date).ToListAsync());
