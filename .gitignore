@@ -2,6 +2,8 @@ package-lock.json
 yarn.lock
 TheConsultancyFirm/wwwroot/css/*
 TheConsultancyFirm/wwwroot/js/*.min.js
+TheConsultancyFirm/wwwroot/files/*
+TheConsultancyFirm/wwwroot/images/uploads/**
 
 ### VisualStudio template
 ## Ignore Visual Studio temporary files, build results, and

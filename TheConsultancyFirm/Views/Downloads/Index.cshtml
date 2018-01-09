@@ -1,4 +1,5 @@
-﻿@{
+﻿@model DownloadsViewModel
+@{
     ViewBag.Title = "Downloads";
     Layout = "_Layout";
 }
@@ -17,52 +18,82 @@
             </p>
         </div>
     </div>
-    <div class="row outerdownload">
-        <div class="col-sm-5 downloadtag">
-            <h4>
-                NIEUWSTE<br>
-                PUBLICATIE
-            </h4>
+    @if (Model.Selected != null)
+    {
+        <div class="row outerdownload">
+            <div class="col-sm-5 downloadtag">
+                <h4>
+                    GESELECTEERDE<br>
+                    DOWNLOAD
+                </h4>
+            </div>
+            <div class="col-sm-7 downloadinformation">
+                <h3>
+                    @Model.Selected.Title
+                </h3>
+                <p>
+                    @Model.Selected.Date.ToString("dd MMMM yyyy")
+                </p>
+                <p>
+                    @Model.Selected.Description
+                </p>
+                <a href="@Model.Selected.LinkPath" download>
+                    <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
+                    Downloaden
+                </a>
+            </div>
         </div>
-        <div class="col-sm-7 downloadinformation">
-            <h3>
-                Waarom Open Source het beste werkt voor uw bedrijf
-            </h3>
-            <p>
-                26 September 2017
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do smod temport incidunt ut labore et dolore magna aliqua
-            </p>
-            <a href="#">
-                <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
-                Downloaden
-            </a>
+    }
+    else
+    {
+        <div class="row outerdownload">
+            <div class="col-sm-5 downloadtag">
+                <h4>
+                    NIEUWSTE<br>
+                    PUBLICATIE
+                </h4>
+            </div>
+            <div class="col-sm-7 downloadinformation">
+                <h3>
+                    @Model.MostRecent.Title
+                </h3>
+                <p>
+                    @Model.MostRecent.Date.ToString("dd MMMM yyyy")
+                </p>
+                <p>
+                    @Model.MostRecent.Description
+                </p>
+                <a href="@Model.MostRecent.LinkPath" download>
+                    <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
+                    Downloaden
+                </a>
+            </div>
         </div>
-    </div>
-    <div class="row outerdownload">
-        <div class="col-sm-5 downloadtag">
-            <h4>
-                MEESTE<br>
-                GEDOWNLOAD
-            </h4>
+        <div class="row outerdownload">
+            <div class="col-sm-5 downloadtag">
+                <h4>
+                    MEESTE<br>
+                    GEDOWNLOAD
+                </h4>
+            </div>
+            <div class="col-sm-7 downloadinformation">
+                <h3>
+                    @Model.MostDownloaded.Title
+                </h3>
+                <p>
+                    @Model.MostDownloaded.Date.ToString("dd MMMM yyyy")
+                </p>
+                <p>
+                    @Model.MostDownloaded.Description
+                </p>
+                <a href="@Model.MostDownloaded.LinkPath" download>
+                    <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
+                    Downloaden
+                </a>
+            </div>
         </div>
-        <div class="col-sm-7 downloadinformation">
-            <h3>
-                Alles over Document Wizard
-            </h3>
-            <p>
-                10 Juli 2017
-            </p>
-            <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do smod temport incidunt ut labore et dolore magna aliqua
-            </p>
-            <a href="#">
-                <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
-                Downloaden
-            </a>
-        </div>
-    </div>
+    }
+
     <div class="row outerdownload">
         <div class="col-sm-5 downloadtag">
             <h4>
@@ -111,7 +142,7 @@
         <div class="col-sm-5">
         </div>
         <div class="col-sm-7 paging downloadpaging" id="newspaging">
-            <a href="#" class="fa fa-arrow-left pagearrow" aria-hidden="true"></a> 
+            <a href="#" class="fa fa-arrow-left pagearrow" aria-hidden="true"></a>
             <ul>
                 <li>
                     <a href="#" class="disabled">1</a>

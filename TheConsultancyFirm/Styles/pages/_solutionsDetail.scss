@@ -2,26 +2,13 @@
 
 #solutionMain {
     padding-bottom: 50px;
+}
 
-    ul {
-        list-style: none;
-        padding-right: 0;
+.solution-customers{
+    text-align:center;
+    margin-top:20px;
+}
 
-        li {
-            padding-left: 5px;
-            margin-bottom: 10px;
-        }
-
-        li:before {
-            content: '\f00c';
-            font-family: 'FontAwesome', sans-serif;
-            color: $turquoise;
-            position: absolute;
-            left: 20px;
-        }
-
-        @media screen and (min-width: $break-medium) {
-            padding-right: 50px;
-        }
-    }
+.solution-advantages img {
+    margin: 0;
 }

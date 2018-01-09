@@ -8,7 +8,7 @@
     background-size: contain;
 
     @media screen and (min-width: $break-large) {
-        display: initial;
+        display: block;
     }
 
     @media screen and (min-width: $break-xlarge) {

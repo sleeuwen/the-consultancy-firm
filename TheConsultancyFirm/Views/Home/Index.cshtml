@@ -1,4 +1,6 @@
-﻿@{
+﻿@model HomeViewModel
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -135,13 +137,13 @@
         <div class="col-12 col-lg-8">
             <div id="carouselSolutions" class="carousel slide" data-ride="carousel" data-interval="false">
                 <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
+                    <div class="carousel-item carousel-item-contain active">
                         <img src="~/images/home/solutionsCarousel/document-wizard-image.png" alt="Vergader kamer" class="d-block mw-100"/>
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-item carousel-item-contain">
                         <img src="~/images/home/solutionsCarousel/document-wizard-image.png" alt="Vergader kamer" class="d-block mw-100"/>
                     </div>
-                    <div class="carousel-item">
+                    <div class="carousel-item carousel-item-contain">
                         <img src="~/images/home/solutionsCarousel/document-wizard-image.png" alt="Vergader kamer" class="d-block mw-100"/>
                     </div>
                 </div>
@@ -277,7 +279,18 @@
     </div>
 </div>
 
-@Html.Partial("OurCustomersPartial")
+<div class="container">
+    <div class="row">
+        <div class="col text-center">
+            <h2>Onze klanten</h2>
+            <p class="introtext">
+                Met wederzijdse trots kunnen wij zeggen dat we vaste <br />
+                partners zijn van onderstaande ondernemingen.
+            </p>
+        </div>
+    </div>
+    @Html.Partial("OurCustomersPartial", Model.Customers)
+</div>
 
 <div class="container container-wide home-section">
     <div class="row">
@@ -297,7 +310,7 @@
 
     <div class="row text-center mt-4">
         <div class="col">
-            <a asp-controller="News" asp-action="Index" class="link-arrow link-more">
+            <a asp-controller="NewsItems" asp-action="Index" class="link-arrow link-more">
                 Ga naar nieuwsoverzicht
                 <img src="~/images/right-arrow-black.svg" alt="Meer nieuws" />
             </a>

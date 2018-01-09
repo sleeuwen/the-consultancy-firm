@@ -21,6 +21,114 @@ namespace TheConsultancyFirm.Migrations
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256);
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("RoleId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetRoleClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ClaimType");
+
+                    b.Property<string>("ClaimValue");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("ProviderKey");
+
+                    b.Property<string>("ProviderDisplayName");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("RoleId");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId");
+
+                    b.Property<string>("LoginProvider");
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("Value");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens");
+                });
+
             modelBuilder.Entity("TheConsultancyFirm.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -28,19 +136,27 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<int>("AccessFailedCount");
 
-                    b.Property<string>("ConcurrencyStamp");
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken();
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .HasMaxLength(256);
 
                     b.Property<bool>("EmailConfirmed");
+
+                    b.Property<bool>("Enabled");
+
+                    b.Property<DateTime?>("LastLogin");
 
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
-                    b.Property<string>("NormalizedEmail");
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256);
 
-                    b.Property<string>("NormalizedUserName");
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256);
 
                     b.Property<string>("PasswordHash");
 
@@ -52,11 +168,20 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256);
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApplicationUsers");
+                    b.HasIndex("NormalizedEmail")
+                        .HasName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers");
                 });
 
             modelBuilder.Entity("TheConsultancyFirm.Models.Block", b =>
@@ -64,14 +189,14 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Active");
+
                     b.Property<int?>("CaseId");
 
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Discriminator")
                         .IsRequired();
-
-                    b.Property<int?>("DownloadId");
 
                     b.Property<DateTime>("LastModified");
 
@@ -84,8 +209,6 @@ namespace TheConsultancyFirm.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CaseId");
-
-                    b.HasIndex("DownloadId");
 
                     b.HasIndex("NewsItemId");
 
@@ -101,13 +224,21 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("CustomerId");
+                    b.Property<int?>("CustomerId")
+                        .IsRequired();
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Enabled");
+
                     b.Property<DateTime>("LastModified");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("PhotoPath");
+
+                    b.Property<string>("SharingDescription");
+
+                    b.Property<string>("Title")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -134,15 +265,21 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
-                    b.Property<string>("Message");
+                    b.Property<string>("Message")
+                        .IsRequired();
 
                     b.Property<string>("Mobile");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
-                    b.Property<string>("Subject");
+                    b.Property<bool>("Read");
+
+                    b.Property<string>("Subject")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -154,11 +291,15 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Link");
+                    b.Property<bool>("Enabled");
+
+                    b.Property<string>("Link")
+                        .IsRequired();
 
                     b.Property<string>("LogoPath");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -187,11 +328,17 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired();
+
+                    b.Property<bool>("Enabled");
+
+                    b.Property<DateTime>("LastModified");
 
                     b.Property<string>("LinkPath");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("Title")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -218,11 +365,16 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Enabled");
+
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("PhotoPath");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("SharingDescription");
+
+                    b.Property<string>("Title")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -263,7 +415,9 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("BlockId");
+                    b.Property<int>("BlockId");
+
+                    b.Property<int>("Order");
 
                     b.Property<string>("PhotoPath");
 
@@ -283,9 +437,16 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Enabled");
+
                     b.Property<DateTime>("LastModified");
 
-                    b.Property<string>("Title");
+                    b.Property<string>("PhotoPath");
+
+                    b.Property<string>("SharingDescription");
+
+                    b.Property<string>("Title")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -321,6 +482,9 @@ namespace TheConsultancyFirm.Migrations
                 {
                     b.HasBaseType("TheConsultancyFirm.Models.Block");
 
+                    b.Property<string>("LinkPath");
+
+                    b.Property<string>("LinkText");
 
                     b.ToTable("CarouselBlock");
 
@@ -333,7 +497,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<string>("Author");
 
-                    b.Property<string>("Text");
+                    b.Property<string>("Text")
+                        .IsRequired();
 
                     b.ToTable("QuoteBlock");
 
@@ -366,21 +531,62 @@ namespace TheConsultancyFirm.Migrations
                     b.HasDiscriminator().HasValue("TextBlock");
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("TheConsultancyFirm.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("TheConsultancyFirm.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("TheConsultancyFirm.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.HasOne("TheConsultancyFirm.Models.ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("TheConsultancyFirm.Models.Block", b =>
                 {
                     b.HasOne("TheConsultancyFirm.Models.Case")
                         .WithMany("Blocks")
                         .HasForeignKey("CaseId");
 
-                    b.HasOne("TheConsultancyFirm.Models.Download")
-                        .WithMany("Blocks")
-                        .HasForeignKey("DownloadId");
-
                     b.HasOne("TheConsultancyFirm.Models.NewsItem")
                         .WithMany("Blocks")
                         .HasForeignKey("NewsItemId");
 
-                    b.HasOne("TheConsultancyFirm.Models.Solution")
+                    b.HasOne("TheConsultancyFirm.Models.Solution", "Solution")
                         .WithMany("Blocks")
                         .HasForeignKey("SolutionId");
                 });
@@ -389,7 +595,8 @@ namespace TheConsultancyFirm.Migrations
                 {
                     b.HasOne("TheConsultancyFirm.Models.Customer", "Customer")
                         .WithMany("Cases")
-                        .HasForeignKey("CustomerId");
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TheConsultancyFirm.Models.CaseTag", b =>
@@ -448,7 +655,8 @@ namespace TheConsultancyFirm.Migrations
                 {
                     b.HasOne("TheConsultancyFirm.Models.CarouselBlock", "Block")
                         .WithMany("Slides")
-                        .HasForeignKey("BlockId");
+                        .HasForeignKey("BlockId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("TheConsultancyFirm.Models.SolutionTag", b =>

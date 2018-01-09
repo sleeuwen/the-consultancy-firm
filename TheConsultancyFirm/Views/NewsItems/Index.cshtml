@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Nieuws overview";
+    Layout = "_Layout";
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Nieuws</li>
+</ol>
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2>Nieuws en kennis</h2>
+            <p class="introtext">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam dignissim fermentum libero,<br>
+                a feugiat quam rutrum nec. Nulla facilisi. Etiam elit turpis, molestie id tincidunt sit amet,<br>
+                faucibus et enim. Vivamus non dolor justo.
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        @for (var i = 0; i < 12; i++)
+        {
+            <div class="col-lg-4 col-md-6 col-12">
+                @Html.Partial("NewsItemPartial")
+            </div>
+        }
+    </div>
+    <div class="paging" id="newspaging">
+
+            <a href="#" class="fa fa-arrow-left pagearrow" aria-hidden="true"></a>
+
+            <ul>
+                <li>
+                    <a href="#">1</a>
+                </li>
+                <li>
+                    <a href="#">2</a>
+                </li>
+                <li>
+                    <a href="#">3</a>
+                </li>
+                <li>
+                    <a href="#">4</a>
+                </li>
+                <li>
+                    <a href="#">5</a>
+                </li>
+            </ul>
+
+            <a href="#" class="fa fa-arrow-right pagearrow" aria-hidden="true"></a>
+    </div>
+</div>
+@Html.Partial("NewsLetterPartial")

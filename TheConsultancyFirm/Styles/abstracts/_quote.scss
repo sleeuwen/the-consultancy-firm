@@ -1,71 +1,40 @@
-@import '../variables';
-
-.quoteContainer {
-    padding-left: 10%;
-    padding-bottom: 0;
-
-    @media screen and (min-width: $break-medium) {
-        padding-bottom: 20px;
-    }
-
-    > :first-child {
-        display: flex;
-        align-items: baseline;
-    }
-
-    i {
-        color: $orange;
-        font-size: 24px;
-    }
-
-    svg {
-        padding-left: 5px;
-        padding-right: 5px;
-        width: 25px;
-        height: 15px;
-    }
-
-    p {
-        color: $darkGrey;
-        font-size: 16px;
-        padding-left: 5px;
-    }
-
-    .quoteText {
-        color: $black;
-        padding-left: 0;
-    }
-}
+﻿@import '../variables';
 
 blockquote {
     padding-left: 10%;
     margin-bottom: 2rem;
+    color: $black;
 
-    > :first-child {
+    .author {
         display: flex;
-        align-items: baseline;
-    }
+        align-items: center;
+        margin-bottom: 1rem;
 
-    i {
-        color: $orange;
-        font-size: 24px;
-    }
+        i {
+            color: $orange;
+            font-size: 24px;
+        }
 
-    svg {
-        padding-left: 5px;
-        padding-right: 5px;
-        width: 25px;
-        height: 15px;
-    }
+        p {
+            position: relative;
+            color: $darkGrey;
+            padding-left: 20px;
+            margin: 0 0 0 10px;
 
-    p {
-        color: $darkGrey;
-        padding-left: 5px;
-        margin: 0 0 1rem;
-    }
+            &::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                width: 15px;
+                height: 2px;
+                top: 50%;
+                margin-top: -1px;
+                background: silver;
+            }
 
-    .quote {
-        color: $black;
-        padding-left: 0;
+            &:empty::before {
+                content: none;
+            }
+        }
     }
 }

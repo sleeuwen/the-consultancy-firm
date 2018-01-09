@@ -1,20 +1,6 @@
-﻿@using TheConsultancyFirm.Models
-@{
+﻿@{
     ViewBag.Title = "Dashboard";
     Layout = "_Layout";
-
-    var blocks = new List<Block>
-    {
-        new CarouselBlock(),
-        new QuoteBlock(),
-        new SolutionAdvantagesBlock(),
-        new TextBlock(),
-    };
 }
 
 <h1>This is the Admin Dashboard</h1>
-
-@foreach (var block in blocks)
-{
-    @await Component.InvokeAsync("Block", block)
-}
