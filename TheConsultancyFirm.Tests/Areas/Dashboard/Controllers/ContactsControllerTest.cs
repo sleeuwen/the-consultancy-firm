@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System.Threading.Tasks;
 using TheConsultancyFirm.Areas.Dashboard.Controllers;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using Xunit;
 
-namespace TheConsultancyFirm.Tests.Controllers
+namespace TheConsultancyFirm.Tests.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
     public class ContactsControllerTest
@@ -23,7 +23,7 @@ namespace TheConsultancyFirm.Tests.Controllers
         {
             var controller = new ContactsController(_contactRepository.Object);
             var result = await controller.Index();
-            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.IsType<ViewResult>(result);
         }
 
         [Fact]

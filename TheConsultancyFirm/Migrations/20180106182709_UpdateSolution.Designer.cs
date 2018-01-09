@@ -12,9 +12,10 @@ using TheConsultancyFirm.Data;
 namespace TheConsultancyFirm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180106182709_UpdateSolution")]
+    partial class UpdateSolution
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -144,8 +145,6 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<bool>("Enabled");
-
                     b.Property<DateTime?>("LastLogin");
 
                     b.Property<bool>("LockoutEnabled");
@@ -229,13 +228,9 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<bool>("Enabled");
-
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("PhotoPath");
-
-                    b.Property<string>("SharingDescription");
 
                     b.Property<string>("Title")
                         .IsRequired();
@@ -291,8 +286,6 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Enabled");
-
                     b.Property<string>("Link")
                         .IsRequired();
 
@@ -331,8 +324,6 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<string>("Description")
                         .IsRequired();
 
-                    b.Property<bool>("Enabled");
-
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("LinkPath");
@@ -365,13 +356,9 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<bool>("Enabled");
-
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("PhotoPath");
-
-                    b.Property<string>("SharingDescription");
 
                     b.Property<string>("Title")
                         .IsRequired();
@@ -437,13 +424,9 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<bool>("Enabled");
-
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("PhotoPath");
-
-                    b.Property<string>("SharingDescription");
 
                     b.Property<string>("Title")
                         .IsRequired();
