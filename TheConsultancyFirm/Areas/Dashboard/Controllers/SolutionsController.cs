@@ -16,13 +16,11 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     public class SolutionsController : Controller
     {
         private readonly ISolutionRepository _solutionRepository;
-        private readonly IBlockRepository _blockRepository;
         private readonly IUploadService _uploadService;
 
-        public SolutionsController(ISolutionRepository solutionRepository, IBlockRepository blockRepository, IUploadService uploadService)
+        public SolutionsController(ISolutionRepository solutionRepository, IUploadService uploadService)
         {
             _solutionRepository = solutionRepository;
-            _blockRepository = blockRepository;
             _uploadService = uploadService;
         }
 
