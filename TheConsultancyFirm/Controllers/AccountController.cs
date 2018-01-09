@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Extensions;
 using TheConsultancyFirm.Models;
-using TheConsultancyFirm.Models.AccountViewModels;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
+using TheConsultancyFirm.ViewModels.Account;
 
 namespace TheConsultancyFirm.Controllers
 {
