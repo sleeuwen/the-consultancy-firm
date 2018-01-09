@@ -32,7 +32,7 @@ namespace TheConsultancyFirm.Models
         [Display(Name = "Tags")]
         public List<int> TagIds { get; set; }
 
-        [Display(Name = "Omschrijving voor delen")]
+        [Display(Name = "Omschrijving voor delen (max 140 char)")]
         public string SharingDescription { get; set; }
 
         public bool Enabled { get; set; }

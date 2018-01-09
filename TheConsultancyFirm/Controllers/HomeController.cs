@@ -18,7 +18,8 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var customers = await _customerRepository.GetAll();
+            var customers = (await _customerRepository.GetAll()).Take(12).ToList();
+
             return View(new HomeViewModel()
             {
                 Customers = customers
