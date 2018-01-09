@@ -12,26 +12,26 @@ using TheConsultancyFirm.Repositories;
 namespace TheConsultancyFirm.Controllers
 {
     [Route("api/[controller]")]
-    public class NewsletterController : Controller
+    public class NewsletterSubscriptionController : Controller
     {
-        private readonly INewsletterRepository _repository;
+        private readonly INewsletterSubscriptionRepository _newsletterSubscriptionRepository;
 
-        public NewsletterController(INewsletterRepository repository)
+        public NewsletterSubscriptionController(INewsletterSubscriptionRepository newsletterSubscriptionRepository)
         {
-            _repository = repository;
+            _newsletterSubscriptionRepository = newsletterSubscriptionRepository;
         }
 
         [HttpPost("subscribe")]
-        public async Task<IActionResult> Subscribe(Newsletter newsletter)
+        public async Task<IActionResult> Subscribe(NewsletterSubscription newsletterSubscription)
         {
-            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(newsletter.Email))
+            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(newsletterSubscription.Email))
             {
                 return BadRequest();
             }
 
             try
             {
-                await _repository.SubscribeAsync(newsletter);
+                await _newsletterSubscriptionRepository.SubscribeAsync(newsletterSubscription);
                 return Ok();
             }
             catch (DbUpdateException)

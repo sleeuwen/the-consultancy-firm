@@ -37,6 +37,11 @@ function initTinyMCE() {
         image_upload_credentials: true,
         image_dimensions: false,
         relative_urls: false,
+        setup: function (ed) {
+            ed.on('keyup', function (e) {
+                UpdateIntroTextOnTemplate();
+            });
+        }
     });
 }
 

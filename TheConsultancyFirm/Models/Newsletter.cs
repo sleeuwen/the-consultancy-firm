@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace TheConsultancyFirm.Models
 {
@@ -7,7 +8,18 @@ namespace TheConsultancyFirm.Models
         public int Id { get; set; }
 
         [Required]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Onderwerp nieuwsbrief")]
+        public string Subject { get; set; }
+
+        [Required]
+        [Display(Name = "Introductie")]
+        public string NewsletterIntroText { get; set; }
+
+        [Required]
+        [Display(Name = "Ander nieuws")]
+        public string NewsletterOtherNews { get; set; }
+
+        [Display(Name = "Verstuurd op")]
+        public DateTime SentAt { get; set; }
     }
 }

@@ -6,8 +6,8 @@ using TheConsultancyFirm.Models;
 
 namespace TheConsultancyFirm.Repositories
 {
-    public interface INewsletterRepository
+    public interface INewsletterSubscriptionRepository
     {
-        Task SubscribeAsync(Newsletter newsletter);
+        Task SubscribeAsync(NewsletterSubscription newsletterSubscription);
     }
 }

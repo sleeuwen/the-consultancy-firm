@@ -4,18 +4,18 @@ using TheConsultancyFirm.Models;
 
 namespace TheConsultancyFirm.Repositories
 {
-    public class NewsletterRepository : INewsletterRepository
+    public class NewsletterSubscriptionRepository : INewsletterSubscriptionRepository
     {
         private readonly ApplicationDbContext _context;
 
-        public NewsletterRepository(ApplicationDbContext context)
+        public NewsletterSubscriptionRepository(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public Task SubscribeAsync(Newsletter newsletter)
+        public Task SubscribeAsync(NewsletterSubscription newsletterSubscription)
         {
-            _context.Add(newsletter);
+            _context.Add(newsletterSubscription);
             return _context.SaveChangesAsync();
         }
     }

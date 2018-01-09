@@ -1,0 +1,52 @@
+﻿@model TheConsultancyFirm.Models.Newsletter
+
+@{
+    ViewData["Title"] = "Create";
+
+
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h4>Newsletter</h4>
+<hr />
+
+<form asp-action="Create" class="blocks-form" id="createNewsletter" enctype="multipart/form-data" data-type="Newsletter">
+    <div class="row">
+        <div class="col-md-6">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Subject"></label>
+                <input asp-for="Subject" class="form-control" placeholder="Onderwerp" />
+                <span asp-validation-for="Subject" class="invalid-feedback d-block"></span>
+            </div>
+
+            <div class="form-group text-block">
+                <label asp-for="NewsletterIntroText"></label>
+                <textarea asp-for="NewsletterIntroText" class="form-control tinymce" id="NewsletterIntro"></textarea>
+
+                <span asp-validation-for="NewsletterIntroText" class="invalid-feedback d-block"></span>
+            </div>
+            <div class="form-group text-block">
+                <label asp-for="NewsletterOtherNews"></label>
+                <textarea asp-for="NewsletterOtherNews" class="form-control tinymce" id="NewsletterOtherNews"></textarea>
+
+                <span asp-validation-for="NewsletterOtherNews" class="invalid-feedback d-block"></span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <h4>Nieuwsbrief preview:</h4>
+            <iframe src="~/MailTemplate.html" id ="newsletterPreview" width="100%", height="100%"></iframe>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="btn btn-default" />
+    </div>
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>
+</form>
+    
+
+    
+

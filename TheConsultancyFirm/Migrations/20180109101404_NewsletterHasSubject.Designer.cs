@@ -12,9 +12,10 @@ using TheConsultancyFirm.Data;
 namespace TheConsultancyFirm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180109101404_NewsletterHasSubject")]
+    partial class NewsletterHasSubject
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -399,16 +400,9 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("NewsletterIntroText")
-                        .IsRequired();
+                    b.Property<string>("Content");
 
-                    b.Property<string>("NewsletterOtherNews")
-                        .IsRequired();
-
-                    b.Property<DateTime>("SentAt");
-
-                    b.Property<string>("Subject")
-                        .IsRequired();
+                    b.Property<string>("Subject");
 
                     b.HasKey("Id");
 

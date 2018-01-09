@@ -13,13 +13,13 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public async void ValidSubscribe()
         {
-            var model = new Newsletter {Email = "info@valid.com"};
+            var model = new NewsletterSubscription {Email = "info@valid.com"};
 
-            var newsletterRepository = new Mock<INewsletterRepository>();
+            var newsletterRepository = new Mock<INewsletterSubscriptionRepository>();
             newsletterRepository.Setup(repo => repo.SubscribeAsync(model))
                 .Returns(Task.FromResult(1));
 
-            var controller = new NewsletterController(newsletterRepository.Object);
+            var controller = new NewsletterSubscriptionController(newsletterRepository.Object);
             var result = await controller.Subscribe(model);
             Assert.IsType<OkResult>(result);
         }
@@ -27,11 +27,11 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public async void InvalidSubscribe()
         {
-            var controller = new NewsletterController(null);
+            var controller = new NewsletterSubscriptionController(null);
 
             controller.ModelState.AddModelError("Email", "Must be an email");
 
-            var result = await controller.Subscribe(new Newsletter());
+            var result = await controller.Subscribe(new NewsletterSubscription());
             Assert.IsType<BadRequestResult>(result);
         }
     }

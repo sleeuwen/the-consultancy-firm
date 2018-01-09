@@ -1,0 +1,58 @@
+﻿@using System.Text.RegularExpressions
+@model IEnumerable<TheConsultancyFirm.Models.Newsletter>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsletterIntroText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SentAt)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    
+        var newlineIdx = item.NewsletterIntroText?.IndexOfAny(new[] { '\r', '\n' }) ?? -1;
+        var title = item.NewsletterIntroText?.Substring(0, newlineIdx < 0 ? item.NewsletterIntroText.Length : newlineIdx);
+        title = Regex.Replace(title ?? "", "<[^>]*>", "");
+    
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Subject)
+            </td>
+            <td>
+                @title
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SentAt)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
