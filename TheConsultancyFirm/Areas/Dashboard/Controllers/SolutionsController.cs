@@ -5,9 +5,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
@@ -18,13 +16,11 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     public class SolutionsController : Controller
     {
         private readonly ISolutionRepository _solutionRepository;
-        private readonly IBlockRepository _blockRepository;
         private readonly IUploadService _uploadService;
 
-        public SolutionsController(ISolutionRepository solutionRepository, IBlockRepository blockRepository, IUploadService uploadService)
+        public SolutionsController(ISolutionRepository solutionRepository, IUploadService uploadService)
         {
             _solutionRepository = solutionRepository;
-            _blockRepository = blockRepository;
             _uploadService = uploadService;
         }
 

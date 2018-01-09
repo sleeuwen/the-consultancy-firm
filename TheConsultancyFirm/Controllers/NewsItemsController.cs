@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
-using TheConsultancyFirm.Services;
 using TheConsultancyFirm.ViewModels;
 
 namespace TheConsultancyFirm.Controllers

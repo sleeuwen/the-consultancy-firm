@@ -1,10 +1,8 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
-using TheConsultancyFirm.Services;
 using TheConsultancyFirm.ViewModels;
 
 namespace TheConsultancyFirm.Controllers
