@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.ViewModels;
@@ -17,9 +19,9 @@ namespace TheConsultancyFirm.Controllers
             _newsItemRepository = newsItemRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _newsItemRepository.GetAll().OrderByDescending(n => n.Date).ToListAsync());
         }
 
         [HttpGet("[controller]/{id}")]

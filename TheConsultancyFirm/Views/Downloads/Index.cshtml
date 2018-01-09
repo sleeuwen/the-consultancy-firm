@@ -102,42 +102,42 @@
         </div>
         <div class="col-sm-7 downloadinformation">
             <h3>
-                Alles over Document Wizard
+                @Model.AllDownloads.FirstOrDefault()?.Title
             </h3>
             <p>
-                10 Juli 2017
+                @Model.AllDownloads.FirstOrDefault()?.Date.ToString("dd MMMM yyyy")
             </p>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do smod temport incidunt ut labore et dolore magna aliqua
+                @Model.AllDownloads.FirstOrDefault()?.Description
             </p>
-            <a href="#">
+            <a href="@Model.AllDownloads.FirstOrDefault()?.LinkPath" download>
                 <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
                 Downloaden
             </a>
         </div>
     </div>
-        @for (var i = 0; i < 8; i++)
-        {
-            <div class="row">
-                <div class="col-sm-5">
-                </div>
-                <div class="col-sm-7 downloadinformation">
-                    <h3>
-                        Alles over Document Wizard
-                    </h3>
-                    <p>
-                        10 Juli 2017
-                    </p>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do smod temport incidunt ut labore et dolore magna aliqua
-                    </p>
-                    <a href="#">
-                        <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
-                        Downloaden
-                    </a>
-                </div>
+    @foreach (var item in Model.AllDownloads.Skip(1))
+    {
+        <div class="row">
+            <div class="col-sm-5">
             </div>
-        }
+            <div class="col-sm-7 downloadinformation">
+                <h3>
+                    @item.Title
+                </h3>
+                <p>
+                    @item.Date.ToString("dd MMMM yyyy")
+                </p>
+                <p>
+                    @item.Description
+                </p>
+                <a href="@item.LinkPath" download>
+                    <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
+                    Downloaden
+                </a>
+            </div>
+        </div>  
+    }
     <div class="row">
         <div class="col-sm-5">
         </div>

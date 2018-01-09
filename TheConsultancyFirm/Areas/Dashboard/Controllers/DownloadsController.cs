@@ -26,7 +26,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Downloads
         public async Task<IActionResult> Index()
         {
-            return View(await _downloadRepository.GetAll().ToListAsync());
+            return View(await _downloadRepository.GetAll().OrderByDescending(d => d.Date).ToListAsync());
         }
 
         // GET: Downloads/Details/5

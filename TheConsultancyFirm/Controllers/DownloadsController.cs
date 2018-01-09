@@ -25,7 +25,6 @@ namespace TheConsultancyFirm.Controllers
                 MostRecent = await _downloadRepository.GetAll().OrderByDescending(c => c.Date).FirstOrDefaultAsync()
             };
 
-
             viewModel.AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id)
                 .OrderBy(c => c.Date).Skip(1).ToListAsync();
 

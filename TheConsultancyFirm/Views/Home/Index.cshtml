@@ -300,10 +300,10 @@
     </div>
 
     <div class="row">
-        @for (var i = 0; i < 3; i++)
+        @foreach (var item in Model.NewsItems)
         {
             <div class="col-12 col-lg-4">
-                @Html.Partial("NewsItemPartial")
+                @Html.Partial("NewsItemPartial", item)
             </div>
         }
     </div>

@@ -29,7 +29,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Dashboard/Cases
         public async Task<IActionResult> Index()
         {
-            return View(await _caseRepository.GetAll().ToListAsync());
+            return View(await _caseRepository.GetAll().OrderByDescending(c => c.Date).ToListAsync());
         }
 
         // GET: Dashboard/Cases/Create

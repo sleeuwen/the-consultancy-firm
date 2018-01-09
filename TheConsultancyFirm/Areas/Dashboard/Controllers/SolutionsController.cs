@@ -27,7 +27,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Dashboard/Solutions
         public async Task<IActionResult> Index()
         {
-            return View(_solutionRepository.GetAll());
+            return View(await _solutionRepository.GetAll().OrderByDescending(s => s.Date).ToListAsync());
         }
 
         // GET: Dashboard/Solutions/Details/5

@@ -29,7 +29,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Dashboard/NewsItems
         public async Task<IActionResult> Index()
         {
-            return View(await _newsItemRepository.GetAll().ToListAsync());
+            return View(await _newsItemRepository.GetAll().OrderByDescending(n => n.Date).ToListAsync());
         }
 
         // GET: Dashboard/NewsItems/Create
@@ -121,7 +121,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
                 if (newsItem.PhotoPath != null)
                     await _uploadService.Delete(newsItem.PhotoPath);
-                newsItem.PhotoPath = await _uploadService.Upload(newsItem.Image, "/images/uploads/cases");
+                newsItem.PhotoPath = await _uploadService.Upload(newsItem.Image, "/images/uploads/newsitems");
             }
 
             newsItem.NewsItemTags.RemoveAll(ct => !(newsItem.TagIds?.Contains(ct.TagId) ?? false));
