@@ -52,9 +52,9 @@
                         <select asp-for="CustomerIds" class="form-control select2" data-placeholder="Selecteer gerelateerde klanten"
                                 data-ajax--url="@Url.Action("Autocomplete", "Customers")" data-close-on-select="false">
                             @foreach (var customer in Model.CustomerSolutions)
-                {
-                    <option value="@customer.CustomerId" selected>@customer.Customer.Name</option>
-    }
+                            {
+                                <option value="@customer.CustomerId" selected>@customer.Customer.Name</option>
+                            }
                         </select>
                         <span asp-validation-for="CustomerIds" class="invalid-feedback d-block"></span>
                         <small id="customerHelp" class="form-text text-muted">
