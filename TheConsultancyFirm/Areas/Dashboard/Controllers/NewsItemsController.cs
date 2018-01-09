@@ -45,7 +45,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/NewsItems/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -98,7 +98,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/NewsItems/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
@@ -207,6 +207,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             await _newsItemRepository.Update(newsItem);
             return RedirectToAction(nameof(Index));
+        }
+
+        [Route("api/[controller]")]
+        public async Task<ObjectResult> GetAll()
+        {
+            return new ObjectResult(await _newsItemRepository.GetAll().ToListAsync());
         }
 
         private async Task<bool> NewsItemExists(int id)

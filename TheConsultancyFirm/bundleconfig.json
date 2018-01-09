@@ -47,6 +47,7 @@
       "wwwroot/js/blocks.js",
       "wwwroot/js/contacts.js",
       "wwwroot/js/custom-file.js",
+      "wwwroot/js/homepage.js",
       "wwwroot/js/imageUpload.js",
       "wwwroot/js/select2.js",
       "wwwroot/js/tinymce.js",
