@@ -36,7 +36,7 @@ namespace TheConsultancyFirm.Models
         [Display(Name="Klanten")]
         public List<int> CustomerIds { get; set; }
 
-        [Display(Name = "Omschrijving voor delen")]
+        [Display(Name = "Omschrijving voor delen (max 140 char)")]
         public string SharingDescription { get; set; }
 
         public bool Enabled { get; set; }
