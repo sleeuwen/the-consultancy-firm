@@ -1,0 +1,17 @@
+﻿@import '../variables';
+
+
+.floatingButton {
+
+    .floatingBtn {
+        top: 50%;
+        bottom: 50%;
+        position: fixed;
+        z-index: 999;
+    }
+
+    img {
+        width: 50px;
+    }
+
+}
