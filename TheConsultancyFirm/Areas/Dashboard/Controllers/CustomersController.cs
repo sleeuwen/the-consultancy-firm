@@ -168,9 +168,14 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var customer = await _customerRepository.Get(id);
-            if (customer.LogoPath != null)
-                await _uploadService.Delete(customer.LogoPath);
-            await _customerRepository.Delete(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            customer.Enabled = false;
+
+            await _customerRepository.Update(customer);
 
             return RedirectToAction(nameof(Index));
         }

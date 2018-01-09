@@ -170,23 +170,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            foreach (var block in @case.Blocks)
-            {
-                if (block is CarouselBlock carousel)
-                {
-                    foreach (var slide in carousel.Slides.Where(s => s.PhotoPath != null))
-                    {
-                        await _uploadService.Delete(slide.PhotoPath);
-                    }
-                }
+            @case.Enabled = false;
 
-                await _blockRepository.Delete(block.Id);
-            }
-
-            if (@case.PhotoPath != null)
-                await _uploadService.Delete(@case.PhotoPath);
-
-            await _caseRepository.Delete(@case.Id);
+            await _caseRepository.Update(@case);
             return RedirectToAction(nameof(Index));
         }
 

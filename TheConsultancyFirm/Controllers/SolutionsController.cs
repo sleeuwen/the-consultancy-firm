@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.ViewModels;
@@ -18,9 +19,9 @@ namespace TheConsultancyFirm.Controllers
             _solutionRepository = solutionRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _solutionRepository.GetAll().ToListAsync());
         }
 
         [HttpGet("[controller]/{id}")]

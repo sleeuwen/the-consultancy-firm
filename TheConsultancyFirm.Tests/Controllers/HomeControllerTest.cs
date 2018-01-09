@@ -24,7 +24,7 @@ namespace TheConsultancyFirm.Tests.Controllers
 
             _customerRepository.Setup(repo => repo.GetAll()).Returns(Task.FromResult<List<Customer>>(model));
 
-            var controller = new HomeController(_customerRepository.Object);
+            var controller = new HomeController(_customerRepository.Object, null);
             var result = await controller.Index();
 
             Assert.IsType<ViewResult>(result);

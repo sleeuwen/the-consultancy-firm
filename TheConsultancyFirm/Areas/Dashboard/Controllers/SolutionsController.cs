@@ -59,7 +59,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> Create([Bind("Title,Image, CustomerIds, TagIds, SharingDescription")] Solution solution)
+        public async Task<ObjectResult> Create([Bind("Title,Image, CustomerIds, TagIds, SharingDescription, Summary")] Solution solution)
         {
             if (solution.Image == null)
                 ModelState.AddModelError(nameof(solution.Image), "The Image field is required.");
@@ -130,7 +130,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if (solution == null) return new NotFoundObjectResult(null);
 
             // Bind POST variables Title, CustomerId, Image and TagIds to the model.
-            await TryUpdateModelAsync(solution, string.Empty, s => s.Title, s => s.CustomerIds, s => s.Image, s => s.TagIds, c => c.SharingDescription);
+            await TryUpdateModelAsync(solution, string.Empty, s => s.Title, s => s.CustomerIds, s => s.Image, s => s.TagIds, c => c.SharingDescription, c => c.Summary);
 
             if (solution.Image != null)
             {
@@ -196,10 +196,17 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // POST: Dashboard/Solutions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            var solution = await _solutionRepository.Get((int)id, true);
-            await _solutionRepository.Delete(solution);
+            var solution = await _solutionRepository.Get(id ?? 0, true);
+            if (solution == null)
+            {
+                return NotFound();
+            }
+
+            solution.Enabled = false;
+
+            await _solutionRepository.Update(solution);
             return RedirectToAction(nameof(Index));
         }
 

@@ -170,10 +170,14 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var download = await _downloadRepository.Get(id);
-            if (download.LinkPath != null)
-                await _uploadService.Delete(download.LinkPath);
-            await _downloadRepository.Delete(id);
+            if (download == null)
+            {
+                return NotFound();
+            }
 
+            download.Enabled = false;
+
+            await _downloadRepository.Update(download);
             return RedirectToAction(nameof(Index));
         }
 

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Models;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.ViewModels;
 
 namespace TheConsultancyFirm.Controllers
@@ -18,9 +20,9 @@ namespace TheConsultancyFirm.Controllers
             _caseRepository = caseRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _caseRepository.GetAll().Include(c => c.Customer).OrderByDescending(c => c.Date).ToListAsync());
         }
 
         [HttpGet("[controller]/{id}")]

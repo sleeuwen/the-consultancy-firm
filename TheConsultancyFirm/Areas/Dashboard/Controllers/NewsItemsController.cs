@@ -169,23 +169,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            foreach (var block in newsItem.Blocks)
-            {
-                if (block is CarouselBlock carousel)
-                {
-                    foreach (var slide in carousel.Slides.Where(s => s.PhotoPath != null))
-                    {
-                        await _uploadService.Delete(slide.PhotoPath);
-                    }
-                }
+            newsItem.Enabled = false;
 
-                await _blockRepository.Delete(block.Id);
-            }
-
-            if (newsItem.PhotoPath != null)
-                await _uploadService.Delete(newsItem.PhotoPath);
-
-            await _newsItemRepository.Delete(newsItem.Id);
+            await _newsItemRepository.Update(newsItem);
             return RedirectToAction(nameof(Index));
         }
 
