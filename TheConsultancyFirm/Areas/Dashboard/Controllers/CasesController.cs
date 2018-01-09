@@ -16,20 +16,22 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     public class CasesController : Controller
     {
         private readonly ICaseRepository _caseRepository;
-        private readonly IBlockRepository _blockRepository;
         private readonly IUploadService _uploadService;
 
-        public CasesController(ICaseRepository caseRepository, IBlockRepository blockRepository, IUploadService uploadService)
+        public CasesController(ICaseRepository caseRepository, IUploadService uploadService)
         {
             _caseRepository = caseRepository;
-            _blockRepository = blockRepository;
             _uploadService = uploadService;
         }
 
         // GET: Dashboard/Cases
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showDisabled = false)
         {
-            return View(await _caseRepository.GetAll().OrderByDescending(c => c.Date).ToListAsync());
+            if (showDisabled)
+            {
+                return View(await _caseRepository.GetAll().OrderByDescending(c => c.Date).ToListAsync());
+            }
+            return View(await _caseRepository.GetAll().Where(c => c.Enabled).OrderByDescending(c => c.Date).ToListAsync());
         }
 
         // GET: Dashboard/Cases/Create

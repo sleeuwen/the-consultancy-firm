@@ -24,9 +24,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Downloads
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showDisabled = false)
         {
-            return View(await _downloadRepository.GetAll().OrderByDescending(d => d.Date).ToListAsync());
+            if (showDisabled)
+            {
+                return View(await _downloadRepository.GetAll().OrderByDescending(d => d.Date).ToListAsync());
+            }
+            return View(await _downloadRepository.GetAll().Where(n => n.Enabled).OrderByDescending(d => d.Date).ToListAsync());
         }
 
         // GET: Downloads/Details/5

@@ -8,6 +8,7 @@
 
 <p>
     <a asp-action="Create">Create New</a>
+    <a href="@Url.Action("Index", new { showDisabled = true })">Show disabled</a>
 </p>
 <table class="table">
     <thead>
@@ -32,7 +33,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr class="@(item.Enabled ? "" : "disabled")">
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>

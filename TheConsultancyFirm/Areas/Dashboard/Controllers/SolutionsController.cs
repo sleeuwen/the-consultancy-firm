@@ -25,9 +25,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Solutions
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showDisabled = false)
         {
-            return View(await _solutionRepository.GetAll().OrderByDescending(s => s.Date).ToListAsync());
+            if (showDisabled)
+            {
+                return View(await _solutionRepository.GetAll().OrderByDescending(s => s.Date).ToListAsync());
+            }
+            return View(await _solutionRepository.GetAll().Where(n => n.Enabled).OrderByDescending(s => s.Date).ToListAsync());
         }
 
         // GET: Dashboard/Solutions/Details/5

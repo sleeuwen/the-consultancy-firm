@@ -16,20 +16,22 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     public class NewsItemsController : Controller
     {
         private readonly INewsItemRepository _newsItemRepository;
-        private readonly IBlockRepository _blockRepository;
         private readonly IUploadService _uploadService;
 
-        public NewsItemsController(INewsItemRepository newsItemRepository, IBlockRepository blockRepository, IUploadService uploadService)
+        public NewsItemsController(INewsItemRepository newsItemRepository, IUploadService uploadService)
         {
             _newsItemRepository = newsItemRepository;
-            _blockRepository = blockRepository;
             _uploadService = uploadService;
         }
 
         // GET: Dashboard/NewsItems
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showDisabled = false)
         {
-            return View(await _newsItemRepository.GetAll().OrderByDescending(n => n.Date).ToListAsync());
+            if (showDisabled)
+            {
+                return View(await _newsItemRepository.GetAll().OrderByDescending(n => n.Date).ToListAsync());
+            }
+            return View(await _newsItemRepository.GetAll().Where(n => n.Enabled).OrderByDescending(n => n.Date).ToListAsync());
         }
 
         // GET: Dashboard/NewsItems/Create

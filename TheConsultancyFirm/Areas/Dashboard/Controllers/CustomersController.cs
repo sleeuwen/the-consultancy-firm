@@ -22,9 +22,15 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Customers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showDisabled = false)
         {
-            return View(await _customerRepository.GetAll());
+            if (showDisabled)
+            {
+                return View(await _customerRepository.GetAll());
+            }
+
+            var customers = await _customerRepository.GetAll();
+            return View(customers.Where(c => c.Enabled).ToList());
         }
 
         // GET: Dashboard/Customers/Details/5
