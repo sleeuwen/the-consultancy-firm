@@ -40,7 +40,7 @@ namespace TheConsultancyFirm.Controllers
             var relatedItems =
                 await _relatedItemsRepository.GetRelatedItems(solutionItem.Id, Enumeration.ContentItemType.Solution);
 
-            var relatedCustomers = solutionItem.CustomerSolutions.Select(cs => cs.Customer).ToList();
+            var relatedCustomers = solutionItem.CustomerSolutions.Select(cs => cs.Customer).Take(12).ToList();
                 
             return View(new SolutionDetailViewModel()
             {
