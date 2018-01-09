@@ -1,0 +1,56 @@
+﻿@model IEnumerable<TheConsultancyFirm.Models.Solution>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<p>
+    <a asp-action="Create">Aanmaken</a>
+</p>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            #
+        </th>
+        <th>
+            Titel
+        </th>
+        <th>
+            Publiceerdatum
+        </th>
+        <th>
+            Laatst bewerkt
+        </th>
+        <th>
+            Acties
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModified)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

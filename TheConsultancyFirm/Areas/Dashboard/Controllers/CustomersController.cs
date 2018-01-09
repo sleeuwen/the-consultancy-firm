@@ -71,7 +71,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if (!ModelState.IsValid) return View(customer);
 
             customer.LogoPath =
-                await _uploadService.Upload(customer.Image, "/images/CustomerLogos", customer.Name);
+                await _uploadService.Upload(customer.Image, "/images/uploads/customers", customer.Name);
 
             await _customerRepository.Create(customer);
             return RedirectToAction(nameof(Index));

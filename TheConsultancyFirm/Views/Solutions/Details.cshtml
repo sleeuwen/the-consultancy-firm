@@ -1,0 +1,53 @@
+﻿@model SolutionDetailViewModel
+@{
+    ViewData["Title"] = @Model.Solution.Title;
+}
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item"><a asp-controller="Solutions" asp-action="Index">Solutions</a></li>
+    <li class="breadcrumb-item active">@Model.Solution.Title</li>
+</ol>
+<div class="solutiondetail content">
+    @foreach (var block in Model.Solution.Blocks.OrderBy(b => b.Order))
+    {
+        @await Component.InvokeAsync("Block", block)
+    }  
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-10 mx-auto">
+            <div class="sharing">
+                <span class="introtext">
+                    <i class="fa fa-share-alt"></i>
+                    share
+                </span>
+
+                <a href="#" class="share-link fa fa-linkedin"></a>
+                <a href="#" class="share-link fa fa-twitter"></a>
+                <a href="#" class="share-link fa fa-google-plus"></a>
+                <a href="#" class="share-link fa fa-facebook"></a>
+                <a href="#" class="share-link fa fa-envelope"></a>
+            </div>
+        </div>
+    </div>
+
+    @Html.Partial("RelatedCasesPartial", Model.ContentItems)
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <h2>Klanten die @Model.Solution.Title gebruiken</h2>
+                <p class="introtext">
+                    Er zijn veel klanten die gebruik maken van @Model.Solution.Title<br/>
+                    vanwege de open source aangepast naar eigen wensen en
+                    voorkeuren
+                </p>
+            </div>
+        </div>
+        @Html.Partial("OurCustomersPartial", Model.Customers)
+    </div>
+
+</div>
+
+@Html.Partial("NewsLetterPartial")
+

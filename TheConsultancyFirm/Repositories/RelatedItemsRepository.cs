@@ -22,7 +22,7 @@ SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / (CASE WHEN t.TotalTags 
     Cases.Id,
     Cases.Title,
     Cases.PhotoPath,
-    COUNT(*) + 0.0 AS CommonTags,
+    COUNT(MyTags.TagId) + 0.0 AS CommonTags,
     (SELECT COUNT(*) FROM (SELECT TagId FROM CaseTag WHERE CaseTag.CaseId = Cases.Id UNION SELECT TagId FROM MyTags) t) AS TotalTags
   FROM Cases
   LEFT JOIN CaseTag ON Cases.Id = CaseTag.CaseId
@@ -36,7 +36,7 @@ SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / (CASE WHEN t.TotalTags 
     NewsItems.Id,
     NewsItems.Title,
     NewsItems.PhotoPath,
-    COUNT(*) + 0.0,
+    COUNT(MyTags.TagId) + 0.0,
     (SELECT COUNT(*) FROM (SELECT TagId FROM NewsItemTag WHERE NewsItemTag.NewsItemId = NewsItems.Id UNION SELECT TagId FROM MyTags) t)
   FROM NewsItems
   LEFT JOIN NewsItemTag ON NewsItems.Id = NewsItemTag.NewsItemId
@@ -50,7 +50,7 @@ SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / (CASE WHEN t.TotalTags 
     Downloads.Id,
     Downloads.Title,
     NULL, -- PhotoPath
-    COUNT(*) + 0.0,
+    COUNT(MyTags.TagId) + 0.0,
     (SELECT COUNT(*) FROM (SELECT TagId FROM DownloadTag WHERE DownloadTag.DownloadId = Downloads.Id UNION SELECT TagId FROM MyTags) t)
   FROM Downloads
   LEFT JOIN DownloadTag ON Downloads.Id = DownloadTag.DownloadId
@@ -64,7 +64,7 @@ SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / (CASE WHEN t.TotalTags 
     Solutions.Id,
     Solutions.Title,
     NULL, -- PhotoPath
-    COUNT(*) + 0.0,
+    COUNT(MyTags.TagId) + 0.0,
     (SELECT COUNT(*) FROM (SELECT TagId FROM SolutionTag WHERE SolutionTag.SolutionId = Solutions.Id UNION SELECT TagId FROM MyTags) t)
   FROM Solutions
   LEFT JOIN SolutionTag ON Solutions.Id = SolutionTag.SolutionId

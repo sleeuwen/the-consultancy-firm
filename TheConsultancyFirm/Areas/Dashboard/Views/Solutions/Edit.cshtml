@@ -1,0 +1,106 @@
+﻿@model TheConsultancyFirm.Models.Solution
+
+@{
+    ViewData["Title"] = Model?.Title + " - Aanpassen";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h4>Solution</h4>
+<hr />
+<form asp-action="Edit" class="blocks-form" id="updateSolution" enctype="multipart/form-data" data-type="Solution">
+    <div class="row">
+        <div class="col-md-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Title"></label>
+                        <input asp-for="Title" class="form-control" placeholder="Titel" />
+                        <span asp-validation-for="Title" class="invalid-feedback d-block"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Image"></label>
+                        <div class="custom-file">
+                            <input class="custom-file-input" asp-for="Image">
+                            <label class="custom-file-label" asp-for="Image">Choose file</label>
+                        </div>
+                        <span asp-validation-for="Image" class="invalid-feedback d-block"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="TagIds"></label>
+                        <select asp-for="TagIds" class="form-control select2" data-placeholder="Select related tags"
+                                data-ajax--url="@Url.Action("Autocomplete", "Tags")" data-close-on-select="false">
+                            @foreach (var tag in Model.SolutionTags)
+                             {
+                                 <option value="@tag.TagId" selected>@tag.Tag.Text</option>
+                             }
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CustomerIds"></label>
+                        <select asp-for="CustomerIds" class="form-control select2" data-placeholder="Selecteer gerelateerde klanten"
+                                data-ajax--url="@Url.Action("Autocomplete", "Customers")" data-close-on-select="false">
+                            @foreach (var customer in Model.CustomerSolutions)
+                             {
+                                 <option value="@customer.CustomerId" selected>@customer.Customer.Name</option>
+                             }
+                        </select>
+                        <span asp-validation-for="CustomerIds" class="invalid-feedback d-block"></span>
+                        <small id="customerHelp" class="form-text text-muted">
+                            Zit de juiste klant er niet bij? Klik dan
+                            <a asp-controller="Customers" asp-action="Create" target="_blank">hier</a>
+                            om een nieuwe klant toe te voegen.
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <label>Current</label>
+            @if (!string.IsNullOrEmpty(Model.PhotoPath))
+            {
+                <img class="img-fluid" src="@Model.PhotoPath" />
+            }
+        </div>
+    </div>
+</form>
+
+<h4>Content items</h4>
+<div id="blocksList">
+    @foreach (var block in Model.Blocks.OrderBy(b => b.Order))
+    {
+        @await Component.InvokeAsync("Block", block)
+    }
+</div>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <button class="btn btn-secondary" data-toggle="modal" data-target="#chooseBlockModal" type="button">Voeg item toe</button>
+    </div>
+</div>
+
+<div class="savebar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <a asp-action="Index">Terug naar de lijst</a>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end align-items-center">
+                <small class="text-muted mr-3" id="statusText"></small>
+                <input type="submit" value="Opslaan" class="btn btn-secondary" data-blocks-submit="#updateSolution" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("BlockChoiceModalPartial")
