@@ -31,7 +31,7 @@ namespace TheConsultancyFirm.Controllers
             int.TryParse(id.Split('-', 2)[0], out int newsItemId);
 
             var newsItem = await _newsItemRepository.Get(newsItemId);
-            if (newsItem == null) return NotFound();
+            if (newsItem == null || newsItem.Deleted || !newsItem.Enabled) return NotFound();
 
             // Force the right slug
             if (id != newsItem.Slug)

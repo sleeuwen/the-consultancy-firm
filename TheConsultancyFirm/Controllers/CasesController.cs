@@ -32,7 +32,7 @@ namespace TheConsultancyFirm.Controllers
             int.TryParse(id.Split('-', 2)[0], out int caseId);
 
             var caseItem = await _caseRepository.Get(caseId);
-            if (caseItem == null) return NotFound();
+            if (caseItem == null || caseItem.Deleted || !caseItem.Enabled) return NotFound();
 
             // Force the right slug
             if (id != caseItem.Slug)
