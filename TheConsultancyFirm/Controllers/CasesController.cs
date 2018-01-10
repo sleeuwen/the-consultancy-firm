@@ -22,7 +22,7 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _caseRepository.GetAll().Include(c => c.Customer).OrderByDescending(c => c.Date).ToListAsync());
+            return View(await _caseRepository.GetAll().Include(c => c.Customer).Where(c => c.Enabled && !c.Deleted).OrderByDescending(c => c.Date).ToListAsync());
         }
 
         [HttpGet("[controller]/{id}")]

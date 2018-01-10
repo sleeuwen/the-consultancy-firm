@@ -1,22 +1,14 @@
-﻿@model IEnumerable<NewsItem>
+﻿@model IEnumerable<Case>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Deleted Cases";
+
 }
 
 <h2>@ViewBag.Title</h2>
 
 <p>
-    <a asp-action="Create">Create New</a>
-    @if (ViewBag.ShowDisabled)
-    {
-        <a asp-action="Index">Hide disabled</a>
-    }
-    else
-    {
-        <a href="@Url.Action("Index", new { showDisabled = true })">Show disabled</a>
-    }
-    <a asp-action="Deleted">Verwijderde cases</a>
+    <a asp-action="Index">Terug naar Cases</a>
 </p>
 <table class="table">
     <thead>
@@ -35,7 +27,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr class="@(item.Enabled ? "" : "disabled")">
+        <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
@@ -46,10 +38,7 @@
                 @Html.DisplayFor(modelItem => item.LastModified)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
-                <a asp-area="" asp-controller="NewsItems" asp-action="Details" asp-route-id="@item.Id" target="_blank">Bekijken</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> |
-                <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
+                <a asp-action="Restore" asp-route-id="@item.Id" onclick="return confirm('Weet u zeker dat u de case wilt restoren?')">Restore</a>
             </td>
         </tr>
 }

@@ -20,12 +20,12 @@ namespace TheConsultancyFirm.Controllers
         {
             var viewModel = new DownloadsViewModel
             {
-                MostDownloaded = await _downloadRepository.GetAll().OrderByDescending(d => d.AmountOfDownloads)
+                MostDownloaded = await _downloadRepository.GetAll().Where(c => c.Enabled && !c.Deleted).OrderByDescending(d => d.AmountOfDownloads)
                     .FirstOrDefaultAsync(),
-                MostRecent = await _downloadRepository.GetAll().OrderByDescending(c => c.Date).FirstOrDefaultAsync()
+                MostRecent = await _downloadRepository.GetAll().Where(c => c.Enabled && !c.Deleted).OrderByDescending(c => c.Date).FirstOrDefaultAsync()
             };
 
-            viewModel.AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id)
+            viewModel.AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id && !d.Deleted && !d.Deleted)
                 .OrderBy(c => c.Date).Skip(1).ToListAsync();
 
             return View(viewModel);
@@ -34,10 +34,13 @@ namespace TheConsultancyFirm.Controllers
         [HttpGet("[controller]/{id}")]
         public async Task<IActionResult> Details(int id)
         {
+            var selected = await _downloadRepository.Get(id);
+            if (selected.Deleted || selected.Enabled == false) return View("Index");
+
             var viewModel = new DownloadsViewModel
             {
-                Selected = await _downloadRepository.Get(id),
-                AllDownloads = await _downloadRepository.GetAll().Where(c => c.Id != id).ToListAsync()
+                Selected = selected,
+                AllDownloads = await _downloadRepository.GetAll().Where(c => c.Id != id && !c.Deleted && !c.Deleted).ToListAsync()
             };
 
             return View("/Views/Downloads/Index.cshtml", viewModel);

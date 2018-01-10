@@ -25,5 +25,6 @@ namespace TheConsultancyFirm.Models
         public IFormFile Image { get; set; }
 
         public bool Enabled { get; set; }
+        public bool Deleted { get; set; }
     }
 }

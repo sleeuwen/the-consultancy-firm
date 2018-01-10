@@ -12,12 +12,12 @@
     @if (ViewBag.ShowDisabled)
     {
         <a asp-action="Index">Hide disabled</a>
-
     }
     else
     {
-        <a href="@Url.Action("Index", new { showDisabled = true })">Show disabled</a>             
+        <a href="@Url.Action("Index", new { showDisabled = true })">Show disabled</a>
     }
+    <a asp-action="Deleted">Verwijderde cases</a>
 </p>
 <table class="table">
     <thead>
@@ -49,7 +49,9 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
                 <a asp-area="" asp-controller="Cases" asp-action="Details" asp-route-id="@item.Id" target="_blank">Bekijken</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> |
+                <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
+                
             </td>
         </tr>
 }

@@ -30,9 +30,15 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             ViewBag.ShowDisabled = showDisabled;
             if (showDisabled)
             {
-                return View(await _newsItemRepository.GetAll().OrderByDescending(n => n.Date).ToListAsync());
+                return View(await _newsItemRepository.GetAll().Where(c => !c.Deleted).OrderByDescending(n => n.Date).ToListAsync());
             }
-            return View(await _newsItemRepository.GetAll().Where(n => n.Enabled).OrderByDescending(n => n.Date).ToListAsync());
+            return View(await _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted).OrderByDescending(n => n.Date).ToListAsync());
+        }
+
+        // GET: Dashboard/Downloads/Deleted
+        public async Task<IActionResult> Deleted()
+        {
+            return View(await _newsItemRepository.GetAll().Where(n => n.Deleted).OrderByDescending(c => c.Date).ToListAsync());
         }
 
         // GET: Dashboard/NewsItems/Create
@@ -172,7 +178,35 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            newsItem.Enabled = false;
+            newsItem.Deleted = true;
+
+            await _newsItemRepository.Update(newsItem);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Restore(int? id)
+        {
+            var newsItem = await _newsItemRepository.Get(id ?? 0);
+            if (newsItem == null)
+            {
+                return NotFound();
+            }
+
+            newsItem.Deleted = false;
+
+            await _newsItemRepository.Update(newsItem);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ToggleEnable(int? id)
+        {
+            var newsItem = await _newsItemRepository.Get(id ?? 0);
+            if (newsItem == null)
+            {
+                return NotFound();
+            }
+
+            newsItem.Enabled = !newsItem.Enabled;
 
             await _newsItemRepository.Update(newsItem);
             return RedirectToAction(nameof(Index));

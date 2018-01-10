@@ -42,5 +42,6 @@ namespace TheConsultancyFirm.Models
         public string SharingDescription { get; set; }
 
         public bool Enabled { get; set; }
+        public bool Deleted { get; set; }
     }
 }

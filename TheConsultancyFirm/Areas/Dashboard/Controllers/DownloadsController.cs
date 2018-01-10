@@ -29,9 +29,15 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             ViewBag.ShowDisabled = showDisabled;
             if (showDisabled)
             {
-                return View(await _downloadRepository.GetAll().OrderByDescending(d => d.Date).ToListAsync());
+                return View(await _downloadRepository.GetAll().Where(c => !c.Deleted).OrderByDescending(d => d.Date).ToListAsync());
             }
-            return View(await _downloadRepository.GetAll().Where(n => n.Enabled).OrderByDescending(d => d.Date).ToListAsync());
+            return View(await _downloadRepository.GetAll().Where(n => n.Enabled && !n.Deleted).OrderByDescending(d => d.Date).ToListAsync());
+        }
+
+        // GET: Dashboard/Downloads/Deleted
+        public async Task<IActionResult> Deleted()
+        {
+            return View(await _downloadRepository.GetAll().Where(d => d.Deleted).OrderByDescending(c => c.Date).ToListAsync());
         }
 
         // GET: Downloads/Details/5
@@ -180,7 +186,35 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            download.Enabled = false;
+            download.Deleted = true;
+
+            await _downloadRepository.Update(download);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Restore(int? id)
+        {
+            var download = await _downloadRepository.Get(id ?? 0);
+            if (download == null)
+            {
+                return NotFound();
+            }
+
+            download.Deleted = false;
+
+            await _downloadRepository.Update(download);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ToggleEnable(int? id)
+        {
+            var download = await _downloadRepository.Get(id ?? 0);
+            if (download == null)
+            {
+                return NotFound();
+            }
+
+            download.Enabled = !download.Enabled;
 
             await _downloadRepository.Update(download);
             return RedirectToAction(nameof(Index));

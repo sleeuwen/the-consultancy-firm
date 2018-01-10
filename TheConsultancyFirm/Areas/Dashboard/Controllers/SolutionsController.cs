@@ -30,9 +30,15 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             ViewBag.ShowDisabled = showDisabled;
             if (showDisabled)
             {
-                return View(await _solutionRepository.GetAll().OrderByDescending(s => s.Date).ToListAsync());
+                return View(await _solutionRepository.GetAll().Where(c => !c.Deleted).OrderByDescending(s => s.Date).ToListAsync());
             }
-            return View(await _solutionRepository.GetAll().Where(n => n.Enabled).OrderByDescending(s => s.Date).ToListAsync());
+            return View(await _solutionRepository.GetAll().Where(n => n.Enabled && !n.Deleted).OrderByDescending(s => s.Date).ToListAsync());
+        }
+
+        // GET: Dashboard/Downloads/Deleted
+        public async Task<IActionResult> Deleted()
+        {
+            return View(await _solutionRepository.GetAll().Where(s => s.Deleted).OrderByDescending(c => c.Date).ToListAsync());
         }
 
         // GET: Dashboard/Solutions/Details/5
@@ -209,7 +215,35 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            solution.Enabled = false;
+            solution.Deleted = true;
+
+            await _solutionRepository.Update(solution);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Restore(int? id)
+        {
+            var solution = await _solutionRepository.Get(id ?? 0);
+            if (solution == null)
+            {
+                return NotFound();
+            }
+
+            solution.Deleted = false;
+
+            await _solutionRepository.Update(solution);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ToggleEnable(int? id)
+        {
+            var solution = await _solutionRepository.Get(id ?? 0);
+            if (solution == null)
+            {
+                return NotFound();
+            }
+
+            solution.Enabled = !solution.Enabled;
 
             await _solutionRepository.Update(solution);
             return RedirectToAction(nameof(Index));

@@ -30,9 +30,15 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             ViewBag.ShowDisabled = showDisabled;
             if (showDisabled)
             {
-                return View(await _caseRepository.GetAll().OrderByDescending(c => c.Date).ToListAsync());
+                return View(await _caseRepository.GetAll().Where(c => !c.Deleted).OrderByDescending(c => c.Date).ToListAsync());
             }
-            return View(await _caseRepository.GetAll().Where(c => c.Enabled).OrderByDescending(c => c.Date).ToListAsync());
+            return View(await _caseRepository.GetAll().Where(c => c.Enabled && !c.Deleted).OrderByDescending(c => c.Date).ToListAsync());
+        }
+
+        // GET: Dashboard/Cases/Deleted
+        public async Task<IActionResult> Deleted()
+        {
+            return View(await _caseRepository.GetAll().Where(c => c.Deleted).OrderByDescending(c => c.Date).ToListAsync());
         }
 
         // GET: Dashboard/Cases/Create
@@ -173,7 +179,35 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            @case.Enabled = false;
+            @case.Deleted = true;
+
+            await _caseRepository.Update(@case);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Restore(int? id)
+        {
+            var @case = await _caseRepository.Get(id ?? 0);
+            if (@case == null)
+            {
+                return NotFound();
+            }
+
+            @case.Deleted = false;
+
+            await _caseRepository.Update(@case);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ToggleEnable(int? id)
+        {
+            var @case = await _caseRepository.Get(id ?? 0);
+            if (@case == null)
+            {
+                return NotFound();
+            }
+
+            @case.Enabled  = !@case.Enabled;
 
             await _caseRepository.Update(@case);
             return RedirectToAction(nameof(Index));

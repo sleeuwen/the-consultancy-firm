@@ -22,11 +22,11 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var customers = (await _customerRepository.GetAll()).Take(12).ToList();
-            var newsItems = await _newsItemRepository.GetAll().Take(3).ToListAsync();
+            var customers = (await _customerRepository.GetAll()).Where(c => c.Enabled && !c.Deleted).Take(12).ToList();
+            var newsItems = await _newsItemRepository.GetAll().Where(c => c.Enabled && !c.Deleted).Take(3).ToListAsync();
 
 
-            return View(new HomeViewModel()
+            return View(new HomeViewModel
             {
                 Customers = customers,
                 NewsItems = newsItems

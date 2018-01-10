@@ -21,7 +21,7 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _solutionRepository.GetAll().ToListAsync());
+            return View(await _solutionRepository.GetAll().Where(c => c.Enabled && !c.Deleted).ToListAsync());
         }
 
         [HttpGet("[controller]/{id}")]

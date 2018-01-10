@@ -44,5 +44,6 @@ namespace TheConsultancyFirm.Models
         public string Summary { get; set; }
 
         public bool Enabled { get; set; }
+        public bool Deleted { get; set; }
     }
 }
