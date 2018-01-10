@@ -187,7 +187,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                         sbMail.Replace("{0}", newsletter.NewsletterIntroText);
                         sbMail.Replace("{1}", newsletter.NewsletterOtherNews);
                         sbMail.Replace("{year}", DateTime.Now.Year.ToString());
-                        sbMail.Replace("{unsubscribe}", HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + "/newsletter/unsubscribe/" + receiver.EncodedMail);
+                        sbMail.Replace("{unsubscribe}", HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + "/newsletters/unsubscribe/" + receiver.EncodedMail);
                     }
 
                     await _mailService.SendMailAsync(receiver.Email, newsletter.Subject,
