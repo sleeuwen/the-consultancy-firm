@@ -33,54 +33,6 @@ namespace TheConsultancyFirm.Tests.Areas.Dashboard.Controllers
         }
 
         [Fact]
-        public async Task Create_Valid_User()
-        {
-            var model = new ApplicationUser
-            {
-                Id = "id123",
-                Email = "test@hotmail.nl",
-            };
-
-            _userManager.Setup(repo => repo.CreateAsync(model)).Returns(Task.FromResult<IdentityResult>(IdentityResult.Success));
-            var controller = new UsersController(_userManager.Object, _mailService.Object);
-            var actionResult = await controller.Create(model);
-
-            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(actionResult);
-            Assert.Equal("Index", redirectToActionResult.ActionName);
-
-            _userManager.Verify(repo => repo.CreateAsync(model), Times.Once);
-        }
-
-        [Fact]
-        public async Task Create_Invalid_User()
-        {
-
-        }
-
-        [Fact]
-        public async Task Email_Is_Send()
-        {
-            var model = new ApplicationUser
-            {
-                Id = "id123",
-                Email = "test@hotmail.nl",
-            };
-            string subject = "Er is een account gecreëerd voor u op de website.";
-            string message = "Dit is het bericht in de mail";
-
-            _userManager.Setup(repo => repo.CreateAsync(model)).Returns(Task.FromResult<IdentityResult>(IdentityResult.Success));
-            _mailService.Setup(repo => repo.SendMailAsync(model.Email, subject, message)).Returns(Task.FromResult(0));
-
-            var controller = new UsersController(_userManager.Object, _mailService.Object);
-            var actionResult = await controller.Create(model);
-
-            var redirectToActionResult = Assert.IsType<RedirectToActionResult>(actionResult);
-            Assert.Equal("Index", redirectToActionResult.ActionName);
-
-            _mailService.Verify(repo => repo.SendMailAsync(model.Email, subject, message), Times.Once);
-        }
-
-        [Fact]
         public async Task Delete_User()
         {
             var model = new ApplicationUser

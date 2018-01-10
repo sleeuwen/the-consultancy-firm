@@ -3,3 +3,7 @@ function showDeleteModal(email, id) {
     $("#deleteModal input[name=id]").val(id);
     $("#deleteModal").modal()
 }
+
+function toggleDisabledAccounts() {
+    
+}

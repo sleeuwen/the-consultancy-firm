@@ -18,6 +18,15 @@
         <div class="col">
             <a asp-controller="Users" asp-action="Create" class="" title="Maak een nieuwe gebruiker aan">Nieuwe gebruiker toevoegen <i class="fa fa-user-plus"></i></a>
         </div>
+        <div class="col">
+            <div class="slideWrapper">
+                <span>Toon verwijderde accounts</span>
+                <label class="switch">
+                    <input name="ShowEnabled" type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+        </div>
     </div>
     <div class="row">
         <div class="col">
@@ -32,11 +41,20 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
+                        <tr class="@(@item.Enabled ? "enabled" : "disabled")">
                             <td>@item.Email</td>
                             <td>@item.LastLogin</td>
                             <td>
-                            <a><i onclick="showDeleteModal( '@item.Email', '@item.Id')" class="fa fa-trash"></i></a>
+                            <a>
+                                @if (item.Enabled)
+                                {
+                                    <i title="Deactiveer dit account" onclick="showDeleteModal( '@item.Email', '@item.Id')" class="fa fa-eye-slash"></i>
+                                }
+                                else
+                                {
+                                    <i title="Activeer dit account" onclick="showEnableModal( '@item.Email', '@item.Id')" class="fa fa-eye"></i>
+                                }
+                            </a>
                             </td>
                         </tr>
                     }

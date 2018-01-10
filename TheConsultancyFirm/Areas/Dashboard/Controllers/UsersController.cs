@@ -25,7 +25,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> Index()
         {
             var list = await _userManager.Users.ToListAsync();
-            return View(list.Where(u => u.Enabled == true));
+            //return View(list.Where(u => u.Enabled == true));
+            return View(list);
         }
 
         // GET: Dashboard/Users/Create
@@ -41,12 +42,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             if (ModelState.IsValid && !string.IsNullOrEmpty(applicationUser.Email))
             {
-                var userPass = "";
-                if (!applicationUser.Email.Contains("@gmail"))
-                {
-                    userPass = GenerateRandomPassword();
-                }
-
+                var userPass = GenerateRandomPassword();
                 applicationUser.UserName = applicationUser.Email;
                 applicationUser.Enabled = true;
                 await _userManager.CreateAsync(applicationUser);
