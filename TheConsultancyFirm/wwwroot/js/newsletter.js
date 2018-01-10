@@ -1,4 +1,4 @@
-function ReplaceWeekWithNumber() {
+function ReplaceTemplates() {
     var date = new Date();
 
     var dayNr = (date.getDay() + 6) % 7;
@@ -14,22 +14,34 @@ function ReplaceWeekWithNumber() {
     var weekNr = Math.ceil(dayDiff / 7);
 
     $('#newsletterPreview').contents().find('#week').text(weekNr);
+    $('#newsletterPreview').contents().find('#NewsletterTemplateIntro').text(
+        'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes');
+    $('#newsletterPreview').contents().find('#NewsletterTemplateOtherNews').text(
+        'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes');
     $('#newsletterPreview').contents().find('#year').text(year);
 }
 
 function UpdateIntroTextOnTemplate() {
-    if ($('#NewsletterIntro').val() == null) return;
+    if ($('#NewsletterIntro').val() === null) return;
     
     tinymce.triggerSave();
     var text = $('#NewsletterIntro').val();
-    console.log(text.replace('<p>', ""));
-    text.replace('</p>', "");
+    //console.log('NewsletterIntro');
     $('iframe').contents().find('#NewsletterTemplateIntro').text(text.replace('<p>', "").replace('</p>', ""));
+}
+
+function UpdateOtherNewsTextOnTemplate() {
+    if ($('#NewsletterOtherNews').val() === null) return;
+
+    tinymce.triggerSave();
+    var text = $('#NewsletterOtherNews').val();
+    //console.log('NewsletterOtherNews');
+    $('iframe').contents().find('#NewsletterTemplateOtherNews').text(text.replace('<p>', "").replace('</p>', ""));
 }
 
 jQuery(function($) {
     $('#newsletterPreview').on('load', function() {
-        setTimeout(ReplaceWeekWithNumber(),150);
+        setTimeout(ReplaceTemplates(),150);
     });
 });
 

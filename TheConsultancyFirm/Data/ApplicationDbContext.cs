@@ -13,6 +13,7 @@ namespace TheConsultancyFirm.Data
         public DbSet<Download> Downloads { get; set; }
         public DbSet<Contact> Contacts { get; set; }
         public DbSet<Newsletter> NewsLetters { get; set; }
+        public DbSet<NewsletterSubscription> NewsletterSubscription { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Customer> Customers { get; set; }

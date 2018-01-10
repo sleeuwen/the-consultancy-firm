@@ -16,7 +16,7 @@ namespace TheConsultancyFirm.Tests.Controllers
             var model = new NewsletterSubscription {Email = "info@valid.com"};
 
             var newsletterRepository = new Mock<INewsletterSubscriptionRepository>();
-            newsletterRepository.Setup(repo => repo.SubscribeAsync(model))
+            newsletterRepository.Setup(repo => repo.Subscribe(model))
                 .Returns(Task.FromResult(1));
 
             var controller = new NewsletterSubscriptionController(newsletterRepository.Object);

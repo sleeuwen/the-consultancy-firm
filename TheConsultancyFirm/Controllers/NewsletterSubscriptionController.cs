@@ -31,7 +31,7 @@ namespace TheConsultancyFirm.Controllers
 
             try
             {
-                await _newsletterSubscriptionRepository.SubscribeAsync(newsletterSubscription);
+                await _newsletterSubscriptionRepository.Subscribe(newsletterSubscription);
                 return Ok();
             }
             catch (DbUpdateException)

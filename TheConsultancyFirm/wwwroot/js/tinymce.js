@@ -39,7 +39,12 @@ function initTinyMCE() {
         relative_urls: false,
         setup: function (ed) {
             ed.on('keyup', function (e) {
-                UpdateIntroTextOnTemplate();
+                console.log(ed);
+                if (ed.id === 'NewsletterIntro') {
+                    UpdateIntroTextOnTemplate();
+                } else if (ed.id === 'NewsletterOtherNews') {
+                    UpdateOtherNewsTextOnTemplate();
+                }
             });
         }
     });

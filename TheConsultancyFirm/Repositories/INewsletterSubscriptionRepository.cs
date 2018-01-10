@@ -8,6 +8,10 @@ namespace TheConsultancyFirm.Repositories
 {
     public interface INewsletterSubscriptionRepository
     {
-        Task SubscribeAsync(NewsletterSubscription newsletterSubscription);
+        Task Subscribe(NewsletterSubscription newsletterSubscription);
+        Task Unsubscribe(string email);
+        Task<NewsletterSubscription> GetByMail(string email);
+
+        List<NewsletterSubscription> GetAll();
     }
 }
