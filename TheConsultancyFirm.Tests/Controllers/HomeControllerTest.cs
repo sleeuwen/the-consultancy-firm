@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using MockQueryable.Moq;
 using Moq;
 using TheConsultancyFirm.Controllers;
 using TheConsultancyFirm.Models;
@@ -26,18 +27,11 @@ namespace TheConsultancyFirm.Tests.Controllers
         public async Task Index()
         {
             var model = new List<Customer>();
-            var model2 = new List<NewsItem>
-            {
-                new NewsItem
-                {
-                    Id = 0,
-                    LastModified = DateTime.UtcNow,
-                    Title = "Title 1"
-                }
-            }.AsQueryable();
+            var model2 = new List<NewsItem>().AsQueryable().BuildMock();
+
 
             _customerRepository.Setup(repo => repo.GetAll()).Returns(Task.FromResult<List<Customer>>(model));
-            _newsItemRepository.Setup(repo => repo.GetAll()).Returns(model2);
+            _newsItemRepository.Setup(repo => repo.GetAll()).Returns(model2.Object);
 
             var controller = new HomeController(_customerRepository.Object, _newsItemRepository.Object);
             var result = await controller.Index();

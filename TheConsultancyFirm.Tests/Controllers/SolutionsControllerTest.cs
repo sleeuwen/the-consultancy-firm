@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using MockQueryable.Moq;
 using TheConsultancyFirm.Areas.Dashboard.Controllers;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
@@ -20,8 +23,10 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public async Task Index()
         {
-            var controller = new SolutionsController(_solutionRepository.Object,null);
-            var result = await controller.Index();
+            var controller = new SolutionsController(_solutionRepository.Object, null);
+            var model = new List<Solution>().AsQueryable().BuildMock();
+            _solutionRepository.Setup(repo => repo.GetAll()).Returns(model.Object);
+            var result = controller.Index().Result;
             Assert.IsType<ViewResult>(result);
         }
 
