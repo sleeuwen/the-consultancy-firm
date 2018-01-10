@@ -1,5 +1,5 @@
 ﻿@using System.Text.RegularExpressions
-@model IEnumerable<TheConsultancyFirm.Models.Newsletter>
+@model IEnumerable<Newsletter>
 
 @{
     ViewData["Title"] = "Index";
@@ -13,9 +13,6 @@
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
             <th>
                 @Html.DisplayNameFor(model => model.Subject)
             </th>
@@ -33,11 +30,9 @@
         var newlineIdx = item.NewsletterIntroText?.IndexOfAny(new[] { '\r', '\n' }) ?? -1;
         var title = item.NewsletterIntroText?.Substring(0, newlineIdx < 0 ? item.NewsletterIntroText.Length : newlineIdx);
         title = Regex.Replace(title ?? "", "<[^>]*>", "");
-    
+        title = Regex.Replace(title, "<p>", "");
+  
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Subject)
             </td>
@@ -46,11 +41,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SentAt)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
             </td>
         </tr>
 }
