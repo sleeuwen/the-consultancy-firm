@@ -21,7 +21,7 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _newsItemRepository.GetAll().Where(c => c.Enabled && !c.Deleted).OrderByDescending(n => n.Date).ToListAsync());
+            return View(await _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted).OrderByDescending(n => n.Date).ToListAsync());
         }
 
         [HttpGet("[controller]/{id}")]

@@ -26,12 +26,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             ViewBag.ShowDisabled = showDisabled;
             var customers = await _customerRepository.GetAll();
-            if (showDisabled)
-            {
-                return View(customers.Where(c => !c.Deleted).ToList());
-            }
-
-            return View(customers.Where(c => c.Enabled && !c.Deleted).ToList());
+            return View(customers.Where(c => !c.Deleted && (c.Enabled || showDisabled)));
         }
 
         // GET: Dashboard/Customers/Deleted

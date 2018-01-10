@@ -2,11 +2,11 @@
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using TheConsultancyFirm.Controllers;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
-using TheConsultancyFirm.Services;
 using Xunit;
 
 namespace TheConsultancyFirm.Tests.Controllers
@@ -23,7 +23,9 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public void Index()
         {
-            var controller = new CasesController(null, null);
+            var controller = new CasesController(null, _caseRepository.Object);
+            var model = new List<Case>().AsQueryable();
+            _caseRepository.Setup(repo => repo.GetAll()).Returns(model);
             var result = controller.Index();
             Assert.IsType<ViewResult>(result);
         }

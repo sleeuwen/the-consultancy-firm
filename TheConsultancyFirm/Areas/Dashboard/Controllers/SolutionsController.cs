@@ -28,11 +28,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> Index(bool showDisabled = false)
         {
             ViewBag.ShowDisabled = showDisabled;
-            if (showDisabled)
-            {
-                return View(await _solutionRepository.GetAll().Where(c => !c.Deleted).OrderByDescending(s => s.Date).ToListAsync());
-            }
-            return View(await _solutionRepository.GetAll().Where(n => n.Enabled && !n.Deleted).OrderByDescending(s => s.Date).ToListAsync());
+            return View(await _solutionRepository.GetAll().Where(s => !s.Deleted && (s.Enabled || showDisabled))
+                .OrderByDescending(s => s.Date).ToListAsync());
         }
 
         // GET: Dashboard/Downloads/Deleted

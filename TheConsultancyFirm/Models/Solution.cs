@@ -36,10 +36,12 @@ namespace TheConsultancyFirm.Models
         [Display(Name="Klanten")]
         public List<int> CustomerIds { get; set; }
 
+        [MaxLength(140)]
         [Display(Name = "Omschrijving voor delen (max 140 char)")]
         public string SharingDescription { get; set; }
 
         [Required]
+        [MaxLength(300)]
         [Display(Name = "Samenvatting (max 300 char)")]
         public string Summary { get; set; }
 

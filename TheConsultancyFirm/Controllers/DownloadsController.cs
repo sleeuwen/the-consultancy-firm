@@ -20,13 +20,13 @@ namespace TheConsultancyFirm.Controllers
         {
             var viewModel = new DownloadsViewModel
             {
-                MostDownloaded = await _downloadRepository.GetAll().Where(c => c.Enabled && !c.Deleted).OrderByDescending(d => d.AmountOfDownloads)
+                MostDownloaded = await _downloadRepository.GetAll().Where(d => d.Enabled && !d.Deleted).OrderByDescending(d => d.AmountOfDownloads)
                     .FirstOrDefaultAsync(),
-                MostRecent = await _downloadRepository.GetAll().Where(c => c.Enabled && !c.Deleted).OrderByDescending(c => c.Date).FirstOrDefaultAsync()
+                MostRecent = await _downloadRepository.GetAll().Where(d => d.Enabled && !d.Deleted).OrderByDescending(d => d.Date).FirstOrDefaultAsync()
             };
 
-            viewModel.AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id && !d.Deleted && !d.Deleted)
-                .OrderBy(c => c.Date).Skip(1).ToListAsync();
+            viewModel.AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id && d.Enabled && !d.Deleted)
+                .OrderBy(d => d.Date).Skip(1).ToListAsync();
 
             return View(viewModel);
         }
@@ -35,12 +35,12 @@ namespace TheConsultancyFirm.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var selected = await _downloadRepository.Get(id);
-            if (selected.Deleted || selected.Enabled == false) return View("Index");
+            if (selected.Deleted || !selected.Enabled == false) return NotFound();
 
             var viewModel = new DownloadsViewModel
             {
                 Selected = selected,
-                AllDownloads = await _downloadRepository.GetAll().Where(c => c.Id != id && !c.Deleted && !c.Deleted).ToListAsync()
+                AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != id && d.Enabled && !d.Deleted).ToListAsync()
             };
 
             return View("/Views/Downloads/Index.cshtml", viewModel);

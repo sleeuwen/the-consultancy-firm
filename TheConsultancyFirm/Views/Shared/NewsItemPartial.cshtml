@@ -1,6 +1,6 @@
 ﻿@model NewsItem
 @{
-    var background = Model.PhotoPath == null ? "background: #1A1919" : "background-image: url(" + Model.PhotoPath + ")";
+    var background = Model.PhotoPath == null ? "" : "background-image: url(" + Model.PhotoPath + ")";
 }
 <div class="newsitem">
     <div class="innernewsitem flexcase" style="@background">
