@@ -22,11 +22,14 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Users
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showDisabled = false)
         {
-            var list = await _userManager.Users.ToListAsync();
-            //return View(list.Where(u => u.Enabled == true));
-            return View(list);
+            ViewBag.ShowDisabled = showDisabled;
+            if(showDisabled)
+            {
+                return View(await _userManager.Users.ToListAsync());
+            }
+            return View(await _userManager.Users.Where(u => u.Enabled).ToListAsync());
         }
 
         // GET: Dashboard/Users/Create
@@ -64,7 +67,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/Users/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Disable")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
@@ -72,6 +75,18 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             applicationUser.Enabled = false;
 
              await _userManager.UpdateAsync(applicationUser);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost, ActionName("Enable")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EnableAccount(string id)
+        {
+            var applicationUser = await _userManager.FindByIdAsync(id);
+            applicationUser.Enabled = true;
+
+            await _userManager.UpdateAsync(applicationUser);
 
             return RedirectToAction(nameof(Index));
         }

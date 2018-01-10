@@ -12,8 +12,15 @@
     }
 }
 
-.slideWrapper span{
-    vertical-align: 20px;
+.slideWrapper{
+
+     span{
+        vertical-align: 20px;
+     }
+
+    form{
+        display: inline;
+    }
 }
 
 /* The slider */
@@ -24,7 +31,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #ccc;
+    background-color: $grey;
     -webkit-transition: .4s;
     transition: .4s;
     vertical-align: middle;
@@ -52,7 +59,7 @@
 
 
 input:checked + .slider {
-    background-color: #2196F3;
+    background-color: $orange;
 }
 
 input:focus + .slider {
@@ -66,7 +73,7 @@ input:checked + .slider:before {
 }
 
 .table {
-    i{
+    span{
         &:hover{
             color: $orange;
             cursor: pointer;

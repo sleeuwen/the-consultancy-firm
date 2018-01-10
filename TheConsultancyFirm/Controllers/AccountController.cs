@@ -68,6 +68,11 @@ namespace TheConsultancyFirm.Controllers
                 return RedirectToAction("ChangePassword", "Manage", new {area = "Dashboard"});
             }
 
+            if(!IsAccountEnabled(user.Email))
+            {
+                return RedirectToAction("AccessDenied");
+            }
+
             if (result.Succeeded)
             {
                 await UpdateUserLastLoginAsync(model.Email);
@@ -394,6 +399,11 @@ namespace TheConsultancyFirm.Controllers
         private bool CheckIfGoogleAccountExists(string email)
         {
             return _accountRepository.GetUserByEmail(email) != null;
+        }
+
+        private bool IsAccountEnabled(string email)
+        {
+            return _accountRepository.GetUserByEmail(email).Enabled;
         }
 
         #endregion

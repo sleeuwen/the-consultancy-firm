@@ -1,9 +1,11 @@
-function showDeleteModal(email, id) {
-    $("#deleteModal  .modal-body p").text("Email: " + email);
-    $("#deleteModal input[name=id]").val(id);
-    $("#deleteModal").modal()
+function showDisableModal(email, id) {
+    $("#disableModal  .modal-body p").text("Email: " + email);
+    $("#disableModal input[name=id]").val(id);
+    $("#disableModal").modal();
 }
 
-function toggleDisabledAccounts() {
-    
+function showEnableModal(email, id) {
+    $("#enableModal  .modal-body p").text("Email: " + email);
+    $("#enableModal input[name=id]").val(id);
+    $("#enableModal").modal();
 }

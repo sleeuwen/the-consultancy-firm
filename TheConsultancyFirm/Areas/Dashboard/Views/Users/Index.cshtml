@@ -11,7 +11,7 @@
     </div>
     <div class="row">
         <div class="col">
-            <p>Dit is de gebruikerspagina. Hier kan je gebruikers aanmaken, bekijken en verwijderen.</p>
+            <p>Dit is de gebruikerspagina. Hier kan je gebruikeraccounts aanmaken, deactiveren en activeren.</p>
         </div>
     </div>
     <div class="row">
@@ -20,11 +20,29 @@
         </div>
         <div class="col">
             <div class="slideWrapper">
-                <span>Toon verwijderde accounts</span>
-                <label class="switch">
-                    <input name="ShowEnabled" type="checkbox">
-                    <span class="slider round"></span>
-                </label>
+                @if (ViewBag.ShowDisabled)
+                {
+                    <span>Verberg gedeactiveerde accounts</span>
+                    <form asp-action="Index">
+                        <label class="switch">
+                            <a asp-action="Index">
+                                <input name="ShowEnabled" type="checkbox" checked>
+                                <span class="slider round"></span>
+                            </a>
+                        </label>
+                    </form>
+                }
+                else
+                {
+
+                <span>Toon gedeactiveerde accounts</span>
+                <form asp-action="Index">
+                    <label class="switch">
+                        <input name="ShowEnabled" type="checkbox">
+                        <a href="@Url.Action("Index", new { showDisabled = true})"><span class="slider round"></span></a>
+                    </label>
+                </form>
+                }
             </div>
         </div>
     </div>
@@ -48,11 +66,11 @@
                             <a>
                                 @if (item.Enabled)
                                 {
-                                    <i title="Deactiveer dit account" onclick="showDeleteModal( '@item.Email', '@item.Id')" class="fa fa-eye-slash"></i>
+                                    <span title="Deactiveer dit account" onclick="showDisableModal( '@item.Email', '@item.Id')">Deactiveer</span>
                                 }
                                 else
                                 {
-                                    <i title="Activeer dit account" onclick="showEnableModal( '@item.Email', '@item.Id')" class="fa fa-eye"></i>
+                                    <span title="Activeer dit account" onclick="showEnableModal( '@item.Email', '@item.Id')">Activeer</span>
                                 }
                             </a>
                             </td>
@@ -63,11 +81,11 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="deleteModal">
+<div class="modal fade" id="disableModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Wil je deze gebruiker verwijderen?</h5>
+                <h5 class="modal-title">Wil je deze gebruiker deactiveren?</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -76,11 +94,32 @@
                 <p></p>
             </div>
             <div class="modal-footer">
-                <form asp-action="Delete">
+                <form asp-action="Disable">
                     <input type="hidden" name="id" />
-                    <button type="submit" class="btn btn-danger">Verwijder <i class="fa fa-trash"></i></button>
+                    <button type="submit" class="btn btn-danger">Deactiveer</button>
                 </form>
-
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="enableModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Wil je deze gebruiker activeren?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <form asp-action="Enable">
+                    <input type="hidden" name="id" />
+                    <button type="submit" class="btn btn-success">Activeer</button>
+                </form>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>
