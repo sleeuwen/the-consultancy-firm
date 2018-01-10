@@ -1,4 +1,4 @@
-﻿@model TheConsultancyFirm.Models.CarouselBlock
+﻿@model CarouselBlock
 @{
     var slides = (Model.Slides ?? new List<Slide>()).OrderBy(s => s.Order).ToList();
 }

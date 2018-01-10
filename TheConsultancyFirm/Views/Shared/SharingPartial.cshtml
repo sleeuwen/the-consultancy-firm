@@ -1,0 +1,20 @@
+﻿@using System.Web
+@model string
+@{
+    Layout = null;
+    var Twitter = "https://twitter.com/share?url=" + HttpUtility.UrlEncode(Model);
+    var LinkedIn = "https://www.linkedin.com/cws/share?url=" + HttpUtility.UrlEncode(Model);
+    var Facebook = "https://www.facebook.com/sharer/sharer.php?u=" + HttpUtility.UrlEncode(Model);
+    var Google = "https://plus.google.com/share?url=" + HttpUtility.UrlEncode(Model);
+}
+<div class="sharing col-md-10 mx-auto">
+    <span class="introtext">
+        <i class="fa fa-share-alt"></i>
+        share
+    </span>
+
+    <a href="#" onclick="Share('@LinkedIn')" class="share-link fa fa-linkedin"></a>
+    <a href="#" onclick="Share('@Twitter')" class="share-link fa fa-twitter"></a>
+    <a href="#" onclick="Share('@Google')" class="share-link fa fa-google-plus"></a>
+    <a href="#" onclick="Share('@Facebook')" class="share-link fa fa-facebook"></a>
+</div>
