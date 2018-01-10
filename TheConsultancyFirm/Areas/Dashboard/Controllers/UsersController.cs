@@ -69,7 +69,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // POST: Dashboard/Users/Delete/5
         [HttpPost, ActionName("Disable")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DisableAccount(string id)
         {
             var applicationUser = await _userManager.FindByIdAsync(id);
             applicationUser.Enabled = false;
