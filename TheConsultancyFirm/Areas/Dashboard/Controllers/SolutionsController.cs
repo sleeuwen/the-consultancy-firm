@@ -5,9 +5,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
@@ -18,13 +16,11 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     public class SolutionsController : Controller
     {
         private readonly ISolutionRepository _solutionRepository;
-        private readonly IBlockRepository _blockRepository;
         private readonly IUploadService _uploadService;
 
-        public SolutionsController(ISolutionRepository solutionRepository, IBlockRepository blockRepository, IUploadService uploadService)
+        public SolutionsController(ISolutionRepository solutionRepository, IUploadService uploadService)
         {
             _solutionRepository = solutionRepository;
-            _blockRepository = blockRepository;
             _uploadService = uploadService;
         }
 
@@ -63,7 +59,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> Create([Bind("Id,Title,Image,Date,LastModified, CustomerIds, TagIds, CustomerCaption, CustomerIntrotext")] Solution solution)
+        public async Task<ObjectResult> Create([Bind("Title,Image, CustomerIds, TagIds, SharingDescription")] Solution solution)
         {
             if (solution.Image == null)
                 ModelState.AddModelError(nameof(solution.Image), "The Image field is required.");
@@ -134,7 +130,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if (solution == null) return new NotFoundObjectResult(null);
 
             // Bind POST variables Title, CustomerId, Image and TagIds to the model.
-            await TryUpdateModelAsync(solution, string.Empty, s => s.Title, s => s.CustomerIds, s => s.Image, s => s.TagIds);
+            await TryUpdateModelAsync(solution, string.Empty, s => s.Title, s => s.CustomerIds, s => s.Image, s => s.TagIds, c => c.SharingDescription);
 
             if (solution.Image != null)
             {

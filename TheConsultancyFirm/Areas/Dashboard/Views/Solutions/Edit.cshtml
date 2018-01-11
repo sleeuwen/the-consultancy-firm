@@ -32,27 +32,29 @@
                         <span asp-validation-for="Image" class="invalid-feedback d-block"></span>
                     </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="TagIds"></label>
                         <select asp-for="TagIds" class="form-control select2" data-placeholder="Select related tags"
                                 data-ajax--url="@Url.Action("Autocomplete", "Tags")" data-close-on-select="false">
                             @foreach (var tag in Model.SolutionTags)
-                             {
-                                 <option value="@tag.TagId" selected>@tag.Tag.Text</option>
-                             }
+                            {
+                                <option value="@tag.TagId" selected>@tag.Tag.Text</option>
+                            }
                         </select>
                     </div>
                 </div>
+
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="CustomerIds"></label>
                         <select asp-for="CustomerIds" class="form-control select2" data-placeholder="Selecteer gerelateerde klanten"
                                 data-ajax--url="@Url.Action("Autocomplete", "Customers")" data-close-on-select="false">
                             @foreach (var customer in Model.CustomerSolutions)
-                             {
-                                 <option value="@customer.CustomerId" selected>@customer.Customer.Name</option>
-                             }
+                            {
+                                <option value="@customer.CustomerId" selected>@customer.Customer.Name</option>
+                            }
                         </select>
                         <span asp-validation-for="CustomerIds" class="invalid-feedback d-block"></span>
                         <small id="customerHelp" class="form-text text-muted">
@@ -60,6 +62,14 @@
                             <a asp-controller="Customers" asp-action="Create" target="_blank">hier</a>
                             om een nieuwe klant toe te voegen.
                         </small>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="SharingDescription"></label>
+                        <textarea asp-for="SharingDescription" class="form-control" maxlength="140" rows="3"></textarea>
+                        <span asp-validation-for="SharingDescription" class="invalid-feedback d-block"></span>
                     </div>
                 </div>
             </div>

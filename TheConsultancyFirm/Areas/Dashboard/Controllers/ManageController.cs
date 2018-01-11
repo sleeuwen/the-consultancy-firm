@@ -10,8 +10,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TheConsultancyFirm.Extensions;
 using TheConsultancyFirm.Models;
-using TheConsultancyFirm.Models.ManageViewModels;
 using TheConsultancyFirm.Services;
+using TheConsultancyFirm.ViewModels.Manage;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
@@ -110,7 +110,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return View(model);
+                return View("Index",model);
             }
 
             var user = await _userManager.GetUserAsync(User);

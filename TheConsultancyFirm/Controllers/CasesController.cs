@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
-using TheConsultancyFirm.Services;
 using TheConsultancyFirm.Models;
 using System.Threading.Tasks;
 using TheConsultancyFirm.ViewModels;
