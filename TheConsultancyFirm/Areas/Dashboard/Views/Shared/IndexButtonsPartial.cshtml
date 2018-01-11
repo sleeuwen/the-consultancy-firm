@@ -1,0 +1,42 @@
+﻿<p>
+    <div class="dashboard-buttons">
+        <a asp-action="Create">
+            <div class="dashboard-button" id="create-item">
+                Nieuw item Toevoegen
+                <div class="round-button">
+                    <i class="fa fa-plus"></i>
+                </div>
+            </div>
+        </a>
+        @if (ViewBag.ShowDisabled)
+        {
+            <a asp-action="Index">
+                <div class="dashboard-button">
+                    verberg disabled items
+                    <div class="round-button">
+                        <i class="fa fa-check-square-o"></i>
+                    </div>
+                </div>
+            </a>
+        }
+        else
+        {
+            <a href="@Url.Action("Index", new {showDisabled = true})">
+                <div class="dashboard-button">
+                    Toon disabled items
+                    <div class="round-button">
+                        <i class="fa fa-square-o"></i>
+                    </div>
+                </div>
+            </a>
+        }
+        <a asp-action="Deleted">
+            <div class="dashboard-button">
+                Bekijk verwijderde items
+                <div class="round-button">
+                    <i class="fa fa-trash-o"></i>
+                </div>
+            </div>
+        </a>
+    </div>
+</p>

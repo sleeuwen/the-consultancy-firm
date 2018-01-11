@@ -6,55 +6,45 @@
 
 <h2>@ViewBag.Title</h2>
 
-<p>
-    <a asp-action="Create">Aanmaken</a>
-    @if (ViewBag.ShowDisabled)
-    {
-        <a asp-action="Index">Hide disabled</a>
-    }
-    else
-    {
-        <a href="@Url.Action("Index", new { showDisabled = true })">Show disabled</a>             
-    }
-    <a asp-action="Deleted">Verwijderde cases</a>
-</p>
+@Html.Partial("IndexButtonsPartial")
+
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            Titel
-        </th>
-        <th>
-            Publiceerdatum
-        </th>
-        <th>
-            Laatst bewerkt
-        </th>
-        <th>
-            Acties
-        </th>
-    </tr>
+        <tr>
+            <th>
+                Titel
+            </th>
+            <th>
+                Publiceerdatum
+            </th>
+            <th>
+                Laatst bewerkt
+            </th>
+            <th>
+                Acties
+            </th>
+        </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
-        <tr class="@(item.Enabled ? "" : "disabled")">
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastModified)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> |
-                <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr class="@(item.Enabled ? "" : "disabled")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastModified)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> |
+                    <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
