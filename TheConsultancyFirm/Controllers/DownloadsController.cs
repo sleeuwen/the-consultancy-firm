@@ -35,7 +35,7 @@ namespace TheConsultancyFirm.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var selected = await _downloadRepository.Get(id);
-            if (selected.Deleted || !selected.Enabled == false) return NotFound();
+            if (selected.Deleted || !selected.Enabled) return NotFound();
 
             var viewModel = new DownloadsViewModel
             {
