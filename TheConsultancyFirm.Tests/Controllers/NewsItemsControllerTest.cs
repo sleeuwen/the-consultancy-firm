@@ -27,7 +27,7 @@ namespace TheConsultancyFirm.Tests.Controllers
             var controller = new NewsItemsController(_newsItemsRepository.Object, null);
             var model = new List<NewsItem>().AsQueryable().BuildMock();
             _newsItemsRepository.Setup(repo => repo.GetAll()).Returns(model.Object);
-            var result = controller.Index().Result;
+            var result = await controller.Index();
             Assert.IsType<ViewResult>(result);
         }
     }

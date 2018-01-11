@@ -76,13 +76,13 @@ namespace TheConsultancyFirm.Tests.Controllers
         }
 
         [Fact]
-        public void Index()
+        public async Task Index()
         {
             var controller = new CasesController(null, _caseRepository.Object);
 
             var model = new List<Case>().AsQueryable().BuildMock();
             _caseRepository.Setup(repo => repo.GetAll()).Returns(model.Object);
-            var result = controller.Index().Result;
+            var result = await controller.Index();
             Assert.IsType<ViewResult>(result);
         }
     }
