@@ -1,5 +1,4 @@
 ﻿@import '../../variables';
-
 /* The switch - the box around the slider */
 .switch {
     position: relative;
@@ -22,7 +21,6 @@
         display: inline;
     }
 }
-
 /* The slider */
 .slider {
     position: absolute;
@@ -54,7 +52,6 @@
         border-radius: 50%;
     }
 }
-
 
 input:checked + .slider {
     background-color: $orange;
