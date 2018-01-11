@@ -537,7 +537,7 @@
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
                             <div style="text-align: center;">The Consultancy Firm - Nieuwsbrief week <span id="week">{week}</span></div>
-
+                            <hr/>
                         </td>
                     </tr>
                 </tbody></table>
@@ -652,7 +652,7 @@
                         
                         <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;">
                         
-                            <h1 class="mc-toc-title">Nieuwste Item</h1>
+                            <h1 class="mc-toc-title">Nieuwste Items</h1>
 
                         </td>
                     </tr>
@@ -668,42 +668,85 @@
             </td>
         </tr>
     </tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnCaptionBlock">
-    <tbody class="mcnCaptionBlockOuter">
-        <tr>
-            <td class="mcnCaptionBlockInner" valign="top" style="padding:9px;">
-                
-
-<table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnCaptionBottomContent">
-    <tbody><tr>
-        <td class="mcnCaptionBottomImageContent" align="center" valign="top" style="padding:0 9px 9px 9px;">
-        
-            
-
-            <img alt="" src="https://gallery.mailchimp.com/2aa2c36214b04150a615e7c36/images/a7e96fdd-41fd-48d7-8055-69fe965e6b45.jpg" width="564" style="max-width:1920px;" class="mcnImage">
-            
-        
-        </td>
-    </tr>
-    <tr>
-        <td class="mcnTextContent" valign="top" style="padding:0 9px 0 9px;" width="564">
-            <div style="text-align: center;">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim.&nbsp;</div>
-
-<div style="text-align: center;"><br>
-<a href="https://h-se-wpfw-1-17-group8.azurewebsites.net/Cases/3-eerste-case" target="_blank">Lees meer</a></div>
-
-        </td>
-    </tr>
-</tbody></table>
+			                                </table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnCaptionBlock">
+			                                    <tbody class="mcnCaptionBlockOuter">
+			                                    <tr>
+			                                        <td class="mcnCaptionBlockInner" valign="top" style="padding:9px;">
 
 
+			                                            <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnCaptionBottomContent">
+			                                                <tbody>
+			                                                <tr>
+			                                                    <td class="mcnCaptionBottomImageContent" align="center" valign="top" style="padding:0 9px 9px 9px;">
+			                                                        <h3 style="text-align: center">Nieuwste Case</h3>
+			                                                        <img alt="" src="{caseImage}" width="564" style="max-width:1920px;" class="mcnImage">
 
 
+			                                                    </td>
+			                                                </tr>
+			                                                <tr>
+			                                                    <td class="mcnTextContent" valign="top" style="padding:0 9px 0 9px;" width="564">
+			                                                        <div id="summaryCase" style="text-align: center;">{caseSummary}</div>
 
-            </td>
-        </tr>
-    </tbody>
-</table><table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width:100%;">
+			                                                        <div style="text-align: center;">
+			                                                            <br>
+			                                                            <a href="{caseLink}" target="_blank">Lees meer</a>
+			                                                        </div>
+
+			                                                    </td>
+			                                                </tr>
+			                                                </tbody>
+			                                            </table>
+			                                            <hr/>
+			                                            <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnCaptionBottomContent">
+			                                                <tbody>
+			                                                <tr>
+			                                                    <td class="mcnCaptionBottomImageContent" align="center" valign="top" style="padding:0 9px 9px 9px;">
+			                                                        <h3 style="text-align: center">Nieuwste nieuwsitem</h3>
+			                                                        <img alt="" src="{newsImage}" width="564" style="max-width:1920px;" class="mcnImage">
+
+
+			                                                    </td>
+			                                                </tr>
+			                                                <tr>
+			                                                    <td class="mcnTextContent" valign="top" style="padding:0 9px 0 9px;" width="564">
+			                                                        <div id="summaryNews" style="text-align: center;">{newsSummary}</div>
+
+			                                                        <div style="text-align: center;">
+			                                                            <br>
+			                                                            <a href="{newsLink}" target="_blank">Lees meer</a>
+			                                                        </div>
+
+			                                                    </td>
+			                                                </tr>
+			                                                </tbody>
+			                                            </table>
+                                                        <hr/>
+			                                            <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnCaptionBottomContent">
+			                                                <tbody>
+			                                                <tr>
+			                                                    <td class="mcnCaptionBottomImageContent" align="center" valign="top" style="padding:0 9px 9px 9px;">
+			                                                        <h3 style="text-align: center">Nieuwste download</h3>
+			                                                    </td>
+			                                                </tr>
+			                                                <tr>
+			                                                    <td class="mcnTextContent" valign="top" style="padding:0 9px 0 9px;" width="564">
+			                                                        <div id="summaryDownload" style="text-align: center;">{downloadSummary}</div>
+
+			                                                        <div style="text-align: center;">
+			                                                            <br>
+			                                                            <a href="{downloadLink}" target="_blank">Download</a>
+			                                                        </div>
+
+			                                                    </td>
+			                                                </tr>
+			                                                </tbody>
+			                                            </table>
+			                                        </td>
+			                                    </tr>
+			                                    </tbody>
+			                                </table><hr/>
+                                            <table border="0" cellpadding="0" cellspacing="0" width="100%" class="mcnTextBlock" style="min-width:100%;">
     <tbody class="mcnTextBlockOuter">
         <tr>
             <td valign="top" class="mcnTextBlockInner" style="padding-top:9px;">
@@ -718,9 +761,6 @@
                 <table align="left" border="0" cellpadding="0" cellspacing="0" style="max-width:100%; min-width:100%;" width="100%" class="mcnTextContentContainer">
                     <tbody><tr>
                         <h1 class="null">Ander nieuws</h1>
-                        <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;" id="NewsletterTemplateOtherNews">
-                            {1}
-                        </td>
                     </tr>
                 </tbody></table>
 				<!--[if mso]>
@@ -741,7 +781,9 @@
                 <table class="mcnDividerContent" border="0" cellpadding="0" cellspacing="0" width="100%" style="min-width:100%;">
                     <tbody><tr>
                         <td>
-                            <span></span>
+                            <td valign="top" class="mcnTextContent" style="padding-top:0; padding-right:18px; padding-bottom:9px; padding-left:18px;" id="NewsletterTemplateOtherNews">
+                                {1}
+                            </td>
                         </td>
                     </tr>
                 </tbody></table>

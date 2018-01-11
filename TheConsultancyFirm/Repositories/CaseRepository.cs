@@ -79,5 +79,10 @@ namespace TheConsultancyFirm.Repositories
             _context.Cases.Remove(@case);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<Case> GetLatest()
+        {
+            return await _context.Cases.OrderByDescending(c => c.Date).Take(1).FirstOrDefaultAsync();
+        }
     }
 }

@@ -14,11 +14,14 @@ function ReplaceTemplates() {
     var weekNr = Math.ceil(dayDiff / 7);
 
     $('#newsletterPreview').contents().find('#week').text(weekNr);
-    $('#newsletterPreview').contents().find('#NewsletterTemplateIntro').text(
+    $('#newsletterPreview').contents().find('#NewsletterTemplateIntro').html(
         'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes');
-    $('#newsletterPreview').contents().find('#NewsletterTemplateOtherNews').text(
+    $('#newsletterPreview').contents().find('#NewsletterTemplateOtherNews').html(
         'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes');
     $('#newsletterPreview').contents().find('#year').text(year);
+    $('#newsletterPreview').contents().find('#summaryCase').text('Hier komt automatisch de sharingdescription te staan van het nieuwste item, als deze mail verstuurd wordt');
+    $('#newsletterPreview').contents().find('#summaryNews').text('Hier komt automatisch de sharingdescription te staan van het nieuwste item, als deze mail verstuurd wordt');
+    $('#newsletterPreview').contents().find('#summaryDownload').text('Hier komt automatisch de sharingdescription te staan van het nieuwste item, als deze mail verstuurd wordt');
 }
 
 function UpdateIntroTextOnTemplate() {
@@ -27,7 +30,7 @@ function UpdateIntroTextOnTemplate() {
     tinymce.triggerSave();
     var text = $('#NewsletterIntro').val();
     //console.log('NewsletterIntro');
-    $('iframe').contents().find('#NewsletterTemplateIntro').text(text.replace('<p>', "").replace('</p>', ""));
+    $('iframe').contents().find('#NewsletterTemplateIntro').html(text.replace('<p>', "").replace('</p>', ""));
 }
 
 function UpdateOtherNewsTextOnTemplate() {
@@ -36,7 +39,7 @@ function UpdateOtherNewsTextOnTemplate() {
     tinymce.triggerSave();
     var text = $('#NewsletterOtherNews').val();
     //console.log('NewsletterOtherNews');
-    $('iframe').contents().find('#NewsletterTemplateOtherNews').text(text.replace('<p>', "").replace('</p>', ""));
+    $('iframe').contents().find('#NewsletterTemplateOtherNews').html(text.replace('<p>', "").replace('</p>', ""));
 }
 
 jQuery(function($) {

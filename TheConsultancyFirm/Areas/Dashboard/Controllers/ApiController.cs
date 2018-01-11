@@ -22,11 +22,5 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             return _contactRepository.CountUnread();
         }
-
-        [HttpGet("content/latest")]
-        public ContentItem LatestItem()
-        {
-            return null;
-        }
     }
 }
