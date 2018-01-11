@@ -56,7 +56,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 await _userManager.CreateAsync(applicationUser);
                 await _userManager.AddPasswordAsync(applicationUser, userPass);
 
-                await _emailSender.SendMailAsync(applicationUser.Email, "Er is een account gecreëerd voor u op de website.", $@"
+                await _emailSender.SendMailAsync(applicationUser.Email, "Er is een account aangemaakt voor u op de website.", $@"
                 Beste gebruiker,<br/>
                 <br/>
                 Er is een account voor u aangemaakt op de website.<br/>
