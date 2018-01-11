@@ -45,6 +45,11 @@
                     <a active-controller="Tags" asp-controller="Tags" asp-action="Index">Tags</a>
                 </li>
             </ul>
+          
         </div>
     </nav>
+    @{var now = DateTime.UtcNow;
+        var localNow = DateTime.Now;
+    }
+    <div id="lastmodified">Last Modified: <br /> @localNow</div>
 </aside>
