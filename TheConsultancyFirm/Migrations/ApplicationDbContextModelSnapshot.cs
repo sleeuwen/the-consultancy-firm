@@ -441,6 +441,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("LastModified");
 
+                    b.Property<string>("PhotoPath");
+
                     b.Property<string>("SharingDescription");
 
                     b.Property<string>("Title")

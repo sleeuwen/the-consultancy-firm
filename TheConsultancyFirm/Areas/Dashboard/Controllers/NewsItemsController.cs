@@ -43,7 +43,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> Create([Bind("Title,Image,TagIds")] NewsItem newsItem)
+        public async Task<ObjectResult> Create([Bind("Title,Image,TagIds,SharingDescription")] NewsItem newsItem)
         {
             if (newsItem.Image != null)
             {
@@ -103,7 +103,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if(newsItem == null) return new NotFoundObjectResult(null);
 
             // Bind POST variables Title, CustomerId, Image and TagIds to the model.
-            await TryUpdateModelAsync(newsItem, string.Empty, c => c.Title, c => c.Image, c => c.TagIds);
+            await TryUpdateModelAsync(newsItem, string.Empty, c => c.Title, c => c.Image, c => c.TagIds, c => c.SharingDescription);
 
             if (newsItem.Image != null && newsItem.Image?.Length == 0)
                 ModelState.AddModelError(nameof(newsItem.Image), "Filesize too small");

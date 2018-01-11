@@ -1,0 +1,52 @@
+﻿@model SolutionDetailViewModel
+@{
+    ViewData["Title"] = Model.Solution.Title;
+    var imageUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Model.Solution.PhotoPath}";
+    var link = $"{Context.Request.Scheme}://{Context.Request.Host}/solutions/{Model.Solution.Id}";
+}
+
+@section metatags
+{
+    <meta property="og:title" content="@Model.Solution.Title" />
+    <meta property="og:image" content="@imageUrl" />
+    <meta property="og:description" content="@Model.Solution.SharingDescription" />
+    <meta property="og:url" content="@link" />
+    <meta name="twitter:card" content="summary" />
+}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item"><a asp-controller="Solutions" asp-action="Index">Solutions</a></li>
+    <li class="breadcrumb-item active">@Model.Solution.Title</li>
+</ol>
+<div class="solutiondetail content">
+    @foreach (var block in Model.Solution.Blocks.OrderBy(b => b.Order))
+    {
+        @await Component.InvokeAsync("Block", block)
+    }
+</div>
+<div class="container">
+    <div class="row">
+        @Html.Partial("SharingPartial", link)
+    </div>
+
+    @Html.Partial("RelatedCasesPartial", Model.ContentItems)
+
+    <div class="container">
+        <div class="row">
+            <div class="col text-center">
+                <h2>Klanten die @Model.Solution.Title gebruiken</h2>
+                <p class="introtext">
+                    Er zijn veel klanten die gebruik maken van @Model.Solution.Title<br />
+                    vanwege de open source aangepast naar eigen wensen en
+                    voorkeuren
+                </p>
+            </div>
+        </div>
+        @Html.Partial("OurCustomersPartial", Model.Customers)
+    </div>
+
+</div>
+
+@Html.Partial("NewsLetterPartial")
+
