@@ -26,7 +26,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             ApplicationUser currentUser = await GetCurrentUser(); 
             ViewBag.ShowDisabled = showDisabled;
-            var users = await _userManager.Users.Where(c => c.Enabled || showDisabled).Where(c => c.Id != currentUser.Id).ToListAsync();
+            var users = await _userManager.Users.Where(c => c.Id != currentUser.Id && (c.Enabled || showDisabled)).ToListAsync();
             return View(users);
         }
 
