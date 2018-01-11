@@ -29,10 +29,10 @@
       "wwwroot/js/buttons.js",
       "wwwroot/js/carousel.js",
       "wwwroot/js/cookieWall.js",
+      "wwwroot/js/floatingButton.js",
       "wwwroot/js/navbar.js",
       "wwwroot/js/sharing.js",
-      "wwwroot/js/newsletter.js",
-      "wwwroot/js/floatingButton.js"
+      "wwwroot/js/newsletter.js"
     ],
     "minify": {
       "enabled": true,

@@ -1,6 +1,3 @@
-function showPopup() {
-
-    $(document).ready(function () {
-        $('[data-toggle="popover"]').popover();
-    });
-}
+jQuery(function ($) {
+    $('[data-toggle=popover]').popover();
+});

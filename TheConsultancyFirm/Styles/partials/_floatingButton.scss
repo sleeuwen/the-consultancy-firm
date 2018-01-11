@@ -1,19 +1,10 @@
 ﻿@import '../variables';
 
 .floatingButton {
-    background-color:orange;
-    border-radius: 50%;
-    border-style: solid;
-    border-width: 5px;
-    border-color:silver;
-
-    .floatingBtn {
-        top: 50%;
-        bottom: 50%;
-        position: fixed;
-        z-index: 999;
-    }
-
+    top: 50%;
+    bottom: 50%;
+    position: fixed;
+    z-index: 999;
     img {
         width: 50px;
     }
