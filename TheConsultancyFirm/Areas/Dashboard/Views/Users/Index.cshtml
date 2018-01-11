@@ -6,7 +6,7 @@
 <div class="fluid-container">
     <div class="row">
         <div class="col">
-            <h2>Gebruikers</h2>
+            <h2>@ViewBag.Title</h2>
         </div>
     </div>
     <div class="row">
@@ -94,7 +94,7 @@
                 <p></p>
             </div>
             <div class="modal-footer">
-                <form asp-action="Disable">
+                <form asp-action="ToggleAccount">
                     <input type="hidden" name="id" />
                     <button type="submit" class="btn btn-danger">Deactiveer</button>
                 </form>
@@ -116,7 +116,7 @@
                 <p></p>
             </div>
             <div class="modal-footer">
-                <form asp-action="Enable">
+                <form asp-action="ToggleAccount">
                     <input type="hidden" name="id" />
                     <button type="submit" class="btn btn-success">Activeer</button>
                 </form>

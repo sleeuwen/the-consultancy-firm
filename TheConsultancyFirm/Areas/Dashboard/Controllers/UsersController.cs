@@ -24,12 +24,17 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // GET: Dashboard/Users
         public async Task<IActionResult> Index(bool showDisabled = false)
         {
+            ApplicationUser currentUser = await GetCurrentUser(); 
             ViewBag.ShowDisabled = showDisabled;
-            if(showDisabled)
-            {
-                return View(await _userManager.Users.ToListAsync());
-            }
-            return View(await _userManager.Users.Where(u => u.Enabled).ToListAsync());
+            var users = await _userManager.Users.Where(c => c.Enabled || showDisabled).Where(c => c.Id != currentUser.Id).ToListAsync();
+            return View(users);
+        }
+
+        [HttpGet]
+        public async Task<ApplicationUser> GetCurrentUser()
+        {
+            ApplicationUser currentUser = await _userManager.GetUserAsync(User);
+            return currentUser;
         }
 
         // GET: Dashboard/Users/Create
@@ -67,26 +72,19 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/Users/Delete/5
-        [HttpPost, ActionName("Disable")]
+        /// <summary>
+        /// Toggles between an enabled user and disabled user
+        /// </summary>
+        /// <param name="id">The user id (in this case an string)</param>
+        /// <returns>Redirect to index</returns>
+        [HttpPost, ActionName("ToggleAccount")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DisableAccount(string id)
+        public async Task<IActionResult> ToggleAccount(string id)
         {
             var applicationUser = await _userManager.FindByIdAsync(id);
-            applicationUser.Enabled = false;
+            applicationUser.Enabled = !applicationUser.Enabled;
 
              await _userManager.UpdateAsync(applicationUser);
-
-            return RedirectToAction(nameof(Index));
-        }
-
-        [HttpPost, ActionName("Enable")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EnableAccount(string id)
-        {
-            var applicationUser = await _userManager.FindByIdAsync(id);
-            applicationUser.Enabled = true;
-
-            await _userManager.UpdateAsync(applicationUser);
 
             return RedirectToAction(nameof(Index));
         }
