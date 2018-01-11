@@ -2,20 +2,18 @@
 
 .dashboard-button {
     background-color: $orange;
-    color: $white;
     padding: 5px;
     border-radius: 5px;
     display: flex;
     margin: 0 10px;
 
-    .round-button {
+    .icon-badge {
         background-color: $lightOrange;
         border-radius: 50%;
         width: 25px;
         height: 25px;
         margin-left: 10px;
         margin-right: 5px;
-        text-align: center;
     }
 }
 
@@ -25,6 +23,12 @@
     a {
         text-decoration: none;
         color: $white;
+    }
+
+    i {
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
 
