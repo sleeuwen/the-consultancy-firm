@@ -1,0 +1,33 @@
+@import '../variables';
+
+$custom-control-gutter: 1.5rem !default;
+$custom-control-indicator-size: 1rem !default;
+$custom-switch-indicator-border-radius: $custom-control-indicator-size / 2;
+$custom-switch-indicator-icon: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3E%3Ccircle r='3' fill='%23FFFFFF'/%3E%3C/svg%3E") !default;
+$custom-switch-width: $custom-control-indicator-size * 1.75;
+
+.custom-switch {
+    padding-left: $custom-control-gutter * 1.5;
+
+    .custom-control-label {
+        &::before {
+            width: $custom-switch-width;
+            border-radius: $custom-switch-indicator-border-radius;
+        }
+
+        &::after {
+            width: $custom-control-indicator-size * 1.75;
+            background-image: $custom-switch-indicator-icon;
+            background-position: left center;
+            background-size: $custom-control-indicator-size;
+        }
+    }
+
+    .custom-control-input:checked ~ .custom-control-label::after {
+        background-position: right center;
+    }
+
+    &-animated .custom-control-label::after {
+        transition: background-position .1s;
+    }
+}

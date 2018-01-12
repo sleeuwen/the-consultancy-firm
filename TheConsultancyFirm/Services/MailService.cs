@@ -17,6 +17,19 @@ namespace TheConsultancyFirm.Services
             _mailSettings = mailSettings.Value;
         }
 
+        public Task SendAccountCreatedMailAsync(string email, string password)
+        {
+            return SendMailAsync(email, "Er is een account aangemaakt voor u op de website.", $@"
+Beste gebruiker,<br/>
+<br/>
+Er is een account voor u aangemaakt op de website.<br/>
+Het wachtwoord voor de eerste keer inloggen in de applicatie is: <b>{password}</b><br/>
+Als u voor de eerste keer inlogt, wordt u verwezen naar de wachtwoord veranderen pagina, waar u dan de optie heeft om uw wachtwoord aan te passen.<br/>
+<br/>
+Met vriendelijke groet,<br/>
+Het TCF-team");
+        }
+
         public Task SendForgotPasswordMailAsync(string email, string callbackUrl)
         {
             return SendMailAsync(email, "Reset Password",
