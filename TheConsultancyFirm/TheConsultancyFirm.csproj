@@ -22,6 +22,12 @@
     <EmbeddedResource Update="Resources\Views\Contact\Index.nl-NL.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Downloads\Index.en-US.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Views\Downloads\Index.nl-NL.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Home\Index.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
