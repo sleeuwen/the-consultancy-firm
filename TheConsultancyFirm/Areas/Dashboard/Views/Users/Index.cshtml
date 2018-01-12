@@ -1,0 +1,108 @@
+﻿@model IEnumerable<TheConsultancyFirm.Models.ApplicationUser>
+@{
+    ViewData["Title"] = "Gebruikers";
+}
+<div class="fluid-container">
+    <div class="row">
+        <div class="col">
+            <h2>@ViewBag.Title</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p>Dit is de gebruikerspagina. Hier kan je gebruikeraccounts aanmaken, deactiveren en activeren.</p>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <a asp-controller="Users" asp-action="Create" title="Maak een nieuwe gebruiker aan">Nieuwe gebruiker toevoegen <i class="fa fa-user-plus"></i></a>
+        </div>
+        <div class="col">
+            <form asp-action="Index" class="form-inline" method="get">
+                <div class="custom-control custom-switch ml-auto">
+                    <input type="checkbox" class="custom-control-input" name="ShowDisabled" id="showDisabledSwitch"
+                           value="true" @(ViewBag.ShowDisabled ? "checked" : "") onchange="submit()" />
+                    <label class="custom-control-label" for="showDisabledSwitch">Toon gedeactiveerde accounts</label>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>Laatst ingelogd op</th>
+                        <th>Acties</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="@(@item.Enabled ? "enabled" : "disabled")">
+                            <td>@item.Email</td>
+                            <td>@item.LastLogin</td>
+                            <td>
+                            <a>
+                                @if (item.Enabled)
+                                {
+                                    <span title="Deactiveer dit account" onclick="showDisableModal( '@item.Email', '@item.Id')">Deactiveer</span>
+                                }
+                                else
+                                {
+                                    <span title="Activeer dit account" onclick="showEnableModal( '@item.Email', '@item.Id')">Activeer</span>
+                                }
+                            </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="disableModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Wil je deze gebruiker deactiveren?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <form asp-action="ToggleAccount">
+                    <input type="hidden" name="id" />
+                    <button type="submit" class="btn btn-danger">Deactiveer</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="enableModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Wil je deze gebruiker activeren?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p></p>
+            </div>
+            <div class="modal-footer">
+                <form asp-action="ToggleAccount">
+                    <input type="hidden" name="id" />
+                    <button type="submit" class="btn btn-success">Activeer</button>
+                </form>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
