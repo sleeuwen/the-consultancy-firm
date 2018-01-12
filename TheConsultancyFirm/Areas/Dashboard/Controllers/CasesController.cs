@@ -16,20 +16,26 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     public class CasesController : Controller
     {
         private readonly ICaseRepository _caseRepository;
-        private readonly IBlockRepository _blockRepository;
         private readonly IUploadService _uploadService;
 
-        public CasesController(ICaseRepository caseRepository, IBlockRepository blockRepository, IUploadService uploadService)
+        public CasesController(ICaseRepository caseRepository, IUploadService uploadService)
         {
             _caseRepository = caseRepository;
-            _blockRepository = blockRepository;
             _uploadService = uploadService;
         }
 
         // GET: Dashboard/Cases
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showDisabled = false)
         {
-            return View(await _caseRepository.GetAll().ToListAsync());
+            ViewBag.ShowDisabled = showDisabled;
+            return View(await _caseRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
+                .OrderByDescending(c => c.Date).ToListAsync());
+        }
+
+        // GET: Dashboard/Cases/Deleted
+        public async Task<IActionResult> Deleted()
+        {
+            return View(await _caseRepository.GetAll().Where(c => c.Deleted).OrderByDescending(c => c.Date).ToListAsync());
         }
 
         // GET: Dashboard/Cases/Create
@@ -170,23 +176,37 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            foreach (var block in @case.Blocks)
-            {
-                if (block is CarouselBlock carousel)
-                {
-                    foreach (var slide in carousel.Slides.Where(s => s.PhotoPath != null))
-                    {
-                        await _uploadService.Delete(slide.PhotoPath);
-                    }
-                }
+            @case.Deleted = true;
 
-                await _blockRepository.Delete(block.Id);
+            await _caseRepository.Update(@case);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Restore(int? id)
+        {
+            var @case = await _caseRepository.Get(id ?? 0);
+            if (@case == null)
+            {
+                return NotFound();
             }
 
-            if (@case.PhotoPath != null)
-                await _uploadService.Delete(@case.PhotoPath);
+            @case.Deleted = false;
 
-            await _caseRepository.Delete(@case.Id);
+            await _caseRepository.Update(@case);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ToggleEnable(int? id)
+        {
+            var @case = await _caseRepository.Get(id ?? 0);
+            if (@case == null)
+            {
+                return NotFound();
+            }
+
+            @case.Enabled  = !@case.Enabled;
+
+            await _caseRepository.Update(@case);
             return RedirectToAction(nameof(Index));
         }
 

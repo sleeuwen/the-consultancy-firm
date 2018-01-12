@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<Case>
+@{
     ViewBag.Title = "Case overview";
     Layout = "_Layout";
 }
@@ -7,18 +8,16 @@
     <li class="breadcrumb-item active">Cases</li>
 </ol>
 <div class="container-fluid fluidpadding">
-
-    @for (var i = 0; i < 3; i++)
+    @foreach (var item in Model)
     {
         <div class="row">
-            <div class="caseoverview" style="background-image: url(/images/office-design.jpg);">
+            <div class="caseoverview" style="background-image: url(@item.PhotoPath);">
                 <div class="innercaseoverview flexcase">
-                    <h4>Banque Artesia</h4>
+                    <h4>@item.Customer.Name</h4>
                     <h1>
-                        "Zes miljoen pagina's minder printen dankzij StreamServe
+                        @item.Title
                     </h1>
-                    @* asp-route-id should be `case.Slug` *@
-                    <a class="buttonHover" asp-controller="Cases" asp-action="Details" asp-route-id="2">BEKIJK CASE</a>
+                    <a class="buttonHover" asp-controller="Cases" asp-action="Details" asp-route-id="@item.Slug">BEKIJK CASE</a>
                 </div>
             </div>
         </div>

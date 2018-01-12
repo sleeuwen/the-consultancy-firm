@@ -12,9 +12,10 @@ using TheConsultancyFirm.Data;
 namespace TheConsultancyFirm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180109150132_AddSummaryToSolution")]
+    partial class AddSummaryToSolution
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -229,8 +230,6 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<bool>("Deleted");
-
                     b.Property<bool>("Enabled");
 
                     b.Property<DateTime>("LastModified");
@@ -293,8 +292,6 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("Deleted");
-
                     b.Property<bool>("Enabled");
 
                     b.Property<string>("Link")
@@ -332,8 +329,6 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
-                    b.Property<bool>("Deleted");
-
                     b.Property<string>("Description")
                         .IsRequired();
 
@@ -370,8 +365,6 @@ namespace TheConsultancyFirm.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("Date");
-
-                    b.Property<bool>("Deleted");
 
                     b.Property<bool>("Enabled");
 
@@ -444,8 +437,6 @@ namespace TheConsultancyFirm.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("Date");
-
-                    b.Property<bool>("Deleted");
 
                     b.Property<bool>("Enabled");
 
