@@ -117,44 +117,22 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="go_to_all_cases" xml:space="preserve">
-    <value>Of ga naar alle cases</value>
+  <data name="always_security_and_privacy" xml:space="preserve">
+    <value>Always Security &amp; Privacy</value>
   </data>
-  <data name="go_to_newsoverview" xml:space="preserve">
-    <value>Ga naar nieuwsoverzicht</value>
+  <data name="open_source" xml:space="preserve">
+    <value>Open source with customization (no lock-in)</value>
   </data>
-  <data name="ict" xml:space="preserve">
-    <value>Naadloos aansluiten op uw ICT-omgeving</value>
+  <data name="premium_care" xml:space="preserve">
+    <value>Premium care</value>
   </data>
-  <data name="ict_sub_title" xml:space="preserve">
-    <value>The Consultancy Firm biedt een complete, geintegreerde oplossing die de drie elementen van documentmanagement omvat: compositie, procesautomatisering en output.</value>
+  <data name="services_partial_title" xml:space="preserve">
+    <value>Services we offer (in combination, or separately from the above products)</value>
   </data>
-  <data name="more_about_us" xml:space="preserve">
-    <value>Meer over ons</value>
+  <data name="training" xml:space="preserve">
+    <value>Training</value>
   </data>
-  <data name="news_and_knowledge" xml:space="preserve">
-    <value>Nieuws en kennis</value>
-  </data>
-  <data name="our_customers" xml:space="preserve">
-    <value>Onze klanten</value>
-  </data>
-  <data name="our_customers_sub_title" xml:space="preserve">
-    <value>Met wederzijdse trots kunnen wij zeggen dat we vaste &lt;br /&gt;
-                partners zijn van onderstaande ondernemingen.</value>
-  </data>
-  <data name="page_title" xml:space="preserve">
-    <value>Home pagina</value>
-  </data>
-  <data name="read_more_button" xml:space="preserve">
-    <value>LEES MEER</value>
-  </data>
-  <data name="see_cases" xml:space="preserve">
-    <value>BEKIJK CASE</value>
-  </data>
-  <data name="skip_cases" xml:space="preserve">
-    <value>Skip Cases</value>
-  </data>
-  <data name="team_thats_ready" xml:space="preserve">
-    <value>Het team dat altijd voor je klaar staat</value>
+  <data name="translate_your_business" xml:space="preserve">
+    <value>Translation of your business into a technical solution</value>
   </data>
 </root>

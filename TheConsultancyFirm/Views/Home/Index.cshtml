@@ -1,9 +1,8 @@
-﻿@using Microsoft.AspNetCore.Mvc.Localization
-@inject IViewLocalizer Localizer
+﻿@inject IViewLocalizer Localizer
 @model HomeViewModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = Localizer["page_title"];
 }
 
 <div class="container-fluid">
@@ -110,7 +109,7 @@
 
                 <a class="carousel-link-skip" href="#journey">
                     <img src="~/images/skip-cases-arrow.png" />
-                    Skip Cases
+                    @Localizer["skip_cases"]
                 </a>
             </div>
         </div>

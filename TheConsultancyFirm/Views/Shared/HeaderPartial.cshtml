@@ -1,4 +1,5 @@
-﻿@{
+﻿@inject IViewLocalizer Localizer
+@{
     var returnUri = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
 }
 
@@ -33,30 +34,30 @@
             <div class="navbar-content">
                 <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
                     <li class="nav-item active">
-                        <a class="nav-link" active-controller="Cases" asp-controller="Cases" asp-action="Index" data-title="Cases">Cases</a>
+                        <a class="nav-link" active-controller="Cases" asp-controller="Cases" asp-action="Index" data-title="@Localizer["cases_header"]">@Localizer["cases_header"]</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" active-controller="Solutions" asp-controller="Solutions" asp-action="Index" data-title="Solutions">Solutions</a>
+                        <a class="nav-link" active-controller="Solutions" asp-controller="Solutions" asp-action="Index" data-title="@Localizer["solutions_header"]">@Localizer["solutions_header"]</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav overflow">
                     <li class="nav-item">
-                        <a class="nav-link" active-controller="About" asp-controller="About" asp-action="Index" data-title="Over ons">Over ons</a>
+                        <a class="nav-link" active-controller="About" asp-controller="About" asp-action="Index" data-title="@Localizer["about_header"]">@Localizer["about_header"]</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" active-controller="NewsItems" asp-controller="NewsItems" asp-action="Index" data-title="Nieuws">Nieuws</a>
+                        <a class="nav-link" active-controller="NewsItems" asp-controller="NewsItems" asp-action="Index" data-title="@Localizer["news_header"]">@Localizer["news_header"]</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" active-controller="Downloads" asp-controller="Downloads" asp-action="Index" data-title="Downloads">Downloads</a>
+                        <a class="nav-link" active-controller="Downloads" asp-controller="Downloads" asp-action="Index" data-title="@Localizer["downloads_header"]">@Localizer["downloads_header"]</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" active-controller="Contact" asp-controller="Contact" asp-action="Index" data-title="Contact">Contact</a>
+                        <a class="nav-link" active-controller="Contact" asp-controller="Contact" asp-action="Index" data-title="@Localizer["contact_header"]">@Localizer["contact_header"]</a>
                     </li>
                 </ul>
 
                 <form asp-controller="Search" asp-action="Index" class="form-inline my-2 my-lg-0 mx-3 search" method="get">
                     <div class="searchbox">
-                        <input class="form-control mr-sm-2" type="search" name="q" placeholder="Nieuwe zoekterm" tabindex="-1">
+                        <input class="form-control mr-sm-2" type="search" name="q" placeholder="@Localizer["search_placeholder"]" tabindex="-1">
                         <i class="fa fa-times"></i>
                     </div>
 
@@ -71,7 +72,7 @@
                         <span></span>
                         <span></span>
                     </div>
-                    <span>Menu</span>
+                    <span>@Localizer["menu_header"]</span>
                 </div>
             </div>
         </div>

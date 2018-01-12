@@ -142,11 +142,17 @@
     <value>With mutual pride we can say that we are firm &lt;br /&gt;
                 partners of the following companies.</value>
   </data>
+  <data name="page_title" xml:space="preserve">
+    <value>Home page</value>
+  </data>
   <data name="read_more_button" xml:space="preserve">
     <value>READ MORE</value>
   </data>
   <data name="see_cases" xml:space="preserve">
     <value>SEE CASES</value>
+  </data>
+  <data name="skip_cases" xml:space="preserve">
+    <value>Skip Cases</value>
   </data>
   <data name="team_thats_ready" xml:space="preserve">
     <value>The team that is always ready for you</value>
