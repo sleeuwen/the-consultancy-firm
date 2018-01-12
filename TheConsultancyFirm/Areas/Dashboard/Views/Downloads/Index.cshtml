@@ -43,7 +43,8 @@
                 @Html.DisplayFor(modelItem => item.AmountOfDownloads)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @{ DateTime dateCreatedLocal = item.Date.ToLocalTime();}
+                @dateCreatedLocal
             </td>
             <td>
                 <a href="@item.LinkPath" download>
