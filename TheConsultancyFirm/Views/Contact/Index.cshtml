@@ -16,8 +16,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 col-xl-9">
-                    <h1>@Localizer["contact_us"]</h1>
-                    @*<h1>Neem contact met ons op om samen een mooi project op te starten</h1>*@
+                    <h1>@Localizer["get_in_contact"]</h1>
                 </div>
             </div>
         </div>
@@ -32,7 +31,7 @@
         </div>
 
         <div class="col-12 col-lg-5 order-1 order-lg-2 contactinfo introtext">
-            <h3>Bezoek ons</h3>
+            <h3>@Localizer["visit_us"]</h3>
 
             <address class="mt-3">
                 The Consultancy Firm B.V.<br />
@@ -41,10 +40,10 @@
             </address>
 
             <a href="https://www.google.com/maps/place/The+Consultancy+Firm+B.V./@@51.9572474,4.5685574,17z/data=!3m1!4b1!4m5!3m4!1s0x47c5cd6904353e59:0xf5a889d341922399!8m2!3d51.9572441!4d4.5707514" class="buttonHover" target="_blank">
-                BEKIJK OP MAPS
+                @Localizer["lookup_maps"]
             </a>
 
-            <h3 class="mt-5 mb-3">Neem contact op</h3>
+            <h3 class="mt-5 mb-3">@Localizer["contact_us"]</h3>
 
             <ul class="my-3">
                 <li><a href="tel:0102640144"><i class="fa fa-phone"></i> 010 - 264 01 44</a></li>
@@ -63,7 +62,7 @@
 <div class="container pt-5" id="contact">
     <div class="row">
         <div class="col-12 text-center mb-4">
-            <h2>Of stuur ons direct een bericht</h2>
+            <h2>@Localizer["send_message"]</h2>
         </div>
 
         <div class="col-12 text-center">
@@ -79,11 +78,11 @@
         <div class="form-row">
             <div class="col-12 col-lg-2"></div>
             <div class="form-group col-12 col-md-6 col-lg-4">
-                <input asp-for="Name" class="form-control" placeholder="Naam" />
+                <input asp-for="Name" class="form-control" placeholder="@Localizer["name"]" />
                 <span asp-validation-for="Name" class="invalid-feedback"></span>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4">
-                <input asp-for="Email" class="form-control" placeholder="Email" />
+                <input asp-for="Email" class="form-control" placeholder="@Localizer["email"]" />
                 <span asp-validation-for="Email" class="invalid-feedback"></span>
             </div>
         </div>
@@ -91,12 +90,12 @@
         <div class="form-row">
             <div class="col-12 col-lg-2"></div>
             <div class="form-group col-12 col-md-6 col-lg-4">
-                <input asp-for="Mobile" class="form-control" placeholder="Mobiel" />
+                <input asp-for="Mobile" class="form-control" placeholder="@Localizer["mobilenumber"]" />
                 <span asp-validation-for="Mobile" class="invalid-feedback"></span>
             </div>
             <div class="form-group col-12 col-md-6 col-lg-4">
                 <select asp-for="Subject" class="form-control">
-                    <option value="" disabled selected>Onderwerp</option>
+                    <option value="" disabled selected>@Localizer["subject"]</option>
                     <option value="anders">Solution</option>
                     <option value="anders">Case</option>
                     <option value="anders">Download</option>
@@ -111,7 +110,7 @@
         <div class="form-row">
             <div class="col-12 col-lg-2"></div>
             <div class="form-group col-12 col-lg-8">
-                <textarea asp-for="Message" class="form-control" placeholder="Bericht" rows="5"></textarea>
+                <textarea asp-for="Message" class="form-control" placeholder="@Localizer["message"]" rows="5"></textarea>
                 <span asp-validation-for="Message" class="invalid-feedback"></span>
             </div>
         </div>
@@ -119,7 +118,7 @@
         <div class="form-row">
             <div class="col-12 col-lg-2"></div>
             <div class="col-12 col-lg-8">
-                <button class="buttonHover" type="submit">VERSTUUR</button>
+                <button class="buttonHover" type="submit">@Localizer["send"]</button>
             </div>
         </div>
     </form>

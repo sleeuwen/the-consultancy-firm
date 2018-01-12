@@ -117,37 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="contact_us" xml:space="preserve">
-    <value>Contact us</value>
+  <data name="newsletter_button" xml:space="preserve">
+    <value>Register</value>
   </data>
-  <data name="email" xml:space="preserve">
-    <value>Mailadress</value>
-  </data>
-  <data name="get_in_contact" xml:space="preserve">
-    <value>Contact us to build a nice project together</value>
-  </data>
-  <data name="lookup_maps" xml:space="preserve">
-    <value>Lookup at maps</value>
-  </data>
-  <data name="message" xml:space="preserve">
-    <value>Message</value>
-  </data>
-  <data name="mobilenumber" xml:space="preserve">
-    <value>Phonenumber</value>
-  </data>
-  <data name="name" xml:space="preserve">
-    <value>Name</value>
-  </data>
-  <data name="send" xml:space="preserve">
-    <value>SEND</value>
-  </data>
-  <data name="send_message" xml:space="preserve">
+  <data name="newsletter_caption" xml:space="preserve">
     <value>Register for our newsletter</value>
   </data>
-  <data name="subject" xml:space="preserve">
-    <value>Subject</value>
+  <data name="newsletter_introtext" xml:space="preserve">
+    <value>Keep up to date on our newsitems, solutions and downloads by registering for our newsletter!</value>
   </data>
-  <data name="visit_us" xml:space="preserve">
-    <value>Visit us</value>
+  <data name="newsletter_invalid_email" xml:space="preserve">
+    <value>The entered mailadress is not valid.</value>
+  </data>
+  <data name="newsletter_placeholder" xml:space="preserve">
+    <value>Mailadress</value>
   </data>
 </root>

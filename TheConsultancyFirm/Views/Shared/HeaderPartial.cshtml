@@ -1,4 +1,8 @@
-﻿<header class="d-block">
+﻿@{
+    var returnUri = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+}
+
+<header class="d-block">
     <nav class="navbar navbar-expand-lg navbar-light">
         <a asp-controller="Home" asp-action="Index"><img src="~/images/logo.png" alt="The Consultancy Firm" class="logo navbar-brand" /></a>
 
@@ -13,7 +17,17 @@
 
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="lang-select">
-                <li><a href="#">English</a></li>
+                <li>
+                    @if (Context.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US")
+                    {
+                       
+                        <a href="@Url.Action("SetLanguage", "Language", new {culture = "nl-NL", returnUrl = returnUri})">Nederlands</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.Action("SetLanguage", "Language", new {culture = "en-US", returnUrl = returnUri})">English</a>
+                    }
+                </li>
             </ul>
 
             <div class="navbar-content">
