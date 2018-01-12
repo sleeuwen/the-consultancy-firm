@@ -117,7 +117,38 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="go_to_all_cases" xml:space="preserve">
+    <value>Or go to all cases</value>
+  </data>
+  <data name="go_to_newsoverview" xml:space="preserve">
+    <value>Go to news overview</value>
+  </data>
   <data name="ict" xml:space="preserve">
     <value>Seamlessly connect to your ICT environment</value>
+  </data>
+  <data name="ict_sub_title" xml:space="preserve">
+    <value>The Consultancy Firm offers a complete, integrated solution that includes the three elements of document management: composition, process automation and output.</value>
+  </data>
+  <data name="more_about_us" xml:space="preserve">
+    <value>More about us</value>
+  </data>
+  <data name="news_and_knowledge" xml:space="preserve">
+    <value>News and knowledge</value>
+  </data>
+  <data name="our_customers" xml:space="preserve">
+    <value>Our customers</value>
+  </data>
+  <data name="our_customers_sub_title" xml:space="preserve">
+    <value>With mutual pride we can say that we are firm &lt;br /&gt;
+                partners of the following companies.</value>
+  </data>
+  <data name="read_more_button" xml:space="preserve">
+    <value>READ MORE</value>
+  </data>
+  <data name="see_cases" xml:space="preserve">
+    <value>SEE CASES</value>
+  </data>
+  <data name="team_thats_ready" xml:space="preserve">
+    <value>The team that is always ready for you</value>
   </data>
 </root>
