@@ -68,6 +68,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     sbMail.Replace("{subject}", newsletter.Subject);
                     sbMail.Replace("{week}", GetWeekOfYear(new DateTime()).ToString());
                     sbMail.Replace("{0}", newsletter.NewsletterIntroText);
+                    if (newsletter.NewsletterOtherNews == null)
+                    {
+                        sbMail.Replace("{otherNews}", "");
+                    }
                     sbMail.Replace("{1}", newsletter.NewsletterOtherNews);
                     sbMail.Replace("{caseImage}", @case.PhotoPath);
                     sbMail.Replace("{caseSummary}", @case.Title);
@@ -83,7 +87,6 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     sbMail.Replace("{year}", DateTime.Now.Year.ToString());
                     sbMail.Replace("{unsubscribe}", HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + "/newsletters/unsubscribe/" + receiver.EncodedMail);
                 }
-                var a = "test";
                 await _mailService.SendMailAsync(receiver.Email, newsletter.Subject,
                     sbMail.ToString());
             }

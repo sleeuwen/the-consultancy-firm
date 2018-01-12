@@ -15,13 +15,14 @@ function ReplaceTemplates() {
 
     $('#newsletterPreview').contents().find('#week').text(weekNr);
     $('#newsletterPreview').contents().find('#NewsletterTemplateIntro').html(
-        'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes');
+        'Hier komt de introtekst van de nieuwsbrief te staan, die ingevoerd wordt bij het invoerveld onder Introductie');
     $('#newsletterPreview').contents().find('#NewsletterTemplateOtherNews').html(
-        'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes');
+        'Hier komt de tekst te staan die ingevoerd wordt bij het invoerveld onder Ander Nieuws, als er geen ander nieuws is wordt dit gedeelte automatisch verborgen');
     $('#newsletterPreview').contents().find('#year').text(year);
     $('#newsletterPreview').contents().find('#summaryCase').text('Hier komt automatisch de sharingdescription te staan van het nieuwste item, als deze mail verstuurd wordt');
     $('#newsletterPreview').contents().find('#summaryNews').text('Hier komt automatisch de sharingdescription te staan van het nieuwste item, als deze mail verstuurd wordt');
     $('#newsletterPreview').contents().find('#summaryDownload').text('Hier komt automatisch de sharingdescription te staan van het nieuwste item, als deze mail verstuurd wordt');
+    $('#newsletterPreview').contents().find('#otherNewsTitle').text('Ander nieuws');
 }
 
 function UpdateIntroTextOnTemplate() {

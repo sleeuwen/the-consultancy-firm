@@ -15,7 +15,6 @@ namespace TheConsultancyFirm.Models
         [Display(Name = "Introductie")]
         public string NewsletterIntroText { get; set; }
 
-        [Required]
         [Display(Name = "Ander nieuws")]
         public string NewsletterOtherNews { get; set; }
 
