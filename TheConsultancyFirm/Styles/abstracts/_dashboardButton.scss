@@ -1,0 +1,37 @@
+﻿@import '../variables';
+
+.dashboard-button {
+    background-color: $orange;
+    padding: 5px;
+    border-radius: 5px;
+    display: flex;
+    margin: 0 10px;
+
+    .icon-badge {
+        background-color: $lightOrange;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        margin-left: 10px;
+        margin-right: 5px;
+    }
+}
+
+.dashboard-buttons {
+    display: flex;
+
+    a {
+        text-decoration: none;
+        color: $white;
+    }
+
+    i {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+#create-item {
+    margin-left:0;
+}

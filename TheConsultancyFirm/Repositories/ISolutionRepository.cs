@@ -6,9 +6,8 @@ namespace TheConsultancyFirm.Repositories
 {
     public interface ISolutionRepository
     {
-        Task<Solution> Get(int id, bool includeInactive);
+        Task<Solution> Get(int id, bool includeInactive = false);
         IQueryable<Solution> GetAll();
-
 
 	    Task Create(Solution solution);
 	    Task Update(Solution solution);
