@@ -13,35 +13,18 @@
             <p>Dit is de gebruikerspagina. Hier kan je gebruikeraccounts aanmaken, deactiveren en activeren.</p>
         </div>
     </div>
-    <div class="row">
+    <div class="row mb-3">
         <div class="col">
-            <a asp-controller="Users" asp-action="Create" class="" title="Maak een nieuwe gebruiker aan">Nieuwe gebruiker toevoegen <i class="fa fa-user-plus"></i></a>
+            <a asp-controller="Users" asp-action="Create" title="Maak een nieuwe gebruiker aan">Nieuwe gebruiker toevoegen <i class="fa fa-user-plus"></i></a>
         </div>
         <div class="col">
-            <div class="slideWrapper">
-                @if (ViewBag.ShowDisabled)
-                {
-                    <span>Verberg gedeactiveerde accounts</span>
-                    <form asp-action="Index">
-                        <label class="switch">
-                            <a asp-action="Index">
-                                <input name="ShowEnabled" type="checkbox" checked>
-                                <span class="slider round"></span>
-                            </a>
-                        </label>
-                    </form>
-                }
-                else
-                {
-                <span>Toon gedeactiveerde accounts</span>
-                <form asp-action="Index">
-                    <label class="switch">
-                        <input name="ShowEnabled" type="checkbox">
-                        <a href="@Url.Action("Index", new { showDisabled = true})"><span class="slider round"></span></a>
-                    </label>
-                </form>
-                }
-            </div>
+            <form asp-action="Index" class="form-inline" method="get">
+                <div class="custom-control custom-switch ml-auto">
+                    <input type="checkbox" class="custom-control-input" name="ShowDisabled" id="showDisabledSwitch"
+                           value="true" @(ViewBag.ShowDisabled ? "checked" : "") onchange="submit()" />
+                    <label class="custom-control-label" for="showDisabledSwitch">Toon gedeactiveerde accounts</label>
+                </div>
+            </form>
         </div>
     </div>
     <div class="row">

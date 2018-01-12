@@ -6,25 +6,27 @@ using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Services;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class UsersController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IMailService _emailSender;
+        private readonly IMailService _mailService;
 
-        public UsersController(UserManager<ApplicationUser> userManager, IMailService emailSender)
+        public UsersController(UserManager<ApplicationUser> userManager, IMailService mailService)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
+            _mailService = mailService;
         }
 
         // GET: Dashboard/Users
         public async Task<IActionResult> Index(bool showDisabled = false)
         {
-            ApplicationUser currentUser = await GetCurrentUser(); 
+            ApplicationUser currentUser = await GetCurrentUser();
             ViewBag.ShowDisabled = showDisabled;
             var users = await _userManager.Users.Where(c => c.Id != currentUser.Id && (c.Enabled || showDisabled)).ToListAsync();
             return View(users);
@@ -48,27 +50,19 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Email")] ApplicationUser applicationUser)
         {
-            if (ModelState.IsValid && !string.IsNullOrEmpty(applicationUser.Email))
-            {
-                var userPass = GenerateRandomPassword();
-                applicationUser.UserName = applicationUser.Email;
-                applicationUser.Enabled = true;
-                await _userManager.CreateAsync(applicationUser);
-                await _userManager.AddPasswordAsync(applicationUser, userPass);
+            if (!ModelState.IsValid || string.IsNullOrEmpty(applicationUser.Email))
+                return View(applicationUser);
 
-                await _emailSender.SendMailAsync(applicationUser.Email, "Er is een account aangemaakt voor u op de website.", $@"
-                Beste gebruiker,<br/>
-                <br/>
-                Er is een account voor u aangemaakt op de website.<br/>
-                Het wachtwoord voor de eerste keer inloggen in de applicatie is: <b>{userPass}</b><br/>
-                Als u voor de eerste keer inlogt, wordt u verwezen naar de wachtwoord veranderen pagina, waar u dan de optie heeft om uw wachtwoord aan te passen.<br/>
-                <br/>
-                Met vriendelijke groet,<br/>
-                Het TCF-team");
+            var userPass = GenerateRandomPassword();
+            applicationUser.UserName = applicationUser.Email;
+            applicationUser.Enabled = true;
+            await _userManager.CreateAsync(applicationUser);
+            await _userManager.AddPasswordAsync(applicationUser, userPass);
 
-                return RedirectToAction(nameof(Index));
-            }
-            return View(applicationUser);
+            var _ = _mailService.SendAccountCreatedMailAsync(applicationUser.Email, userPass);
+
+            return RedirectToAction(nameof(Index));
+
         }
 
         // POST: Dashboard/Users/Delete/5
@@ -84,7 +78,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             var applicationUser = await _userManager.FindByIdAsync(id);
             applicationUser.Enabled = !applicationUser.Enabled;
 
-             await _userManager.UpdateAsync(applicationUser);
+            await _userManager.UpdateAsync(applicationUser);
 
             return RedirectToAction(nameof(Index));
         }
@@ -96,6 +90,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             {
                 var num = 0;
                 var rand = new Random();
+
                 if (i == 1)
                 {
                     randomPassword += rand.Next(0,9);
@@ -107,7 +102,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 else if (i == 8)
                 {
                     num = rand.Next(0, 26);
-                    
+
                     randomPassword += Char.ToUpper((char)('a' + num));
                 }
                 else
@@ -116,6 +111,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     randomPassword += (char)('a' + num);
                 }
             }
+
             return randomPassword;
         }
     }
