@@ -23,7 +23,7 @@ jQuery(function ($) {
                 if (block === 'Carousel' || block === 'SolutionAdvantages') {
                     initDragDrop();
                 }
-            },
+            }
         });
     });
 });

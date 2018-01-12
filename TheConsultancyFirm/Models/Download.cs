@@ -39,5 +39,6 @@ namespace TheConsultancyFirm.Models
         public List<int> TagIds { get; set; }
 
         public bool Enabled { get; set; }
+        public bool Deleted { get; set; }
     }
 }
