@@ -127,9 +127,9 @@
     <value>Keep up to date on our newsitems, solutions and downloads by registering for our newsletter!</value>
   </data>
   <data name="newsletter_invalid_email" xml:space="preserve">
-    <value>The entered mailadress is not valid.</value>
+    <value>The entered email address is not valid.</value>
   </data>
   <data name="newsletter_placeholder" xml:space="preserve">
-    <value>Mailadress</value>
+    <value>Email address</value>
   </data>
 </root>
