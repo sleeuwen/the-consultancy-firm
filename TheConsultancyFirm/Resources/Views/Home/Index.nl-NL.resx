@@ -151,6 +151,9 @@
   <data name="see_cases" xml:space="preserve">
     <value>BEKIJK CASE</value>
   </data>
+  <data name="skip_cases" xml:space="preserve">
+    <value>Skip Cases</value>
+  </data>
   <data name="team_thats_ready" xml:space="preserve">
     <value>Het team dat altijd voor je klaar staat</value>
   </data>
