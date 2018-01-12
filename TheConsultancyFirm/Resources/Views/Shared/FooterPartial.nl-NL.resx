@@ -117,7 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="about_tcf" xml:space="preserve">
+    <value>Over tcf</value>
+  </data>
   <data name="address" xml:space="preserve">
     <value>Adres.</value>
+  </data>
+  <data name="all_solutions" xml:space="preserve">
+    <value>Alle solutions</value>
+  </data>
+  <data name="casesFooter" xml:space="preserve">
+    <value>Cases</value>
+  </data>
+  <data name="customer_care" xml:space="preserve">
+    <value>CUSTOMER CARE</value>
+  </data>
+  <data name="document_wizard" xml:space="preserve">
+    <value>Document Wizard</value>
+  </data>
+  <data name="downloadsFooter" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
+  <data name="go_to_contact" xml:space="preserve">
+    <value>Ga naar de contactpagina</value>
+  </data>
+  <data name="newsFooter" xml:space="preserve">
+    <value>Nieuws</value>
+  </data>
+  <data name="opentext_extream" xml:space="preserve">
+    <value>OpenText Extream</value>
+  </data>
+  <data name="platinum_partner" xml:space="preserve">
+    <value>Platinum&lt;br&gt; Benelux Partner</value>
+  </data>
+  <data name="social_ice" xml:space="preserve">
+    <value>Social.ice</value>
   </data>
 </root>
