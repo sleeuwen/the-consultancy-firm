@@ -1,4 +1,6 @@
-﻿@model HomeViewModel
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+@model HomeViewModel
 
 @{
     ViewData["Title"] = "Home Page";
@@ -122,7 +124,7 @@
 <div class="container home-section carousel-horizontal">
     <div class="row text-center">
         <div class="col-12">
-            <h2>Naadloos aansluiten op uw ICT-omgeving</h2>
+            <h2>@Localizer["ict"]</h2>
         </div>
         <div class="col-12 col-md-2"></div>
         <div class="col-12 col-md-8">

@@ -1,11 +1,12 @@
-﻿<div class="ultimate-journey">
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer Localizer
+<div class="ultimate-journey">
     <div class="row">
         <div class="col">
-            <h2 class="title">Your guide to the ultimate Customer Journey</h2>
-
+            <h2 class="title">@Localizer["your_guide_title"]</h2>
             <ul class="nav" id="ujTabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link" href="#uj-what" data-title="Wat is het?" data-toggle="tab">Wat is het?</a>
+                    <a class="nav-link" href="#uj-what" data-title="Wat is het?" data-toggle="tab">@Localizer["what_is_it"]</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link active" href="#uj-why" data-title="Waarom belangrijk?" data-toggle="tab">Waarom belangrijk?</a>
