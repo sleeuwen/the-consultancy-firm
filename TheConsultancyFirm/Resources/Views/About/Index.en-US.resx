@@ -135,4 +135,11 @@
   <data name="page_title" xml:space="preserve">
     <value>About us</value>
   </data>
+  <data name="quote_author" xml:space="preserve">
+    <value>Arno, Director, tcf</value>
+  </data>
+  <data name="quote_text" xml:space="preserve">
+    <value>Grip on the chain with A-Sure! from tcf. The StreamServe software ensures the correct documents
+                the desired moments reach your customers.</value>
+  </data>
 </root>
