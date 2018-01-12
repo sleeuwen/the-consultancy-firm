@@ -1,4 +1,5 @@
-﻿@model List<Solution>
+﻿@inject IViewLocalizer Localizer
+@model List<Solution>
 @{
     ViewData["Title"] = "Solutions";
 }
@@ -9,11 +10,9 @@
 <div class="container">
     <div class="row">
         <div class="col text-center">
-            <h2>Naadloos aansluiten op uw ICT-omgeving</h2>
+            <h2>@Localizer["seamless"]</h2>
             <p class="mt-4 mb-5 introtext">
-                The Consultancy Firm biedt een complete, geintegreerde, <br/>
-                oplossing die de drie elementen van documentatmanagment <br/>
-                omvat: compositie, procesautomatisering en output
+                @Localizer["tcf_offers"]
             </p>
         </div>
     </div>
@@ -31,7 +30,7 @@
                         <p class="card-text">
                             @solution.Summary
                         </p>
-                        <a asp-controller="Solutions" asp-action="Details" class="buttonHover" asp-route-id="@solution.Slug">LEES MEER</a>
+                        <a asp-controller="Solutions" asp-action="Details" class="buttonHover" asp-route-id="@solution.Slug">@Localizer["read_more"]</a>
                     </div>
                 </div>
             </div>
