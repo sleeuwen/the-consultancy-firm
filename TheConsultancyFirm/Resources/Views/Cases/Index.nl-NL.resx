@@ -123,4 +123,7 @@
   <data name="our_customers" xml:space="preserve">
     <value>Onze klanten</value>
   </data>
+  <data name="see_case" xml:space="preserve">
+    <value>BEKIJK CASE</value>
+  </data>
 </root>

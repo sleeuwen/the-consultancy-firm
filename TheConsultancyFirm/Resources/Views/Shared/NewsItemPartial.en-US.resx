@@ -117,14 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="except_above" xml:space="preserve">
-    <value>In addition to the above cases, we work for much more&lt;br&gt;
-customers to beautiful projects.</value>
-  </data>
-  <data name="our_customers" xml:space="preserve">
-    <value>Our customers</value>
-  </data>
-  <data name="see_case" xml:space="preserve">
-    <value>SEE CASE</value>
+  <data name="read_more" xml:space="preserve">
+    <value>READ MORE</value>
   </data>
 </root>
