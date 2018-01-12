@@ -1,9 +1,10 @@
-﻿@{
-    ViewData["Title"] = "Over ons";
+﻿@inject IViewLocalizer Localizer
+@{
+    ViewData["Title"] = Localizer["page_title"];
 }
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-    <li class="breadcrumb-item active">Over ons</li>
+    <li class="breadcrumb-item active">@Localizer["page_title"]</li>
 </ol>
 <div class="container-fluid">
     <div class="pageHeader">
@@ -11,8 +12,7 @@
         <div class="overlay"></div>
         <div class="centered">
             <h1>
-                Individuele benadering voor<br />
-                je gehele klantenkring!
+                @Localizer["page_header"]
             </h1>
         </div>
     </div>
@@ -23,7 +23,7 @@
 <div class="container container-wide mb-5">
     <div class="row mb-3">
         <div class="col text-center">
-            <h2>Het team dat altijd voor je klaar staat</h2>
+            <h2>@Localizer["about_carousel_title"]</h2>
         </div>
     </div>
 
@@ -92,11 +92,9 @@
 
 <div class="container-fluid">
     <div class="aboutdescription">
-        <h2>Maar wat doen wij nu precies?</h2>
+        <h2>@Localizer["about_description"]</h2>
         <p class="introtext">
-            TCF corporate finance is een zelfstandig en onafhankelijk advieskantoor dat<br/>
-            ondernemers in het MKB en de grootzakelijke markt adviseert op het gebied van<br/>
-            fusies en overnames, waarderingsvraagstukken, waardecreatie en financiering.
+            @Localizer["about_introtext"]
         </p>
         <img src="~/images/description-image.png"/>
 
