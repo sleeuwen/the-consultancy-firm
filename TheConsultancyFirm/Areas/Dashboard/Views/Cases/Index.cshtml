@@ -31,10 +31,12 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                @{ DateTime dateCreatedLocal = item.Date.ToLocalTime();}
+                @dateCreatedLocal
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastModified)
+                @{ DateTime lastModifiedLocal = item.LastModified.ToLocalTime();}
+                @lastModifiedLocal
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
