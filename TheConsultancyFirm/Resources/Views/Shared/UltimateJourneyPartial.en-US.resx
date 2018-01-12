@@ -117,8 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="implementation_advice" xml:space="preserve">
+    <value>Implementation &amp; advice</value>
+  </data>
+  <data name="management_support" xml:space="preserve">
+    <value>Management &amp; support</value>
+  </data>
+  <data name="meet_and_advice" xml:space="preserve">
+    <value>Acquaintance &amp; advice</value>
+  </data>
+  <data name="more" xml:space="preserve">
+    <value>More</value>
+  </data>
+  <data name="second_desc" xml:space="preserve">
+    <value>When implementing the document output management software,
+                    are your wishes leading. We always include your current situation in the design.</value>
+  </data>
+  <data name="thirth_desc" xml:space="preserve">
+    <value>Managing an environment requires thorough knowledge and expertise about technology.
+                    If you wish, The Consultancy Firm can manage your environment for you -
+                    both on-site and off-site</value>
+  </data>
+  <data name="what_first_desc" xml:space="preserve">
+    <value>To get the highest return from your documents, our consultants first
+                    advice on how you can design your documents and how your
+                    document processes can be arrange.</value>
+  </data>
   <data name="what_is_it" xml:space="preserve">
     <value>What is it?</value>
+  </data>
+  <data name="why_important" xml:space="preserve">
+    <value>Why important?</value>
+  </data>
+  <data name="why_tcf" xml:space="preserve">
+    <value>Why do you need to be at TCF ?</value>
   </data>
   <data name="your_guide_title" xml:space="preserve">
     <value>Your guide to the ultimate Customer Journey</value>

@@ -117,8 +117,40 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="implementation_advice" xml:space="preserve">
+    <value>Implementatie &amp; advies</value>
+  </data>
+  <data name="management_support" xml:space="preserve">
+    <value>Beheer &amp; ondersteuning</value>
+  </data>
+  <data name="meet_and_advice" xml:space="preserve">
+    <value>Kennismaking &amp; advies</value>
+  </data>
+  <data name="more" xml:space="preserve">
+    <value>Meer</value>
+  </data>
+  <data name="second_desc" xml:space="preserve">
+    <value>Bij het implementeren van de software voor document output management,
+                    zijn uw wensen leidend. We nemen uw huidige situatie altijd mee in het ontwerp.</value>
+  </data>
+  <data name="thirth_desc" xml:space="preserve">
+    <value>Het beheren van een omgeving vereist gedegen kennis en kunde over technologie.
+                    Indien u dit wenst, kan The Consultancy Firm uw omgeving voor u beheren –
+                    zowel on-site als off-site</value>
+  </data>
+  <data name="what_first_desc" xml:space="preserve">
+    <value>Om het hoogste rendement uit uw documenten te behalen, geven onze consultants eerst
+                    advies over de manier waarop u uw documenten kunt ontwerpen en hoe uw
+                    documentprocessen kunnen worden ingericht.</value>
+  </data>
   <data name="what_is_it" xml:space="preserve">
     <value>Wat is het?</value>
+  </data>
+  <data name="why_important" xml:space="preserve">
+    <value>Waarom belangrijk?</value>
+  </data>
+  <data name="why_tcf" xml:space="preserve">
+    <value>Waarom moet je bij TCF zijn?</value>
   </data>
   <data name="your_guide_title" xml:space="preserve">
     <value>Your guide to the ultimate Customer Journey</value>
