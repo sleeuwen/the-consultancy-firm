@@ -118,6 +118,36 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="contact_us" xml:space="preserve">
+    <value>Neem contact op</value>
+  </data>
+  <data name="email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="get_in_contact" xml:space="preserve">
     <value>Neem contact met ons op om samen een mooi project op te starten</value>
+  </data>
+  <data name="lookup_maps" xml:space="preserve">
+    <value>Bekijk op maps</value>
+  </data>
+  <data name="message" xml:space="preserve">
+    <value>Bericht</value>
+  </data>
+  <data name="mobilenumber" xml:space="preserve">
+    <value>Telefoonnummer</value>
+  </data>
+  <data name="name" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="send" xml:space="preserve">
+    <value>VERSTUUR</value>
+  </data>
+  <data name="send_message" xml:space="preserve">
+    <value>Of stuur ons direct een bericht</value>
+  </data>
+  <data name="subject" xml:space="preserve">
+    <value>Onderwerp</value>
+  </data>
+  <data name="visit_us" xml:space="preserve">
+    <value>Bezoek ons</value>
   </data>
 </root>
