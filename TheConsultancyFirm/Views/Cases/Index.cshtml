@@ -1,4 +1,5 @@
-﻿@model List<Case>
+﻿@inject IViewLocalizer Localizer
+@model List<Case>
 @{
     ViewBag.Title = "Case overview";
     Layout = "_Layout";
@@ -25,9 +26,8 @@
 </div>
 <div class="container-fluid" id="casecustomers">
     <div class="introtext">
-        <h2>Onze klanten</h2>
-        Naast bovenstaande cases werken we voor nog veel meer <br/>
-        klanten aan mooie projecten.
+        <h2>@Localizer["our_customers"]</h2>
+        @Localizer["except_above"]
     </div>
     <div class="row logos">
         <div class="col-6 col-md-3">
