@@ -35,10 +35,10 @@ namespace TheConsultancyFirm.Services
                     sbMail.Replace("{0}", newsletter.NewsletterIntroText);
                     sbMail.Replace("{otherNews}", newsletter.NewsletterOtherNews == null ? "" : "Ander Nieuws");
                     sbMail.Replace("{1}", newsletter.NewsletterOtherNews);
-                    sbMail.Replace("{caseImage}", @case.PhotoPath);
+                    sbMail.Replace("{caseImage}", baseUrl + @case.PhotoPath);
                     sbMail.Replace("{caseSummary}", @case.Title);
                     sbMail.Replace("{caseLink}", baseUrl + "/cases/" + @case.Id);
-                    sbMail.Replace("{newsImage}", newsItem.PhotoPath);
+                    sbMail.Replace("{newsImage}", baseUrl + newsItem.PhotoPath);
                     sbMail.Replace("{newsSummary}", newsItem.Title);
                     sbMail.Replace("{newsLink}", baseUrl + "/NewsItems/" + newsItem.Id);
                     sbMail.Replace("{downloadSummary}", download.Title);
