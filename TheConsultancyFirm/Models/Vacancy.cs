@@ -15,5 +15,8 @@ namespace TheConsultancyFirm.Models
 
         [Display(Name = "Vacature sinds")]
         public DateTime VacancySince { get; set; }
+
+        public bool Enabled { get; set; }
+        public bool Deleted { get; set; }
     }
 }

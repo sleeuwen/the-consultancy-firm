@@ -12,8 +12,8 @@ using TheConsultancyFirm.Data;
 namespace TheConsultancyFirm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180114194426_AddedVacancies")]
-    partial class AddedVacancies
+    [Migration("20180114204854_AddedVacancy")]
+    partial class AddedVacancy
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -518,6 +518,10 @@ namespace TheConsultancyFirm.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<bool>("Enabled");
 
                     b.Property<string>("FunctionDescription");
 

@@ -518,6 +518,10 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Deleted");
+
+                    b.Property<bool>("Enabled");
+
                     b.Property<string>("FunctionDescription");
 
                     b.Property<DateTime>("VacancySince");

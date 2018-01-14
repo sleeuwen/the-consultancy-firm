@@ -1,4 +1,6 @@
-﻿<div class="vacancyContainer">
+﻿@model List<Vacancy>
+
+<div class="vacancyContainer">
     <h2>We zoeken altijd talent</h2>
     <p class="introtext">
         Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget,<br/>
@@ -6,16 +8,17 @@
     </p>
 </div>
 
-@for (var i = 0; i < 2; i++)
+
+@foreach (var item in Model)
 {
-    <div class="row">
-        <div class="col-12 col-md-1 col-lg-2"></div>
-        <div class="col-12 col-md-10 col-lg-8">
-            <div class="vacancy">
-                <p class="description">Financieel manager</p>
-                <h6 class="date d-none d-sm-block">20 september 2017</h6>
-                <img src="images/right-arrow-black.svg" alt="Arrow" class="arrow">
-            </div>
+<div class="row">
+    <div class="col-12 col-md-1 col-lg-2"></div>
+    <div class="col-12 col-md-10 col-lg-8">
+        <div class="vacancy">
+            <p class="description">@item.FunctionDescription</p>
+            <h6 class="date d-none d-sm-block">@item.VacancySince.Date.ToString("dd MMMM yyyy")</h6>
+            <img src="images/right-arrow-black.svg" alt="Arrow" class="arrow">
         </div>
     </div>
+</div>
 }

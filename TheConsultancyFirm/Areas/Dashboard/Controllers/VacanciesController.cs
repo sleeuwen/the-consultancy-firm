@@ -7,41 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
+using TheConsultancyFirm.Repositories;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
     public class VacanciesController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IVacancyRepository _vacancyRepository;
 
-        public VacanciesController(ApplicationDbContext context)
+        public VacanciesController(IVacancyRepository vacancyRepository)
         {
-            _context = context;
+            _vacancyRepository = vacancyRepository;
         }
 
         // GET: Dashboard/Vacancies
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showDisabled = false)
         {
-            return View(await _context.Vacancy.ToListAsync());
-        }
-
-        // GET: Dashboard/Vacancies/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var vacancy = await _context.Vacancy
-                .SingleOrDefaultAsync(m => m.Id == id);
-            if (vacancy == null)
-            {
-                return NotFound();
-            }
-
-            return View(vacancy);
+            ViewBag.ShowDisabled = showDisabled;
+            return View(await _vacancyRepository.GetAll().Where(v => !v.Deleted && (v.Enabled || showDisabled))
+                .OrderByDescending(v => v.VacancySince).ToListAsync());
         }
 
         // GET: Dashboard/Vacancies/Create
@@ -59,65 +44,28 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(vacancy);
-                await _context.SaveChangesAsync();
+                vacancy.Enabled = true;
+                await _vacancyRepository.Create(vacancy);
                 return RedirectToAction(nameof(Index));
             }
             return View(vacancy);
         }
 
-        // GET: Dashboard/Vacancies/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> ToggleEnable(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var vacancy = await _context.Vacancy.SingleOrDefaultAsync(m => m.Id == id);
+            var vacancy = await _vacancyRepository.Get(id ?? 0);
             if (vacancy == null)
             {
                 return NotFound();
             }
-            return View(vacancy);
+
+            vacancy.Enabled = !vacancy.Enabled;
+
+            await _vacancyRepository.Update(vacancy);
+            return RedirectToAction(nameof(Index));
         }
 
-        // POST: Dashboard/Vacancies/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FunctionDescription,VacancySince")] Vacancy vacancy)
-        {
-            if (id != vacancy.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(vacancy);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!VacancyExists(vacancy.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(vacancy);
-        }
-
-        // GET: Dashboard/Vacancies/Delete/5
+        // GET: Dashboard/Solutions/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -125,8 +73,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            var vacancy = await _context.Vacancy
-                .SingleOrDefaultAsync(m => m.Id == id);
+            var vacancy = await _vacancyRepository.Get((int)id, true);
             if (vacancy == null)
             {
                 return NotFound();
@@ -135,20 +82,21 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return View(vacancy);
         }
 
-        // POST: Dashboard/Vacancies/Delete/5
+        // POST: Dashboard/Solutions/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int? id)
         {
-            var vacancy = await _context.Vacancy.SingleOrDefaultAsync(m => m.Id == id);
-            _context.Vacancy.Remove(vacancy);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+            var vacancy = await _vacancyRepository.Get(id ?? 0, true);
+            if (vacancy == null)
+            {
+                return NotFound();
+            }
 
-        private bool VacancyExists(int id)
-        {
-            return _context.Vacancy.Any(e => e.Id == id);
+            vacancy.Deleted = true;
+
+            await _vacancyRepository.Update(vacancy);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
