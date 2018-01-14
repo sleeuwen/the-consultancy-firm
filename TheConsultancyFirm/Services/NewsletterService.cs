@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -11,31 +12,18 @@ namespace TheConsultancyFirm.Services
 {
     public class NewsletterService : INewsletterService
     {
-        private readonly INewsletterSubscriptionRepository _newsletterSubscriptionRepository;
         private readonly IHostingEnvironment _environment;
         private readonly IMailService _mailService;
-        private readonly ICaseRepository _caseRepository;
-        private readonly INewsItemRepository _newsItemRepository;
-        private readonly IDownloadRepository _downloadRepository;
 
-        public NewsletterService(IMailService mailService, INewsletterSubscriptionRepository newsletterSubscriptionRepository,
-            IHostingEnvironment environment, ICaseRepository caseRepository, INewsItemRepository newsItemRepository, IDownloadRepository downloadRepository)
+        public NewsletterService(IMailService mailService, IHostingEnvironment environment)
         {
             _mailService = mailService;
-            _newsletterSubscriptionRepository = newsletterSubscriptionRepository;
             _environment = environment;
-            _caseRepository = caseRepository;
-            _newsItemRepository = newsItemRepository;
-            _downloadRepository = downloadRepository;
         }
 
-        public async Task SendNewsletter(Newsletter newsletter, string baseUrl)
+        public async Task SendNewsletter(Newsletter newsletter, string baseUrl, List<NewsletterSubscription> subscribers, Case @case, NewsItem newsItem, Download download)
         {
-            var @case = await _caseRepository.GetLatest();
-            var newsItem = await _newsItemRepository.GetLatest();
-            var download = await _downloadRepository.GetLatest();
-
-            foreach (var receiver in _newsletterSubscriptionRepository.GetAll())
+            foreach (var receiver in subscribers)
             {
                 var sbMail = new StringBuilder();
 
@@ -45,10 +33,7 @@ namespace TheConsultancyFirm.Services
                     sbMail.Replace("{subject}", newsletter.Subject);
                     sbMail.Replace("{week}", GetWeekOfYear(new DateTime()).ToString());
                     sbMail.Replace("{0}", newsletter.NewsletterIntroText);
-                    if (newsletter.NewsletterOtherNews == null)
-                    {
-                        sbMail.Replace("{otherNews}", "");
-                    }
+                    sbMail.Replace("{otherNews}", newsletter.NewsletterOtherNews == null ? "" : "Ander Nieuws");
                     sbMail.Replace("{1}", newsletter.NewsletterOtherNews);
                     sbMail.Replace("{caseImage}", @case.PhotoPath);
                     sbMail.Replace("{caseSummary}", @case.Title);
@@ -62,8 +47,7 @@ namespace TheConsultancyFirm.Services
                     sbMail.Replace("{unsubscribe}", baseUrl + "/newsletters/unsubscribe/" + receiver.EncodedMail);
                 }
 
-                await _mailService.SendMailAsync(receiver.Email, newsletter.Subject,
-                    sbMail.ToString());
+                await _mailService.SendMailAsync(receiver.Email, newsletter.Subject, sbMail.ToString());
             }
         }
 

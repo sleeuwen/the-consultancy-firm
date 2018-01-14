@@ -17,11 +17,11 @@ namespace TheConsultancyFirm.Controllers
             _newsletterSubscriptionRepository = newsletterSubscriptionRepository;
         }
 
-        public IActionResult Unsubscribe(string id)
+        public async Task<IActionResult> Unsubscribe(string id)
         {
             var data = Convert.FromBase64String(id);
             var email = Encoding.UTF8.GetString(data);
-            _newsletterSubscriptionRepository.Unsubscribe(email);
+            await _newsletterSubscriptionRepository.Unsubscribe(email);
 
             return RedirectToAction("SuccesfulUnsubscription");
         }
