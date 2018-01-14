@@ -1,17 +1,17 @@
-﻿<div class="ultimate-journey">
+﻿@inject IViewLocalizer Localizer
+<div class="ultimate-journey">
     <div class="row">
         <div class="col">
-            <h2 class="title">Your guide to the ultimate Customer Journey</h2>
-
+            <h2 class="title">@Localizer["your_guide_title"]</h2>
             <ul class="nav" id="ujTabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link" href="#uj-what" data-title="Wat is het?" data-toggle="tab">Wat is het?</a>
+                    <a class="nav-link" href="#uj-what" data-title="Wat is het?" data-toggle="tab">@Localizer["what_is_it"]</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="#uj-why" data-title="Waarom belangrijk?" data-toggle="tab">Waarom belangrijk?</a>
+                    <a class="nav-link active" href="#uj-why" data-title="Waarom belangrijk?" data-toggle="tab">@Localizer["why_important"]</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#uj-us" data-title="Waarom moet je bij TCF zijn?" data-toggle="tab">Waarom moet je bij TCF zijn?</a>
+                    <a class="nav-link" href="#uj-us" data-title="Waarom moet je bij TCF zijn?" data-toggle="tab">@Localizer["why_tcf"]</a>
                 </li>
             </ul>
         </div>
@@ -20,34 +20,29 @@
     <div class="tab-content">
         <div class="row tab-pane" id="uj-what" role="tabpanel">
             <div class="col-12 col-lg-5 order-2 order-lg-1">
-                <h4>Kennismaking & advies</h4>
+                <h4>@Localizer["meet_and_advice"]</h4>
 
                 <p class="description">
-                    Om het hoogste rendement uit uw documenten te behalen, geven onze consultants eerst
-                    advies over de manier waarop u uw documenten kunt ontwerpen en hoe uw
-                    documentprocessen kunnen worden ingericht.
+                    @Localizer["what_first_desc"]
                 </p>
 
-                <a href="#">Meer</a>
+                <a href="#">@Localizer["more"]</a>
 
-                <h4>Implementatie & advies</h4>
+                <h4>@Localizer["implementation_advice"]</h4>
 
                 <p class="description">
-                    Bij het implementeren van de software voor document output management,
-                    zijn uw wensen leidend. We nemen uw huidige situatie altijd mee in het ontwerp.
+                    @Localizer["second_desc"]
                 </p>
 
-                <a href="#">Meer</a>
+                <a href="#">@Localizer["more"]</a>
 
-                <h4>Beheer & ondersteuning</h4>
+                <h4>@Localizer["management_support"]</h4>
 
                 <p class="description">
-                    Het beheren van een omgeving vereist gedegen kennis en kunde over technologie.
-                    Indien u dit wenst, kan The Consultancy Firm uw omgeving voor u beheren –
-                    zowel on-site als off-site
+                    @Localizer["thirth_desc"]
                 </p>
 
-                <a href="#">Meer</a>
+                <a href="#">@Localizer["more"]</a>
             </div>
 
             <div class="col-12 col-lg-7 order-1 order-lg-2">
@@ -57,34 +52,29 @@
 
         <div class="row tab-pane active" id="uj-why" role="tabpanel">
             <div class="col-12 col-lg-5 order-2 order-lg-1">
-                <h4>Kennismaking & advies</h4>
+                <h4>@Localizer["meet_and_advice"]</h4>
 
                 <p class="description">
-                    Om het hoogste rendement uit uw documenten te behalen, geven onze consultants eerst
-                    advies over de manier waarop u uw documenten kunt ontwerpen en hoe uw
-                    documentprocessen kunnen worden ingericht.
+                    @Localizer["what_first_desc"]
                 </p>
 
-                <a href="#">Meer</a>
+                <a href="#">@Localizer["more"]</a>
 
-                <h4>Implementatie & advies</h4>
+                <h4>@Localizer["implementation_advice"]</h4>
 
                 <p class="description">
-                    Bij het implementeren van de software voor document output management,
-                    zijn uw wensen leidend. We nemen uw huidige situatie altijd mee in het ontwerp.
+                    @Localizer["second_desc"]
                 </p>
 
-                <a href="#">Meer</a>
+                <a href="#">@Localizer["more"]</a>
 
-                <h4>Beheer & ondersteuning</h4>
+                <h4>@Localizer["management_support"]</h4>
 
                 <p class="description">
-                    Het beheren van een omgeving vereist gedegen kennis en kunde over technologie.
-                    Indien u dit wenst, kan The Consultancy Firm uw omgeving voor u beheren –
-                    zowel on-site als off-site
+                    @Localizer["thirth_desc"]
                 </p>
 
-                <a href="#">Meer</a>
+                <a href="#">@Localizer["more"]</a>
             </div>
 
             <div class="col-12 col-lg-7 order-1 order-lg-2">
@@ -94,34 +84,29 @@
 
         <div class="row tab-pane" id="uj-us" role="tabpanel">
             <div class="col-12 col-lg-5 order-2 order-lg-1">
-                <h4>Kennismaking & advies</h4>
+                <h4>@Localizer["meet_and_advice"]</h4>
 
                 <p class="description">
-                    Om het hoogste rendement uit uw documenten te behalen, geven onze consultants eerst
-                    advies over de manier waarop u uw documenten kunt ontwerpen en hoe uw
-                    documentprocessen kunnen worden ingericht.
+                    @Localizer["what_first_desc"]
                 </p>
 
-                <a href="#">Meer</a>
+                <a href="#">@Localizer["more"]</a>
 
-                <h4>Implementatie & advies</h4>
+                <h4>@Localizer["implementation_advice"]</h4>
 
                 <p class="description">
-                    Bij het implementeren van de software voor document output management,
-                    zijn uw wensen leidend. We nemen uw huidige situatie altijd mee in het ontwerp.
+                    @Localizer["second_desc"]
                 </p>
 
-                <a href="#">Meer</a>
+                <a href="#">@Localizer["more"]</a>
 
-                <h4>Beheer & ondersteuning</h4>
+                <h4>@Localizer["management_support"]</h4>
 
                 <p class="description">
-                    Het beheren van een omgeving vereist gedegen kennis en kunde over technologie.
-                    Indien u dit wenst, kan The Consultancy Firm uw omgeving voor u beheren –
-                    zowel on-site als off-site
+                    @Localizer["thirth_desc"]
                 </p>
 
-                <a href="#">Meer</a>
+                <a href="#">@Localizer["more"]</a>
             </div>
 
             <div class="col-12 col-lg-7 order-1 order-lg-2">
