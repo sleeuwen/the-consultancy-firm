@@ -22,11 +22,6 @@
     <EmbeddedResource Update="Resources\Views\About\Index.nl-NL.resx">
       <Generator>ResXFileCodeGenerator</Generator>
     </EmbeddedResource>
-    <Compile Update="Resources\Views\Solutions\Index.en-US.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Index.en-US.resx</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="Resources\Views\Cases\Index.en-US.resx">

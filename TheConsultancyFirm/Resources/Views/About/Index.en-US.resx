@@ -124,13 +124,10 @@
     <value>But what exactly do we do?</value>
   </data>
   <data name="about_introtext" xml:space="preserve">
-    <value>TCF corporate finance is an independent and independent consultancy firm that
-            SME entrepreneurs and the wholesale market advise in the field of &lt;br/&gt;
-            mergers and acquisitions, valuation issues, value creation and financing.</value>
+    <value>TCF corporate finance is an independent and independent consultancy firm that SME entrepreneurs and the wholesale market advise in the field of mergers and acquisitions, valuation issues, value creation and financing.</value>
   </data>
   <data name="page_header" xml:space="preserve">
-    <value>Individual approach for &lt;br /&gt;
-                your entire clientele!</value>
+    <value>Individual approach for your entire clientele!</value>
   </data>
   <data name="page_title" xml:space="preserve">
     <value>About us</value>
@@ -139,7 +136,6 @@
     <value>Arno, Director, tcf</value>
   </data>
   <data name="quote_text" xml:space="preserve">
-    <value>Grip on the chain with A-Sure! from tcf. The StreamServe software ensures the correct documents
-                the desired moments reach your customers.</value>
+    <value>Grip on the chain with A-Sure! from tcf. The StreamServe software ensures the correct documents the desired moments reach your customers.</value>
   </data>
 </root>

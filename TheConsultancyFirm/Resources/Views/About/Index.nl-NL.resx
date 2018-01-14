@@ -124,13 +124,10 @@
     <value>Maar wat doen wij nu precies?</value>
   </data>
   <data name="about_introtext" xml:space="preserve">
-    <value>TCF corporate finance is een zelfstandig en onafhankelijk advieskantoor dat&lt;br/&gt;
-            ondernemers in het MKB en de grootzakelijke markt adviseert op het gebied van&lt;br/&gt;
-            fusies en overnames, waarderingsvraagstukken, waardecreatie en financiering.</value>
+    <value>TCF corporate finance is een zelfstandig en onafhankelijk advieskantoor dat ondernemers in het MKB en de grootzakelijke markt adviseert op het gebied van fusies en overnames, waarderingsvraagstukken, waardecreatie en financiering.</value>
   </data>
   <data name="page_header" xml:space="preserve">
-    <value>Individuele benadering voor&lt;br /&gt;
-                je gehele klantenkring!</value>
+    <value>Individuele benadering voor je gehele klantenkring!</value>
   </data>
   <data name="page_title" xml:space="preserve">
     <value>Over ons</value>
@@ -139,7 +136,6 @@
     <value>Arno, Directeur, tcf</value>
   </data>
   <data name="quote_text" xml:space="preserve">
-    <value>Grip op de keten met A-Sure! van tcf. De StreamServe software zorgt ervoor dat de juiste documenten op
-                de gewenste momenten uw klanten bereiken.</value>
+    <value>Grip op de keten met A-Sure! van tcf. De StreamServe software zorgt ervoor dat de juiste documenten op de gewenste momenten uw klanten bereiken.</value>
   </data>
 </root>
