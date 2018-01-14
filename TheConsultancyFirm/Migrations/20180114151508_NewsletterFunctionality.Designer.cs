@@ -12,8 +12,8 @@ using TheConsultancyFirm.Data;
 namespace TheConsultancyFirm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180109101404_NewsletterHasSubject")]
-    partial class NewsletterHasSubject
+    [Migration("20180114151508_NewsletterFunctionality")]
+    partial class NewsletterFunctionality
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -230,6 +230,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Deleted");
+
                     b.Property<bool>("Enabled");
 
                     b.Property<DateTime>("LastModified");
@@ -292,6 +294,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Deleted");
+
                     b.Property<bool>("Enabled");
 
                     b.Property<string>("Link")
@@ -328,6 +332,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("AmountOfDownloads");
 
                     b.Property<DateTime>("Date");
+
+                    b.Property<bool>("Deleted");
 
                     b.Property<string>("Description")
                         .IsRequired();
@@ -366,6 +372,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Deleted");
+
                     b.Property<bool>("Enabled");
 
                     b.Property<DateTime>("LastModified");
@@ -400,9 +408,15 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Content");
+                    b.Property<string>("NewsletterIntroText")
+                        .IsRequired();
 
-                    b.Property<string>("Subject");
+                    b.Property<string>("NewsletterOtherNews");
+
+                    b.Property<DateTime>("SentAt");
+
+                    b.Property<string>("Subject")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -452,13 +466,20 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Deleted");
+
                     b.Property<bool>("Enabled");
 
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("PhotoPath");
 
-                    b.Property<string>("SharingDescription");
+                    b.Property<string>("SharingDescription")
+                        .HasMaxLength(140);
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasMaxLength(300);
 
                     b.Property<string>("Title")
                         .IsRequired();

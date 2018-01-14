@@ -12,6 +12,6 @@ namespace TheConsultancyFirm.Repositories
         Task Unsubscribe(string email);
         Task<NewsletterSubscription> GetByMail(string email);
 
-        List<NewsletterSubscription> GetAll();
+        IQueryable<NewsletterSubscription> GetAll();
     }
 }

@@ -14,7 +14,10 @@ namespace TheConsultancyFirm.Models
         [Required]
         public string Title { get; set; }
 
+        [Display(Name = "Publiceerdatum")]
         public DateTime Date { get; set; }
+
+        [Display(Name = "Laatst bewerkt")]
         public DateTime LastModified { get; set; }
 
         public string PhotoPath { get; set; }

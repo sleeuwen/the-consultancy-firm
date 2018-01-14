@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
@@ -30,14 +31,14 @@ namespace TheConsultancyFirm.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<NewsletterSubscription> GetByMail(string email)
+        public Task<NewsletterSubscription> GetByMail(string email)
         {
-            return await _context.NewsletterSubscription.FirstOrDefaultAsync(n => n.Email == email);
+            return  _context.NewsletterSubscription.FirstOrDefaultAsync(n => n.Email == email);
         }
-       
-        public List<NewsletterSubscription> GetAll()
+
+        public IQueryable<NewsletterSubscription> GetAll()
         {
-            return  _context.NewsletterSubscription.ToList();
+            return _context.NewsletterSubscription;
         }
     }
 }

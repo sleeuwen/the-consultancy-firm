@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
@@ -8,7 +9,7 @@ namespace TheConsultancyFirm.Repositories
 {
     public class NewsletterRepository : INewsletterRepository
     {
-        public readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
         public NewsletterRepository(ApplicationDbContext context)
         {
@@ -17,13 +18,13 @@ namespace TheConsultancyFirm.Repositories
         
         public async Task<IEnumerable<Newsletter>> GetAll()
         {
-            return await _context.NewsLetters.ToListAsync();
+            return await _context.NewsLetters.OrderByDescending(n => n.SentAt).ToListAsync();
         }
 
-        public async Task Create(Newsletter newsletter)
+        public Task SubscribeAsync(Newsletter newsletter)
         {
             _context.NewsLetters.Add(newsletter);
-            await _context.SaveChangesAsync();
+            return _context.SaveChangesAsync();
         }
     }
 }

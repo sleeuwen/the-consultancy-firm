@@ -473,10 +473,12 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<string>("PhotoPath");
 
-                    b.Property<string>("SharingDescription");
+                    b.Property<string>("SharingDescription")
+                        .HasMaxLength(140);
 
                     b.Property<string>("Summary")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(300);
 
                     b.Property<string>("Title")
                         .IsRequired();

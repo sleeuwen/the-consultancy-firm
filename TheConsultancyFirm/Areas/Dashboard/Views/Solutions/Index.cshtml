@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<Solution>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Solutions";
 }
 
 <h2>@ViewBag.Title</h2>
@@ -12,16 +12,16 @@
     <thead>
         <tr>
             <th>
-                Titel
+                @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
-                Publiceerdatum
+                @Html.DisplayNameFor(model => model.Date)
             </th>
             <th>
-                Laatst bewerkt
+                @Html.DisplayNameFor(model => model.LastModified)
             </th>
             <th>
-                Acties
+                
             </th>
         </tr>
     </thead>

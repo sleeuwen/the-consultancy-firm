@@ -2,6 +2,7 @@
 using System.Net.Mail;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Models.Mail;
@@ -82,7 +83,7 @@ Een nieuw contact formulier is verstuurd:<br/>
                 smtp.DeliveryMethod = SmtpDeliveryMethod.Network;
                 smtp.UseDefaultCredentials = false;
                 smtp.Credentials = new NetworkCredential(_mailSettings.SenderEmail, _mailSettings.EmailPassword);
-
+                
                 await smtp.SendMailAsync(mail);
             }
         }

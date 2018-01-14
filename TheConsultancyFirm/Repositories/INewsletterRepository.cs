@@ -8,6 +8,6 @@ namespace TheConsultancyFirm.Repositories
     {
         Task<IEnumerable<Newsletter>> GetAll();
 
-        Task Create(Newsletter newsletter);
+        Task SubscribeAsync(Newsletter newsletter);
     }
 }
