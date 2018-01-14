@@ -49,7 +49,7 @@
       "wwwroot/js/imageUpload.js",
       "wwwroot/js/select2.js",
       "wwwroot/js/tinymce.js",
-      "wwwroot/js/newsletter.js"
+      "wwwroot/js/newsletter.js",
       "wwwroot/js/usersManagement.js"
     ],
     "minify": {
