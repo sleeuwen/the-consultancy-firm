@@ -22,9 +22,18 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Customers
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showDisabled = false)
         {
-            return View(await _customerRepository.GetAll());
+            ViewBag.ShowDisabled = showDisabled;
+            var customers = await _customerRepository.GetAll();
+            return View(customers.Where(c => !c.Deleted && (c.Enabled || showDisabled)));
+        }
+
+        // GET: Dashboard/Customers/Deleted
+        public async Task<IActionResult> Deleted()
+        {
+            var customers = await _customerRepository.GetAll();
+            return View(customers.Where(c => c.Deleted).ToList());
         }
 
         // GET: Dashboard/Customers/Details/5
@@ -168,10 +177,43 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var customer = await _customerRepository.Get(id);
-            if (customer.LogoPath != null)
-                await _uploadService.Delete(customer.LogoPath);
-            await _customerRepository.Delete(id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
 
+            customer.Deleted = true;
+
+            await _customerRepository.Update(customer);
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Restore(int? id)
+        {
+            var customer = await _customerRepository.Get(id ?? 0);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            customer.Deleted = false;
+
+            await _customerRepository.Update(customer);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ToggleEnable(int? id)
+        {
+            var customer = await _customerRepository.Get(id ?? 0);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            customer.Enabled = !customer.Enabled;
+
+            await _customerRepository.Update(customer);
             return RedirectToAction(nameof(Index));
         }
 

@@ -1,20 +1,19 @@
-﻿@model DownloadsViewModel
+﻿@inject IViewLocalizer Localizer
+@model DownloadsViewModel
 @{
     ViewBag.Title = "Downloads";
     Layout = "_Layout";
 }
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-    <li class="breadcrumb-item active">Downloads</li>
+    <li class="breadcrumb-item active">@Localizer["downloads"]</li>
 </ol>
 <div class="container">
     <div class="row">
         <div class="col-12 text-center">
-            <h2>Downloads</h2>
+            <h2>@Localizer["downloads"]</h2>
             <p class="introtext">
-                The Consultancy Firm biedt een complete, geïntegreerde,<br>
-                oplossing die de drie elementen van documentmanagement<br>
-                omvat: compositie, processautomatisering en output
+                @Localizer["tcf_offers"]
             </p>
         </div>
     </div>
@@ -23,8 +22,7 @@
         <div class="row outerdownload">
             <div class="col-sm-5 downloadtag">
                 <h4>
-                    GESELECTEERDE<br>
-                    DOWNLOAD
+                    @Localizer["selected_download"]
                 </h4>
             </div>
             <div class="col-sm-7 downloadinformation">
@@ -39,7 +37,7 @@
                 </p>
                 <a href="@Model.Selected.LinkPath" download>
                     <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
-                    Downloaden
+                    @Localizer["download"]
                 </a>
             </div>
         </div>
@@ -49,8 +47,7 @@
         <div class="row outerdownload">
             <div class="col-sm-5 downloadtag">
                 <h4>
-                    NIEUWSTE<br>
-                    PUBLICATIE
+                    @Localizer["newest_publication"]
                 </h4>
             </div>
             <div class="col-sm-7 downloadinformation">
@@ -65,15 +62,14 @@
                 </p>
                 <a href="@Model.MostRecent.LinkPath" download>
                     <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
-                    Downloaden
+                    @Localizer["download"]
                 </a>
             </div>
         </div>
         <div class="row outerdownload">
             <div class="col-sm-5 downloadtag">
                 <h4>
-                    MEESTE<br>
-                    GEDOWNLOAD
+                    @Localizer["most_downloaded"]
                 </h4>
             </div>
             <div class="col-sm-7 downloadinformation">
@@ -88,7 +84,7 @@
                 </p>
                 <a href="@Model.MostDownloaded.LinkPath" download>
                     <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
-                    Downloaden
+                    @Localizer["download"]
                 </a>
             </div>
         </div>
@@ -97,47 +93,47 @@
     <div class="row outerdownload">
         <div class="col-sm-5 downloadtag">
             <h4>
-                ALLE DOWNLOADS
+                @Localizer["all_downloads"]
             </h4>
         </div>
         <div class="col-sm-7 downloadinformation">
             <h3>
-                Alles over Document Wizard
+                @Model.AllDownloads.FirstOrDefault()?.Title
             </h3>
             <p>
-                10 Juli 2017
+                @Model.AllDownloads.FirstOrDefault()?.Date.ToString("dd MMMM yyyy")
             </p>
             <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do smod temport incidunt ut labore et dolore magna aliqua
+                @Model.AllDownloads.FirstOrDefault()?.Description
             </p>
-            <a href="#">
+            <a href="@Model.AllDownloads.FirstOrDefault()?.LinkPath" download>
                 <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
-                Downloaden
+                @Localizer["download"]
             </a>
         </div>
     </div>
-        @for (var i = 0; i < 8; i++)
-        {
-            <div class="row">
-                <div class="col-sm-5">
-                </div>
-                <div class="col-sm-7 downloadinformation">
-                    <h3>
-                        Alles over Document Wizard
-                    </h3>
-                    <p>
-                        10 Juli 2017
-                    </p>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do smod temport incidunt ut labore et dolore magna aliqua
-                    </p>
-                    <a href="#">
-                        <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
-                        Downloaden
-                    </a>
-                </div>
+    @foreach (var item in Model.AllDownloads.Skip(1))
+    {
+        <div class="row">
+            <div class="col-sm-5">
             </div>
-        }
+            <div class="col-sm-7 downloadinformation">
+                <h3>
+                    @item.Title
+                </h3>
+                <p>
+                    @item.Date.ToString("dd MMMM yyyy")
+                </p>
+                <p>
+                    @item.Description
+                </p>
+                <a href="@item.LinkPath" download>
+                    <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
+                    @Localizer["download"]
+                </a>
+            </div>
+        </div>
+    }
     <div class="row">
         <div class="col-sm-5">
         </div>

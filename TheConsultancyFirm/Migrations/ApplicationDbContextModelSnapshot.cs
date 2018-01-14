@@ -229,6 +229,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Deleted");
+
                     b.Property<bool>("Enabled");
 
                     b.Property<DateTime>("LastModified");
@@ -291,6 +293,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Deleted");
+
                     b.Property<bool>("Enabled");
 
                     b.Property<string>("Link")
@@ -328,6 +332,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Deleted");
+
                     b.Property<string>("Description")
                         .IsRequired();
 
@@ -364,6 +370,8 @@ namespace TheConsultancyFirm.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("Date");
+
+                    b.Property<bool>("Deleted");
 
                     b.Property<bool>("Enabled");
 
@@ -457,6 +465,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Deleted");
+
                     b.Property<bool>("Enabled");
 
                     b.Property<DateTime>("LastModified");
@@ -464,6 +474,9 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<string>("PhotoPath");
 
                     b.Property<string>("SharingDescription");
+
+                    b.Property<string>("Summary")
+                        .IsRequired();
 
                     b.Property<string>("Title")
                         .IsRequired();

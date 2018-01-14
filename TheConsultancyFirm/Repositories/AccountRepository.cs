@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 
@@ -19,6 +20,11 @@ namespace TheConsultancyFirm.Repositories
         public ApplicationUser GetUserByEmail(string email)
         {
             return _context.Users.FirstOrDefault(a => a.Email == email);
+        }
+
+        public async Task<IEnumerable<ApplicationUser>> GetAll()
+        {
+            return await _context.Users.ToListAsync();
         }
 
         public void DeleteDummyUser(string email)

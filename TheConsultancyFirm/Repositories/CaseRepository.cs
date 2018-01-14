@@ -49,13 +49,13 @@ namespace TheConsultancyFirm.Repositories
         public async Task<(Case Previous, Case Next)> GetAdjacent(Case c)
         {
             var previous = await _context.Cases.Include(i => i.Customer).OrderByDescending(i => i.Date)
-                               .Where(i => i.Date < c.Date).Take(1).FirstOrDefaultAsync() ??
+                               .Where(i => i.Date < c.Date && !i.Deleted && i.Enabled).Take(1).FirstOrDefaultAsync() ??
                            await _context.Cases.Include(i => i.Customer).OrderByDescending(i => i.Date)
-                               .Where(i => i.Id != c.Id).FirstOrDefaultAsync();
+                               .Where(i => i.Id != c.Id && !i.Deleted && i.Enabled).FirstOrDefaultAsync();
 
-            var next = await _context.Cases.Include(i => i.Customer).OrderBy(i => i.Date).Where(i => i.Date > c.Date)
+            var next = await _context.Cases.Include(i => i.Customer).OrderBy(i => i.Date).Where(i => i.Date > c.Date && !i.Deleted && i.Enabled)
                            .Take(1).FirstOrDefaultAsync() ??
-                       await _context.Cases.Include(i => i.Customer).OrderBy(i => i.Date).Where(i => i.Id != c.Id)
+                       await _context.Cases.Include(i => i.Customer).OrderBy(i => i.Date).Where(i => i.Id != c.Id && !i.Deleted && i.Enabled)
                            .FirstOrDefaultAsync();
 
             return (previous, next);

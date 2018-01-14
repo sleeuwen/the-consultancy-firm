@@ -1,4 +1,5 @@
-﻿@{
+﻿@inject IViewLocalizer Localizer
+@{
     ViewData["Title"] = "FooterPartial";
 }
 
@@ -9,27 +10,28 @@
             <div class="col-md-3">
                 <h3>tcf.</h3>
                 <ul>
-                    <li><a asp-controller="Cases" asp-action="Index">Cases</a></li>
-                    <li><a asp-controller="About" asp-action="Index">Over tcf</a></li>
-                    <li><a asp-controller="NewsItems" asp-action="Index">Nieuws</a></li>
-                    <li><a asp-controller="Downloads" asp-action="Index">Downloads</a></li>
+                    <li><a asp-controller="Cases" asp-action="Index">@Localizer["casesFooter"]</a></li>
+                    <li><a asp-controller="About" asp-action="Index">@Localizer["about_tcf"]</a></li>
+                    <li><a asp-controller="NewsItems" asp-action="Index">@Localizer["newsFooter"]</a></li>
+                    <li><a asp-controller="Downloads" asp-action="Index">@Localizer["downloadsFooter"]</a></li>
                 </ul>
             </div>
             <div class="col-md-4">
                 <h3>Solutions.</h3>
                 <ul>
-                    <li>Document Wizard</li>
-                    <li>Social.ice</li>
-                    <li>OpenText Extream</li>
+                    <li>@Localizer["document_wizard"]</li>
+                    <li>@Localizer["social_ice"]</li>
+                    <li>@Localizer["opentext_extream"]</li>
                     <li style="font-style: italic;">
-                        <a asp-controller="Solutions" asp-action="Index">Alle solutions
+                        <a asp-controller="Solutions" asp-action="Index">
+                            @Localizer["all_solutions"]
                             <img src="~/images/right-arrow.svg" alt="laad niet" class="arrow">
                         </a>
                     </li>
                 </ul>
             </div>
             <div class="col-md-4">
-                <h3>Adres.</h3>
+                <h3>@Localizer["address"]</h3>
                 <p>
                     Cypresbaan 47, 2908 LT
                     <br> Capelle aan den IJssel
@@ -39,7 +41,7 @@
                 </p>
                 <p style="font-style: italic;">
                     <a asp-controller="Contact" asp-action="Index">
-                        Ga naar contactpagina
+                        @Localizer["go_to_contact"]
                         <img src="~/images/right-arrow.svg" alt="laad niet" class="arrow">
                     </a>
                 </p>
@@ -49,14 +51,13 @@
             <div class="col-md-1"></div>
             <div class="col-md-3">
                 <p style="font-style: italic;">
-                    Platinum
-                    <br> Benelux Partner
+                    @Localizer["platinum_partner"]
                 </p>
             </div>
             <div class="col-md-4">
                 <div class="box">
                     <p>
-                        <a class="buttonHover">CUSTOMER CARE</a>
+                        <a class="buttonHover">@Localizer["customer_care"]</a>
                     </p>
                 </div>
             </div>
