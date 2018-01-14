@@ -30,7 +30,7 @@ namespace TheConsultancyFirm
             //Services
             services.AddSingleton<IMailService, MailService>();
             services.AddSingleton<IUploadService, UploadService>();
-            services.AddScoped<INewsletterService, NewsletterService>();
+            services.AddSingleton<INewsletterService, NewsletterService>();
 
             //Repositories
             services.AddScoped<ICaseRepository, CaseRepository>();
