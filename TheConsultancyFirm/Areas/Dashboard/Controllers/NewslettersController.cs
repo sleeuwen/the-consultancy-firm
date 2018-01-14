@@ -13,12 +13,18 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly INewsletterRepository _newsletterRepository;
         private readonly INewsletterSubscriptionRepository _newsletterSubscriptionRepository;
+        private readonly ICaseRepository _caseRepository;
+        private readonly INewsItemRepository _newsItemRepository;
+        private readonly IDownloadRepository _downloadRepository;
         private readonly INewsletterService _newsletterService;
 
-        public NewslettersController(INewsletterRepository newsletterRepository, INewsletterSubscriptionRepository newsletterSubscriptionRepository, INewsletterService newsletterService)
+        public NewslettersController(INewsletterRepository newsletterRepository, INewsletterSubscriptionRepository newsletterSubscriptionRepository, ICaseRepository caseRepository, INewsItemRepository newsItemRepository, IDownloadRepository downloadRepository, INewsletterService newsletterService)
         {
             _newsletterRepository = newsletterRepository;
             _newsletterSubscriptionRepository = newsletterSubscriptionRepository;
+            _caseRepository = caseRepository;
+            _newsItemRepository = newsItemRepository;
+            _downloadRepository = downloadRepository;
             _newsletterService = newsletterService;
         }
 
@@ -43,7 +49,11 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             newsletter.SentAt = DateTime.UtcNow;
             await _newsletterRepository.Create(newsletter);
-            _newsletterService.SendNewsletter(newsletter, HttpContext.Request.Scheme+"://"+HttpContext.Request.Host);
+
+            var _ = _newsletterService.SendNewsletter(newsletter, HttpContext.Request.Scheme+"://"+HttpContext.Request.Host,
+                await _newsletterSubscriptionRepository.GetAll().ToListAsync(), await _caseRepository.GetLatest(),
+                await _newsItemRepository.GetLatest(), await _downloadRepository.GetLatest());
+
             return View();
         }
     }
