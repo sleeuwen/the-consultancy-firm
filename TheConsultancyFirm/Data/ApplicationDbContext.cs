@@ -17,6 +17,7 @@ namespace TheConsultancyFirm.Data
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Vacancy> Vacancies { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
@@ -52,5 +53,7 @@ namespace TheConsultancyFirm.Data
                 .HasIndex(n => n.Email)
                 .IsUnique();
         }
+
+        public DbSet<TheConsultancyFirm.Models.Vacancy> Vacancy { get; set; }
     }
 }
