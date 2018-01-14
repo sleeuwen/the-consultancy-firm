@@ -13,6 +13,16 @@ namespace TheConsultancyFirm.Migrations
                 name: "NewsLetters",
                 newName: "NewsletterSubscription");
 
+            migrationBuilder.RenameIndex(
+                name: "PK_NewsLetters",
+                newName: "PK_NewsletterSubscription",
+                table: "NewsletterSubscription");
+
+            migrationBuilder.RenameIndex(
+                name: "IX_NewsLetters_Email",
+                newName: "IX_NewsletterSubscription_Email",
+                table: "NewsletterSubscription");
+
             migrationBuilder.CreateTable(
                 name: "NewsLetters",
                 columns: table => new
