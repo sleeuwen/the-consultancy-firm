@@ -30,6 +30,7 @@ namespace TheConsultancyFirm
             //Services
             services.AddSingleton<IMailService, MailService>();
             services.AddSingleton<IUploadService, UploadService>();
+            services.AddScoped<INewsletterService, NewsletterService>();
 
             //Repositories
             services.AddScoped<ICaseRepository, CaseRepository>();
@@ -39,6 +40,7 @@ namespace TheConsultancyFirm
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
+            services.AddScoped<INewsletterSubscriptionRepository, NewsletterSubscriptionRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IBlockRepository, BlockRepository>();

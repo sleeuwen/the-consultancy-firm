@@ -30,8 +30,8 @@
       "wwwroot/js/carousel.js",
       "wwwroot/js/cookieWall.js",
       "wwwroot/js/navbar.js",
-      "wwwroot/js/sharing.js",
-      "wwwroot/js/newsletter.js"
+      "wwwroot/js/newsletterSubscription.js",
+      "wwwroot/js/sharing.js"
     ],
     "minify": {
       "enabled": true,
@@ -49,6 +49,7 @@
       "wwwroot/js/imageUpload.js",
       "wwwroot/js/select2.js",
       "wwwroot/js/tinymce.js",
+      "wwwroot/js/newsletter.js",
       "wwwroot/js/usersManagement.js"
     ],
     "minify": {

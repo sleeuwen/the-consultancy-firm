@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 
@@ -12,10 +15,15 @@ namespace TheConsultancyFirm.Repositories
         {
             _context = context;
         }
-
-        public Task SubscribeAsync(Newsletter newsletter)
+        
+        public async Task<IEnumerable<Newsletter>> GetAll()
         {
-            _context.Add(newsletter);
+            return await _context.NewsLetters.OrderByDescending(n => n.SentAt).ToListAsync();
+        }
+
+        public Task Create(Newsletter newsletter)
+        {
+            _context.NewsLetters.Add(newsletter);
             return _context.SaveChangesAsync();
         }
     }

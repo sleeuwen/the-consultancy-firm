@@ -80,7 +80,6 @@
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Solutions\Index.en-US.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Index.en-US.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Update="Resources\Views\Solutions\Index.nl-NL.resx">
       <Generator>ResXFileCodeGenerator</Generator>

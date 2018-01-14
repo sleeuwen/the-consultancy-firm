@@ -1,0 +1,56 @@
+﻿@using System.Text.RegularExpressions
+@model IEnumerable<Newsletter>
+
+@{
+    ViewData["Title"] = "Nieuwsbrief";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="dashboard-buttons mb-3">
+    <a asp-action="Create" class="dashboard-button" id="create-item">
+        Nieuwe nieuwsbrief Toevoegen
+        <i class="icon-badge fa fa-plus"></i>
+    </a>
+    <a asp-action="Subscriptions" class="dashboard-button" id="create-item">
+        Bekijk aanmeldingen
+        <i class="icon-badge fa fa-address-book"></i>
+    </a>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsletterIntroText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SentAt)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var newlineIdx = item.NewsletterIntroText?.IndexOfAny(new[] { '\r', '\n' }) ?? -1;
+            var title = item.NewsletterIntroText?.Substring(0, newlineIdx < 0 ? item.NewsletterIntroText.Length : newlineIdx);
+            title = Regex.Replace(title ?? "", "<[^>]*>", "");
+            title = Regex.Replace(title, "<p>", "");
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @title
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SentAt)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

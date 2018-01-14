@@ -11,5 +11,6 @@ namespace TheConsultancyFirm.Repositories
         Task Create(NewsItem newsItem);
         Task Update(NewsItem newsItem);
         Task Delete(int id);
+        Task<NewsItem> GetLatest();
     }
 }
