@@ -80,9 +80,9 @@ namespace TheConsultancyFirm.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Case> GetLatest()
+        public Task<Case> GetLatest()
         {
-            return await _context.Cases.OrderByDescending(c => c.Date).Take(1).FirstOrDefaultAsync();
+            return _context.Cases.OrderByDescending(c => c.Date).Take(1).FirstOrDefaultAsync();
         }
     }
 }

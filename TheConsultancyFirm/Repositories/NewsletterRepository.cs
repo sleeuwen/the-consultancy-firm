@@ -21,7 +21,7 @@ namespace TheConsultancyFirm.Repositories
             return await _context.NewsLetters.OrderByDescending(n => n.SentAt).ToListAsync();
         }
 
-        public Task SubscribeAsync(Newsletter newsletter)
+        public Task Create(Newsletter newsletter)
         {
             _context.NewsLetters.Add(newsletter);
             return _context.SaveChangesAsync();

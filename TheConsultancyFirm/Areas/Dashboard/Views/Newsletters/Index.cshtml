@@ -17,40 +17,40 @@
         <i class="icon-badge fa fa-address-book"></i>
     </a>
 </div>
-    <table class="table">
-        <thead>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Subject)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsletterIntroText)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SentAt)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var newlineIdx = item.NewsletterIntroText?.IndexOfAny(new[] { '\r', '\n' }) ?? -1;
+            var title = item.NewsletterIntroText?.Substring(0, newlineIdx < 0 ? item.NewsletterIntroText.Length : newlineIdx);
+            title = Regex.Replace(title ?? "", "<[^>]*>", "");
+            title = Regex.Replace(title, "<p>", "");
+
             <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Subject)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NewsletterIntroText)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SentAt)
-                </th>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Subject)
+                </td>
+                <td>
+                    @title
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SentAt)
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-
-                var newlineIdx = item.NewsletterIntroText?.IndexOfAny(new[] { '\r', '\n' }) ?? -1;
-                var title = item.NewsletterIntroText?.Substring(0, newlineIdx < 0 ? item.NewsletterIntroText.Length : newlineIdx);
-                title = Regex.Replace(title ?? "", "<[^>]*>", "");
-                title = Regex.Replace(title, "<p>", "");
-
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Subject)
-                    </td>
-                    <td>
-                        @title
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SentAt)
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+</table>

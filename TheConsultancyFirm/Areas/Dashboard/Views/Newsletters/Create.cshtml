@@ -9,7 +9,7 @@
 <h4>Newsletter</h4>
 <hr />
 
-<form asp-action="Send">
+<form asp-action="Send" class="newsletter">
     <div class="row">
         <div class="col-md-6">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -19,15 +19,15 @@
                 <span asp-validation-for="Subject" class="invalid-feedback d-block"></span>
             </div>
 
-            <div class="form-group text-block">
+            <div class="form-group">
                 <label asp-for="NewsletterIntroText"></label>
-                <textarea asp-for="NewsletterIntroText" class="form-control tinymce" id="NewsletterIntro"></textarea>
+                <textarea asp-for="NewsletterIntroText" class="form-control" id="NewsletterIntro"></textarea>
 
                 <span asp-validation-for="NewsletterIntroText" class="invalid-feedback d-block"></span>
             </div>
-            <div class="form-group text-block">
+            <div class="form-group">
                 <label asp-for="NewsletterOtherNews"></label>
-                <textarea asp-for="NewsletterOtherNews" class="form-control tinymce" id="NewsletterOtherNews"></textarea>
+                <textarea asp-for="NewsletterOtherNews" class="form-control" id="NewsletterOtherNews"></textarea>
 
                 <span asp-validation-for="NewsletterOtherNews" class="invalid-feedback d-block"></span>
             </div>
@@ -44,7 +44,3 @@
         </div>
     </div>
 </form>
-    
-
-    
-

@@ -14,7 +14,5 @@ namespace TheConsultancyFirm.Services
         Task SendContactMailAsync(Contact contact);
 
         Task SendMailAsync(string email, string subject, string message);
-
-        
     }
 }

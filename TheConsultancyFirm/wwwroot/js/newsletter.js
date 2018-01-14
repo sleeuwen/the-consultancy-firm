@@ -27,11 +27,11 @@ function ReplaceTemplates() {
 
 function UpdateIntroTextOnTemplate() {
     if ($('#NewsletterIntro').val() === null) return;
-    
+
     tinymce.triggerSave();
     var text = $('#NewsletterIntro').val();
     //console.log('NewsletterIntro');
-    $('iframe').contents().find('#NewsletterTemplateIntro').html(text.replace('<p>', "").replace('</p>', ""));
+    $('iframe').contents().find('#NewsletterTemplateIntro').html(text);
 }
 
 function UpdateOtherNewsTextOnTemplate() {
@@ -40,7 +40,7 @@ function UpdateOtherNewsTextOnTemplate() {
     tinymce.triggerSave();
     var text = $('#NewsletterOtherNews').val();
     //console.log('NewsletterOtherNews');
-    $('iframe').contents().find('#NewsletterTemplateOtherNews').html(text.replace('<p>', "").replace('</p>', ""));
+    $('iframe').contents().find('#NewsletterTemplateOtherNews').html(text);
 }
 
 jQuery(function($) {

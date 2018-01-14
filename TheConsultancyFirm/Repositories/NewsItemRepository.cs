@@ -64,9 +64,9 @@ namespace TheConsultancyFirm.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<NewsItem> GetLatest()
+        public Task<NewsItem> GetLatest()
         {
-            return await _context.NewsItems.OrderByDescending(n => n.Date).Take(1).FirstOrDefaultAsync();
+            return _context.NewsItems.OrderByDescending(n => n.Date).Take(1).FirstOrDefaultAsync();
         }
     }
 }

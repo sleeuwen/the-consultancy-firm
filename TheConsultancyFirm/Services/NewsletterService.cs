@@ -28,14 +28,17 @@ namespace TheConsultancyFirm.Services
             _newsItemRepository = newsItemRepository;
             _downloadRepository = downloadRepository;
         }
+
         public async Task SendNewsletter(Newsletter newsletter, string baseUrl)
         {
             var @case = await _caseRepository.GetLatest();
             var newsItem = await _newsItemRepository.GetLatest();
             var download = await _downloadRepository.GetLatest();
+
             foreach (var receiver in _newsletterSubscriptionRepository.GetAll())
             {
                 var sbMail = new StringBuilder();
+
                 using (var sReader = new StreamReader(_environment.WebRootPath + "/MailTemplate.html"))
                 {
                     sbMail.Append(sReader.ReadToEnd());
@@ -58,6 +61,7 @@ namespace TheConsultancyFirm.Services
                     sbMail.Replace("{year}", DateTime.Now.Year.ToString());
                     sbMail.Replace("{unsubscribe}", baseUrl + "/newsletters/unsubscribe/" + receiver.EncodedMail);
                 }
+
                 await _mailService.SendMailAsync(receiver.Email, newsletter.Subject,
                     sbMail.ToString());
             }
@@ -74,7 +78,5 @@ namespace TheConsultancyFirm.Services
 
             return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday) + 1;
         }
-
-
     }
 }

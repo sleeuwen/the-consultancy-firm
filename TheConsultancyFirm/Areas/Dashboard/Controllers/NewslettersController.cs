@@ -20,14 +20,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             _newsletterRepository = newsletterRepository;
             _newsletterSubscriptionRepository = newsletterSubscriptionRepository;
             _newsletterService = newsletterService;
-
         }
 
         public async Task<IActionResult> Index()
         {
             return View(await _newsletterRepository.GetAll());
         }
-        
+
         // GET: Dashboard/Newsletter/Create
         public IActionResult Create()
         {
@@ -43,10 +42,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> Send(Newsletter newsletter)
         {
             newsletter.SentAt = DateTime.UtcNow;
-            await _newsletterRepository.SubscribeAsync(newsletter);
+            await _newsletterRepository.Create(newsletter);
             _newsletterService.SendNewsletter(newsletter, HttpContext.Request.Scheme+"://"+HttpContext.Request.Host);
             return View();
         }
-
     }
 }
