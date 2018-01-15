@@ -1,6 +1,16 @@
 ﻿@{
     ViewBag.Title = "Dashboard";
     Layout = "_Layout";
+    ChartJSCore.Models.Chart chart = (ChartJSCore.Models.Chart)ViewBag.chart;
 }
 
 <h1>This is the Admin Dashboard</h1>
+<div class="row">
+    <div class="col-6"><canvas id="lineChart"></canvas></div>
+</div>
+
+@section Scripts {
+    <script>
+        @Html.Raw(chart.CreateChartCode("lineChart"));
+    </script>
+}

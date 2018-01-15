@@ -35,7 +35,7 @@
                 <p>
                     @Model.Selected.Description
                 </p>
-                <a href="@Model.Selected.LinkPath" download>
+                <a href="@Model.Selected.LinkPath" onclick="LogDownload(@Model.Selected.Id)" download>
                     <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
                     @Localizer["download"]
                 </a>
@@ -60,7 +60,7 @@
                 <p>
                     @Model.MostRecent.Description
                 </p>
-                <a href="@Model.MostRecent.LinkPath" download>
+                <a href="@Model.MostRecent.LinkPath" onclick="LogDownload(@Model.MostRecent.Id)" download>
                     <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
                     @Localizer["download"]
                 </a>
@@ -82,7 +82,7 @@
                 <p>
                     @Model.MostDownloaded.Description
                 </p>
-                <a href="@Model.MostDownloaded.LinkPath" download>
+                <a href="@Model.MostDownloaded.LinkPath" onclick="LogDownload(@Model.MostDownloaded.Id)" download>
                     <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
                     @Localizer["download"]
                 </a>
@@ -106,7 +106,7 @@
             <p>
                 @Model.AllDownloads.FirstOrDefault()?.Description
             </p>
-            <a href="@Model.AllDownloads.FirstOrDefault()?.LinkPath" download>
+            <a href="@Model.AllDownloads.FirstOrDefault()?.LinkPath" onclick="LogDownload(@Model.AllDownloads.FirstOrDefault()?.Id)" download>
                 <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
                 @Localizer["download"]
             </a>
@@ -127,7 +127,7 @@
                 <p>
                     @item.Description
                 </p>
-                <a href="@item.LinkPath" download>
+                <a href="@item.LinkPath" onclick="LogDownload(@item.Id)" download>
                     <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
                     @Localizer["download"]
                 </a>
