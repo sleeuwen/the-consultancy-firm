@@ -3,6 +3,7 @@
     Layout = "_Layout";
     ChartJSCore.Models.Chart chart = (ChartJSCore.Models.Chart)ViewBag.chart;
     ChartJSCore.Models.Chart sessions = (ChartJSCore.Models.Chart)ViewBag.sessions;
+    ChartJSCore.Models.Chart devices = (ChartJSCore.Models.Chart)ViewBag.devices;
 }
 
 <h1>This is the Admin Dashboard</h1>
@@ -12,6 +13,7 @@
         <span class="d-block mb-2" id="activeUsers"></span>
         active users on the site
     </div>
+    <div class="col-6"><canvas id="deviceGraph"></canvas></div>
 </div>
 <div class="row">
     <div class="col-6"><canvas id="downloadGraph"></canvas></div>
@@ -22,5 +24,6 @@
 <script>
         @Html.Raw(chart.CreateChartCode("downloadGraph"));
         @Html.Raw(sessions.CreateChartCode("sessionGraph"));
+        @Html.Raw(devices.CreateChartCode("deviceGraph"));
 </script>
 }

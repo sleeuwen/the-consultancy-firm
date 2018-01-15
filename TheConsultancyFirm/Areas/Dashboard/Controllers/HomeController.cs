@@ -32,6 +32,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             await SetDownloadsGraph();
             SetSessionGraph();
+            SetDeviceGraph();
             return View();
         }
 
@@ -42,6 +43,44 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             var data = request.Execute();
             return int.Parse(data?.Rows?[0][0]);
+        }
+
+        private void SetDeviceGraph()
+        {
+            var request = _service.Data.Ga.Get(
+                "ga:" + WebsiteCode,
+                DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd"),
+                DateTime.Today.ToString("yyyy-MM-dd"),
+                "ga:sessions");
+            request.Dimensions = "ga:deviceCategory";
+            var requestData = request.Execute();
+
+            var labels = new List<string>();
+            var values = new List<double>();
+
+            foreach (var row in requestData.Rows)
+            {
+                labels.Add(row[0]);
+                values.Add(double.Parse(row[1]));
+            }
+
+            var data = new ChartJSCore.Models.Data {Labels = labels};
+
+            var dataset = new PieDataset
+            {
+                Label = "Devices used",
+                BackgroundColor = new List<string> { "#FF6384", "#36A2EB", "#FFCE56" },
+                HoverBackgroundColor = new List<string> { "#FF6384", "#36A2EB", "#FFCE56" },
+                Data = values
+            };
+
+            data.Datasets = new List<Dataset> {dataset};
+            var chart = new Chart
+            {
+                Type = "pie",
+                Data = data
+            };
+            ViewBag.devices = chart;
         }
 
         private void SetSessionGraph()
