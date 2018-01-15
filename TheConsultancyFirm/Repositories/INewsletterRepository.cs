@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TheConsultancyFirm.Models;
 
@@ -8,6 +6,8 @@ namespace TheConsultancyFirm.Repositories
 {
     public interface INewsletterRepository
     {
-        Task SubscribeAsync(Newsletter newsletter);
+        Task<IEnumerable<Newsletter>> GetAll();
+
+        Task Create(Newsletter newsletter);
     }
 }

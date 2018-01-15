@@ -1,0 +1,14 @@
+﻿@import '../../variables';
+
+.table {
+    span {
+        &:hover {
+            color: $orange;
+            cursor: pointer;
+        }
+    }
+
+    .disabled {
+        color: $grey;
+    }
+}

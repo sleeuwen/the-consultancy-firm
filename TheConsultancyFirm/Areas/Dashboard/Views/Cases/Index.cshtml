@@ -2,13 +2,13 @@
 
 @{
     ViewData["Title"] = "Cases";
+
 }
 
 <h2>@ViewBag.Title</h2>
 
-<p>
-    <a asp-action="Create">Nieuwe Toevoegen</a>
-</p>
+@Html.Partial("IndexButtonsPartial")
+
 <table class="table">
     <thead>
         <tr>
@@ -26,7 +26,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr class="@(item.Enabled ? "" : "disabled")">
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
@@ -39,7 +39,9 @@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
                 <a asp-area="" asp-controller="Cases" asp-action="Details" asp-route-id="@item.Id" target="_blank">Bekijken</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a>
+                <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> |
+                <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
+                
             </td>
         </tr>
 }
