@@ -1,4 +1,5 @@
-﻿@model NewsItem
+﻿@inject IViewLocalizer Localizer
+@model NewsItem
 @{
     var background = Model.PhotoPath == null ? "" : "background-image: url(" + Model.PhotoPath + ")";
 }
@@ -8,6 +9,6 @@
         <h3>
             @Model.Title
         </h3>
-        <a class="buttonHover" asp-controller="NewsItems" asp-action="Details" asp-route-id="@Model.Slug">LEES MEER</a>
+        <a class="buttonHover" asp-controller="NewsItems" asp-action="Details" asp-route-id="@Model.Slug">@Localizer["read_more"]</a>
     </div>
 </div>

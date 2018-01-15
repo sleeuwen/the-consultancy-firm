@@ -1,0 +1,41 @@
+﻿@model IEnumerable<TheConsultancyFirm.Models.Vacancy>
+
+@{
+    ViewData["Title"] = "Vacatures";
+}
+
+<h2>@ViewBag.Title</h2>
+
+
+@Html.Partial("IndexButtonsPartial")
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FunctionDescription)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VacancySince)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FunctionDescription)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VacancySince)
+                </td>
+                <td>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> | 
+                    <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

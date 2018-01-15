@@ -9,6 +9,8 @@
     transition: all 0.2s $cubic-bezier 0s;
     padding: 0.575em 1.428571429em;
     color: inherit;
+    text-align: center;
+    white-space: nowrap;
 
     &::after {
         content: '';
