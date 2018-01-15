@@ -37,7 +37,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewData["LastModifiedSortParm"] = sortOrder == "LastModified" ? "date_desc" : "LastModified";
+            ViewData["LastModifiedSortParm"] = sortOrder == "LastModified" ? "last_desc" : "LastModified";
 
 
 
@@ -70,13 +70,16 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     cases = cases.OrderByDescending(c => c.Date);
                     break;
                 case "LastModified":
+                    cases = cases.OrderBy(c => c.LastModified);
+                    break;
+                case "last_desc":
                     cases = cases.OrderByDescending(c => c.LastModified);
                     break;
                 default:
                     cases = cases.OrderBy(c => c.Title);
                     break;
             }
-            int pageSize = 3;
+            int pageSize = 1;
             return View(await PaginatedList<Case>.CreateAsync(cases.AsNoTracking(), page ?? 1, pageSize));
 
         }
