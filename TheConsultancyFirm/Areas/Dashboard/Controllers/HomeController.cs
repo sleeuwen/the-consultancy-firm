@@ -36,12 +36,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         [Route("api/dashboard/[controller]/[action]")]
-        private int GetCurrentActiveUsers()
+        public int GetCurrentActiveUsers()
         {
             var request = _service.Data.Realtime.Get("ga:" + WebsiteCode, "rt:activeUsers");
 
             var data = request.Execute();
-            return int.Parse(data.Rows[0][0]);
+            return int.Parse(data?.Rows?[0][0]);
         }
 
         private void SetSessionGraph()
