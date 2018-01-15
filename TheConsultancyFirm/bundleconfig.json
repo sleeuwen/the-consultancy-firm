@@ -43,6 +43,7 @@
   {
     "outputFileName": "wwwroot/js/dashboard.min.js",
     "inputFiles": [
+      "wwwroot/js/activeUsers.js",
       "wwwroot/js/blockModal.js",
       "wwwroot/js/blocks.js",
       "wwwroot/js/contacts.js",

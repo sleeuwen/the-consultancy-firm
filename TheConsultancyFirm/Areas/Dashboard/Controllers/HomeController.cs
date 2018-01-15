@@ -35,6 +35,15 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return View();
         }
 
+        [Route("api/dashboard/[controller]/[action]")]
+        private int GetCurrentActiveUsers()
+        {
+            var request = _service.Data.Realtime.Get("ga:" + WebsiteCode, "rt:activeUsers");
+
+            var data = request.Execute();
+            return int.Parse(data.Rows[0][0]);
+        }
+
         private void SetSessionGraph()
         {
             var request = _service.Data.Ga.Get(
