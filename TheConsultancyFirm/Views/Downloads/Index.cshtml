@@ -127,7 +127,7 @@
                 <p>
                     @item.Description
                 </p>
-                <a href="@item.LinkPath" download>
+                <a href="@item.LinkPath" onclick="LogDownload(@item.Id)" download>
                     <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
                     @Localizer["download"]
                 </a>
