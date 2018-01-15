@@ -32,7 +32,7 @@ namespace TheConsultancyFirm.Repositories
         {
             var lastWeek = DateTime.UtcNow.AddDays(-7);
 
-            var disctionary = await _context.DownloadLogs.Where(d => d.Date >= lastWeek)
+            var dictionary = await _context.DownloadLogs.Where(d => d.Date >= lastWeek)
                 .GroupBy(d => d.Date)
                 .Select(d => new
                 {
@@ -40,7 +40,7 @@ namespace TheConsultancyFirm.Repositories
                     Day = d.Key
                 }).ToDictionaryAsync(d => d.Day, d => d.Value);
 
-            return disctionary;
+            return dictionary;
         }
     }
 }
