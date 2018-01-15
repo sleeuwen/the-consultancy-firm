@@ -18,10 +18,9 @@ namespace TheConsultancyFirm.Controllers
         }
 
         // GET: /<controller>/
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index()
         {
-            ViewBag.ShowDisabled = showDisabled;
-            return View(await _vacancyRepository.GetAll().Where(v => !v.Deleted && (v.Enabled || showDisabled))
+            return View(await _vacancyRepository.GetAll().Where(v => !v.Deleted && v.Enabled)
                 .OrderByDescending(v => v.VacancySince).Take(3).ToListAsync());
         }
     }

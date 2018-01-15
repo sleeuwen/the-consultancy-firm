@@ -13,17 +13,17 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="FunctionDescription" class="control-label"></label>
+                <label asp-for="FunctionDescription"></label>
                 <input asp-for="FunctionDescription" class="form-control" />
-                <span asp-validation-for="FunctionDescription" class="text-danger"></span>
+                <span asp-validation-for="FunctionDescription" class="invalid-feedback d-block"></span>
             </div>
             <div class="form-group">
-                <label asp-for="VacancySince" class="control-label"></label>
+                <label asp-for="VacancySince"></label>
                 <input asp-for="VacancySince" class="form-control" />
-                <span asp-validation-for="VacancySince" class="text-danger"></span>
+                <span asp-validation-for="VacancySince" class="invalid-feedback d-block"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-secondary" />
             </div>
         </form>
     </div>

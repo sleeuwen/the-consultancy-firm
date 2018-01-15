@@ -53,7 +53,5 @@ namespace TheConsultancyFirm.Data
                 .HasIndex(n => n.Email)
                 .IsUnique();
         }
-
-        public DbSet<TheConsultancyFirm.Models.Vacancy> Vacancy { get; set; }
     }
 }
