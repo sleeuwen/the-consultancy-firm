@@ -24,6 +24,11 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Users
+        /// <summary>
+        /// The index page of the users management page. Show all enabled users except yourself (the logged in user)
+        /// </summary>
+        /// <param name="showDisabled">boolean to check of user want to show disabled accounts</param>
+        /// <returns>Index view with all users</returns>
         public async Task<IActionResult> Index(bool showDisabled = false)
         {
             ApplicationUser currentUser = await GetCurrentUser();
@@ -46,6 +51,11 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/Users/Create
+        /// <summary>
+        /// The create page to create a new user
+        /// </summary>
+        /// <param name="applicationUser">Binding the paramters to a new ApplicationUser model</param>
+        /// <returns>Redirect to index</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Email")] ApplicationUser applicationUser)
@@ -54,7 +64,15 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return View(applicationUser);
 
             var userPass = GenerateRandomPassword();
-            applicationUser.UserName = applicationUser.Email;
+
+            if(applicationUser.Email.Contains("@gmail"))
+            {
+                applicationUser.UserName = "placeholder";
+            }
+            else
+            {
+                applicationUser.UserName = applicationUser.Email;
+            }
             applicationUser.Enabled = true;
             await _userManager.CreateAsync(applicationUser);
             await _userManager.AddPasswordAsync(applicationUser, userPass);
@@ -62,7 +80,6 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             var _ = _mailService.SendAccountCreatedMailAsync(applicationUser.Email, userPass);
 
             return RedirectToAction(nameof(Index));
-
         }
 
         // POST: Dashboard/Users/Delete/5
