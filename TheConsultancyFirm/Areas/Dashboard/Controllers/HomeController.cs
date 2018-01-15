@@ -79,7 +79,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             chart.Data = data;
 
-            ViewData["chart"] = chart;
+            ViewBag.chart = chart;
 
             return View();
         }

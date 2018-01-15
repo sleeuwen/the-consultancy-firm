@@ -21,7 +21,7 @@ namespace TheConsultancyFirm.Repositories
         {
             await _context.DownloadLogs.AddAsync(downloadLog);
 
-            var download = _context.Downloads.Find(downloadLog.DownloadId);
+            var download = await _context.Downloads.FindAsync(downloadLog.DownloadId);
             download.AmountOfDownloads += 1;
             _context.Downloads.Update(download);
 
