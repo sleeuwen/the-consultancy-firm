@@ -47,6 +47,7 @@ namespace TheConsultancyFirm
             services.AddScoped<IRelatedItemsRepository, RelatedItemsRepository>();
             services.AddScoped<ISearchRepository, SearchRepository>();
             services.AddScoped<IVacancyRepository, VacancyRepository>();
+            services.AddScoped<IDownloadLogRepository, DownloadLogRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

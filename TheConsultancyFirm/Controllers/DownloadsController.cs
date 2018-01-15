@@ -1,7 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.ViewModels;
 
@@ -10,10 +12,12 @@ namespace TheConsultancyFirm.Controllers
     public class DownloadsController : Controller
     {
         private readonly IDownloadRepository _downloadRepository;
+        private readonly IDownloadLogRepository _downloadLogRepository;
 
-        public DownloadsController(IDownloadRepository downloadRepository)
+        public DownloadsController(IDownloadRepository downloadRepository, IDownloadLogRepository downloadLogRepository)
         {
             _downloadRepository = downloadRepository;
+            _downloadLogRepository = downloadLogRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -44,6 +48,18 @@ namespace TheConsultancyFirm.Controllers
             };
 
             return View("/Views/Downloads/Index.cshtml", viewModel);
+        }
+
+        [Route("api/[controller]/[action]/{id}")]
+        public async Task LogDownload(int id)
+        {
+            var downloadLog = new DownloadLog
+            {
+                Date = DateTime.UtcNow,
+                DownloadId = id
+            };
+
+            await _downloadLogRepository.Log(downloadLog);
         }
     }
 }

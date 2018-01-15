@@ -4,6 +4,7 @@
     <UserSecretsId>ee67364c-7c95-428d-b5e8-44da0a61a39b</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="ChartJSCore" Version="1.2.0" />
     <PackageReference Include="Localization.AspNetCore.TagHelpers" Version="0.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
