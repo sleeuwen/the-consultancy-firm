@@ -2,15 +2,18 @@
     ViewBag.Title = "Dashboard";
     Layout = "_Layout";
     ChartJSCore.Models.Chart chart = (ChartJSCore.Models.Chart)ViewBag.chart;
+    ChartJSCore.Models.Chart sessions = (ChartJSCore.Models.Chart)ViewBag.sessions;
 }
 
 <h1>This is the Admin Dashboard</h1>
 <div class="row">
-    <div class="col-6"><canvas id="lineChart"></canvas></div>
+    <div class="col-6"><canvas id="downloadGraph"></canvas></div>
+    <div class="col-6"><canvas id="sessionGraph"></canvas></div>
 </div>
 
 @section Scripts {
-    <script>
-        @Html.Raw(chart.CreateChartCode("lineChart"));
-    </script>
+<script>
+        @Html.Raw(chart.CreateChartCode("downloadGraph"));
+        @Html.Raw(sessions.CreateChartCode("sessionGraph"));
+</script>
 }
