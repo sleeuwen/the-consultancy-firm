@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
@@ -43,6 +44,11 @@ namespace TheConsultancyFirm.Repositories
         public IQueryable<NewsItem> GetAll()
         {
             return _context.NewsItems;
+        }
+
+        public Task<List<NewsItem>> GetHomepageItems()
+        {
+            return _context.NewsItems.Where(n => n.HomepageOrder != null).OrderBy(n => n.HomepageOrder).ToListAsync();
         }
 
         public  Task Create(NewsItem newsItem)

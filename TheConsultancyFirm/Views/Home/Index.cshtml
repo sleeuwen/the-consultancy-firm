@@ -291,28 +291,31 @@
     @Html.Partial("OurCustomersPartial", Model.Customers)
 </div>
 
-<div class="container container-wide home-section">
-    <div class="row">
-        <div class="col text-center">
-            <h2>@Localizer["news_and_knowledge"]</h2>
-        </div>
-    </div>
-
-    <div class="row">
-        @foreach (var item in Model.NewsItems)
-        {
-            <div class="col-12 col-lg-4">
-                @Html.Partial("NewsItemPartial", item)
+@if (Model.NewsItems.Count > 0)
+{
+    <div class="container container-wide home-section">
+        <div class="row">
+            <div class="col text-center">
+                <h2>@Localizer["news_and_knowledge"]</h2>
             </div>
-        }
-    </div>
+        </div>
 
-    <div class="row text-center mt-4">
-        <div class="col">
-            <a asp-controller="NewsItems" asp-action="Index" class="link-arrow link-more">
-                @Localizer["go_to_newsoverview"]
-                <img src="~/images/right-arrow-black.svg" alt="Meer nieuws" />
-            </a>
+        <div class="row">
+            @foreach (var item in Model.NewsItems)
+            {
+                <div class="col-12 col-lg-4">
+                    @Html.Partial("NewsItemPartial", item)
+                </div>
+            }
+        </div>
+
+        <div class="row text-center mt-4">
+            <div class="col">
+                <a asp-controller="NewsItems" asp-action="Index" class="link-arrow link-more">
+                    @Localizer["go_to_newsoverview"]
+                    <img src="~/images/right-arrow-black.svg" alt="Meer nieuws"/>
+                </a>
+            </div>
         </div>
     </div>
-</div>
+}

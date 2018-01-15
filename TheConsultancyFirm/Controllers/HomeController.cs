@@ -23,8 +23,7 @@ namespace TheConsultancyFirm.Controllers
         public async Task<IActionResult> Index()
         {
             var customers = (await _customerRepository.GetAll()).Where(c => c.Enabled && !c.Deleted).Take(12).ToList();
-            var newsItems = await _newsItemRepository.GetAll().Where(c => c.Enabled && !c.Deleted).Take(3).ToListAsync();
-
+            var newsItems = await _newsItemRepository.GetHomepageItems();
 
             return View(new HomeViewModel
             {

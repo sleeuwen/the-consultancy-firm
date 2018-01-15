@@ -2,16 +2,19 @@
 
 // Abstracts
 @import 'abstracts/breadcrumbs';
+@import 'abstracts/buttonHover';
+@import 'abstracts/dashboardButton';
 @import 'abstracts/switch';
 @import 'abstracts/typography';
 @import 'abstracts/upload-box';
-@import 'abstracts/dashboardButton';
+@import 'abstracts/utilities';
 
 // Layout
 @import 'layout/dashboard';
 
 // Partials
 @import 'partials/header';
+@import 'partials/newsItem';
 @import 'partials/dashboard/block-modal';
 @import 'partials/dashboard/blocks';
 @import 'partials/dashboard/header';

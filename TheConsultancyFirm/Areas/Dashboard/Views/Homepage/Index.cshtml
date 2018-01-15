@@ -1,3 +1,4 @@
+@model List<NewsItem>
 @{
     ViewData["Title"] = "Homepage";
 }
@@ -5,7 +6,16 @@
 
 <h3>Nieuws en Kennis</h3>
 
-<div ></div>
+<div class="container container-wide">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-12 col-lg-4">
+                @Html.Partial("NewsItemPartial", item)
+            </div>
+        }
+    </div>
+</div>
 
 <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#selectNewsItems">
     Selecteer nieuws items

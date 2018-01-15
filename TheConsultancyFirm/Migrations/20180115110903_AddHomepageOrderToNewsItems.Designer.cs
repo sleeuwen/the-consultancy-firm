@@ -12,9 +12,10 @@ using TheConsultancyFirm.Data;
 namespace TheConsultancyFirm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180115110903_AddHomepageOrderToNewsItems")]
+    partial class AddHomepageOrderToNewsItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -351,20 +352,6 @@ namespace TheConsultancyFirm.Migrations
                     b.ToTable("Downloads");
                 });
 
-            modelBuilder.Entity("TheConsultancyFirm.Models.DownloadLog", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Date");
-
-                    b.Property<int>("DownloadId");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DownloadLogs");
-                });
-
             modelBuilder.Entity("TheConsultancyFirm.Models.DownloadTag", b =>
                 {
                     b.Property<int>("DownloadId");
@@ -423,26 +410,6 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("NewsletterIntroText")
-                        .IsRequired();
-
-                    b.Property<string>("NewsletterOtherNews");
-
-                    b.Property<DateTime>("SentAt");
-
-                    b.Property<string>("Subject")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("NewsLetters");
-                });
-
-            modelBuilder.Entity("TheConsultancyFirm.Models.NewsletterSubscription", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
                     b.Property<string>("Email")
                         .IsRequired();
 
@@ -451,7 +418,7 @@ namespace TheConsultancyFirm.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("NewsletterSubscription");
+                    b.ToTable("NewsLetters");
                 });
 
             modelBuilder.Entity("TheConsultancyFirm.Models.Slide", b =>
@@ -527,24 +494,6 @@ namespace TheConsultancyFirm.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("TheConsultancyFirm.Models.Vacancy", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<bool>("Deleted");
-
-                    b.Property<bool>("Enabled");
-
-                    b.Property<string>("FunctionDescription");
-
-                    b.Property<DateTime>("VacancySince");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Vacancies");
                 });
 
             modelBuilder.Entity("TheConsultancyFirm.Models.CarouselBlock", b =>

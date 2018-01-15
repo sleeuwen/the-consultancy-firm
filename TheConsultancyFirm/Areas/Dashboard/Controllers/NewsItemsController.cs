@@ -215,6 +215,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return new ObjectResult(await _newsItemRepository.GetAll().ToListAsync());
         }
 
+        [Route("api/[controller]/{id}")]
+        public async Task<ObjectResult> Get(int id)
+        {
+            return new ObjectResult(await _newsItemRepository.Get(id));
+        }
+
         private async Task<bool> NewsItemExists(int id)
         {
             return (await _newsItemRepository.Get(id)) != null;
