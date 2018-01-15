@@ -106,7 +106,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 lastWeek = lastWeek.AddDays(1);
             }
 
-            var data = new ChartJSCore.Models.Data
+            var datas = new ChartJSCore.Models.Data
             {
                 Labels = days
             };
@@ -136,9 +136,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 SpanGaps = false
             };
 
-            data.Datasets = new List<Dataset> {dataset};
+            datas.Datasets = new List<Dataset> {dataset};
 
-            chart.Data = data;
+            chart.Data = datas;
 
             ViewBag.chart = chart;
             return View();
