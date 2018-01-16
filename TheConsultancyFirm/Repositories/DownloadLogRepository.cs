@@ -32,7 +32,7 @@ namespace TheConsultancyFirm.Repositories
         {
             var lastWeek = DateTime.UtcNow.AddDays(-7);
 
-            var dictionary = await _context.DownloadLogs.Where(d => d.Date >= lastWeek)
+            var dictionary = await _context.DownloadLogs.Where(d => d.Date >= lastWeek && (id == 0 || d.DownloadId == id))
                 .GroupBy(d => d.Date)
                 .Select(d => new
                 {
