@@ -205,8 +205,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
 
             newsItem.Enabled = !newsItem.Enabled;
-
-            if (!newsItem.Enabled) newsItem.HomepageOrder = null;
+            newsItem.HomepageOrder = null;
 
             await _newsItemRepository.Update(newsItem);
             return RedirectToAction(nameof(Index));

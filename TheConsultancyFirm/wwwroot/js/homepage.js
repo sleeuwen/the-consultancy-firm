@@ -10,6 +10,8 @@ jQuery(function ($) {
             method: 'GET',
             success: function (items) {
                 $modal.find('.statusText').text('');
+                $modal.find('.btn-primary').prop('disabled', false);
+
                 var $body = $modal.find('.table tbody');
                 $body.empty();
 
