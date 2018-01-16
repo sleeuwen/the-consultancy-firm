@@ -1,11 +1,12 @@
 ﻿@model IEnumerable<Download>
 @{
     ViewData["Title"] = "Downloads";
+    var tupels = Model.Select(download => new Tuple<int, string>(download.Id, download.Title)).ToList();
 }
 
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial("IndexButtonsPartial")
+@Html.Partial("IndexButtonsPartial", tupels)
 
 <table class="table">
     <thead>

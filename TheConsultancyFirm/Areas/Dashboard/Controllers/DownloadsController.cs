@@ -155,6 +155,51 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [HttpPost]
+        public async Task<IActionResult> TranslationChoice(int choice, int selectBox = 0)
+        {
+            if (choice == 0) return RedirectToAction("Create");
+            if (selectBox == 0) return NotFound();
+            var id = await _downloadRepository.CreateCopy(selectBox);
+            return RedirectToAction("TranslationEdit", new { id = id });
+        }
+
+        public async Task<IActionResult> TranslationEdit(int id)
+        {
+            return View(await _downloadRepository.Get(id));
+        }
+
+        [HttpPost, ActionName("SaveTranslation")]
+        [ValidateAntiForgeryToken]
+        public async Task<ObjectResult> EditTranslationPost(int? id)
+        {
+            var download = await _downloadRepository.Get(id ?? 0);
+
+            if (download == null) return new NotFoundObjectResult(null);
+
+            // Bind POST variables Title, CustomerId, Image and TagIds to the model.
+            await TryUpdateModelAsync(download, string.Empty, d => d.Title, d => d.Description);
+
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+
+            try
+            {
+                download.LastModified = DateTime.UtcNow;
+                await _downloadRepository.Update(download);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await DownloadExists(download.Id))
+                {
+                    return new NotFoundObjectResult(null);
+                }
+
+                throw;
+            }
+
+            return new ObjectResult(download.Id);
+        }
+
         // GET: Downloads/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
@@ -50,5 +51,26 @@ namespace TheConsultancyFirm.Repositories
         {
             return _context.Downloads.OrderByDescending(d => d.Date).Take(1).FirstOrDefaultAsync();
         }
+
+        public async Task<int> CreateCopy(int id)
+        {
+            var download = await Get(id);
+            var downloadCopy = new Download
+            {
+                Date = DateTime.UtcNow,
+                Description = download.Description,
+                DownloadTags = download.DownloadTags.Select(d => new DownloadTag{TagId = d.TagId}).ToList(),
+                File = download.File,
+                Language = "en",
+                Title = download.Title,
+                AmountOfDownloads = 0,
+                LastModified = DateTime.UtcNow,
+                LinkPath = download.LinkPath
+            };
+            await _context.Downloads.AddAsync(downloadCopy);
+            await _context.SaveChangesAsync();
+            return downloadCopy.Id;
+        }
+            
     }
 }
