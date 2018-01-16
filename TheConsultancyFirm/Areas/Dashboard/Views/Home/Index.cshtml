@@ -29,9 +29,9 @@
 </div>
 
 @section Scripts {
-<script>
+    <script>
         @Html.Raw(ViewBag.download);
         @Html.Raw(sessions.CreateChartCode("sessionGraph"));
         @Html.Raw(devices.CreateChartCode("deviceGraph"));
-</script>
+    </script>
 }

@@ -28,11 +28,11 @@ namespace TheConsultancyFirm.Repositories
             await _context.SaveChangesAsync();
         }
 
-        public async Task<Dictionary<DateTime, int>> GetDownloadsLastWeek(int id = 0)
+        public async Task<Dictionary<DateTime, int>> GetDownloadsLastWeek(int? id)
         {
             var lastWeek = DateTime.UtcNow.AddDays(-7);
 
-            var dictionary = await _context.DownloadLogs.Where(d => d.Date >= lastWeek && (id == 0 || d.DownloadId == id))
+            var dictionary = await _context.DownloadLogs.Where(d => d.Date >= lastWeek && (id == null || d.DownloadId == id))
                 .GroupBy(d => d.Date)
                 .Select(d => new
                 {

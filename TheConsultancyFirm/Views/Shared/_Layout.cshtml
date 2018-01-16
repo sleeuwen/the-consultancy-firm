@@ -23,14 +23,14 @@
     <!-- End Google Tag Manager -->
 
     <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>@ViewData["Title"] - The Consultancy Firm</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:300,400,700|Ubuntu:400,500,700"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css"/>
-    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
 
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script defer src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -41,18 +41,18 @@
     @RenderSection("metatags", false)
 </head>
 <body>
-<!-- Google Tag Manager (noscript) -->
-<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCGHF9V"
-                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-<!-- End Google Tag Manager (noscript) -->
-@Html.Partial("HeaderPartial")
-@RenderBody()
-@Html.Partial("FooterPartial")
-@if (HttpContextAccessor.HttpContext.Request.Cookies["allow"] == null)
-{
-    @Html.Partial("CookieWall")
-}
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PCGHF9V"
+                      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    @Html.Partial("HeaderPartial")
+    @RenderBody()
+    @Html.Partial("FooterPartial")
+    @if (HttpContextAccessor.HttpContext.Request.Cookies["allow"] == null)
+    {
+        @Html.Partial("CookieWall")
+    }
 
-@RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 </body>
 </html>
