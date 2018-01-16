@@ -63,13 +63,13 @@
             <div class="col-12 col-md-6 case order-2 order-md-1" style="background-image: url(@Model.Previous.PhotoPath)">
                 <p class="subtitle"> @Model.Previous.Customer.Name</p>
                 <h3 class="title">@Model.Previous.Title</h3>
-                <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Previous.Id" class="buttonHover">VORIGE CASE</a>
+                <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Previous.Slug" class="buttonHover">VORIGE CASE</a>
             </div>
 
             <div class="col-12 col-md-6 case order-1 order-md-2" style="background-image: url(@Model.Next.PhotoPath)">
                 <p class="subtitle">@Model.Next.Customer.Name</p>
                 <h3 class="title">@Model.Next.Title</h3>
-                <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Next.Id" class="buttonHover">VOLGENDE CASE</a>
+                <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Next.Slug" class="buttonHover">VOLGENDE CASE</a>
             </div>
         </div>
     </div>

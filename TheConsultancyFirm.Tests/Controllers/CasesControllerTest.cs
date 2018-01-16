@@ -1,32 +1,25 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Moq;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using MockQueryable.Moq;
+using Moq;
 using TheConsultancyFirm.Controllers;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
-using TheConsultancyFirm.Services;
 using Xunit;
 
 namespace TheConsultancyFirm.Tests.Controllers
 {
     public class CasesControllerTest
     {
-        private readonly Mock<ICaseRepository> _caseRepository;
-
         public CasesControllerTest()
         {
             _caseRepository = new Mock<ICaseRepository>();
         }
 
-        [Fact]
-        public void Index()
-        {
-            var controller = new CasesController(null, null);
-            var result = controller.Index();
-            Assert.IsType<ViewResult>(result);
-        }
+        private readonly Mock<ICaseRepository> _caseRepository;
 
         [Fact]
         public void CheckSurroundings()
@@ -37,7 +30,7 @@ namespace TheConsultancyFirm.Tests.Controllers
                 CaseTags = new List<CaseTag>
                 {
                     new CaseTag {CaseId = 2, TagId = 1},
-                    new CaseTag {CaseId = 2, TagId = 2},
+                    new CaseTag {CaseId = 2, TagId = 2}
                 },
 
                 Date = new DateTime(2009, 6, 1, 7, 47, 0),
@@ -50,7 +43,7 @@ namespace TheConsultancyFirm.Tests.Controllers
                 CaseTags = new List<CaseTag>
                 {
                     new CaseTag {CaseId = 1, TagId = 1},
-                    new CaseTag {CaseId = 1, TagId = 2},
+                    new CaseTag {CaseId = 1, TagId = 2}
                 },
                 Date = new DateTime(2008, 6, 1, 7, 47, 0),
                 Title = "case1"
@@ -60,7 +53,7 @@ namespace TheConsultancyFirm.Tests.Controllers
                 CaseTags = new List<CaseTag>
                 {
                     new CaseTag {CaseId = 3, TagId = 1},
-                    new CaseTag {CaseId = 3, TagId = 2},
+                    new CaseTag {CaseId = 3, TagId = 2}
                 },
 
                 Date = new DateTime(2010, 6, 1, 7, 47, 0),
@@ -75,11 +68,22 @@ namespace TheConsultancyFirm.Tests.Controllers
 
             var list = controller.GetAdjacent(c);
 
-            int result = DateTime.Compare(list.Result.Previous.Date, c.Date);
-            int result2 = DateTime.Compare(list.Result.Next.Date, c.Date);
+            var result = DateTime.Compare(list.Result.Previous.Date, c.Date);
+            var result2 = DateTime.Compare(list.Result.Next.Date, c.Date);
 
             Assert.Equal(-1, result);
             Assert.Equal(1, result2);
+        }
+
+        [Fact]
+        public async Task Index()
+        {
+            var controller = new CasesController(null, _caseRepository.Object);
+
+            var model = new List<Case>().AsQueryable().BuildMock();
+            _caseRepository.Setup(repo => repo.GetAll()).Returns(model.Object);
+            var result = await controller.Index();
+            Assert.IsType<ViewResult>(result);
         }
     }
 }

@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Repositories;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -6,10 +10,18 @@ namespace TheConsultancyFirm.Controllers
 {
     public class AboutController : Controller
     {
-        // GET: /<controller>/
-        public IActionResult Index()
+        private readonly IVacancyRepository _vacancyRepository;
+
+        public AboutController(IVacancyRepository vacancyRepository)
         {
-            return View();
+            _vacancyRepository = vacancyRepository;
+        }
+
+        // GET: /<controller>/
+        public async Task<IActionResult> Index()
+        {
+            return View(await _vacancyRepository.GetAll().Where(v => !v.Deleted && v.Enabled)
+                .OrderByDescending(v => v.VacancySince).Take(3).ToListAsync());
         }
     }
 }

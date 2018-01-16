@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Models;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.ViewModels;
 
 namespace TheConsultancyFirm.Controllers
@@ -18,9 +21,9 @@ namespace TheConsultancyFirm.Controllers
             _caseRepository = caseRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _caseRepository.GetAll().Include(c => c.Customer).Where(c => c.Enabled && !c.Deleted).OrderByDescending(c => c.Date).ToListAsync());
         }
 
         [HttpGet("[controller]/{id}")]
@@ -30,7 +33,7 @@ namespace TheConsultancyFirm.Controllers
             int.TryParse(id.Split('-', 2)[0], out int caseId);
 
             var caseItem = await _caseRepository.Get(caseId);
-            if (caseItem == null) return NotFound();
+            if (caseItem == null || caseItem.Deleted || !caseItem.Enabled) return NotFound();
 
             // Force the right slug
             if (id != caseItem.Slug)
