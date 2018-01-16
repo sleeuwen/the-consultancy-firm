@@ -30,6 +30,7 @@
       "wwwroot/js/carousel.js",
       "wwwroot/js/cookieWall.js",
       "wwwroot/js/navbar.js",
+      "wwwroot/js/disqus.js",
       "wwwroot/js/newsletter.js"
     ],
     "minify": {
