@@ -9,6 +9,7 @@ jQuery(function ($) {
             url: '/api/NewsItems',
             method: 'GET',
             success: function (items) {
+                $modal.find('caption').text('');
                 var $body = $modal.find('.table tbody');
                 $body.empty();
 
@@ -33,6 +34,14 @@ jQuery(function ($) {
         e.preventDefault();
         var $checkbox = $(this).find('input[type=checkbox]');
         $checkbox.prop('checked', !$checkbox.prop('checked'));
+
+        if ($selectNewsItems.find('input[type=checkbox]:checked').length > 3) {
+            $selectNewsItems.find('table caption').text('Je kan maximaal 3 items selecteren');
+            $selectNewsItems.find('.btn-primary').prop('disabled', true);
+        } else {
+            $selectNewsItems.find('table caption').text('');
+            $selectNewsItems.find('.btn-primary').prop('disabled', false);
+        }
     });
 
     $selectNewsItems.on('click', '.btn-primary', function () {
@@ -60,6 +69,18 @@ jQuery(function ($) {
     $('#NewsItemsList').each(function (idx, element) {
         Sortable.create(element, {
             animation: 150,
+            store: {
+                get: function () {
+                    return [];
+                },
+                set: function (sortable) {
+                    $.ajax({
+                        method: 'POST',
+                        url: '/api/dashboard/Homepage/NewsItems',
+                        data: 'ids=' + sortable.toArray().join(','),
+                    });
+                },
+            },
         });
     });
 });

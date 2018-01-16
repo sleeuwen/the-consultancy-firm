@@ -176,6 +176,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
 
             newsItem.Deleted = true;
+            newsItem.HomepageOrder = null;
 
             await _newsItemRepository.Update(newsItem);
             return RedirectToAction(nameof(Index));
@@ -205,6 +206,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             newsItem.Enabled = !newsItem.Enabled;
 
+            if (!newsItem.Enabled) newsItem.HomepageOrder = null;
+
             await _newsItemRepository.Update(newsItem);
             return RedirectToAction(nameof(Index));
         }
@@ -212,7 +215,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [Route("api/[controller]")]
         public async Task<ObjectResult> GetAll()
         {
-            return new ObjectResult(await _newsItemRepository.GetAll().ToListAsync());
+            return new ObjectResult(await _newsItemRepository.GetAll().Where(n => !n.Deleted && n.Enabled).ToListAsync());
         }
 
         [Route("api/[controller]/{id}")]

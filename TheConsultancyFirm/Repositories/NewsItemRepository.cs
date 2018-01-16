@@ -48,10 +48,10 @@ namespace TheConsultancyFirm.Repositories
 
         public Task<List<NewsItem>> GetHomepageItems()
         {
-            return _context.NewsItems.Where(n => n.HomepageOrder != null).OrderBy(n => n.HomepageOrder).ToListAsync();
+            return _context.NewsItems.Where(n => n.HomepageOrder != null && !n.Deleted && n.Enabled).OrderBy(n => n.HomepageOrder).ToListAsync();
         }
 
-        public  Task Create(NewsItem newsItem)
+        public Task Create(NewsItem newsItem)
         {
             _context.NewsItems.Add(newsItem);
             return _context.SaveChangesAsync();
