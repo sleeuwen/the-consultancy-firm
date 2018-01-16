@@ -17,65 +17,16 @@
         </div>
 
         <ul>
-            @if (Model.PageIndex - 2 > 0)
+            @for (var Page = Math.Max(Model.PageIndex - 2, 1); Page < Math.Min(Model.PageIndex + 2, Model.TotalPages); Page++)
             {
                 <li>
                     <a asp-action="Index"
                        asp-route-sortOrder="@ViewData["CurrentSort"]"
-                       asp-route-page="@(Model.PageIndex - 2)"
+                       asp-route-page="@Page"
                        asp-route-currentFilter="@ViewData["CurrentFilter"]"
                        asp-route-showDisabled="@ViewBag.ShowDisabled"
-                       class="btn btn-default">
-                        @(Model.PageIndex - 2)
-                    </a>
-                </li>
-            }
-            @if (Model.HasPreviousPage)
-            {
-                <li>
-                    <a asp-action="Index"
-                       asp-route-sortOrder="@ViewData["CurrentSort"]"
-                       asp-route-page="@(Model.PageIndex - 1)"
-                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                       asp-route-showDisabled="@ViewBag.ShowDisabled"
-                       class="btn btn-defaul">
-                        @(Model.PageIndex - 1)
-                    </a>
-                </li>
-            }
-            <li>
-                <a asp-action="Index"
-                   asp-route-sortOrder="@ViewData["CurrentSort"]"
-                   asp-route-page="@(Model.PageIndex)"
-                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                   asp-route-showDisabled="@ViewBag.ShowDisabled"
-                   class="btn btn-default disabled">
-                    @(Model.PageIndex)
-                </a>
-            </li>
-            @if (Model.HasNextPage)
-            {
-                <li>
-                    <a asp-action="Index"
-                       asp-route-sortOrder="@ViewData["CurrentSort"]"
-                       asp-route-page="@(Model.PageIndex + 1)"
-                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                       asp-route-showDisabled="@ViewBag.ShowDisabled"
-                       class="btn btn-default">
-                        @(Model.PageIndex + 1)
-                    </a>
-                </li>
-            }
-            @if (Model.PageIndex + 2 <= Model.TotalPages)
-            {
-                <li>
-                    <a asp-action="Index"
-                       asp-route-sortOrder="@ViewData["CurrentSort"]"
-                       asp-route-page="@(Model.PageIndex + 2)"
-                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                       asp-route-showDisabled="@ViewBag.ShowDisabled"
-                       class="btn btn-default">
-                        @(Model.PageIndex + 2)
+                       class="btn btn-default @(Page == Model.PageIndex ? "disabled" : "")">
+                        @Page
                     </a>
                 </li>
             }
