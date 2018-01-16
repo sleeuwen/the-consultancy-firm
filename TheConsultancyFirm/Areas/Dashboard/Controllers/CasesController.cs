@@ -75,7 +75,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     cases = cases.OrderBy(c => c.Title).ToList();
                     break;
             }
-            int pageSize = 1;
+            int pageSize = 2;
             return View(PaginatedList<Case>.Create(cases.AsQueryable(), page ?? 1, pageSize));
 
             //return View(await PaginatedList<Case>.CreateAsync(cases.AsQueryable(), page ?? 1, pageSize));

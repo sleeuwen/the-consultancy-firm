@@ -11,8 +11,9 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by title: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-default" /> |
+            <input type="hidden" name="showDisabled" value="@ViewBag.ShowDisabled.ToString()"/>
+            Find by title: <input type="text" name="SearchString" value="@ViewData["currentFilter"]"/>
+            <input type="submit" value="Search" class="btn btn-default"/> |
             <a asp-action="Index">Back to Full List</a>
         </p>
     </div>
@@ -22,13 +23,13 @@
     <thead>
         <tr>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Title</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Title</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Date</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Date</a>
             </th>
             <th>
-                <a asp-action="Index" asp-route-sortOrder="@ViewData["LastModifiedSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Last Modified</a>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["LastModifiedSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Last Modified</a>
 
             </th>
             <th></th>
@@ -65,6 +66,7 @@
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-page="@(Model.PageIndex - 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-showDisabled="@ViewBag.ShowDisabled"
    class="btn btn-default @prevDisabled">
     <
 </a>
@@ -74,6 +76,7 @@
            asp-route-sortOrder="@ViewData["CurrentSort"]"
            asp-route-page="@(Model.PageIndex - 2)"
            asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           asp-route-showDisabled="@ViewBag.ShowDisabled"
            class="btn btn-default">
             @(Model.PageIndex - 2)
         </a>
@@ -85,6 +88,7 @@
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-page="@(Model.PageIndex - 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-showDisabled="@ViewBag.ShowDisabled"
    class="btn btn-defaul">
     @(Model.PageIndex - 1)
 </a>
@@ -95,6 +99,7 @@
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-page="@(Model.PageIndex)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-showDisabled="@ViewBag.ShowDisabled"
    class="btn btn-default disabled">
     @(Model.PageIndex)
 </a>
@@ -103,7 +108,8 @@
 <a asp-action="Index"
 asp-route-sortOrder="@ViewData["CurrentSort"]"
 asp-route-page="@(Model.PageIndex + 1)"
-asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-showDisabled="@ViewBag.ShowDisabled"
 class="btn btn-default">
 @(Model.PageIndex + 1)
 </a>
@@ -115,6 +121,7 @@ class="btn btn-default">
            asp-route-sortOrder="@ViewData["CurrentSort"]"
            asp-route-page="@(Model.PageIndex + 2)"
            asp-route-currentFilter="@ViewData["CurrentFilter"]"
+           asp-route-showDisabled="@ViewBag.ShowDisabled"
            class="btn btn-default">
             @(Model.PageIndex + 2)
         </a>
@@ -124,6 +131,7 @@ class="btn btn-default">
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-page="@(Model.PageIndex + 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-showDisabled="@ViewBag.ShowDisabled"
    class="btn btn-default @nextDisabled">
     >
 </a>
