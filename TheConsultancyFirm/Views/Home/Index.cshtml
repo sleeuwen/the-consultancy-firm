@@ -10,101 +10,40 @@
         <div class="col-12">
             <div id="carouselHome" class="carousel slide carousel-home" data-ride="carousel" data-interval="6000">
                 <ol class="carousel-indicators">
-                    <li data-target="#carouselHome" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselHome" data-slide-to="1"></li>
-                    <li data-target="#carouselHome" data-slide-to="2"></li>
-                    <li data-target="#carouselHome" data-slide-to="3"></li>
+                    @for (var i = 0; i < Model.Cases.Count; i++)
+                    {
+                        <li data-target="#carouselHome" data-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+                    }
                 </ol>
 
                 <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <img src="~/images/office-design.jpg" alt="Vergader kamer" class="d-block w-100"/>
-                        <div class="overlay"></div>
-                        <div class="carousel-caption" role="option">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col">
-                                        <h4 class="subtitle">Banque Artesia</h4>
-                                        <h1 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h1>
+                    @for (var i = 0; i < Model.Cases.Count; i++)
+                    {
+                        var caseItem = Model.Cases[i];
 
-                                        <div class="links">
-                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">@Localizer["see_cases"]</a>
-                                            <a class="font-italic" asp-controller="Cases" asp-action="Index">
-                                                @Localizer["go_to_all_cases"]
-                                                <img class="arrow" src="~/images/right-arrow.svg"/>
-                                            </a>
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <img src="@Url.Content($"~{caseItem.PhotoPath}")" class="d-block w-100" />
+                            <div class="overlay"></div>
+                            <div class="carousel-caption" role="option">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4 class="subtitle">@caseItem.Customer.Name</h4>
+                                            <h1 class="title">@caseItem.Title</h1>
+
+                                            <div class="links">
+                                                <a class="buttonHover" asp-controller="Cases" asp-action="Details" asp-route-id="@caseItem.Slug">@Localizer["see_cases"]</a>
+                                                <a class="font-italic" asp-controller="Cases" asp-action="Index">
+                                                    @Localizer["go_to_all_cases"]
+                                                    <img class="arrow" src="~/images/right-arrow.svg" />
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="~/images/office-design.jpg" alt="Vergader kamer" class="d-block w-100"/>
-                        <div class="overlay"></div>
-                        <div class="carousel-caption" role="option">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col">
-                                        <h4 class="subtitle">Banque Artesia</h4>
-                                        <h1 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h1>
-
-                                        <div class="links">
-                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">@Localizer["see_cases"]</a>
-                                            <a class="font-italic" asp-controller="Cases" asp-action="Index">
-                                                @Localizer["go_to_all_cases"]
-                                                <img class="arrow" src="~/images/right-arrow.svg"/>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="~/images/office-design.jpg" alt="Vergader kamer" class="d-block w-100"/>
-                        <div class="overlay"></div>
-                        <div class="carousel-caption" role="option">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col">
-                                        <h4 class="subtitle">Banque Artesia</h4>
-                                        <h1 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h1>
-
-                                        <div class="links">
-                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">@Localizer["see_cases"]</a>
-                                            <a class="font-italic" asp-controller="Cases" asp-action="Index">
-                                                @Localizer["go_to_all_cases"]
-                                                <img class="arrow" src="~/images/right-arrow.svg"/>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="~/images/office-design.jpg" alt="Vergader kamer" class="d-block w-100"/>
-                        <div class="overlay"></div>
-                        <div class="carousel-caption" role="option">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col">
-                                        <h4 class="subtitle">Banque Artesia</h4>
-                                        <h1 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h1>
-
-                                        <div class="links">
-                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">@Localizer["see_cases"]</a>
-                                            <a class="font-italic" asp-controller="Cases" asp-action="Index">
-                                                @Localizer["go_to_all_cases"]
-                                                <img class="arrow" src="~/images/right-arrow.svg"/>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    }
                 </div>
 
                 <a class="carousel-link-skip" href="#journey">

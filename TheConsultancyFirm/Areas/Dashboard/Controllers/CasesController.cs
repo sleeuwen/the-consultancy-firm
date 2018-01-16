@@ -210,6 +210,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Route("api/dashboard/[controller]")]
+        public async Task<ObjectResult> GetAll()
+        {
+            return new ObjectResult(await _caseRepository.GetAll().Where(n => !n.Deleted && n.Enabled).ToListAsync());
+        }
+
         private async Task<bool> CaseExists(int id)
         {
             return (await _caseRepository.Get(id)) != null;

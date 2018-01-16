@@ -5,6 +5,31 @@
 }
 <h2>Homepage</h2>
 
+<h3>
+    Cases Carousel
+
+    <button type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#selectCases">
+        Selecteer Cases
+    </button>
+</h3>
+
+<div class="container container-wide">
+    <div class="row" id="CasesCarousel">
+        @foreach (var item in Model.Cases)
+        {
+            <div class="col-md-4 relateditem" data-id="@item.Id">
+                <div class="innerrelateditem flexcase" style="background-image: url(@item.PhotoPath)">
+                    <p>@item.Customer.Name</p>
+                    <h3>@item.Title</h3>
+                    <a asp-area="" asp-controller="Cases" asp-action="Details" asp-route-id="@item.Slug" target="_blank" class="buttonHover">LEES MEER</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<hr/>
+
 <h3>Solutions Carousel</h3>
 
 <div class="container container-wide">
@@ -19,7 +44,7 @@
                         <p class="card-text">
                             @item.Summary
                         </p>
-                        <a asp-controller="Solutions" asp-action="Details" class="buttonHover" asp-route-id="@item.Slug">READ MORE</a>
+                        <a asp-controller="Solutions" asp-action="Details" asp-route-id="@item.Slug" target="_blank" class="buttonHover">READ MORE</a>
                     </div>
                 </div>
             </div>
@@ -29,7 +54,13 @@
 
 <hr/>
 
-<h3>Nieuws en Kennis</h3>
+<h3>
+    Nieuws en Kennis
+
+    <button type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#selectNewsItems">
+        Selecteer nieuws items
+    </button>
+</h3>
 
 <div class="container container-wide">
     <div class="row" id="NewsItemsList">
@@ -42,9 +73,49 @@
     </div>
 </div>
 
-<button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#selectNewsItems">
-    Selecteer nieuws items
-</button>
+<div class="modal fade" id="selectCases" tabindex="-1" role="dialog" aria-labelledby="selectCasesTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Selecteer de gewenste nieuws items</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="border-top-0" style="width: 50px;"></th>
+                        <th class="border-top-0">Name</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <th>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheckCase">
+                                <label class="custom-control-label" for="customCheckCase"></label>
+                            </div>
+                        </th>
+                        <td>
+                            <label for="customCheckCase">
+                                Laad de news items in via AJAX.
+                            </label>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <span class="text-danger statusText"></span>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade" id="selectNewsItems" tabindex="-1" role="dialog" aria-labelledby="selectNewsItemsTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">

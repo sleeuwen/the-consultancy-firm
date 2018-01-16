@@ -14,16 +14,19 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly INewsItemRepository _newsItemRepository;
         private readonly ISolutionRepository _solutionRepository;
+        private readonly ICaseRepository _caseRepository;
 
-        public HomepageController(INewsItemRepository newsItemRepository, ISolutionRepository solutionRepository)
+        public HomepageController(INewsItemRepository newsItemRepository, ISolutionRepository solutionRepository, ICaseRepository caseRepository)
         {
             _newsItemRepository = newsItemRepository;
             _solutionRepository = solutionRepository;
+            _caseRepository = caseRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(new HomepageViewModel{
+            return View(new HomepageViewModel {
+                Cases = await _caseRepository.GetHomepageItems(),
                 Solutions = await _solutionRepository.GetAll().ToListAsync(),
                 NewsItems = await _newsItemRepository.GetHomepageItems()
             });
@@ -76,6 +79,38 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 solution.HomepageOrder = i;
                 await _solutionRepository.Update(solution);
             }
+        }
+
+        [HttpPost("api/dashboard/[controller]/Cases")]
+        public async Task<IActionResult> Cases(string ids)
+        {
+            var intIds = (ids ?? "").Split(",").Where(s => int.TryParse(s.Trim(), out var _)).Select(s => int.Parse(s.Trim())).ToList();
+            var currentItems = await _caseRepository.GetHomepageItems();
+
+            var caseItems = new List<Case>();
+            for (var i = 0; i < intIds.Count; i++)
+            {
+                var @case = currentItems.FirstOrDefault(n => n.Id == intIds[i]) ?? await _caseRepository.Get(intIds[i]);
+
+                @case.HomepageOrder = i;
+                await _caseRepository.Update(@case);
+
+                caseItems.Add(new Case
+                {
+                    Id = @case.Id,
+                    Title = @case.Title,
+                    PhotoPath = @case.PhotoPath,
+                    Customer = @case.Customer,
+                });
+            }
+
+            foreach (var @case in currentItems.Where(n => !intIds.Contains(n.Id)))
+            {
+                @case.HomepageOrder = null;
+                await _caseRepository.Update(@case);
+            }
+
+            return View(caseItems);
         }
     }
 }

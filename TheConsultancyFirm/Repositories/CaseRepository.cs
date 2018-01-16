@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
@@ -59,6 +60,15 @@ namespace TheConsultancyFirm.Repositories
                            .FirstOrDefaultAsync();
 
             return (previous, next);
+        }
+
+        public Task<List<Case>> GetHomepageItems()
+        {
+            return _context.Cases
+                .Include(c => c.Customer)
+                .Where(n => n.HomepageOrder != null && !n.Deleted && n.Enabled)
+                .OrderBy(n => n.HomepageOrder)
+                .ToListAsync();
         }
 
         public Task Create(Case @case)

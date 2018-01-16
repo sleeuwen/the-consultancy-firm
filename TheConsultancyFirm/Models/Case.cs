@@ -44,6 +44,8 @@ namespace TheConsultancyFirm.Models
         [Display(Name = "Omschrijving voor delen (max 140 char)")]
         public string SharingDescription { get; set; }
 
+        public int? HomepageOrder { get; set; }
+
         public bool Enabled { get; set; }
         public bool Deleted { get; set; }
     }
