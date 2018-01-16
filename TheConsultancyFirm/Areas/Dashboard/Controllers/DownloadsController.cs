@@ -24,11 +24,55 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Downloads
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page,
+            bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["AmountSortParm"] = sortOrder == "amount" ? "amount_desc" : "amount";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
             ViewBag.ShowDisabled = showDisabled;
-            return View(await _downloadRepository.GetAll().Where(d => !d.Deleted && (d.Enabled || showDisabled))
-                .OrderByDescending(d => d.Date).ToListAsync());
+            var downloads = await _downloadRepository.GetAll().Where(d => !d.Deleted && (d.Enabled || showDisabled) && (d.Title.Contains(searchString) || string.IsNullOrEmpty(searchString)))
+                .OrderByDescending(d => d.Date).ToListAsync();
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    downloads = downloads.OrderByDescending(c => c.Title).ToList();
+                    break;
+                case "Date":
+                    downloads = downloads.OrderBy(c => c.Date).ToList();
+                    break;
+                case "date_desc":
+                    downloads = downloads.OrderByDescending(c => c.Date).ToList();
+                    break;
+                case "amount":
+                    downloads = downloads.OrderBy(c => c.AmountOfDownloads).ToList();
+                    break;
+                case "amount_desc":
+                    downloads = downloads.OrderByDescending(c => c.AmountOfDownloads).ToList();
+                    break;
+                default:
+                    downloads = downloads.OrderBy(c => c.Title).ToList();
+                    break;
+            }
+            return View(PaginatedList<Download>.Create(downloads.AsQueryable(), page ?? 1));
         }
 
         // GET: Dashboard/Downloads/Deleted

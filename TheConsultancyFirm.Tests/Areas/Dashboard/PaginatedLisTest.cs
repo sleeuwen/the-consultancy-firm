@@ -30,28 +30,28 @@ namespace TheConsultancyFirm.Tests.Areas.Dashboard
         [Fact]
         public void HasNextPage()
         {
-            PaginatedList<int> paginatedList = new PaginatedList<int>(items, items.Count, 1,1);
+            PaginatedList<int> paginatedList = new PaginatedList<int>(items, items.Count, 1);
             var result = paginatedList.HasNextPage;
             Assert.True(result);
         }
         [Fact]
         public void NotHasNextPage()
         {
-            PaginatedList<int> paginatedList = new PaginatedList<int>(items, items.Count, 6, 1);
+            PaginatedList<int> paginatedList = new PaginatedList<int>(items, items.Count, 6);
             var result = paginatedList.HasNextPage;
             Assert.False(result);
         }
         [Fact]
         public void HasPrevPage()
         {
-            PaginatedList<int> paginatedList = new PaginatedList<int>(items, items.Count, 6, 1);
+            PaginatedList<int> paginatedList = new PaginatedList<int>(items, items.Count, 6);
             var result = paginatedList.HasPreviousPage;
             Assert.True(result);
         }
         [Fact]
         public void NotHasPrevPage()
         {
-            PaginatedList<int> paginatedList = new PaginatedList<int>(items, items.Count, 1, 1);
+            PaginatedList<int> paginatedList = new PaginatedList<int>(items, items.Count, 1);
             var result = paginatedList.HasPreviousPage;
             Assert.False(result);
         }
