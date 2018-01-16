@@ -25,18 +25,34 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
+    int count= Model.Count();
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
+            @{
+                DateTime d1 = item.Date;
+                long unixTimestampCreated = ((DateTimeOffset)d1).ToUnixTimeSeconds();
+            }
             <td>
-                @{ DateTime dateCreatedLocal = item.Date.ToLocalTime();}
-                @dateCreatedLocal
+                <div>
+                    <input class="dateCreated" type="hidden" value="@unixTimestampCreated" runat="server" />
+                    <input id="count" type="hidden" value="@count" runat="server" />
+                </div>
+                <p class="created">@unixTimestampCreated</p>
             </td>
-            <td>
-                @{ DateTime lastModifiedLocal = item.LastModified.ToLocalTime();}
-                @lastModifiedLocal
+            @{
+                DateTime d2 = item.LastModified;
+                long unixTimestamp = ((DateTimeOffset)d2).ToUnixTimeSeconds();
+            }
+            <td >
+                <div>
+                    <input class="date" type="hidden" value="@unixTimestamp" runat="server" />
+                    <input id="count" type="hidden" value="@count" runat="server" />
+                </div>
+                <p class="lastModified">@unixTimestamp</p>
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
@@ -47,3 +63,4 @@
 }
     </tbody>
 </table>
+<script src="localdates.js"></script>
