@@ -8,14 +8,27 @@
 
 @Html.Partial("IndexButtonsPartial")
 <form asp-action="Index" method="get">
-    <div class="form-actions no-color">
+    <div class="row mb-3 mt-3">
+        <div class="col-4">
+            <input type="hidden" value="@ViewBag.ShowDisabled.ToString()" name="showDisabled" />
+
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" id="txtSearch" name="SearchString" value="@ViewData["currentFilter"]"/>
+                <div class="input-group-btn">
+                    <button class="btn btn-secondary" type="submit">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @*<div class="form-actions no-color">
         <p>
-            <input type="hidden" name="showDisabled" value="@ViewBag.ShowDisabled.ToString()"/>
             Find by title: <input type="text" name="SearchString" value="@ViewData["currentFilter"]"/>
             <input type="submit" value="Search" class="btn btn-default"/> |
             <a asp-action="Index">Back to Full List</a>
         </p>
-    </div>
+    </div>*@
 </form>
 
 <table class="table">
@@ -59,34 +72,36 @@
     </tbody>
 </table>
 @{
-    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
-    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+    var prevDisabled = !Model.HasPreviousPage ? "d-none" : "";
+    var nextDisabled = !Model.HasNextPage ? "d-none" : "";
 }
 
 <div class="row">
     <div class="col-sm-12 paging downloadpaging" id="paging">
-        <a asp-action="Index"
-           asp-route-sortOrder="@ViewData["CurrentSort"]"
-           asp-route-page="@(Model.PageIndex - 1)"
-           asp-route-currentFilter="@ViewData["CurrentFilter"]"
-           asp-route-showDisabled="@ViewBag.ShowDisabled"
-           class="fa fa-arrow-left pagearrow @prevDisabled"
-           aria-hidden="true">
-            
-        </a>
+        <div>
+            <a asp-action="Index"
+                        asp-route-sortOrder="@ViewData["CurrentSort"]"
+                        asp-route-page="@(Model.PageIndex - 1)"
+                        asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                        asp-route-showDisabled="@ViewBag.ShowDisabled"
+                        class="fa fa-arrow-left pagearrow @prevDisabled"
+                        aria-hidden="true">
+            </a>
+        </div>
+
         <ul>
             @if (Model.PageIndex - 2 > 0)
             {
-            <li>
-                <a asp-action="Index"
-                   asp-route-sortOrder="@ViewData["CurrentSort"]"
-                   asp-route-page="@(Model.PageIndex - 2)"
-                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                   asp-route-showDisabled="@ViewBag.ShowDisabled"
-                   class="btn btn-default">
-                    @(Model.PageIndex - 2)
-                </a>
-            </li>
+                <li>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-page="@(Model.PageIndex - 2)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       asp-route-showDisabled="@ViewBag.ShowDisabled"
+                       class="btn btn-default">
+                        @(Model.PageIndex - 2)
+                    </a>
+                </li>
             }
             @if (Model.HasPreviousPage)
             {
@@ -113,38 +128,40 @@
             </li>
             @if (Model.HasNextPage)
             {
-            <li>
-                <a asp-action="Index"
-                   asp-route-sortOrder="@ViewData["CurrentSort"]"
-                   asp-route-page="@(Model.PageIndex + 1)"
-                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                   asp-route-showDisabled="@ViewBag.ShowDisabled"
-                   class="btn btn-default">
-                    @(Model.PageIndex + 1)
-                </a>
-            </li>
+                <li>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-page="@(Model.PageIndex + 1)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       asp-route-showDisabled="@ViewBag.ShowDisabled"
+                       class="btn btn-default">
+                        @(Model.PageIndex + 1)
+                    </a>
+                </li>
             }
             @if (Model.PageIndex + 2 <= Model.TotalPages)
             {
-            <li>
-                <a asp-action="Index"
-                   asp-route-sortOrder="@ViewData["CurrentSort"]"
-                   asp-route-page="@(Model.PageIndex + 2)"
-                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
-                   asp-route-showDisabled="@ViewBag.ShowDisabled"
-                   class="btn btn-default">
-                    @(Model.PageIndex + 2)
-                </a>
-            </li>
+                <li>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-page="@(Model.PageIndex + 2)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       asp-route-showDisabled="@ViewBag.ShowDisabled"
+                       class="btn btn-default">
+                        @(Model.PageIndex + 2)
+                    </a>
+                </li>
             }
         </ul>
-        <a asp-action="Index"
-           asp-route-sortOrder="@ViewData["CurrentSort"]"
-           asp-route-page="@(Model.PageIndex + 1)"
-           asp-route-currentFilter="@ViewData["CurrentFilter"]"
-           asp-route-showDisabled="@ViewBag.ShowDisabled"
-           class="fa fa-arrow-right pagearrow @nextDisabled"
-           aria-hidden="true">
-        </a>
+        <div>
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-page="@(Model.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               asp-route-showDisabled="@ViewBag.ShowDisabled"
+               class="fa fa-arrow-right pagearrow @nextDisabled"
+               aria-hidden="true">
+            </a>
+        </div>
     </div>
 </div>
