@@ -18,16 +18,14 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private const string WebsiteCode = "167536233";
         private readonly IDownloadLogRepository _downloadLogRepository;
-        private readonly INewsletterSubscriptionRepository _newsletterSubscriptionRepository;
 
         private readonly IHostingEnvironment _environment;
         private AnalyticsService _service;
 
-        public HomeController(IHostingEnvironment environment, IDownloadLogRepository downloadLogRepository, INewsletterSubscriptionRepository newsletterSubscriptionRepository)
+        public HomeController(IHostingEnvironment environment, IDownloadLogRepository downloadLogRepository)
         {
             _environment = environment;
             _downloadLogRepository = downloadLogRepository;
-            _newsletterSubscriptionRepository = newsletterSubscriptionRepository;
             SetupGoogleCredentials();
         }
 
@@ -36,9 +34,29 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             ViewBag.download = await SetDownloadsGraph();
             SetSessionGraph();
             SetDeviceGraph();
-            var newsletterSubscriptions =
-                _newsletterSubscriptionRepository.GetAll().OrderByDescending(n => n.Id).Take(5).ToList();
-            return View(newsletterSubscriptions);
+            var pageViews = MostPopularPagesThisWeek();
+            return View(pageViews);
+        }
+
+        private List<Tuple<string,int>> MostPopularPagesThisWeek()
+        {
+            var request = _service.Data.Ga.Get(
+                "ga:" + WebsiteCode,
+                DateTime.Today.AddDays(-7).ToString("yyyy-MM-dd"),
+                DateTime.Today.ToString("yyyy-MM-dd"),
+                "ga:pageviews");
+            request.Dimensions = "ga:pagePath";
+            request.Sort = "-ga:pageviews";
+            var requestData = request.Execute();
+
+            var list = new List<Tuple<string,int>>();
+
+            for (var i = 0; i < 5; i++)
+            {
+                list.Add(new Tuple<string, int>(requestData.Rows[i][0],int.Parse(requestData.Rows[i][1])));
+            }
+
+            return list;
         }
 
         [Route("api/dashboard/[controller]/[action]")]

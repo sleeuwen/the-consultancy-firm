@@ -1,4 +1,4 @@
-﻿@model List<NewsletterSubscription>
+﻿@model List<Tuple<string, int>>
 @{
     ViewBag.Title = "Dashboard";
     Layout = "_Layout";
@@ -30,15 +30,17 @@
     <div class="col-4">
         <table class="table">
             <thead>
-            <tr>
-                <th scope="col">Latest newsletter subscriptions</th>
-            </tr>
+                <tr>
+                    <th scope="col">Page</th>
+                    <th scope="col">Views this week</th>
+                </tr>
             </thead>
             <tbody>
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Email</td>
+                    <td><a href="@item.Item1" target="_blank">@item.Item1</a></td>
+                    <td>@item.Item2</td>
                 </tr>
             }
             </tbody>
