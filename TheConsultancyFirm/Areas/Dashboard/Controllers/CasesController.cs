@@ -70,7 +70,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
 
             @case.CaseTags = @case.TagIds?.Select(tagId => new CaseTag {Case = @case, TagId = tagId}).ToList();
-
+            @case.Language = "nl";
             @case.Date = DateTime.UtcNow;
             @case.LastModified = DateTime.UtcNow;
             try

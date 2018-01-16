@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 
@@ -49,22 +50,29 @@ namespace TheConsultancyFirm.Repositories
         public async Task<(Case Previous, Case Next)> GetAdjacent(Case c)
         {
             var previous = await _context.Cases.Include(i => i.Customer).OrderByDescending(i => i.Date)
-                               .Where(i => i.Date < c.Date && !i.Deleted && i.Enabled).Take(1).FirstOrDefaultAsync() ??
+                               .Where(i => i.Date < c.Date && !i.Deleted && i.Enabled && i.Language == c.Language).Take(1).FirstOrDefaultAsync() ??
                            await _context.Cases.Include(i => i.Customer).OrderByDescending(i => i.Date)
-                               .Where(i => i.Id != c.Id && !i.Deleted && i.Enabled).FirstOrDefaultAsync();
+                               .Where(i => i.Id != c.Id && !i.Deleted && i.Enabled && i.Language == c.Language).FirstOrDefaultAsync();
 
-            var next = await _context.Cases.Include(i => i.Customer).OrderBy(i => i.Date).Where(i => i.Date > c.Date && !i.Deleted && i.Enabled)
+            var next = await _context.Cases.Include(i => i.Customer).OrderBy(i => i.Date).Where(i => i.Date > c.Date && !i.Deleted && i.Enabled && i.Language == c.Language)
                            .Take(1).FirstOrDefaultAsync() ??
-                       await _context.Cases.Include(i => i.Customer).OrderBy(i => i.Date).Where(i => i.Id != c.Id && !i.Deleted && i.Enabled)
+                       await _context.Cases.Include(i => i.Customer).OrderBy(i => i.Date).Where(i => i.Id != c.Id && !i.Deleted && i.Enabled && i.Language == c.Language)
                            .FirstOrDefaultAsync();
 
             return (previous, next);
         }
 
-        public Task Create(Case @case)
+        public async Task Create(Case @case)
         {
             _context.Cases.Add(@case);
-            return _context.SaveChangesAsync();
+            
+            await _context.SaveChangesAsync();
+            _context.ItemTranslations.Add(new ItemTranslation()
+            {
+                ContentType = Enumeration.ContentItemType.Case,
+                IdNl = @case.Id
+            });
+            await _context.SaveChangesAsync();
         }
 
         public Task Update(Case @case)
