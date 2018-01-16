@@ -9,7 +9,7 @@ jQuery(function ($) {
             url: '/api/NewsItems',
             method: 'GET',
             success: function (items) {
-                $modal.find('caption').text('');
+                $modal.find('.statusText').text('');
                 var $body = $modal.find('.table tbody');
                 $body.empty();
 
@@ -36,10 +36,10 @@ jQuery(function ($) {
         $checkbox.prop('checked', !$checkbox.prop('checked'));
 
         if ($selectNewsItems.find('input[type=checkbox]:checked').length > 3) {
-            $selectNewsItems.find('table caption').text('Je kan maximaal 3 items selecteren');
+            $selectNewsItems.find('.statusText').text('Je kan maximaal 3 items selecteren');
             $selectNewsItems.find('.btn-primary').prop('disabled', true);
         } else {
-            $selectNewsItems.find('table caption').text('');
+            $selectNewsItems.find('.statusText').text('');
             $selectNewsItems.find('.btn-primary').prop('disabled', false);
         }
     });

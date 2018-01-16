@@ -1,6 +1,10 @@
-#selectNewsItem {
+#selectNewsItems {
     .modal-body {
-        max-height: 500px;
         max-height: 70vh;
+        overflow: auto;
+    }
+
+    .modal-footer .statusText {
+        margin-right: auto;
     }
 }
