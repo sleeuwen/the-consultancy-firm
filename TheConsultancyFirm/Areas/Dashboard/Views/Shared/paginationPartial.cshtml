@@ -1,0 +1,94 @@
+﻿@model PaginationProperties
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "d-none" : "";
+    var nextDisabled = !Model.HasNextPage ? "d-none" : "";
+}
+<div class="row">
+    <div class="col-sm-12 paging downloadpaging" id="paging">
+        <div>
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-page="@(Model.PageIndex - 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               asp-route-showDisabled="@ViewBag.ShowDisabled"
+               class="fa fa-arrow-left pagearrow @prevDisabled"
+               aria-hidden="true">
+            </a>
+        </div>
+
+        <ul>
+            @if (Model.PageIndex - 2 > 0)
+            {
+                <li>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-page="@(Model.PageIndex - 2)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       asp-route-showDisabled="@ViewBag.ShowDisabled"
+                       class="btn btn-default">
+                        @(Model.PageIndex - 2)
+                    </a>
+                </li>
+            }
+            @if (Model.HasPreviousPage)
+            {
+                <li>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-page="@(Model.PageIndex - 1)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       asp-route-showDisabled="@ViewBag.ShowDisabled"
+                       class="btn btn-defaul">
+                        @(Model.PageIndex - 1)
+                    </a>
+                </li>
+            }
+            <li>
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewData["CurrentSort"]"
+                   asp-route-page="@(Model.PageIndex)"
+                   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                   asp-route-showDisabled="@ViewBag.ShowDisabled"
+                   class="btn btn-default disabled">
+                    @(Model.PageIndex)
+                </a>
+            </li>
+            @if (Model.HasNextPage)
+            {
+                <li>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-page="@(Model.PageIndex + 1)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       asp-route-showDisabled="@ViewBag.ShowDisabled"
+                       class="btn btn-default">
+                        @(Model.PageIndex + 1)
+                    </a>
+                </li>
+            }
+            @if (Model.PageIndex + 2 <= Model.TotalPages)
+            {
+                <li>
+                    <a asp-action="Index"
+                       asp-route-sortOrder="@ViewData["CurrentSort"]"
+                       asp-route-page="@(Model.PageIndex + 2)"
+                       asp-route-currentFilter="@ViewData["CurrentFilter"]"
+                       asp-route-showDisabled="@ViewBag.ShowDisabled"
+                       class="btn btn-default">
+                        @(Model.PageIndex + 2)
+                    </a>
+                </li>
+            }
+        </ul>
+        <div>
+            <a asp-action="Index"
+               asp-route-sortOrder="@ViewData["CurrentSort"]"
+               asp-route-page="@(Model.PageIndex + 1)"
+               asp-route-currentFilter="@ViewData["CurrentFilter"]"
+               asp-route-showDisabled="@ViewBag.ShowDisabled"
+               class="fa fa-arrow-right pagearrow @nextDisabled"
+               aria-hidden="true">
+            </a>
+        </div>
+    </div>
+</div>

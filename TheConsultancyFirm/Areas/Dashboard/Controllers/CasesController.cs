@@ -9,7 +9,6 @@ using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
-using TheConsultancyFirm.Common;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
@@ -34,11 +33,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             bool showDisabled = false)
         {
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             ViewData["LastModifiedSortParm"] = sortOrder == "LastModified" ? "last_desc" : "LastModified";
-
-
 
             if (searchString != null)
             {
@@ -75,10 +72,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     cases = cases.OrderBy(c => c.Title).ToList();
                     break;
             }
-            int pageSize = 2;
-            return View(PaginatedList<Case>.Create(cases.AsQueryable(), page ?? 1, pageSize));
-
-            //return View(await PaginatedList<Case>.CreateAsync(cases.AsQueryable(), page ?? 1, pageSize));
+            return View(PaginatedList<Case>.Create(cases.AsQueryable(), page ?? 1));
         }
 
         // GET: Dashboard/Cases/Deleted
