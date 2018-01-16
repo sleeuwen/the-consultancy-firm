@@ -26,7 +26,7 @@ namespace TheConsultancyFirm.Tests.Controllers
             var controller = new SolutionsController(_solutionRepository.Object, null);
             var model = new List<Solution>().AsQueryable().BuildMock();
             _solutionRepository.Setup(repo => repo.GetAll()).Returns(model.Object);
-            var result = await controller.Index();
+            var result = await controller.Index(null,null,null,null);
             Assert.IsType<ViewResult>(result);
         }
 
