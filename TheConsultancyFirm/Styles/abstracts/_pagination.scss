@@ -30,3 +30,22 @@
         }
     }
 }
+
+#paging {
+    margin-top: 30px;
+    margin-bottom: 100px;
+
+    .pagearrow {
+        padding: 15px;
+        border-radius: 100%;
+        box-shadow: 0 0 0 2px #f7f7f7;
+        color: $black;
+
+        &:hover {
+            background-color: $orange;
+            cursor: pointer;
+            color: $white;
+            text-decoration: none;
+        }
+    }
+}

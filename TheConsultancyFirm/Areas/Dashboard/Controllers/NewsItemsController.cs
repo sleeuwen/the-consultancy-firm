@@ -25,11 +25,54 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/NewsItems
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page,
+            bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["LastModifiedSortParm"] = sortOrder == "LastModified" ? "last_desc" : "LastModified";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            return View(await _newsItemRepository.GetAll().Where(n => !n.Deleted && (n.Enabled || showDisabled))
-                .OrderByDescending(n => n.Date).ToListAsync());
+            var newsItems = await _newsItemRepository.GetAll().Where(n => !n.Deleted && (n.Enabled || showDisabled) && (n.Title.Contains(searchString) || string.IsNullOrEmpty(searchString)))
+                .OrderByDescending(n => n.Date).ToListAsync();
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    newsItems = newsItems.OrderByDescending(c => c.Title).ToList();
+                    break;
+                case "Date":
+                    newsItems = newsItems.OrderBy(c => c.Date).ToList();
+                    break;
+                case "date_desc":
+                    newsItems = newsItems.OrderByDescending(c => c.Date).ToList();
+                    break;
+                case "LastModified":
+                    newsItems = newsItems.OrderBy(c => c.LastModified).ToList();
+                    break;
+                case "last_desc":
+                    newsItems = newsItems.OrderByDescending(c => c.LastModified).ToList();
+                    break;
+                default:
+                    newsItems = newsItems.OrderBy(c => c.Title).ToList();
+                    break;
+            }
+            return View(PaginatedList<NewsItem>.Create(newsItems.AsQueryable(), page ?? 1));
         }
 
         // GET: Dashboard/Downloads/Deleted

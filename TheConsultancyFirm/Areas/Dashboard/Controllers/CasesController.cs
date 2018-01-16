@@ -25,11 +25,54 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Cases
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page,
+            bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["LastModifiedSortParm"] = sortOrder == "LastModified" ? "last_desc" : "LastModified";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            return View(await _caseRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
-                .OrderByDescending(c => c.Date).ToListAsync());
+            var cases = await _caseRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled) && (c.Title.Contains(searchString)|| string.IsNullOrEmpty(searchString)))
+                .OrderByDescending(c => c.Date).ToListAsync();
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    cases = cases.OrderByDescending(c => c.Title).ToList();
+                    break;
+                case "Date":
+                    cases = cases.OrderBy(c => c.Date).ToList();
+                    break;
+                case "date_desc":
+                    cases = cases.OrderByDescending(c => c.Date).ToList();
+                    break;
+                case "LastModified":
+                    cases = cases.OrderBy(c => c.LastModified).ToList();
+                    break;
+                case "last_desc":
+                    cases = cases.OrderByDescending(c => c.LastModified).ToList();
+                    break;
+                default:
+                    cases = cases.OrderBy(c => c.Title).ToList();
+                    break;
+            }
+            return View(PaginatedList<Case>.Create(cases.AsQueryable(), page ?? 1));
         }
 
         // GET: Dashboard/Cases/Deleted
@@ -55,7 +98,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 ModelState.AddModelError(nameof(@case.Image), "The Image field is required.");
             else
             {
-                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(@case.Image.FileName)?.ToLower()))
+                if (!(new[] { ".png", ".jpg", ".jpeg" }).Contains(Path.GetExtension(@case.Image.FileName)?.ToLower()))
                     ModelState.AddModelError(nameof(@case.Image), "Invalid image type, only png and jpg images are allowed");
 
                 if (@case.Image.Length < 1)
@@ -69,7 +112,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 @case.PhotoPath = await _uploadService.Upload(@case.Image, "/images/uploads/cases");
             }
 
-            @case.CaseTags = @case.TagIds?.Select(tagId => new CaseTag {Case = @case, TagId = tagId}).ToList();
+            @case.CaseTags = @case.TagIds?.Select(tagId => new CaseTag { Case = @case, TagId = tagId }).ToList();
 
             @case.Date = DateTime.UtcNow;
             @case.LastModified = DateTime.UtcNow;
@@ -115,7 +158,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             if (@case.Image != null)
             {
-                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(@case.Image.FileName)?.ToLower()))
+                if (!(new[] { ".png", ".jpg", ".jpeg" }).Contains(Path.GetExtension(@case.Image.FileName)?.ToLower()))
                     ModelState.AddModelError(nameof(@case.Image), "Invalid image type, only png and jpg images are allowed");
 
                 if (@case.Image.Length == 0)
@@ -133,7 +176,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             @case.CaseTags.RemoveAll(ct => !(@case.TagIds?.Contains(ct.TagId) ?? false));
             @case.CaseTags.AddRange(@case.TagIds?.Except(@case.CaseTags.Select(ct => ct.TagId))
-                .Select(tagId => new CaseTag {Case = @case, TagId = tagId}) ?? new List<CaseTag>());
+                .Select(tagId => new CaseTag { Case = @case, TagId = tagId }) ?? new List<CaseTag>());
 
             try
             {

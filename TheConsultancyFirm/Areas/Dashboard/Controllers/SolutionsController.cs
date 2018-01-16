@@ -25,11 +25,54 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Solutions
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page,
+            bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["LastModifiedSortParm"] = sortOrder == "LastModified" ? "last_desc" : "LastModified";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            return View(await _solutionRepository.GetAll().Where(s => !s.Deleted && (s.Enabled || showDisabled))
-                .OrderByDescending(s => s.Date).ToListAsync());
+            var solutions = await _solutionRepository.GetAll().Where(s => !s.Deleted && (s.Enabled || showDisabled) && (s.Title.Contains(searchString) || string.IsNullOrEmpty(searchString)))
+                .OrderByDescending(c => c.Date).ToListAsync();
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    solutions = solutions.OrderByDescending(c => c.Title).ToList();
+                    break;
+                case "Date":
+                    solutions = solutions.OrderBy(c => c.Date).ToList();
+                    break;
+                case "date_desc":
+                    solutions = solutions.OrderByDescending(c => c.Date).ToList();
+                    break;
+                case "LastModified":
+                    solutions = solutions.OrderBy(c => c.LastModified).ToList();
+                    break;
+                case "last_desc":
+                    solutions = solutions.OrderByDescending(c => c.LastModified).ToList();
+                    break;
+                default:
+                    solutions = solutions.OrderBy(c => c.Title).ToList();
+                    break;
+            }
+            return View(PaginatedList<Solution>.Create(solutions.AsQueryable(), page ?? 1));
         }
 
         // GET: Dashboard/Downloads/Deleted
