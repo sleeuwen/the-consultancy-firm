@@ -24,9 +24,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         [HttpPost("api/dashboard/[controller]/NewsItems")]
-        public async Task<ObjectResult> NewsItems(string ids)
+        public async Task<IActionResult> NewsItems(string ids)
         {
-            var intIds = ids.Split(",").Select(id => int.Parse(id.Trim())).ToList();
+            var intIds = (ids ?? "").Split(",").Where(s => int.TryParse(s.Trim(), out var _)).Select(s => int.Parse(s.Trim())).ToList();
             var currentItems = await _newsItemRepository.GetHomepageItems();
 
             var newsItems = new List<NewsItem>();
@@ -37,7 +37,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 newsItem.HomepageOrder = i;
                 await _newsItemRepository.Update(newsItem);
 
-                newsItems.Add(newsItem);
+                newsItems.Add(new NewsItem
+                {
+                    Id = newsItem.Id,
+                    Title = newsItem.Title,
+                    Date = newsItem.Date,
+                    PhotoPath = newsItem.PhotoPath
+                });
             }
 
             foreach (var newsItem in currentItems.Where(n => !intIds.Contains(n.Id)))
@@ -46,7 +52,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 await _newsItemRepository.Update(newsItem);
             }
 
-            return new ObjectResult(newsItems);
+            return View(newsItems);
         }
     }
 }

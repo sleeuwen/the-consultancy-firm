@@ -1,5 +1,6 @@
 jQuery(function ($) {
     var $selectNewsItems = $('#selectNewsItems');
+    var $newsItemsList = $('#NewsItemsList');
 
     $selectNewsItems.on('show.bs.modal', function () {
         var $modal = $(this);
@@ -41,8 +42,6 @@ jQuery(function ($) {
             ids.push($(this).val());
         });
 
-        console.log(ids);
-
         updateHomepageNewsItems(ids);
     });
 
@@ -51,6 +50,16 @@ jQuery(function ($) {
             method: 'POST',
             url: '/api/dashboard/Homepage/NewsItems',
             data: 'ids=' + ids.join(','),
+            success: function (data) {
+                $newsItemsList.html(data);
+                $selectNewsItems.modal('hide');
+            },
         })
     }
+
+    $('#NewsItemsList').each(function (idx, element) {
+        Sortable.create(element, {
+            animation: 150,
+        });
+    });
 });
