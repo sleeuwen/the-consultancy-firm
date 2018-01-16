@@ -76,7 +76,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     break;
             }
             int pageSize = 1;
-            return View(await PaginatedList<Case>.CreateAsync(cases.AsQueryable(), page ?? 1, pageSize));
+            return View(PaginatedList<Case>.Create(cases.AsQueryable(), page ?? 1, pageSize));
+
+            //return View(await PaginatedList<Case>.CreateAsync(cases.AsQueryable(), page ?? 1, pageSize));
         }
 
         // GET: Dashboard/Cases/Deleted

@@ -8,6 +8,15 @@
 <h2>@ViewBag.Title</h2>
 
 @Html.Partial("IndexButtonsPartial")
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by title: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to Full List</a>
+        </p>
+    </div>
+</form>
 
 <table class="table">
     <thead>
@@ -52,6 +61,13 @@
     var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
     var nextDisabled = !Model.HasNextPage ? "disabled" : "";
 }
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-page="@(Model.PageIndex - 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @prevDisabled">
+    <
+</a>
 @{if (Model.PageIndex - 2 > 0)
     {
         <a asp-action="Index"
@@ -104,5 +120,10 @@ class="btn btn-default">
         </a>
     }
 }
-
-
+<a asp-action="Index"
+   asp-route-sortOrder="@ViewData["CurrentSort"]"
+   asp-route-page="@(Model.PageIndex + 1)"
+   asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   class="btn btn-default @nextDisabled">
+    >
+</a>
