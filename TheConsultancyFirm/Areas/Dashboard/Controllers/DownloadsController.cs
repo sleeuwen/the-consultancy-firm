@@ -82,7 +82,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             download.DownloadTags = download.TagIds
                 ?.Select(tagId => new DownloadTag {Download = download, TagId = tagId}).ToList();
-
+            download.Language = "nl";
             download.LastModified = download.Date = DateTime.UtcNow;
             await _downloadRepository.Create(download);
             return RedirectToAction(nameof(Index));

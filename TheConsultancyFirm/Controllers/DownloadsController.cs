@@ -33,7 +33,7 @@ namespace TheConsultancyFirm.Controllers
             };
 
             viewModel.AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id && d.Enabled && !d.Deleted && d.Language == language)
-                .OrderBy(d => d.Date).Skip(1).ToListAsync();
+                .OrderBy(d => d.Date).ToListAsync();
 
             return View(viewModel);
         }
