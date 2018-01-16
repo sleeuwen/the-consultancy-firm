@@ -18,13 +18,16 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private const string WebsiteCode = "167536233";
         private readonly IDownloadLogRepository _downloadLogRepository;
+        private readonly INewsletterSubscriptionRepository _newsletterSubscriptionRepository;
+
         private readonly IHostingEnvironment _environment;
         private AnalyticsService _service;
 
-        public HomeController(IHostingEnvironment environment, IDownloadLogRepository downloadLogRepository)
+        public HomeController(IHostingEnvironment environment, IDownloadLogRepository downloadLogRepository, INewsletterSubscriptionRepository newsletterSubscriptionRepository)
         {
             _environment = environment;
             _downloadLogRepository = downloadLogRepository;
+            _newsletterSubscriptionRepository = newsletterSubscriptionRepository;
             SetupGoogleCredentials();
         }
 
@@ -33,7 +36,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             ViewBag.download = await SetDownloadsGraph();
             SetSessionGraph();
             SetDeviceGraph();
-            return View();
+            var newsletterSubscriptions =
+                _newsletterSubscriptionRepository.GetAll().OrderByDescending(n => n.Id).Take(5).ToList();
+            return View(newsletterSubscriptions);
         }
 
         [Route("api/dashboard/[controller]/[action]")]
