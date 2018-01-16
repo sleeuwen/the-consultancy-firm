@@ -17,7 +17,7 @@
         </div>
 
         <ul>
-            @for (var Page = Math.Max(Model.PageIndex - 2, 1); Page < Math.Min(Model.PageIndex + 2, Model.TotalPages); Page++)
+            @for (var Page = Math.Max(Model.PageIndex - 2, 1); Page <= Math.Min(Model.PageIndex + 2, Model.TotalPages); Page++)
             {
                 <li>
                     <a asp-action="Index"
