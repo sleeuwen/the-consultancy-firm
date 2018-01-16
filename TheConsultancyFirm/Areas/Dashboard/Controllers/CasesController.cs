@@ -27,11 +27,11 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
         // GET: Dashboard/Cases
         public async Task<IActionResult> Index(
-    string sortOrder,
-    string currentFilter,
-    string searchString,
-    int? page,
-    bool showDisabled = false)
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page,
+            bool showDisabled = false)
         {
             ViewData["CurrentSort"] = sortOrder;
             ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
@@ -51,36 +51,32 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            var cases await _caseRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
+            var cases = await _caseRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled) && (c.Title.Contains(searchString)|| string.IsNullOrEmpty(searchString)))
                 .OrderByDescending(c => c.Date).ToListAsync();
 
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                cases = cases.Where(c => c.Title.Contains(searchString));
-            }
             switch (sortOrder)
             {
                 case "name_desc":
-                    cases = cases.OrderByDescending(c => c.Title);
+                    cases = cases.OrderByDescending(c => c.Title).ToList();
                     break;
                 case "Date":
-                    cases = cases.OrderBy(c => c.Date);
+                    cases = cases.OrderBy(c => c.Date).ToList();
                     break;
                 case "date_desc":
-                    cases = cases.OrderByDescending(c => c.Date);
+                    cases = cases.OrderByDescending(c => c.Date).ToList();
                     break;
                 case "LastModified":
-                    cases = cases.OrderBy(c => c.LastModified);
+                    cases = cases.OrderBy(c => c.LastModified).ToList();
                     break;
                 case "last_desc":
-                    cases = cases.OrderByDescending(c => c.LastModified);
+                    cases = cases.OrderByDescending(c => c.LastModified).ToList();
                     break;
                 default:
-                    cases = cases.OrderBy(c => c.Title);
+                    cases = cases.OrderBy(c => c.Title).ToList();
                     break;
             }
             int pageSize = 1;
-            return View(await PaginatedList<Case>.CreateAsync(cases.AsNoTracking(), page ?? 1, pageSize));
+            return View(await PaginatedList<Case>.CreateAsync(cases.AsQueryable(), page ?? 1, pageSize));
         }
 
         // GET: Dashboard/Cases/Deleted
