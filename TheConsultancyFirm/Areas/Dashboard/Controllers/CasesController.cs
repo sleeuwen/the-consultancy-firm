@@ -38,6 +38,51 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return View(await _caseRepository.GetAll().Where(c => c.Deleted).OrderByDescending(c => c.Date).ToListAsync());
         }
 
+        [HttpPost]
+        public async Task<IActionResult> TranslationChoice(int choice, int selectBox = 0)
+        {
+            if (choice == 0) return RedirectToAction("Create");
+            if (selectBox == 0) return NotFound();
+            var id = await _caseRepository.CreateCopy(selectBox);
+            return RedirectToAction("TranslationEdit", new {id = id});
+        }
+
+        public async Task<IActionResult> TranslationEdit(int id)
+        {
+            return View(await _caseRepository.Get(id));
+        }
+
+        [HttpPost, ActionName("SaveTranslation")]
+        [ValidateAntiForgeryToken]
+        public async Task<ObjectResult> EditTranslationPost(int? id)
+        {
+            var @case = await _caseRepository.Get(id ?? 0, true);
+
+            if (@case == null) return new NotFoundObjectResult(null);
+
+            // Bind POST variables Title, CustomerId, Image and TagIds to the model.
+            await TryUpdateModelAsync(@case, string.Empty, c => c.Title, c => c.SharingDescription);
+
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+            
+            try
+            {
+                @case.LastModified = DateTime.UtcNow;
+                await _caseRepository.Update(@case);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await CaseExists(@case.Id))
+                {
+                    return new NotFoundObjectResult(null);
+                }
+
+                throw;
+            }
+
+            return new ObjectResult(@case.Id);
+        }
+
         // GET: Dashboard/Cases/Create
         public IActionResult Create()
         {
