@@ -63,6 +63,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             // Bind POST variables Title, CustomerId, Image and TagIds to the model.
             await TryUpdateModelAsync(@case, string.Empty, c => c.Title, c => c.SharingDescription);
 
+            var a = ModelState;
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
             
             try

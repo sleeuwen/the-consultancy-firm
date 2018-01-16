@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Cases";
-    var tupels = Model.Select(@case => new Tuple<int, string>(@case.Id, @case.Title)).ToList();
+    var tupels = Model.Where(solution => solution.Language == "nl").Select(@case => new Tuple<int, string>(@case.Id, @case.Title)).ToList();
 }
 
 <h2>@ViewBag.Title</h2>

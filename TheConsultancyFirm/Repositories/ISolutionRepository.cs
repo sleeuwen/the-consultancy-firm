@@ -12,6 +12,7 @@ namespace TheConsultancyFirm.Repositories
 	    Task Create(Solution solution);
 	    Task Update(Solution solution);
 	    Task Delete(Solution solution);
-	}
+        Task<int> CreateCopy(int id);
+    }
 }
 

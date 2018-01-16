@@ -1,4 +1,4 @@
-﻿@model NewsItem
+﻿@model Solution
 
 @{
     ViewData["Title"] = Model?.Title + " - Vertalen";
@@ -6,21 +6,13 @@
 
 <h2>@ViewBag.Title</h2>
 
-<div class="d-flex align-items-baseline">
-    <small class="text-muted ml-2">
-        <a asp-area="" asp-controller="NewsItems" asp-action="Details" asp-route-id="@Model.Id" target="_blank" title="Opent in een nieuw tabblad">
-            Bekijk op de website
-        </a>
-    </small>
-</div>
+<h4>Solution</h4>
 <hr />
-
-<form asp-action="SaveTranslation" asp-route-id="@Model.Id" class="blocks-form" id="updateNewsItem" enctype="multipart/form-data" data-type="NewsItem">
+<form asp-action="SaveTranslation" asp-route-id="@Model.Id" class="blocks-form" id="updateSolution" enctype="multipart/form-data" data-type="Solution">
     <div class="row">
         <div class="col-md-12">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         </div>
-
         <div class="col-md-8">
             <div class="row">
                 <div class="col-md-6">
@@ -28,6 +20,13 @@
                         <label asp-for="Title"></label>
                         <input asp-for="Title" class="form-control" placeholder="Titel" />
                         <span asp-validation-for="Title" class="invalid-feedback d-block"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Summary"></label>
+                        <textarea asp-for="Summary" class="form-control" maxlength="300" rows="5"></textarea>
+                        <span asp-validation-for="Summary" class="invalid-feedback d-block"></span>
                     </div>
                 </div>
 
@@ -73,7 +72,7 @@
             </div>
             <div class="col-md-6 d-flex justify-content-end align-items-center">
                 <small class="text-muted mr-3" id="statusText"></small>
-                <input type="submit" value="Opslaan" class="btn btn-secondary" data-blocks-submit="#updateNewsItem" />
+                <input type="submit" value="Opslaan" class="btn btn-secondary" data-blocks-submit="#updateSolution" />
             </div>
         </div>
     </div>
