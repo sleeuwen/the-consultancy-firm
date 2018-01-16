@@ -30,7 +30,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
         public async Task<IActionResult> Index()
         {
-            await SetDownloadsGraph();
+            ViewBag.download = await SetDownloadsGraph();
             SetSessionGraph();
             SetDeviceGraph();
             return View();
@@ -42,7 +42,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             var request = _service.Data.Realtime.Get("ga:" + WebsiteCode, "rt:activeUsers");
 
             var data = request.Execute();
-            return int.Parse(data?.Rows?[0][0]);
+            return data?.Rows == null ? 0 : int.Parse(data.Rows?[0][0]);
         }
 
         private void SetDeviceGraph()
@@ -116,9 +116,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             ViewBag.sessions = chart;
         }
 
-        private async Task SetDownloadsGraph()
+        [Route("api/dashboard/downloadGraph/{id}")]
+        public async Task<string> SetDownloadsGraph(int id = 0)
         {
-            var downloads = await _downloadLogRepository.GetDownloadsLastWeek();
+            var downloads = await _downloadLogRepository.GetDownloadsLastWeek(id);
 
             var lastWeek = DateTime.UtcNow.AddDays(-7);
             var values = new List<double>();
@@ -155,7 +156,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 Data = datas
             };
 
-            ViewBag.chart = chart;
+            return chart.CreateChartCode("downloadGraph");
         }
 
         private LineDataset CreateDataset(List<double> values, string title)

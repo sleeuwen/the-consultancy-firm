@@ -6,7 +6,6 @@
     ChartJSCore.Models.Chart devices = (ChartJSCore.Models.Chart)ViewBag.devices;
 }
 
-<h1>This is the Admin Dashboard</h1>
 <div class="row mb-3">
     <div class="col-6 text-center">
         <h2>Right now</h2>
@@ -31,7 +30,7 @@
 
 @section Scripts {
 <script>
-        @Html.Raw(chart.CreateChartCode("downloadGraph"));
+        @Html.Raw(ViewBag.download);
         @Html.Raw(sessions.CreateChartCode("sessionGraph"));
         @Html.Raw(devices.CreateChartCode("deviceGraph"));
 </script>
