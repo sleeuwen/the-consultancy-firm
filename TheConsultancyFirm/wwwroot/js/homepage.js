@@ -85,4 +85,22 @@ jQuery(function ($) {
             },
         });
     });
+
+    $('#solutionOuter').each(function (idx, element) {
+        Sortable.create(element, {
+            animation: 150,
+            store: {
+                get: function () {
+                    return [];
+                },
+                set: function (sortable) {
+                    $.ajax({
+                        method: 'POST',
+                        url: '/api/dashboard/Homepage/Solutions',
+                        data: 'ids=' + sortable.toArray().join(','),
+                    });
+                },
+            },
+        });
+    });
 });

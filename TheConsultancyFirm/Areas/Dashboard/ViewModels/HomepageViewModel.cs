@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using TheConsultancyFirm.Models;
 
-namespace TheConsultancyFirm.ViewModels
+namespace TheConsultancyFirm.Areas.Dashboard.ViewModels
 {
-    public class HomeViewModel
+    public class HomepageViewModel
     {
-        public List<Customer> Customers { get; set; }
         public List<Solution> Solutions { get; set; }
         public List<NewsItem> NewsItems { get; set; }
     }

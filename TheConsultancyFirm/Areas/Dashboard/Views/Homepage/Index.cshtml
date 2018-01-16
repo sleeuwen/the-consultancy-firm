@@ -1,14 +1,39 @@
-@model List<NewsItem>
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@model TheConsultancyFirm.Areas.Dashboard.ViewModels.HomepageViewModel
 @{
     ViewData["Title"] = "Homepage";
 }
 <h2>Homepage</h2>
 
+<h3>Solutions Carousel</h3>
+
+<div class="container container-wide">
+    <div class="row" id="solutionOuter">
+        @foreach (var item in Model.Solutions.OrderBy(s => s.HomepageOrder))
+        {
+            <div class="col-lg-4 col-md-12" data-id="@item.Id">
+                <div class="card">
+                    <div class="card-img-top" alt="Card image cap" style="background-image: url(@item.PhotoPath)"></div>
+                    <div class="card-body">
+                        <h4 class="card-title">@item.Title</h4>
+                        <p class="card-text">
+                            @item.Summary
+                        </p>
+                        <a asp-controller="Solutions" asp-action="Details" class="buttonHover" asp-route-id="@item.Slug">READ MORE</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<hr/>
+
 <h3>Nieuws en Kennis</h3>
 
 <div class="container container-wide">
     <div class="row" id="NewsItemsList">
-        @foreach (var item in Model)
+        @foreach (var item in Model.NewsItems)
         {
             <div class="col-12 col-lg-4" data-id="@item.Id">
                 @Html.Partial("NewsItemPartial", item)

@@ -13,22 +13,26 @@ namespace TheConsultancyFirm.Controllers
     {
         private readonly ICustomerRepository _customerRepository;
         private readonly INewsItemRepository _newsItemRepository;
+        private readonly ISolutionRepository _solutionRepository;
 
-        public HomeController(ICustomerRepository customerRepository, INewsItemRepository newsItemRepository)
+        public HomeController(ICustomerRepository customerRepository, INewsItemRepository newsItemRepository, ISolutionRepository solutionRepository)
         {
             _customerRepository = customerRepository;
             _newsItemRepository = newsItemRepository;
+            _solutionRepository = solutionRepository;
         }
 
         public async Task<IActionResult> Index()
         {
             var customers = (await _customerRepository.GetAll()).Where(c => c.Enabled && !c.Deleted).Take(12).ToList();
+            var solutions = await _solutionRepository.GetAll().OrderBy(s => s.HomepageOrder).ToListAsync();
             var newsItems = await _newsItemRepository.GetHomepageItems();
 
             return View(new HomeViewModel
             {
                 Customers = customers,
-                NewsItems = newsItems
+                Solutions = solutions,
+                NewsItems = newsItems,
             });
         }
 
