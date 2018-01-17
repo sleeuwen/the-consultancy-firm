@@ -7,6 +7,6 @@ namespace TheConsultancyFirm.Repositories
 {
     public interface IRelatedItemsRepository
     {
-        Task<List<ContentItem>> GetRelatedItems(int id, Enumeration.ContentItemType type);
+        Task<List<ContentItem>> GetRelatedItems(int id, Enumeration.ContentItemType type, string language);
     }
 }

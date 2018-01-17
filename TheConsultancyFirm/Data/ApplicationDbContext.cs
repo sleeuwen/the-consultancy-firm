@@ -19,6 +19,7 @@ namespace TheConsultancyFirm.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Vacancy> Vacancies { get; set; }
         public DbSet<DownloadLog> DownloadLogs { get; set; }
+        public DbSet<ItemTranslation> ItemTranslations { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
         {
