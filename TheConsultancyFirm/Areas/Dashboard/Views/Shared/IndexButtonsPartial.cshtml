@@ -35,22 +35,27 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <p>
-                        <input type="radio" name="choice" value="0" id="modalNo"> Nee, ik wil een nieuw item toevoegen<br>
-                        <input type="radio" name="choice" value="1" id="modalYes"> Ja, ik wil een vertaling toevoegen<br>
-                        <div class="form-group d-none" id="selectBox">
-                            <label for="selectBox">Selecteer item</label>
-                            <select class="form-control" name="selectBox">
-                                <option disabled="" value="0" selected="">Kies item</option>
-                                
-                                @foreach (var item in Model ?? new List<Tuple<int,string>>())
-                                {
-                                    <option value="@item.Item1">@item.Item2</option>
-                                }
-                            </select>
+                    
+                    <div class="custom-control custom-radio">
+                        <input type="radio" name="choice" value="0" id="modalNo" class="custom-control-input">
+                        <label class="custom-control-label" for="modalNo">Nee, ik wil een nieuw item toevoegen</label>
+                    </div>
+                        <div class="custom-control custom-radio">
+                        <input type="radio" name="choice" value="1" id="modalYes" class="custom-control-input">
+                        <label class="custom-control-label" for="modalYes">Ja, ik wil een vertaling toevoegen</label>
+                    </div>
+                            <div class="form-group d-none" id="selectBox">
+                                <label for="selectBox">Selecteer item</label>
+                                <select class="form-control" name="selectBox">
+                                    <option disabled="" value="0" selected="">Kies item</option>
+
+                                    @foreach (var item in Model ?? new List<Tuple<int, string>>())
+                                    {
+                                        <option value="@item.Item1">@item.Item2</option>
+                                    }
+                                </select>
+                            </div>
                         </div>
-                    </p>
-                </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-secondary">Selecteer</button>
                 </div>
