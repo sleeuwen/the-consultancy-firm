@@ -48,31 +48,30 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            var newsItems = await _newsItemRepository.GetAll().Where(n => !n.Deleted && (n.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || n.Title.Contains(searchString)))
-                .OrderByDescending(n => n.Date).ToListAsync();
+            var newsItems = _newsItemRepository.GetAll().Where(n => !n.Deleted && (n.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || n.Title.Contains(searchString)));
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    newsItems = newsItems.OrderByDescending(c => c.Title).ToList();
+                    newsItems = newsItems.OrderByDescending(c => c.Title);
                     break;
                 case "Date":
-                    newsItems = newsItems.OrderBy(c => c.Date).ToList();
+                    newsItems = newsItems.OrderBy(c => c.Date);
                     break;
                 case "date_desc":
-                    newsItems = newsItems.OrderByDescending(c => c.Date).ToList();
+                    newsItems = newsItems.OrderByDescending(c => c.Date);
                     break;
                 case "LastModified":
-                    newsItems = newsItems.OrderBy(c => c.LastModified).ToList();
+                    newsItems = newsItems.OrderBy(c => c.LastModified);
                     break;
                 case "last_desc":
-                    newsItems = newsItems.OrderByDescending(c => c.LastModified).ToList();
+                    newsItems = newsItems.OrderByDescending(c => c.LastModified);
                     break;
                 default:
-                    newsItems = newsItems.OrderBy(c => c.Title).ToList();
+                    newsItems = newsItems.OrderBy(c => c.Title);
                     break;
             }
-            return View(PaginatedList<NewsItem>.Create(newsItems.AsQueryable(), page ?? 1, 2));
+            return View(await PaginatedList<NewsItem>.Create(newsItems.AsQueryable(), page ?? 1, 5));
         }
 
         // GET: Dashboard/Downloads/Deleted

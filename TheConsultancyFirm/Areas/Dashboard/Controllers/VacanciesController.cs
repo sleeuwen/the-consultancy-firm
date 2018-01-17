@@ -39,24 +39,24 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            var cases = await _vacancyRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.FunctionDescription.Contains(searchString))).ToListAsync();
+            var cases = _vacancyRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.FunctionDescription.Contains(searchString)));
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    cases = cases.OrderByDescending(c => c.FunctionDescription).ToList();
+                    cases = cases.OrderByDescending(c => c.FunctionDescription);
                     break;
                 case "Date":
-                    cases = cases.OrderBy(c => c.VacancySince).ToList();
+                    cases = cases.OrderBy(c => c.VacancySince);
                     break;
                 case "date_desc":
-                    cases = cases.OrderByDescending(c => c.VacancySince).ToList();
+                    cases = cases.OrderByDescending(c => c.VacancySince);
                     break;
                 default:
-                    cases = cases.OrderBy(c => c.FunctionDescription).ToList();
+                    cases = cases.OrderBy(c => c.FunctionDescription);
                     break;
             }
-            return View(PaginatedList<Vacancy>.Create(cases.AsQueryable(), page ?? 1, 2));
+            return View(await PaginatedList<Vacancy>.Create(cases.AsQueryable(), page ?? 1, 5));
         }
 
         // GET: Dashboard/Vacancies/Create

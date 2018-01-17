@@ -54,7 +54,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     customers = customers.OrderBy(c => c.Name).ToList();
                     break;
             }
-            return View(PaginatedList<Customer>.Create(customers.AsQueryable(), page ?? 1, 2));
+            return View(await PaginatedList<Customer>.Create(customers.AsQueryable(), page ?? 1, 5));
         }
 
         // GET: Dashboard/Customers/Deleted

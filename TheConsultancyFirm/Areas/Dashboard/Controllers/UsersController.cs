@@ -64,7 +64,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     users = users.OrderBy(c => c.Email).ToList();
                     break;
             }
-            return View(PaginatedList<ApplicationUser>.Create(users.AsQueryable(), page ?? 1, 2));
+            return View(await PaginatedList<ApplicationUser>.Create(users.AsQueryable(), page ?? 1, 5));
         }
 
         [HttpGet]

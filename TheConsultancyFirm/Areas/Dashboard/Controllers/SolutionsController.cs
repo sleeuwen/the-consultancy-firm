@@ -48,31 +48,30 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            var solutions = await _solutionRepository.GetAll().Where(s => !s.Deleted && (s.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || s.Title.Contains(searchString)))
-                .OrderByDescending(c => c.Date).ToListAsync();
+            var solutions = _solutionRepository.GetAll().Where(s => !s.Deleted && (s.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || s.Title.Contains(searchString)));
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    solutions = solutions.OrderByDescending(c => c.Title).ToList();
+                    solutions = solutions.OrderByDescending(c => c.Title);
                     break;
                 case "Date":
-                    solutions = solutions.OrderBy(c => c.Date).ToList();
+                    solutions = solutions.OrderBy(c => c.Date);
                     break;
                 case "date_desc":
-                    solutions = solutions.OrderByDescending(c => c.Date).ToList();
+                    solutions = solutions.OrderByDescending(c => c.Date);
                     break;
                 case "LastModified":
-                    solutions = solutions.OrderBy(c => c.LastModified).ToList();
+                    solutions = solutions.OrderBy(c => c.LastModified);
                     break;
                 case "last_desc":
-                    solutions = solutions.OrderByDescending(c => c.LastModified).ToList();
+                    solutions = solutions.OrderByDescending(c => c.LastModified);
                     break;
                 default:
-                    solutions = solutions.OrderBy(c => c.Title).ToList();
+                    solutions = solutions.OrderBy(c => c.Title);
                     break;
             }
-            return View(PaginatedList<Solution>.Create(solutions.AsQueryable(), page ?? 1, 2));
+            return View(await PaginatedList<Solution>.Create(solutions.AsQueryable(), page ?? 1, 5));
         }
 
         // GET: Dashboard/Downloads/Deleted

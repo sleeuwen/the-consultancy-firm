@@ -61,7 +61,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     contacts = contacts.OrderByDescending(c => c.Date).ToList();
                     break;
             }
-            return View(PaginatedList<Contact>.Create(contacts.AsQueryable(), page ?? 1, 2));
+            return View(await PaginatedList<Contact>.Create(contacts.AsQueryable(), page ?? 1, 5));
         }
 
         // GET: Dashboard/Contacts/Details/5

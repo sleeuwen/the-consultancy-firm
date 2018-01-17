@@ -29,9 +29,9 @@ namespace TheConsultancyFirm.Controllers
                 MostRecent = await _downloadRepository.GetAll().Where(d => d.Enabled && !d.Deleted).OrderByDescending(d => d.Date).FirstOrDefaultAsync()
             };
 
-            var all = await _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id && d.Enabled && !d.Deleted)
-                .OrderBy(d => d.Date).Skip(1).ToListAsync();
-            viewModel.AllDownloads = PaginatedList<Download>.Create(all.AsQueryable(), page ?? 1, 2);
+            var all = _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id && d.Enabled && !d.Deleted)
+                .OrderBy(d => d.Date);
+            viewModel.AllDownloads = await PaginatedList<Download>.Create(all.AsQueryable(), page ?? 1, 10);
             return View(viewModel);
         }
 
@@ -40,12 +40,11 @@ namespace TheConsultancyFirm.Controllers
         {
             var selected = await _downloadRepository.Get(id);
             if (selected.Deleted || !selected.Enabled) return NotFound();
-            var AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != id && d.Enabled && !d.Deleted)
-                .ToListAsync();
+            var AllDownloads = _downloadRepository.GetAll().Where(d => d.Id != id && d.Enabled && !d.Deleted);
             var viewModel = new DownloadsViewModel
             {
                 Selected = selected,
-                AllDownloads = PaginatedList<Download>.Create(AllDownloads.AsQueryable(), page ?? 1, 2)
+                AllDownloads = await PaginatedList<Download>.Create(AllDownloads.AsQueryable(), page ?? 1, 10)
             };
 
             return View("/Views/Downloads/Index.cshtml", viewModel);

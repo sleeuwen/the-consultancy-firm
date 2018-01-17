@@ -22,8 +22,8 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index(int? page)
         {
-            var newsItems = await _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted).OrderByDescending(n => n.Date).ToListAsync();
-            return View(PaginatedList<NewsItem>.Create(newsItems.AsQueryable(), page ?? 1, 2));
+            var newsItems = _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted).OrderByDescending(n => n.Date);
+            return View(await PaginatedList<NewsItem>.Create(newsItems.AsQueryable(), page ?? 1, 12));
         }
 
         [HttpGet("[controller]/{id}")]

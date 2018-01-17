@@ -48,31 +48,30 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            var cases = await _caseRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.Title.Contains(searchString)))
-                .OrderByDescending(c => c.Date).ToListAsync();
+            var cases =  _caseRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.Title.Contains(searchString)));
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    cases = cases.OrderByDescending(c => c.Title).ToList();
+                    cases = cases.OrderByDescending(c => c.Title);
                     break;
                 case "Date":
-                    cases = cases.OrderBy(c => c.Date).ToList();
+                    cases = cases.OrderBy(c => c.Date);
                     break;
                 case "date_desc":
-                    cases = cases.OrderByDescending(c => c.Date).ToList();
+                    cases = cases.OrderByDescending(c => c.Date);
                     break;
                 case "LastModified":
-                    cases = cases.OrderBy(c => c.LastModified).ToList();
+                    cases = cases.OrderBy(c => c.LastModified);
                     break;
                 case "last_desc":
-                    cases = cases.OrderByDescending(c => c.LastModified).ToList();
+                    cases = cases.OrderByDescending(c => c.LastModified);
                     break;
                 default:
-                    cases = cases.OrderBy(c => c.Title).ToList();
+                    cases = cases.OrderBy(c => c.Title);
                     break;
             }
-            return View(PaginatedList<Case>.Create(cases.AsQueryable(), page ?? 1, 2));
+            return View(await PaginatedList<Case>.Create(cases, page ?? 1, 5));
         }
 
         // GET: Dashboard/Cases/Deleted

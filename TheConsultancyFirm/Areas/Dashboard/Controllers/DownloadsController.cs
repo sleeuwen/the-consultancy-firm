@@ -48,31 +48,30 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             ViewBag.ShowDisabled = showDisabled;
-            var downloads = await _downloadRepository.GetAll().Where(d => !d.Deleted && (d.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || d.Title.Contains(searchString)))
-                .OrderByDescending(d => d.Date).ToListAsync();
+            var downloads = _downloadRepository.GetAll().Where(d => !d.Deleted && (d.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || d.Title.Contains(searchString)));
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    downloads = downloads.OrderByDescending(c => c.Title).ToList();
+                    downloads = downloads.OrderByDescending(c => c.Title);
                     break;
                 case "Date":
-                    downloads = downloads.OrderBy(c => c.Date).ToList();
+                    downloads = downloads.OrderBy(c => c.Date);
                     break;
                 case "date_desc":
-                    downloads = downloads.OrderByDescending(c => c.Date).ToList();
+                    downloads = downloads.OrderByDescending(c => c.Date);
                     break;
                 case "amount":
-                    downloads = downloads.OrderBy(c => c.AmountOfDownloads).ToList();
+                    downloads = downloads.OrderBy(c => c.AmountOfDownloads);
                     break;
                 case "amount_desc":
-                    downloads = downloads.OrderByDescending(c => c.AmountOfDownloads).ToList();
+                    downloads = downloads.OrderByDescending(c => c.AmountOfDownloads);
                     break;
                 default:
-                    downloads = downloads.OrderBy(c => c.Title).ToList();
+                    downloads = downloads.OrderBy(c => c.Title);
                     break;
             }
-            return View(PaginatedList<Download>.Create(downloads.AsQueryable(), page ?? 1, 2));
+            return View(await PaginatedList<Download>.Create(downloads.AsQueryable(), page ?? 1, 5));
         }
 
         // GET: Dashboard/Downloads/Deleted
