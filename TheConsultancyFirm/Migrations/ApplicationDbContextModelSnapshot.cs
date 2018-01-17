@@ -229,6 +229,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Deleted");
+
                     b.Property<bool>("Enabled");
 
                     b.Property<DateTime>("LastModified");
@@ -291,6 +293,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<bool>("Deleted");
+
                     b.Property<bool>("Enabled");
 
                     b.Property<string>("Link")
@@ -328,6 +332,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Deleted");
+
                     b.Property<string>("Description")
                         .IsRequired();
 
@@ -343,6 +349,20 @@ namespace TheConsultancyFirm.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Downloads");
+                });
+
+            modelBuilder.Entity("TheConsultancyFirm.Models.DownloadLog", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Date");
+
+                    b.Property<int>("DownloadId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DownloadLogs");
                 });
 
             modelBuilder.Entity("TheConsultancyFirm.Models.DownloadTag", b =>
@@ -364,6 +384,8 @@ namespace TheConsultancyFirm.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("Date");
+
+                    b.Property<bool>("Deleted");
 
                     b.Property<bool>("Enabled");
 
@@ -399,6 +421,26 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("NewsletterIntroText")
+                        .IsRequired();
+
+                    b.Property<string>("NewsletterOtherNews");
+
+                    b.Property<DateTime>("SentAt");
+
+                    b.Property<string>("Subject")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.ToTable("NewsLetters");
+                });
+
+            modelBuilder.Entity("TheConsultancyFirm.Models.NewsletterSubscription", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
                     b.Property<string>("Email")
                         .IsRequired();
 
@@ -407,7 +449,7 @@ namespace TheConsultancyFirm.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("NewsLetters");
+                    b.ToTable("NewsletterSubscription");
                 });
 
             modelBuilder.Entity("TheConsultancyFirm.Models.Slide", b =>
@@ -437,13 +479,20 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<DateTime>("Date");
 
+                    b.Property<bool>("Deleted");
+
                     b.Property<bool>("Enabled");
 
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("PhotoPath");
 
-                    b.Property<string>("SharingDescription");
+                    b.Property<string>("SharingDescription")
+                        .HasMaxLength(140);
+
+                    b.Property<string>("Summary")
+                        .IsRequired()
+                        .HasMaxLength(300);
 
                     b.Property<string>("Title")
                         .IsRequired();
@@ -476,6 +525,24 @@ namespace TheConsultancyFirm.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
+                });
+
+            modelBuilder.Entity("TheConsultancyFirm.Models.Vacancy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<bool>("Deleted");
+
+                    b.Property<bool>("Enabled");
+
+                    b.Property<string>("FunctionDescription");
+
+                    b.Property<DateTime>("VacancySince");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Vacancies");
                 });
 
             modelBuilder.Entity("TheConsultancyFirm.Models.CarouselBlock", b =>

@@ -1,41 +1,42 @@
-﻿<div class="container-fluid">
+﻿@inject IViewLocalizer Localizer
+<div class="container-fluid">
     <div class="row" id="serviceouterdiv">
         <div class="col-lg-6 servicepanel">
             <h3>
-                Services die wij bieden (in combinatie, of los van bovenstaande producten)
+                @Localizer["services_partial_title"]
             </h3>
             <div class="service">
                 <a href="#">
                     <h5>
-                        Vertaling van uw business naar een technische oplossing
+                        @Localizer["translate_your_business"]
                     </h5>
                 </a>
             </div>
             <div class="service">
                 <a href="#">
                     <h5>
-                        Open source met maatwerk (geen lock-in)
+                        @Localizer["open_source"]
                     </h5>
                 </a>
             </div>
             <div class="service">
                 <a href="#">
                     <h5>
-                        Premium care
+                        @Localizer["premium_care"]
                     </h5>
                 </a>
             </div>
             <div class="service">
                 <a href="#">
                     <h5>
-                        Altijd Security & Privacy
+                        @Localizer["always_security_and_privacy"]
                     </h5>
                 </a>
             </div>
             <div class="service">
                 <a href="#">
                     <h5>
-                        Trainingen
+                        @Localizer["Trainingen"]
                     </h5>
                 </a>
             </div>

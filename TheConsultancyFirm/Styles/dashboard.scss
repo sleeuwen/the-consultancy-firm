@@ -2,8 +2,10 @@
 
 // Abstracts
 @import 'abstracts/breadcrumbs';
+@import 'abstracts/switch';
 @import 'abstracts/typography';
 @import 'abstracts/upload-box';
+@import 'abstracts/dashboardButton';
 
 // Layout
 @import 'layout/dashboard';
@@ -19,3 +21,5 @@
 @import 'pages/dashboard/contacts';
 @import 'pages/dashboard/accountIndex';
 @import 'pages/dashboard/customerDetail';
+@import 'pages/dashboard/usersIndex';
+@import 'pages/dashboard/indexPages';

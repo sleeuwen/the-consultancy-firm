@@ -27,6 +27,7 @@ SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / (CASE WHEN t.TotalTags 
   FROM Cases
   LEFT JOIN CaseTag ON Cases.Id = CaseTag.CaseId
   LEFT JOIN MyTags ON MyTags.TagId = CaseTag.TagId
+  WHERE Cases.Deleted = 0 AND Cases.Enabled = 1
   GROUP BY Cases.Id, Cases.Title, Cases.PhotoPath
 
   UNION
@@ -41,6 +42,7 @@ SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / (CASE WHEN t.TotalTags 
   FROM NewsItems
   LEFT JOIN NewsItemTag ON NewsItems.Id = NewsItemTag.NewsItemId
   LEFT JOIN MyTags ON MyTags.TagId = NewsItemTag.TagId
+  WHERE NewsItems.Deleted = 0 AND NewsItems.Enabled = 1
   GROUP BY NewsItems.Id, NewsItems.Title, NewsItems.PhotoPath
 
   UNION
@@ -55,6 +57,7 @@ SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / (CASE WHEN t.TotalTags 
   FROM Downloads
   LEFT JOIN DownloadTag ON Downloads.Id = DownloadTag.DownloadId
   LEFT JOIN MyTags ON MyTags.TagId = DownloadTag.TagId
+  WHERE Downloads.Deleted = 0 AND Downloads.Enabled = 1
   GROUP BY Downloads.Id, Downloads.Title
 
   UNION
@@ -69,6 +72,7 @@ SELECT TOP(3) type, Id, Title, PhotoPath, t.CommonTags / (CASE WHEN t.TotalTags 
   FROM Solutions
   LEFT JOIN SolutionTag ON Solutions.Id = SolutionTag.SolutionId
   LEFT JOIN MyTags ON MyTags.TagId = SolutionTag.TagId
+  WHERE Solutions.Deleted = 0 AND Solutions.Enabled = 1
   GROUP BY Solutions.Id, Solutions.Title
 ) t
 WHERE NOT (t.type = '{0}' AND t.id = @id)

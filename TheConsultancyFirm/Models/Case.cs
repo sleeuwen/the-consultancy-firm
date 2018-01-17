@@ -22,7 +22,10 @@ namespace TheConsultancyFirm.Models
         public int? CustomerId { get; set; }
         public Customer Customer { get; set; }
 
+        [Display(Name = "Publiceerdatum")]
         public DateTime Date { get; set; }
+
+        [Display(Name = "Laatst bewerkt")]
         public DateTime LastModified { get; set; }
 
         public List<Block> Blocks { get; set; }
@@ -38,9 +41,10 @@ namespace TheConsultancyFirm.Models
         [Display(Name = "Tags")]
         public List<int> TagIds { get; set; }
 
-        [Display(Name = "Omschrijving voor delen")]
+        [Display(Name = "Omschrijving voor delen (max 140 char)")]
         public string SharingDescription { get; set; }
 
         public bool Enabled { get; set; }
+        public bool Deleted { get; set; }
     }
 }

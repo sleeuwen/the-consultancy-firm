@@ -2,11 +2,26 @@
 @{
     ViewBag.Title = Model.CaseItem.Title;
     Layout = "_Layout";
+    var imageUrl = $"{Context.Request.Scheme}://{Context.Request.Host}{Model.CaseItem.PhotoPath}";
+    var link = $"{Context.Request.Scheme}://{Context.Request.Host}/cases/{Model.CaseItem.Id}";
+}
+
+@section metatags
+{
+    <meta property="og:title" content="@Model.CaseItem.Title"/>
+    <meta property="og:image" content="@imageUrl"/>
+    <meta property="og:description" content="@Model.CaseItem.SharingDescription"/>
+    <meta property="og:url" content="@link"/>
+    <meta name="twitter:card" content="summary"/>
 }
 
 <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
-    <li class="breadcrumb-item active"><a asp-controller="Cases" asp-action="Index">Cases</a></li>
+    <li class="breadcrumb-item">
+        <a asp-controller="Home" asp-action="Index">Home</a>
+    </li>
+    <li class="breadcrumb-item active">
+        <a asp-controller="Cases" asp-action="Index">Cases</a>
+    </li>
     <li class="breadcrumb-item active">@Model.CaseItem.Customer.Name</li>
 </ol>
 
@@ -29,20 +44,7 @@
 </div>
 <div class="container">
     <div class="row">
-        <div class="col-12 col-md-10 mx-auto">
-            <div class="sharing">
-                <span class="introtext">
-                    <i class="fa fa-share-alt"></i>
-                    share
-                </span>
-
-                <a href="#" class="share-link fa fa-linkedin"></a>
-                <a href="#" class="share-link fa fa-twitter"></a>
-                <a href="#" class="share-link fa fa-google-plus"></a>
-                <a href="#" class="share-link fa fa-facebook"></a>
-                <a href="#" class="share-link fa fa-envelope"></a>
-            </div>
-        </div>
+        @Html.Partial("SharingPartial", link)
     </div>
 
     @Html.Partial("RelatedCasesPartial", Model.ContentItems)
@@ -58,16 +60,16 @@
         </div>
 
         <div class="row">
-            <div class="col-12 col-md-6 case order-2 order-md-1" style="background-image:url(@Model.Previous.PhotoPath)">
+            <div class="col-12 col-md-6 case order-2 order-md-1" style="background-image: url(@Model.Previous.PhotoPath)">
                 <p class="subtitle"> @Model.Previous.Customer.Name</p>
                 <h3 class="title">@Model.Previous.Title</h3>
-                <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Previous.Id" class="buttonHover">VORIGE CASE</a>
+                <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Previous.Slug" class="buttonHover">VORIGE CASE</a>
             </div>
 
             <div class="col-12 col-md-6 case order-1 order-md-2" style="background-image: url(@Model.Next.PhotoPath)">
                 <p class="subtitle">@Model.Next.Customer.Name</p>
                 <h3 class="title">@Model.Next.Title</h3>
-                <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Next.Id" class="buttonHover">VOLGENDE CASE</a>
+                <a asp-controller="Cases" asp-action="Details" asp-route-id="@Model.Next.Slug" class="buttonHover">VOLGENDE CASE</a>
             </div>
         </div>
     </div>

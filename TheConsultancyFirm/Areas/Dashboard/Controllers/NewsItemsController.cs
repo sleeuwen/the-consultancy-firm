@@ -16,20 +16,26 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     public class NewsItemsController : Controller
     {
         private readonly INewsItemRepository _newsItemRepository;
-        private readonly IBlockRepository _blockRepository;
         private readonly IUploadService _uploadService;
 
-        public NewsItemsController(INewsItemRepository newsItemRepository, IBlockRepository blockRepository, IUploadService uploadService)
+        public NewsItemsController(INewsItemRepository newsItemRepository, IUploadService uploadService)
         {
             _newsItemRepository = newsItemRepository;
-            _blockRepository = blockRepository;
             _uploadService = uploadService;
         }
 
         // GET: Dashboard/NewsItems
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(bool showDisabled = false)
         {
-            return View(await _newsItemRepository.GetAll().ToListAsync());
+            ViewBag.ShowDisabled = showDisabled;
+            return View(await _newsItemRepository.GetAll().Where(n => !n.Deleted && (n.Enabled || showDisabled))
+                .OrderByDescending(n => n.Date).ToListAsync());
+        }
+
+        // GET: Dashboard/Downloads/Deleted
+        public async Task<IActionResult> Deleted()
+        {
+            return View(await _newsItemRepository.GetAll().Where(n => n.Deleted).OrderByDescending(c => c.Date).ToListAsync());
         }
 
         // GET: Dashboard/NewsItems/Create
@@ -43,7 +49,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> Create([Bind("Title,Image,TagIds")] NewsItem newsItem)
+        public async Task<ObjectResult> Create([Bind("Title,Image,TagIds,SharingDescription")] NewsItem newsItem)
         {
             if (newsItem.Image != null)
             {
@@ -103,7 +109,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if(newsItem == null) return new NotFoundObjectResult(null);
 
             // Bind POST variables Title, CustomerId, Image and TagIds to the model.
-            await TryUpdateModelAsync(newsItem, string.Empty, c => c.Title, c => c.Image, c => c.TagIds);
+            await TryUpdateModelAsync(newsItem, string.Empty, c => c.Title, c => c.Image, c => c.TagIds, c => c.SharingDescription);
 
             if (newsItem.Image != null && newsItem.Image?.Length == 0)
                 ModelState.AddModelError(nameof(newsItem.Image), "Filesize too small");
@@ -121,7 +127,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
                 if (newsItem.PhotoPath != null)
                     await _uploadService.Delete(newsItem.PhotoPath);
-                newsItem.PhotoPath = await _uploadService.Upload(newsItem.Image, "/images/uploads/cases");
+                newsItem.PhotoPath = await _uploadService.Upload(newsItem.Image, "/images/uploads/newsitems");
             }
 
             newsItem.NewsItemTags.RemoveAll(ct => !(newsItem.TagIds?.Contains(ct.TagId) ?? false));
@@ -169,23 +175,37 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return NotFound();
             }
 
-            foreach (var block in newsItem.Blocks)
-            {
-                if (block is CarouselBlock carousel)
-                {
-                    foreach (var slide in carousel.Slides.Where(s => s.PhotoPath != null))
-                    {
-                        await _uploadService.Delete(slide.PhotoPath);
-                    }
-                }
+            newsItem.Deleted = true;
 
-                await _blockRepository.Delete(block.Id);
+            await _newsItemRepository.Update(newsItem);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Restore(int? id)
+        {
+            var newsItem = await _newsItemRepository.Get(id ?? 0);
+            if (newsItem == null)
+            {
+                return NotFound();
             }
 
-            if (newsItem.PhotoPath != null)
-                await _uploadService.Delete(newsItem.PhotoPath);
+            newsItem.Deleted = false;
 
-            await _newsItemRepository.Delete(newsItem.Id);
+            await _newsItemRepository.Update(newsItem);
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> ToggleEnable(int? id)
+        {
+            var newsItem = await _newsItemRepository.Get(id ?? 0);
+            if (newsItem == null)
+            {
+                return NotFound();
+            }
+
+            newsItem.Enabled = !newsItem.Enabled;
+
+            await _newsItemRepository.Update(newsItem);
             return RedirectToAction(nameof(Index));
         }
 

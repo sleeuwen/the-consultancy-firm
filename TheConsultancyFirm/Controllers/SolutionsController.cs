@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
-using TheConsultancyFirm.Services;
 using TheConsultancyFirm.ViewModels;
 
 namespace TheConsultancyFirm.Controllers
@@ -20,9 +19,9 @@ namespace TheConsultancyFirm.Controllers
             _solutionRepository = solutionRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _solutionRepository.GetAll().Where(s => s.Enabled && !s.Deleted).ToListAsync());
         }
 
         [HttpGet("[controller]/{id}")]
@@ -32,7 +31,7 @@ namespace TheConsultancyFirm.Controllers
             int.TryParse(id.Split('-', 2)[0], out int solutionId);
 
             var solutionItem = await _solutionRepository.Get(solutionId, false);
-            if (solutionItem == null) return NotFound();
+            if (solutionItem == null || solutionItem.Deleted || !solutionItem.Enabled) return NotFound();
 
             if (id != solutionItem.Slug)
                 return RedirectToAction("Details", new { id = solutionItem.Slug });
@@ -40,9 +39,9 @@ namespace TheConsultancyFirm.Controllers
             var relatedItems =
                 await _relatedItemsRepository.GetRelatedItems(solutionItem.Id, Enumeration.ContentItemType.Solution);
 
-            var relatedCustomers = solutionItem.CustomerSolutions.Select(cs => cs.Customer).ToList();
+            var relatedCustomers = solutionItem.CustomerSolutions.Select(cs => cs.Customer).Where(c => !c.Deleted && c.Enabled).Take(12).ToList();
                 
-            return View(new SolutionDetailViewModel()
+            return View(new SolutionDetailViewModel
             {
                 Solution = solutionItem,
                 ContentItems = relatedItems,

@@ -1,11 +1,14 @@
-﻿@*@model ...*@
-
+﻿@inject IViewLocalizer Localizer
+@model NewsItem
+@{
+    var background = Model.PhotoPath == null ? "" : "background-image: url(" + Model.PhotoPath + ")";
+}
 <div class="newsitem">
-    <div class="innernewsitem flexcase" style="background-image: url(/images/home-office.jpg);">
-        <p>27 september 2017</p>
+    <div class="innernewsitem flexcase" style="@background">
+        <p>@Model.Date.ToString("dd MMMM yyyy")</p>
         <h3>
-            Vertaling van uw business naar een technische oplossing
+            @Model.Title
         </h3>
-        <a class="buttonHover" asp-controller="NewsItems" asp-action="Details">LEES MEER</a>
+        <a class="buttonHover" asp-controller="NewsItems" asp-action="Details" asp-route-id="@Model.Slug">@Localizer["read_more"]</a>
     </div>
 </div>

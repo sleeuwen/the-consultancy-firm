@@ -45,5 +45,10 @@ namespace TheConsultancyFirm.Repositories
             _context.Downloads.Remove(download);
             await _context.SaveChangesAsync();
         }
+
+        public Task<Download> GetLatest()
+        {
+            return _context.Downloads.OrderByDescending(d => d.Date).Take(1).FirstOrDefaultAsync();
+        }
     }
 }

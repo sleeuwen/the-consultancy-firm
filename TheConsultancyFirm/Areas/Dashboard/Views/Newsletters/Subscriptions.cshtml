@@ -1,0 +1,34 @@
+﻿@model IEnumerable<NewsletterSubscription>
+@{
+    ViewData["Title"] = "Subscriptions";
+}
+
+<h2>@ViewBag.Title</h2>
+<div class="dashboard-buttons mb-3">
+    <a asp-action="Index" class="dashboard-button" id="create-item">
+        Terug naar nieuwsbrieven
+    </a>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                <a asp-area="" asp-controller="Newsletters" asp-action="Unsubscribe" asp-route-id="@item.EncodedMail" onclick="return confirm('Weet u zeker dat u deze persoon uit wil schrijven?')">Uitschrijven</a> 
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
