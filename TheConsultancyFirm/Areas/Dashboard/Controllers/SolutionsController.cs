@@ -77,7 +77,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             return View(new SolutionViewModel
             {
-                SolutionsList = await PaginatedList<Solution>.Create(solutions.AsQueryable(), page ?? 1, 5),
+                SolutionsList = await PaginatedList<Solution>.Create(solutions, page ?? 1, 5),
                 SolutionsWithoutTranslation = await _itemTranslationRepository.GetSolutionsWithoutTranslation()
             });
         }

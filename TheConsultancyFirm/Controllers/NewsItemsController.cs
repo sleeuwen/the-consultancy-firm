@@ -27,7 +27,7 @@ namespace TheConsultancyFirm.Controllers
 
             var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
             var newsItems = _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted && n.Language == language).OrderByDescending(n => n.Date);
-            return View(await PaginatedList<NewsItem>.Create(newsItems.AsQueryable(), page ?? 1, 12));
+            return View(await PaginatedList<NewsItem>.Create(newsItems, page ?? 1, 12));
         }
 
         [HttpGet("[controller]/{id}")]

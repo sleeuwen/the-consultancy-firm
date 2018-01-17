@@ -77,7 +77,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
             return View(new DownloadViewModel
             {
-                DownloadsList = await PaginatedList<Download>.Create(downloads.AsQueryable(), page ?? 1, 5),
+                DownloadsList = await PaginatedList<Download>.Create(downloads, page ?? 1, 5),
                 DownloadsWithoutTranslation = await _itemTranslationRepository.GetDownloadsWithoutTranslation()
             });
 

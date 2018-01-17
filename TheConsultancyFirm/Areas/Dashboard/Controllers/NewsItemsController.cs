@@ -76,7 +76,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
             return View(new NewsItemViewModel
             {
-                NewsItemsList = await PaginatedList<NewsItem>.Create(newsItems.AsQueryable(), page ?? 1, 5),
+                NewsItemsList = await PaginatedList<NewsItem>.Create(newsItems, page ?? 1, 5),
                 NewsItemsWithoutTranslation = await _itemTranslationRepository.GetNewsItemsWithoutTranslation()
             });
         }
