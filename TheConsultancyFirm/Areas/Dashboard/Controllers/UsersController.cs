@@ -32,6 +32,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return View(users);
         }
 
+        /// <summary>
+        /// Gives the current logged in user
+        /// </summary>
+        /// <returns>The currunt logged in user</returns>
         [HttpGet]
         public async Task<ApplicationUser> GetCurrentUser()
         {
@@ -62,10 +66,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             var _ = _mailService.SendAccountCreatedMailAsync(applicationUser.Email, userPass);
 
             return RedirectToAction(nameof(Index));
-
         }
 
-        // POST: Dashboard/Users/Delete/5
         /// <summary>
         /// Toggles between an enabled user and disabled user
         /// </summary>
