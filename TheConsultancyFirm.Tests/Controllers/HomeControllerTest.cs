@@ -41,7 +41,7 @@ namespace TheConsultancyFirm.Tests.Controllers
             _customerRepository.Setup(repo => repo.GetAll()).Returns(Task.FromResult(model));
             _newsItemRepository.Setup(repo => repo.GetAll()).Returns(model2.Object);
             _solutionRepository.Setup(repo => repo.GetAll()).Returns(solutions.Object);
-            _caseRepository.Setup(repo => repo.GetHomepageItems()).Returns(Task.FromResult(cases));
+            _caseRepository.Setup(repo => repo.GetHomepageItems("nl")).Returns(Task.FromResult(cases));
             _blockRepository.Setup(repo => repo.GetHomepageCarousel()).Returns(Task.FromResult(carousel));
 
             var controller = new HomeController(_customerRepository.Object, _newsItemRepository.Object, _solutionRepository.Object, _caseRepository.Object, _blockRepository.Object);
