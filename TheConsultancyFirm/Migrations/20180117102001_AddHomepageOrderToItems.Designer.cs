@@ -12,8 +12,8 @@ using TheConsultancyFirm.Data;
 namespace TheConsultancyFirm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180116131558_AddHomepageOrderToSolutions")]
-    partial class AddHomepageOrderToSolutions
+    [Migration("20180117102001_AddHomepageOrderToItems")]
+    partial class AddHomepageOrderToItems
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -233,6 +233,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<bool>("Deleted");
 
                     b.Property<bool>("Enabled");
+
+                    b.Property<int?>("HomepageOrder");
 
                     b.Property<DateTime>("LastModified");
 
@@ -553,6 +555,8 @@ namespace TheConsultancyFirm.Migrations
             modelBuilder.Entity("TheConsultancyFirm.Models.CarouselBlock", b =>
                 {
                     b.HasBaseType("TheConsultancyFirm.Models.Block");
+
+                    b.Property<bool>("HomepageCarousel");
 
                     b.Property<string>("LinkPath");
 
