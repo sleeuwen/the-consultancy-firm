@@ -1,0 +1,81 @@
+﻿@model Solution
+
+@{
+    ViewData["Title"] = Model?.Title + " - Vertalen";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<h4>Solution</h4>
+<hr />
+<form asp-action="SaveTranslation" asp-route-id="@Model.Id" class="blocks-form" id="updateSolution" enctype="multipart/form-data" data-type="Solution">
+    <div class="row">
+        <div class="col-md-12">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Title"></label>
+                        <input asp-for="Title" class="form-control" placeholder="Titel" />
+                        <span asp-validation-for="Title" class="invalid-feedback d-block"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Summary"></label>
+                        <textarea asp-for="Summary" class="form-control" maxlength="300" rows="5"></textarea>
+                        <span asp-validation-for="Summary" class="invalid-feedback d-block"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="SharingDescription"></label>
+                        <textarea asp-for="SharingDescription" class="form-control" maxlength="140" rows="3"></textarea>
+                        <span asp-validation-for="SharingDescription" class="invalid-feedback d-block"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <label>Current</label>
+            @if (!string.IsNullOrEmpty(Model.PhotoPath))
+            {
+                <img class="img-fluid" src="@Model.PhotoPath" />
+            }
+        </div>
+    </div>
+</form>
+
+<h4>Content items</h4>
+<div id="blocksList">
+    @foreach (var block in Model.Blocks.OrderBy(b => b.Order))
+    {
+        @await Component.InvokeAsync("Block", block)
+    }
+</div>
+
+<div class="row mt-3">
+    <div class="col-12">
+        <button class="btn btn-secondary" data-toggle="modal" data-target="#chooseBlockModal" type="button">Voeg item toe</button>
+    </div>
+</div>
+
+<div class="savebar">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <a asp-action="Index">Terug naar de lijst</a>
+            </div>
+            <div class="col-md-6 d-flex justify-content-end align-items-center">
+                <small class="text-muted mr-3" id="statusText"></small>
+                <input type="submit" value="Opslaan" class="btn btn-secondary" data-blocks-submit="#updateSolution" />
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("BlockChoiceModalPartial")

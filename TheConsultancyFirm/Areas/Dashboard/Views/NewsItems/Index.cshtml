@@ -1,4 +1,4 @@
-﻿@model IEnumerable<NewsItem>
+﻿@model NewsItemViewModel
 
 @{
     ViewData["Title"] = "Nieuwsitems";
@@ -6,25 +6,28 @@
 
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial("IndexButtonsPartial")
+@Html.Partial("IndexButtonsPartial", Model.NewsItemsWithoutTranslation)
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => new NewsItem().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                @Html.DisplayNameFor(model => new NewsItem().Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastModified)
+                @Html.DisplayNameFor(model => new NewsItem().LastModified)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => new NewsItem().Language)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.NewsItemsList)
         {
             <tr class="@(item.Enabled ? "" : "disabled")">
                 <td>
@@ -37,7 +40,10 @@
                     @Html.DisplayFor(modelItem => item.LastModified)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
+                    @Html.DisplayFor(modelItem => item.Language)
+                </td>
+                <td>
+                    <a asp-action="@(item.Language == "en" ? "TranslationEdit" : "Edit")" asp-route-id="@item.Id">Aanpassen</a> |
                     <a asp-area="" asp-controller="NewsItems" asp-action="Details" asp-route-id="@item.Id" target="_blank">Bekijken</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> |
                     <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
