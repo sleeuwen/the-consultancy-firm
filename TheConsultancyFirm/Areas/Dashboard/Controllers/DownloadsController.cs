@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Areas.Dashboard.ViewModels;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
@@ -16,11 +17,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly IDownloadRepository _downloadRepository;
         private readonly IUploadService _uploadService;
+        private readonly IItemTranslationRepository _itemTranslationRepository;
 
-        public DownloadsController(IDownloadRepository downloadRepository, IUploadService uploadService)
+        public DownloadsController(IDownloadRepository downloadRepository, IUploadService uploadService, IItemTranslationRepository itemTranslationRepository)
         {
             _downloadRepository = downloadRepository;
             _uploadService = uploadService;
+            _itemTranslationRepository = itemTranslationRepository;
         }
 
         // GET: Downloads
@@ -48,6 +51,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             ViewData["CurrentFilter"] = searchString;
 
             ViewBag.ShowDisabled = showDisabled;
+
             var downloads = _downloadRepository.GetAll().Where(d => !d.Deleted && (d.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || d.Title.Contains(searchString)));
 
             switch (sortOrder)
@@ -71,7 +75,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     downloads = downloads.OrderBy(c => c.Title);
                     break;
             }
-            return View(await PaginatedList<Download>.Create(downloads.AsQueryable(), page ?? 1, 5));
+            return View(new DownloadViewModel
+            {
+                DownloadsList = await PaginatedList<Download>.Create(downloads.AsQueryable(), page ?? 1, 5),
+                DownloadsWithoutTranslation = await _itemTranslationRepository.GetDownloadsWithoutTranslation()
+            });
+
         }
 
         // GET: Dashboard/Downloads/Deleted
@@ -125,7 +134,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             download.DownloadTags = download.TagIds
                 ?.Select(tagId => new DownloadTag {Download = download, TagId = tagId}).ToList();
-
+            download.Language = "nl";
             download.LastModified = download.Date = DateTime.UtcNow;
             await _downloadRepository.Create(download);
             return RedirectToAction(nameof(Index));
@@ -190,6 +199,51 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 if (!await DownloadExists(download.Id))
                 {
                     return NotFound();
+                }
+
+                throw;
+            }
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TranslationChoice(int choice, int selectBox = 0)
+        {
+            if (choice == 0) return RedirectToAction("Create");
+            if (selectBox == 0) return NotFound();
+            var id = await _downloadRepository.CreateCopy(selectBox);
+            return RedirectToAction("TranslationEdit", new { id = id });
+        }
+
+        public async Task<IActionResult> TranslationEdit(int id)
+        {
+            return View(await _downloadRepository.Get(id));
+        }
+
+        [HttpPost, ActionName("SaveTranslation")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditTranslationPost(int? id)
+        {
+            var download = await _downloadRepository.Get(id ?? 0);
+
+            if (download == null) return new NotFoundObjectResult(null);
+
+            // Bind POST variables Title, CustomerId, Image and TagIds to the model.
+            await TryUpdateModelAsync(download, string.Empty, d => d.Title, d => d.Description);
+
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+
+            try
+            {
+                download.LastModified = DateTime.UtcNow;
+                await _downloadRepository.Update(download);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await DownloadExists(download.Id))
+                {
+                    return new NotFoundObjectResult(null);
                 }
 
                 throw;

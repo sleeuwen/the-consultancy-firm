@@ -1,0 +1,39 @@
+﻿@model Download
+
+@{
+    ViewData["Title"] = Model?.Title + " - Vertalen";
+}
+<h2>@ViewBag.Title</h2>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SaveTranslation" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="invalid-feedback d-block"></div>
+
+            <input type="hidden" asp-for="Id" />
+
+            <div class="form-group">
+                <label asp-for="Title"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="invalid-feedback d-block"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="invalid-feedback d-block"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-secondary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

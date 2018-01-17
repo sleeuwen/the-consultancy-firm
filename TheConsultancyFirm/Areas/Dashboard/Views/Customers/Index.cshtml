@@ -12,7 +12,7 @@
 
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial("IndexButtonsPartial")
+@Html.Partial("IndexButtonsPartial", new List<Tuple<int, string>>())
 
 <form asp-action="Index" method="get">
     <div class="row mb-3 mt-3">

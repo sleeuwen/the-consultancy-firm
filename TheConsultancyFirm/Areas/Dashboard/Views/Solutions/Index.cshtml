@@ -1,19 +1,18 @@
-﻿@model PaginatedList<Solution>
-
+﻿@model SolutionViewModel
 @{
     ViewData["Title"] = "Solutions";
     var pagination = new PaginationProperties
     {
-        PageIndex = Model.PageIndex,
-        TotalPages = Model.TotalPages,
-        HasNextPage = Model.HasNextPage,
-        HasPreviousPage = Model.HasPreviousPage
+        PageIndex = Model.SolutionsList.PageIndex,
+        TotalPages = Model.SolutionsList.TotalPages,
+        HasNextPage = Model.SolutionsList.HasNextPage,
+        HasPreviousPage = Model.SolutionsList.HasPreviousPage
     };
 }
 
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial("IndexButtonsPartial")
+@Html.Partial("IndexButtonsPartial", Model.SolutionsWithoutTranslation)
 <form asp-action="Index" method="get">
     <div class="row mb-3 mt-3">
         <div class="col-4">
@@ -30,7 +29,6 @@
         </div>
     </div>
 </form>
-
 <table class="table">
     <thead>
         <tr>
@@ -43,11 +41,14 @@
             <th>
                 <a asp-action="Index" asp-route-sortOrder="@ViewData["LastModifiedSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Last Modified</a>
             </th>
+            <th>
+                @Html.DisplayNameFor(model => new Solution().Language)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.SolutionsList)
         {
             <tr class="@(item.Enabled ? "" : "disabled")">
                 <td>
@@ -60,7 +61,10 @@
                     @Html.DisplayFor(modelItem => item.LastModified)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
+                    @Html.DisplayFor(modelItem => item.Language)
+                </td>
+                <td>
+                    <a asp-action="@(item.Language == "en" ? "TranslationEdit" : "Edit")" asp-route-id="@item.Id">Aanpassen</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> |
                     <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>

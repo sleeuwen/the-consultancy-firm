@@ -1,18 +1,18 @@
-﻿@model PaginatedList<Download>
+﻿@model DownloadViewModel
 @{
     ViewData["Title"] = "Downloads";
     var pagination = new PaginationProperties
     {
-        PageIndex = Model.PageIndex,
-        TotalPages = Model.TotalPages,
-        HasNextPage = Model.HasNextPage,
-        HasPreviousPage = Model.HasPreviousPage
+        PageIndex = Model.DownloadsList.PageIndex,
+        TotalPages = Model.DownloadsList.TotalPages,
+        HasNextPage = Model.DownloadsList.HasNextPage,
+        HasPreviousPage = Model.DownloadsList.HasPreviousPage
     };
 }
 
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial("IndexButtonsPartial")
+@Html.Partial("IndexButtonsPartial", Model.DownloadsWithoutTranslation)
 <form asp-action="Index" method="get">
     <div class="row mb-3 mt-3">
         <div class="col-4">
@@ -29,6 +29,7 @@
         </div>
     </div>
 </form>
+
 
 <table class="table">
     <thead>
@@ -48,39 +49,44 @@
             <th>
                 @Html.DisplayNameFor(model => new Download().Filename)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => new Download().Language)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
-    {
-        <tr class="@(item.Enabled ? "" : "disabled")">
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                
-                <a href="#" onclick="showDownloadGraph(@item.Id)">@Html.DisplayFor(modelItem => item.AmountOfDownloads)</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                <a href="@item.LinkPath" download>
-                    @Html.DisplayFor(modelItem => item.Filename)
-                </a>
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model.DownloadsList)
+        {
+            <tr class="@(item.Enabled ? "" : "disabled")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AmountOfDownloads)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    <a href="@item.LinkPath" download>
+                        @Html.DisplayFor(modelItem => item.Filename)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Language)
+                </td>
+                <td>
+                    <a asp-action="@(item.Language == "en" ? "TranslationEdit" : "Edit")" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
 

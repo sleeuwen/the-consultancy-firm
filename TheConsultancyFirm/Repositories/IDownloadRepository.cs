@@ -12,5 +12,7 @@ namespace TheConsultancyFirm.Repositories
         Task Update(Download download);
         Task Delete(int id);
         Task<Download> GetLatest();
+        Task<int> CreateCopy(int id);
+
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Areas.Dashboard.ViewModels;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
@@ -17,11 +18,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly ISolutionRepository _solutionRepository;
         private readonly IUploadService _uploadService;
+        private readonly IItemTranslationRepository _itemTranslationRepository;
 
-        public SolutionsController(ISolutionRepository solutionRepository, IUploadService uploadService)
+        public SolutionsController(ISolutionRepository solutionRepository, IUploadService uploadService, IItemTranslationRepository itemTranslationRepository)
         {
             _solutionRepository = solutionRepository;
             _uploadService = uploadService;
+            _itemTranslationRepository = itemTranslationRepository;
         }
 
         // GET: Dashboard/Solutions
@@ -71,7 +74,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     solutions = solutions.OrderBy(c => c.Title);
                     break;
             }
-            return View(await PaginatedList<Solution>.Create(solutions.AsQueryable(), page ?? 1, 5));
+
+            return View(new SolutionViewModel
+            {
+                SolutionsList = await PaginatedList<Solution>.Create(solutions.AsQueryable(), page ?? 1, 5),
+                SolutionsWithoutTranslation = await _itemTranslationRepository.GetSolutionsWithoutTranslation()
+            });
         }
 
         // GET: Dashboard/Downloads/Deleted
@@ -79,6 +87,52 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             return View(await _solutionRepository.GetAll().Where(s => s.Deleted).OrderByDescending(c => c.Date).ToListAsync());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> TranslationChoice(int choice, int selectBox = 0)
+        {
+            if (choice == 0) return RedirectToAction("Create");
+            if (selectBox == 0) return NotFound();
+            var id = await _solutionRepository.CreateCopy(selectBox);
+            return RedirectToAction("TranslationEdit", new { id = id });
+        }
+
+        public async Task<IActionResult> TranslationEdit(int id)
+        {
+            return View(await _solutionRepository.Get(id));
+        }
+
+        [HttpPost, ActionName("SaveTranslation")]
+        [ValidateAntiForgeryToken]
+        public async Task<ObjectResult> EditTranslationPost(int? id)
+        {
+            var solution = await _solutionRepository.Get(id ?? 0, true);
+
+            if (solution == null) return new NotFoundObjectResult(null);
+
+            // Bind POST variables Title, CustomerId, Image and TagIds to the model.
+            await TryUpdateModelAsync(solution, string.Empty, n => n.Title, n => n.SharingDescription);
+
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+
+            try
+            {
+                solution.LastModified = DateTime.UtcNow;
+                await _solutionRepository.Update(solution);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await SolutionExists(solution.Id))
+                {
+                    return new NotFoundObjectResult(null);
+                }
+
+                throw;
+            }
+
+            return new ObjectResult(solution.Id);
+        }
+
 
         // GET: Dashboard/Solutions/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -136,6 +190,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             solution.LastModified = DateTime.UtcNow;
             solution.Date = DateTime.UtcNow;
+            solution.Language = "nl";
 
             try
             {
