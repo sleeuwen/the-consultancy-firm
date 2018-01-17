@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using System.Globalization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -27,6 +30,7 @@ namespace TheConsultancyFirm
             //Services
             services.AddSingleton<IMailService, MailService>();
             services.AddSingleton<IUploadService, UploadService>();
+            services.AddSingleton<INewsletterService, NewsletterService>();
 
             //Repositories
             services.AddScoped<ICaseRepository, CaseRepository>();
@@ -36,11 +40,14 @@ namespace TheConsultancyFirm
             services.AddScoped<IContactRepository, ContactRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
+            services.AddScoped<INewsletterSubscriptionRepository, NewsletterSubscriptionRepository>();
             services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IBlockRepository, BlockRepository>();
             services.AddScoped<IRelatedItemsRepository, RelatedItemsRepository>();
             services.AddScoped<ISearchRepository, SearchRepository>();
+            services.AddScoped<IVacancyRepository, VacancyRepository>();
+            services.AddScoped<IDownloadLogRepository, DownloadLogRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
@@ -56,7 +63,10 @@ namespace TheConsultancyFirm
                 googleOptions.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
             });
 
-            services.AddMvc();
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddMvc()
+                .AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -71,6 +81,18 @@ namespace TheConsultancyFirm
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            var supportedCultures = new[]
+            {
+                new CultureInfo("en-US"),
+                new CultureInfo("nl-NL")
+            };
+            app.UseRequestLocalization(new RequestLocalizationOptions
+            {
+                DefaultRequestCulture = new RequestCulture("nl-NL"),
+                SupportedCultures = supportedCultures,
+                SupportedUICultures = supportedCultures
+            });
 
             app.UseStatusCodePagesWithReExecute("/Error/Index", "?statusCode={0}");
             app.UseStaticFiles();

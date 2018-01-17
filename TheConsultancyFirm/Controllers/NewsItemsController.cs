@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.ViewModels;
@@ -17,9 +19,9 @@ namespace TheConsultancyFirm.Controllers
             _newsItemRepository = newsItemRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            return View(await _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted).OrderByDescending(n => n.Date).ToListAsync());
         }
 
         [HttpGet("[controller]/{id}")]
@@ -29,7 +31,7 @@ namespace TheConsultancyFirm.Controllers
             int.TryParse(id.Split('-', 2)[0], out int newsItemId);
 
             var newsItem = await _newsItemRepository.Get(newsItemId);
-            if (newsItem == null) return NotFound();
+            if (newsItem == null || newsItem.Deleted || !newsItem.Enabled) return NotFound();
 
             // Force the right slug
             if (id != newsItem.Slug)

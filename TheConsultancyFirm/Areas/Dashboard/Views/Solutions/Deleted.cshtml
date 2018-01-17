@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Solution>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="dashboard-buttons mb-3">
+    <a asp-action="Index" class="dashboard-button" id="create-item">
+        Terug naar solutions
+    </a>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Titel
+        </th>
+        <th>
+            Publiceerdatum
+        </th>
+        <th>
+            Laatst bewerkt
+        </th>
+        <th>
+            Acties
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr class="@(item.Enabled ? "" : "disabled")">
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModified)
+            </td>
+            <td>
+                <a asp-action="Restore" asp-route-id="@item.Id" onclick="return confirm('Weet u zeker dat het nieuwsitem wilt restoren?')">Restore</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

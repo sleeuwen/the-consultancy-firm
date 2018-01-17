@@ -58,6 +58,18 @@ namespace TheConsultancyFirm.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, set lockoutOnFailure: true
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
+            var user = _accountRepository.GetUserByEmail(model.Email);
+            if (user.LastLogin == null)
+            {
+                await UpdateUserLastLoginAsync(model.Email);
+                return RedirectToAction("ChangePassword", "Manage", new {area = "Dashboard"});
+            }
+
+            if(!IsAccountEnabled(user.Email))
+            {
+                return RedirectToAction("AccessDenied");
+            }
+
             if (result.Succeeded)
             {
                 await UpdateUserLastLoginAsync(model.Email);
@@ -384,6 +396,11 @@ namespace TheConsultancyFirm.Controllers
         private bool CheckIfGoogleAccountExists(string email)
         {
             return _accountRepository.GetUserByEmail(email) != null;
+        }
+
+        private bool IsAccountEnabled(string email)
+        {
+            return _accountRepository.GetUserByEmail(email).Enabled;
         }
 
         #endregion

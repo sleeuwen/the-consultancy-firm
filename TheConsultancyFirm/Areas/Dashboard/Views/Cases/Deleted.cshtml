@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Case>
+
+@{
+    ViewData["Title"] = "Deleted Cases";
+
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div class="dashboard-buttons mb-3">
+    <a asp-action="Index" class="dashboard-button" id="create-item">
+        Terug naar cases
+    </a>
+</div>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastModified)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastModified)
+            </td>
+            <td>
+                <a asp-action="Restore" asp-route-id="@item.Id" onclick="return confirm('Weet u zeker dat u de case wilt restoren?')">Restore</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

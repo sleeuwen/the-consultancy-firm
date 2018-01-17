@@ -17,7 +17,10 @@ namespace TheConsultancyFirm.Models
 
         public string PhotoPath { get; set; }
 
+        [Display(Name = "Publiceerdatum")]
         public DateTime Date { get; set; }
+
+        [Display(Name = "Laatst bewerkt")]
         public DateTime LastModified { get; set; }
 
         public List<Block> Blocks { get; set; }
@@ -36,5 +39,6 @@ namespace TheConsultancyFirm.Models
         public string SharingDescription { get; set; }
 
         public bool Enabled { get; set; }
+        public bool Deleted { get; set; }
     }
 }

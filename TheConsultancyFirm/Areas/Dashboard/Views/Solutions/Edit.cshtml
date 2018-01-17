@@ -67,6 +67,14 @@
 
                 <div class="col-md-6">
                     <div class="form-group">
+                        <label asp-for="Summary"></label>
+                        <textarea asp-for="Summary" class="form-control" maxlength="300" rows="5"></textarea>
+                        <span asp-validation-for="Summary" class="invalid-feedback d-block"></span>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-group">
                         <label asp-for="SharingDescription"></label>
                         <textarea asp-for="SharingDescription" class="form-control" maxlength="140" rows="3"></textarea>
                         <span asp-validation-for="SharingDescription" class="invalid-feedback d-block"></span>

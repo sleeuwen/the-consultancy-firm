@@ -5,6 +5,8 @@ namespace TheConsultancyFirm.Services
 {
     public interface IMailService
     {
+        Task SendAccountCreatedMailAsync(string email, string password);
+
         Task SendForgotPasswordMailAsync(string email, string callbackUrl);
 
         Task SendEmailConfirmationAsync(string email, string link);

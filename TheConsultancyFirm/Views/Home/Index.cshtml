@@ -1,7 +1,8 @@
-﻿@model HomeViewModel
+﻿@inject IViewLocalizer Localizer
+@model HomeViewModel
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = Localizer["page_title"];
 }
 
 @Html.Partial("FloatingButton")
@@ -29,9 +30,9 @@
                                         <h1 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h1>
 
                                         <div class="links">
-                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">BEKIJK CASE</a>
+                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">@Localizer["see_cases"]</a>
                                             <a class="font-italic" asp-controller="Cases" asp-action="Index">
-                                                Of ga naar alle cases
+                                                @Localizer["go_to_all_cases"]
                                                 <img class="arrow" src="~/images/right-arrow.svg"/>
                                             </a>
                                         </div>
@@ -51,9 +52,9 @@
                                         <h1 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h1>
 
                                         <div class="links">
-                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">BEKIJK CASE</a>
+                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">@Localizer["see_cases"]</a>
                                             <a class="font-italic" asp-controller="Cases" asp-action="Index">
-                                                Of ga naar alle cases
+                                                @Localizer["go_to_all_cases"]
                                                 <img class="arrow" src="~/images/right-arrow.svg"/>
                                             </a>
                                         </div>
@@ -73,9 +74,9 @@
                                         <h1 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h1>
 
                                         <div class="links">
-                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">BEKIJK CASE</a>
+                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">@Localizer["see_cases"]</a>
                                             <a class="font-italic" asp-controller="Cases" asp-action="Index">
-                                                Of ga naar alle cases
+                                                @Localizer["go_to_all_cases"]
                                                 <img class="arrow" src="~/images/right-arrow.svg"/>
                                             </a>
                                         </div>
@@ -95,9 +96,9 @@
                                         <h1 class="title">"Zes miljoen pagina's minder printen dankzij StreamServe</h1>
 
                                         <div class="links">
-                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">BEKIJK CASE</a>
+                                            <a class="buttonHover" asp-controller="Cases" asp-action="Details">@Localizer["see_cases"]</a>
                                             <a class="font-italic" asp-controller="Cases" asp-action="Index">
-                                                Of ga naar alle cases
+                                                @Localizer["go_to_all_cases"]
                                                 <img class="arrow" src="~/images/right-arrow.svg"/>
                                             </a>
                                         </div>
@@ -110,7 +111,7 @@
 
                 <a class="carousel-link-skip" href="#journey">
                     <img src="~/images/skip-cases-arrow.png" />
-                    Skip Cases
+                    @Localizer["skip_cases"]
                 </a>
             </div>
         </div>
@@ -124,13 +125,12 @@
 <div class="container home-section carousel-horizontal">
     <div class="row text-center">
         <div class="col-12">
-            <h2>Naadloos aansluiten op uw ICT-omgeving</h2>
+            <h2>@Localizer["ict"]</h2>
         </div>
         <div class="col-12 col-md-2"></div>
         <div class="col-12 col-md-8">
             <p class="introtext">
-                The Consultancy Firm biedt een complete, geintegreerde oplossing die de drie
-                elementen van documentmanagement omvat: compositie, procesautomatisering en output.
+                @Localizer["ict_sub_title"]
             </p>
         </div>
     </div>
@@ -172,7 +172,7 @@
                                 verbeteren van uw klantrelatie beginnen!
                             </p>
 
-                            <a class="buttonHover" href="#">LEES MEER</a>
+                            <a class="buttonHover" href="#">@Localizer["read_more_button"]</a>
                         </div>
                     </div>
                     <div class="carousel-item">
@@ -187,7 +187,7 @@
                                 verbeteren van uw klantrelatie beginnen!
                             </p>
 
-                            <a class="buttonHover" href="#">LEES MEER</a>
+                            <a class="buttonHover" href="#">@Localizer["read_more_button"]</a>
                         </div>
                     </div>
                     <div class="carousel-item">
@@ -202,7 +202,7 @@
                                 verbeteren van uw klantrelatie beginnen!
                             </p>
 
-                            <a class="buttonHover" href="#">LEES MEER</a>
+                            <a class="buttonHover" href="#">@Localizer["read_more_button"]</a>
                         </div>
                     </div>
                 </div>
@@ -216,7 +216,7 @@
 <div class="container container-wide home-section carousel-horizontal">
     <div class="row mb-5">
         <div class="col text-center">
-            <h2>Het team dat altijd voor je klaar staat</h2>
+            <h2>@Localizer["team_thats_ready"]</h2>
         </div>
     </div>
 
@@ -275,7 +275,7 @@
             </div>
 
             <a class="more-link" asp-controller="About" asp-action="Index">
-                Meer over ons
+                @Localizer["more_about_us"]
             </a>
         </div>
     </div>
@@ -284,10 +284,9 @@
 <div class="container">
     <div class="row">
         <div class="col text-center">
-            <h2>Onze klanten</h2>
+            <h2>@Localizer["our_customers"]</h2>
             <p class="introtext">
-                Met wederzijdse trots kunnen wij zeggen dat we vaste <br />
-                partners zijn van onderstaande ondernemingen.
+                @Localizer["our_customers_sub_title"]
             </p>
         </div>
     </div>
@@ -297,15 +296,15 @@
 <div class="container container-wide home-section">
     <div class="row">
         <div class="col text-center">
-            <h2>Nieuws en kennis</h2>
+            <h2>@Localizer["news_and_knowledge"]</h2>
         </div>
     </div>
 
     <div class="row">
-        @for (var i = 0; i < 3; i++)
+        @foreach (var item in Model.NewsItems)
         {
             <div class="col-12 col-lg-4">
-                @Html.Partial("NewsItemPartial")
+                @Html.Partial("NewsItemPartial", item)
             </div>
         }
     </div>
@@ -313,7 +312,7 @@
     <div class="row text-center mt-4">
         <div class="col">
             <a asp-controller="NewsItems" asp-action="Index" class="link-arrow link-more">
-                Ga naar nieuwsoverzicht
+                @Localizer["go_to_newsoverview"]
                 <img src="~/images/right-arrow-black.svg" alt="Meer nieuws" />
             </a>
         </div>
