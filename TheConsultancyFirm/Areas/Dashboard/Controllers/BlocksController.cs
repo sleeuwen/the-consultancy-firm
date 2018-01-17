@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using HeyRed.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Areas.Dashboard.ViewModels;
@@ -204,8 +205,11 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             if (file == null || file.Length == 0)
                 return new BadRequestObjectResult((object) null);
 
-            if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(file.FileName)?.ToLower()))
-                return new BadRequestObjectResult((object) null);
+            using (var stream = file.OpenReadStream())
+            {
+                if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
+                    return new BadRequestObjectResult((object) null);
+            }
 
             var filepath = await _uploadService.Upload(file, "/images/uploads");
 
@@ -264,9 +268,13 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
         private void ValidateImageExtension(IFormFile image, string key)
         {
-            var extensions = new[] {".png", ".jpg", ".jpeg"};
-            if (image != null && !extensions.Contains(Path.GetExtension(image.FileName)?.ToLower()))
-                ModelState.AddModelError(key, "Invalid image type, only png and jpg images are allowed");
+            var mimeTypes = new[] {"image/png", "image/jpeg"};
+
+            using (var stream = image.OpenReadStream())
+            {
+                if (!mimeTypes.Contains(MimeGuesser.GuessMimeType(stream)))
+                    ModelState.AddModelError(key, "Invalid image type, only png and jpg images are allowed");
+            }
         }
     }
 }
