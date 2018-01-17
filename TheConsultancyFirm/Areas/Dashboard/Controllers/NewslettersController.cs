@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,9 +29,44 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             _newsletterService = newsletterService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page)
         {
-            return View(await _newsletterRepository.GetAll());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["SubjectSortParm"] = sortOrder == "Subject" ? "sub_desc" : "Subject";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+            var contacts = (await _newsletterRepository.GetAll()).ToList().Where(c => string.IsNullOrEmpty(searchString) || c.Subject.Contains(searchString) || c.NewsletterIntroText.Contains(searchString));
+
+            switch (sortOrder)
+            {
+                case "Date":
+                    contacts = contacts.OrderBy(c => c.SentAt).ToList();
+                    break;
+                case "Subject":
+                    contacts = contacts.OrderBy(c => c.Subject).ToList();
+                    break;
+                case "sub_desc":
+                    contacts = contacts.OrderByDescending(c => c.Subject).ToList();
+                    break;
+                default:
+                    contacts = contacts.OrderByDescending(c => c.SentAt).ToList();
+                    break;
+            }
+            return View(PaginatedList<Newsletter>.Create(contacts.AsQueryable(), page ?? 1, 2));
         }
 
         // GET: Dashboard/Newsletter/Create

@@ -22,11 +22,39 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Customers
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page,
+            bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            var customers = await _customerRepository.GetAll();
-            return View(customers.Where(c => !c.Deleted && (c.Enabled || showDisabled)));
+            var customers = (await _customerRepository.GetAll()).Where(c => !c.Deleted && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.Name.Contains(searchString)));
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    customers = customers.OrderByDescending(c => c.Name).ToList();
+                    break;
+                default:
+                    customers = customers.OrderBy(c => c.Name).ToList();
+                    break;
+            }
+            return View(PaginatedList<Customer>.Create(customers.AsQueryable(), page ?? 1, 2));
         }
 
         // GET: Dashboard/Customers/Deleted

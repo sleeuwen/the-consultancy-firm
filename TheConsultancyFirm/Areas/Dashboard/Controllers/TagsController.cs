@@ -16,9 +16,37 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             _tagRepository = tagRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page)
         {
-            return View(await _tagRepository.GetAll());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+            var customers = (await _tagRepository.GetAll()).Where(c => (string.IsNullOrEmpty(searchString) || c.Text.Contains(searchString)));
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    customers = customers.OrderByDescending(c => c.Text).ToList();
+                    break;
+                default:
+                    customers = customers.OrderBy(c => c.Text).ToList();
+                    break;
+            }
+            return View(PaginatedList<Tag>.Create(customers.AsQueryable(), page ?? 1, 2));
         }
 
         // GET: Dashboard/Customers/Create

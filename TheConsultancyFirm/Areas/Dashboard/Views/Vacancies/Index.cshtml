@@ -1,25 +1,46 @@
-﻿@model IEnumerable<TheConsultancyFirm.Models.Vacancy>
+﻿@model PaginatedList<Vacancy>
 
 @{
     ViewData["Title"] = "Vacatures";
+    var pagination = new PaginationProperties
+    {
+        PageIndex = Model.PageIndex,
+        TotalPages = Model.TotalPages,
+        HasNextPage = Model.HasNextPage,
+        HasPreviousPage = Model.HasPreviousPage
+    };
 }
 
 <h2>@ViewBag.Title</h2>
 
 
 @Html.Partial("IndexButtonsPartial")
+<form asp-action="Index" method="get">
+    <div class="row mb-3 mt-3">
+        <div class="col-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" id="txtSearch" name="SearchString" value="@ViewData["currentFilter"]" />
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FunctionDescription)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.VacancySince)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Functieomschrijving</a>
+        </th>
+        <th>
+            <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Date</a>
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
@@ -32,10 +53,11 @@
                     @Html.DisplayFor(modelItem => item.VacancySince)
                 </td>
                 <td>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> | 
+                    <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> |
                     <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+@Html.Partial("PaginationPartial", pagination)

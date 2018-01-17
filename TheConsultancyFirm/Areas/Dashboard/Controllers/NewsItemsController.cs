@@ -48,7 +48,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            var newsItems = await _newsItemRepository.GetAll().Where(n => !n.Deleted && (n.Enabled || showDisabled) && (n.Title.Contains(searchString) || string.IsNullOrEmpty(searchString)))
+            var newsItems = await _newsItemRepository.GetAll().Where(n => !n.Deleted && (n.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || n.Title.Contains(searchString)))
                 .OrderByDescending(n => n.Date).ToListAsync();
 
             switch (sortOrder)
@@ -72,7 +72,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     newsItems = newsItems.OrderBy(c => c.Title).ToList();
                     break;
             }
-            return View(PaginatedList<NewsItem>.Create(newsItems.AsQueryable(), page ?? 1));
+            return View(PaginatedList<NewsItem>.Create(newsItems.AsQueryable(), page ?? 1, 2));
         }
 
         // GET: Dashboard/Downloads/Deleted

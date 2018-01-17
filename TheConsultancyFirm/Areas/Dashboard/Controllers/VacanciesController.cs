@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 
@@ -22,11 +18,45 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Vacancies
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page, bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            return View(await _vacancyRepository.GetAll().Where(v => !v.Deleted && (v.Enabled || showDisabled))
-                .OrderByDescending(v => v.VacancySince).ToListAsync());
+            var cases = await _vacancyRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.FunctionDescription.Contains(searchString))).ToListAsync();
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    cases = cases.OrderByDescending(c => c.FunctionDescription).ToList();
+                    break;
+                case "Date":
+                    cases = cases.OrderBy(c => c.VacancySince).ToList();
+                    break;
+                case "date_desc":
+                    cases = cases.OrderByDescending(c => c.VacancySince).ToList();
+                    break;
+                default:
+                    cases = cases.OrderBy(c => c.FunctionDescription).ToList();
+                    break;
+            }
+            return View(PaginatedList<Vacancy>.Create(cases.AsQueryable(), page ?? 1, 2));
         }
 
         // GET: Dashboard/Vacancies/Create

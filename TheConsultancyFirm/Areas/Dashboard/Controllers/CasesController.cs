@@ -48,7 +48,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            var cases = await _caseRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled) && (c.Title.Contains(searchString)|| string.IsNullOrEmpty(searchString)))
+            var cases = await _caseRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.Title.Contains(searchString)))
                 .OrderByDescending(c => c.Date).ToListAsync();
 
             switch (sortOrder)
@@ -72,7 +72,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     cases = cases.OrderBy(c => c.Title).ToList();
                     break;
             }
-            return View(PaginatedList<Case>.Create(cases.AsQueryable(), page ?? 1));
+            return View(PaginatedList<Case>.Create(cases.AsQueryable(), page ?? 1, 2));
         }
 
         // GET: Dashboard/Cases/Deleted

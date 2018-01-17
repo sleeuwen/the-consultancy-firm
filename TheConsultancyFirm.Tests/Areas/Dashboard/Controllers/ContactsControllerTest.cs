@@ -22,7 +22,7 @@ namespace TheConsultancyFirm.Tests.Areas.Dashboard.Controllers
         public async Task Index()
         {
             var controller = new ContactsController(_contactRepository.Object);
-            var result = await controller.Index();
+            var result = await controller.Index(null, null, null, null);
             Assert.IsType<ViewResult>(result);
         }
 

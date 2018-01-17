@@ -24,12 +24,47 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Users
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page, bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+            ViewBag.ShowDisabled = showDisabled;
             ApplicationUser currentUser = await GetCurrentUser();
             ViewBag.ShowDisabled = showDisabled;
-            var users = await _userManager.Users.Where(c => c.Id != currentUser.Id && (c.Enabled || showDisabled)).ToListAsync();
-            return View(users);
+            var users = _userManager.Users.Where(c => c.Id != currentUser.Id && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.Email.Contains(searchString))).ToList();
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    users = users.OrderByDescending(c => c.Email).ToList();
+                    break;
+                case "Date":
+                    users = users.OrderBy(c => c.LastLogin).ToList();
+                    break;
+                case "date_desc":
+                    users = users.OrderByDescending(c => c.LastLogin).ToList();
+                    break;
+                default:
+                    users = users.OrderBy(c => c.Email).ToList();
+                    break;
+            }
+            return View(PaginatedList<ApplicationUser>.Create(users.AsQueryable(), page ?? 1, 2));
         }
 
         [HttpGet]
