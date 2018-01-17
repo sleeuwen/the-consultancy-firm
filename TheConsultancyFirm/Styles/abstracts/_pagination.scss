@@ -38,11 +38,12 @@
     .pagearrow {
         padding: 15px;
         border-radius: 100%;
-        box-shadow: 0 0 0 2px #f7f7f7;
+        box-shadow: 0 0 1px 3px #f7f7f7;
         color: $black;
 
         &:hover {
             background-color: $orange;
+            box-shadow: 0 0 1px 3px #fbcf9d;
             cursor: pointer;
             color: $white;
             text-decoration: none;
