@@ -6,7 +6,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.ViewModels
 {
     public class SolutionViewModel
     {
-        public List<Solution> SolutionsList;
+        public PaginatedList<Solution> SolutionsList;
         public List<Tuple<int, string>> SolutionsWithoutTranslation;
     }
 }

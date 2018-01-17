@@ -38,30 +38,30 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
 
             ViewData["CurrentFilter"] = searchString;
-            var contacts = (await _repository.GetAll()).ToList().Where(c => string.IsNullOrEmpty(searchString) || c.Email.Contains(searchString) || c.Name.Contains(searchString));
+            var contacts =  _repository.GetAll().Where(c => string.IsNullOrEmpty(searchString) || c.Email.Contains(searchString) || c.Name.Contains(searchString));
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    contacts = contacts.OrderByDescending(c => c.Email).ToList();
+                    contacts = contacts.OrderByDescending(c => c.Email);
                     break;
                 case "Date":
-                    contacts = contacts.OrderBy(c => c.Date).ToList();
+                    contacts = contacts.OrderBy(c => c.Date);
                     break;
                 case "name":
-                    contacts = contacts.OrderBy(c => c.Email).ToList();
+                    contacts = contacts.OrderBy(c => c.Email);
                     break;
                 case "Subject":
-                    contacts = contacts.OrderBy(c => c.Subject).ToList();
+                    contacts = contacts.OrderBy(c => c.Subject);
                     break;
                 case "sub_desc":
-                    contacts = contacts.OrderByDescending(c => c.Subject).ToList();
+                    contacts = contacts.OrderByDescending(c => c.Subject);
                     break;
                 default:
-                    contacts = contacts.OrderByDescending(c => c.Date).ToList();
+                    contacts = contacts.OrderByDescending(c => c.Date);
                     break;
             }
-            return View(await PaginatedList<Contact>.Create(contacts.AsQueryable(), page ?? 1, 5));
+            return View(await PaginatedList<Contact>.Create(contacts, page ?? 1, 5));
         }
 
         // GET: Dashboard/Contacts/Details/5

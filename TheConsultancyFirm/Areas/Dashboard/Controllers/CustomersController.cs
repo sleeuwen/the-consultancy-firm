@@ -43,18 +43,18 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            var customers = (await _customerRepository.GetAll()).Where(c => !c.Deleted && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.Name.Contains(searchString)));
+            var customers = _customerRepository.GetAllQueryable().Where(c => !c.Deleted && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.Name.Contains(searchString)));
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    customers = customers.OrderByDescending(c => c.Name).ToList();
+                    customers = customers.OrderByDescending(c => c.Name);
                     break;
                 default:
-                    customers = customers.OrderBy(c => c.Name).ToList();
+                    customers = customers.OrderBy(c => c.Name);
                     break;
             }
-            return View(await PaginatedList<Customer>.Create(customers.AsQueryable(), page ?? 1, 5));
+            return View(await PaginatedList<Customer>.Create(customers, page ?? 1, 5));
         }
 
         // GET: Dashboard/Customers/Deleted

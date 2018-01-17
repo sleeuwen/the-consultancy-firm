@@ -35,18 +35,18 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
 
             ViewData["CurrentFilter"] = searchString;
-            var customers = (await _tagRepository.GetAll()).Where(c => (string.IsNullOrEmpty(searchString) || c.Text.Contains(searchString)));
+            var customers =  _tagRepository.GetAll().Where(c => (string.IsNullOrEmpty(searchString) || c.Text.Contains(searchString)));
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    customers = customers.OrderByDescending(c => c.Text).ToList();
+                    customers = customers.OrderByDescending(c => c.Text);
                     break;
                 default:
-                    customers = customers.OrderBy(c => c.Text).ToList();
+                    customers = customers.OrderBy(c => c.Text);
                     break;
             }
-            return View(await PaginatedList<Tag>.Create(customers.AsQueryable(), page ?? 1,5));
+            return View(await PaginatedList<Tag>.Create(customers, page ?? 1,5));
         }
 
         // GET: Dashboard/Customers/Create

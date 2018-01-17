@@ -47,24 +47,24 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             ViewBag.ShowDisabled = showDisabled;
             ApplicationUser currentUser = await GetCurrentUser();
             ViewBag.ShowDisabled = showDisabled;
-            var users = _userManager.Users.Where(c => c.Id != currentUser.Id && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.Email.Contains(searchString))).ToList();
+            var users = _userManager.Users.Where(c => c.Id != currentUser.Id && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.Email.Contains(searchString)));
 
             switch (sortOrder)
             {
                 case "name_desc":
-                    users = users.OrderByDescending(c => c.Email).ToList();
+                    users = users.OrderByDescending(c => c.Email);
                     break;
                 case "Date":
-                    users = users.OrderBy(c => c.LastLogin).ToList();
+                    users = users.OrderBy(c => c.LastLogin);
                     break;
                 case "date_desc":
-                    users = users.OrderByDescending(c => c.LastLogin).ToList();
+                    users = users.OrderByDescending(c => c.LastLogin);
                     break;
                 default:
-                    users = users.OrderBy(c => c.Email).ToList();
+                    users = users.OrderBy(c => c.Email);
                     break;
             }
-            return View(await PaginatedList<ApplicationUser>.Create(users.AsQueryable(), page ?? 1, 5));
+            return View(await PaginatedList<ApplicationUser>.Create(users, page ?? 1, 5));
         }
 
         [HttpGet]

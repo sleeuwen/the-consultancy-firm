@@ -21,15 +21,15 @@ namespace TheConsultancyFirm.Repositories
             return await _context.Tags.FindAsync(id);
         }
 
-        public async Task<IEnumerable<Tag>> GetAll()
+        public IQueryable<Tag> GetAll()
         {
-            return await _context.Tags.ToListAsync();
+            return _context.Tags;
         }
 
         public async Task<IEnumerable<Tag>> Search(string term)
         {
             if (term == null || term.Trim() == "")
-                return await GetAll();
+                return await GetAll().ToListAsync();
 
             var q = term.Trim().ToLower();
             return await _context.Tags.Where(t => t.Text.ToLower().Contains(q)).ToListAsync();

@@ -74,8 +74,6 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     newsItems = newsItems.OrderBy(c => c.Title);
                     break;
             }
-            return View();
-
             return View(new NewsItemViewModel
             {
                 NewsItemsList = await PaginatedList<NewsItem>.Create(newsItems.AsQueryable(), page ?? 1, 5),

@@ -49,24 +49,24 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
 
             ViewData["CurrentFilter"] = searchString;
-            var contacts = (await _newsletterRepository.GetAll()).ToList().Where(c => string.IsNullOrEmpty(searchString) || c.Subject.Contains(searchString) || c.NewsletterIntroText.Contains(searchString));
+            var contacts =  _newsletterRepository.GetAll().Where(c => string.IsNullOrEmpty(searchString) || c.Subject.Contains(searchString) || c.NewsletterIntroText.Contains(searchString));
 
             switch (sortOrder)
             {
                 case "Date":
-                    contacts = contacts.OrderBy(c => c.SentAt).ToList();
+                    contacts = contacts.OrderBy(c => c.SentAt);
                     break;
                 case "Subject":
-                    contacts = contacts.OrderBy(c => c.Subject).ToList();
+                    contacts = contacts.OrderBy(c => c.Subject);
                     break;
                 case "sub_desc":
-                    contacts = contacts.OrderByDescending(c => c.Subject).ToList();
+                    contacts = contacts.OrderByDescending(c => c.Subject);
                     break;
                 default:
-                    contacts = contacts.OrderByDescending(c => c.SentAt).ToList();
+                    contacts = contacts.OrderByDescending(c => c.SentAt);
                     break;
             }
-            return View(await PaginatedList<Newsletter>.Create(contacts.AsQueryable(), page ?? 1, 5));
+            return View(await PaginatedList<Newsletter>.Create(contacts, page ?? 1, 5));
         }
 
         // GET: Dashboard/Newsletter/Create
