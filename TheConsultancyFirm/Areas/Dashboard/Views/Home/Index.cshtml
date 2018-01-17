@@ -1,16 +1,57 @@
-﻿@{
+﻿@model List<Tuple<string, int>>
+@{
     ViewBag.Title = "Dashboard";
     Layout = "_Layout";
     ChartJSCore.Models.Chart chart = (ChartJSCore.Models.Chart)ViewBag.chart;
+    ChartJSCore.Models.Chart sessions = (ChartJSCore.Models.Chart)ViewBag.sessions;
+    ChartJSCore.Models.Chart devices = (ChartJSCore.Models.Chart)ViewBag.devices;
 }
 
-<h1>This is the Admin Dashboard</h1>
+<div class="row mb-3">
+    <div class="col-6 text-center">
+        <h2>Right now</h2>
+        <span class="d-block mb-2" id="activeUsers"></span>
+        active users on the site
+    </div>
+    <div class="col-6 text-center">
+        <h2>Device sessions last week</h2>
+        <canvas id="deviceGraph"></canvas>
+    </div>
+</div>
 <div class="row">
-    <div class="col-6"><canvas id="lineChart"></canvas></div>
+    <div class="col-4 text-center">
+        <h2>Downloads last week</h2>
+        <canvas id="downloadGraph"></canvas>
+    </div>
+    <div class="col-4 text-center">
+        <h2>Sessions last week</h2>
+        <canvas id="sessionGraph"></canvas>
+    </div>
+    <div class="col-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Page</th>
+                    <th scope="col">Views this week</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><a href="@item.Item1" target="_blank">@item.Item1</a></td>
+                    <td>@item.Item2</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
 </div>
 
 @section Scripts {
     <script>
-        @Html.Raw(chart.CreateChartCode("lineChart"));
+        @Html.Raw(ViewBag.download);
+        @Html.Raw(sessions.CreateChartCode("sessionGraph"));
+        @Html.Raw(devices.CreateChartCode("deviceGraph"));
     </script>
 }
