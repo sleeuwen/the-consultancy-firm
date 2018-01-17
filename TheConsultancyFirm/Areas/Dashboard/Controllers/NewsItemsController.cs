@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Areas.Dashboard.ViewModels;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
@@ -17,19 +18,25 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly INewsItemRepository _newsItemRepository;
         private readonly IUploadService _uploadService;
+        private readonly IItemTranslationRepository _itemTranslationRepository;
 
-        public NewsItemsController(INewsItemRepository newsItemRepository, IUploadService uploadService)
+        public NewsItemsController(INewsItemRepository newsItemRepository, IUploadService uploadService, IItemTranslationRepository itemTranslationRepository)
         {
             _newsItemRepository = newsItemRepository;
             _uploadService = uploadService;
+            _itemTranslationRepository = itemTranslationRepository;
         }
 
         // GET: Dashboard/NewsItems
         public async Task<IActionResult> Index(bool showDisabled = false)
         {
             ViewBag.ShowDisabled = showDisabled;
-            return View(await _newsItemRepository.GetAll().Where(n => !n.Deleted && (n.Enabled || showDisabled))
-                .OrderByDescending(n => n.Date).ToListAsync());
+            return View(new NewsItemViewModel
+            {
+                NewsItemsList = await _newsItemRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
+                    .OrderByDescending(c => c.Date).ToListAsync(),
+                NewsItemsWithoutTranslation = await _itemTranslationRepository.GetNewsItemsWithoutTranslation()
+            });
         }
 
         // GET: Dashboard/Downloads/Deleted

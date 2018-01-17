@@ -27,7 +27,7 @@
 <div class="modal fade" id="createModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <form asp-action="TranslationChoice">
+            <form asp-action="TranslationChoice" id="inputForm">
                 <div class="modal-header">
                     <h5 class="modal-title">Wil je een vertaling toevoegen?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -43,7 +43,7 @@
                             <select class="form-control" name="selectBox">
                                 <option disabled="" value="0" selected="">Kies item</option>
                                 
-                                @foreach (var item in Model)
+                                @foreach (var item in Model ?? new List<Tuple<int,string>>())
                                 {
                                     <option value="@item.Item1">@item.Item2</option>
                                 }

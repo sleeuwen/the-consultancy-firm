@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 
@@ -46,10 +47,17 @@ namespace TheConsultancyFirm.Repositories
             return _context.NewsItems;
         }
 
-        public  Task Create(NewsItem newsItem)
+        public async Task Create(NewsItem newsItem)
         {
             _context.NewsItems.Add(newsItem);
-            return _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+
+            _context.ItemTranslations.Add(new ItemTranslation()
+            {
+                ContentType = Enumeration.ContentItemType.NewsItem,
+                IdNl = newsItem.Id
+            });
+            await _context.SaveChangesAsync();
         }
 
         public Task Update(NewsItem newsItem)
@@ -141,6 +149,9 @@ namespace TheConsultancyFirm.Repositories
                         break;
                 }
             }
+            await _context.SaveChangesAsync();
+            var itemTranslation = await _context.ItemTranslations.FirstOrDefaultAsync(n => n.IdNl == id);
+            itemTranslation.IdEn = newsItemCopy.Id;
             await _context.SaveChangesAsync();
             return newsItemCopy.Id;
         }

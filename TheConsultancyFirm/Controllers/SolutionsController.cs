@@ -42,8 +42,8 @@ namespace TheConsultancyFirm.Controllers
             {
                 int itemTranslationId;
                 itemTranslationId = language == "nl" ?
-                    (await _itemTranslationRepository.GetAllCases()).FirstOrDefault(s => s.IdEn == solutionItem.Id).IdNl :
-                    (await _itemTranslationRepository.GetAllCases()).FirstOrDefault(s => s.IdNl == solutionItem.Id).IdEn;
+                    (await _itemTranslationRepository.GetAllSolutions()).FirstOrDefault(s => s.IdEn == solutionItem.Id).IdNl :
+                    (await _itemTranslationRepository.GetAllSolutions()).FirstOrDefault(s => s.IdNl == solutionItem.Id).IdEn;
                 solutionItem = await _solutionRepository.Get(itemTranslationId);
             }
 

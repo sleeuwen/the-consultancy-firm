@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 
@@ -32,6 +33,13 @@ namespace TheConsultancyFirm.Repositories
         {
             _context.Downloads.Add(download);
             await _context.SaveChangesAsync();
+
+            _context.ItemTranslations.Add(new ItemTranslation()
+            {
+                ContentType = Enumeration.ContentItemType.Download,
+                IdNl = download.Id
+            });
+            await  _context.SaveChangesAsync();
         }
 
         public async Task Update(Download download)
@@ -68,6 +76,9 @@ namespace TheConsultancyFirm.Repositories
                 LinkPath = download.LinkPath
             };
             await _context.Downloads.AddAsync(downloadCopy);
+            await _context.SaveChangesAsync();
+            var itemTranslation = await _context.ItemTranslations.FirstOrDefaultAsync(d => d.IdNl == id);
+            itemTranslation.IdEn = downloadCopy.Id;
             await _context.SaveChangesAsync();
             return downloadCopy.Id;
         }

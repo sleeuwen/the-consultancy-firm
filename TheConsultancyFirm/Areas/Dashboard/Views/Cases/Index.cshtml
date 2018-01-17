@@ -1,34 +1,33 @@
-﻿@model IEnumerable<Case>
+﻿@model CaseViewModel
 
 @{
     ViewData["Title"] = "Cases";
-    var tupels = Model.Where(solution => solution.Language == "nl").Select(@case => new Tuple<int, string>(@case.Id, @case.Title)).ToList();
 }
 
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial("IndexButtonsPartial", tupels)
+@Html.Partial("IndexButtonsPartial", Model.CasesWithoutTranslation)
 
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Date)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastModified)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Language)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => new Case().Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => new Case().Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => new Case().LastModified)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => new Case().Language)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.CasesList) {
         <tr class="@(item.Enabled ? "" : "disabled")">
             <td>
                 @Html.DisplayFor(modelItem => item.Title)

@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Areas.Dashboard.ViewModels;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
@@ -17,19 +18,25 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly ISolutionRepository _solutionRepository;
         private readonly IUploadService _uploadService;
+        private readonly IItemTranslationRepository _itemTranslationRepository;
 
-        public SolutionsController(ISolutionRepository solutionRepository, IUploadService uploadService)
+        public SolutionsController(ISolutionRepository solutionRepository, IUploadService uploadService, IItemTranslationRepository itemTranslationRepository)
         {
             _solutionRepository = solutionRepository;
             _uploadService = uploadService;
+            _itemTranslationRepository = itemTranslationRepository;
         }
 
         // GET: Dashboard/Solutions
         public async Task<IActionResult> Index(bool showDisabled = false)
         {
             ViewBag.ShowDisabled = showDisabled;
-            return View(await _solutionRepository.GetAll().Where(s => !s.Deleted && (s.Enabled || showDisabled))
-                .OrderByDescending(s => s.Date).ToListAsync());
+            return View(new SolutionViewModel
+            {
+                SolutionsList = await _solutionRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
+                    .OrderByDescending(c => c.Date).ToListAsync(),
+                SolutionsWithoutTranslation = await _itemTranslationRepository.GetSolutionsWithoutTranslation()
+            });
         }
 
         // GET: Dashboard/Downloads/Deleted

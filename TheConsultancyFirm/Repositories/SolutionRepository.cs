@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 
@@ -47,10 +48,16 @@ namespace TheConsultancyFirm.Repositories
 	        return _context.Solutions;
 	    }
 
-	    public Task Create(Solution solution)
+	    public async Task Create(Solution solution)
 	    {
-	        _context.AddAsync(solution);
-	        return _context.SaveChangesAsync();
+	        _context.Solutions.Add(solution);
+	        await _context.SaveChangesAsync();
+            _context.ItemTranslations.Add(new ItemTranslation()
+	        {
+	            ContentType = Enumeration.ContentItemType.Solution,
+	            IdNl = solution.Id
+	        });
+            await _context.SaveChangesAsync();
 	    }
 
         public Task Update(Solution solution)
@@ -136,6 +143,9 @@ namespace TheConsultancyFirm.Repositories
                         break;
                 }
             }
+            await _context.SaveChangesAsync();
+            var itemTranslation = await _context.ItemTranslations.FirstOrDefaultAsync(s => s.IdNl == id);
+            itemTranslation.IdEn = solutionCopy.Id;
             await _context.SaveChangesAsync();
             return solutionCopy.Id;
         }

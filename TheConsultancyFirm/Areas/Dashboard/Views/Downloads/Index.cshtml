@@ -1,39 +1,39 @@
-﻿@model IEnumerable<Download>
+﻿@model DownloadViewModel
 @{
     ViewData["Title"] = "Downloads";
-    var tupels = Model.Where(solution => solution.Language == "nl").Select(download => new Tuple<int, string>(download.Id, download.Title)).ToList();
+    
 }
 
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial("IndexButtonsPartial", tupels)
+@Html.Partial("IndexButtonsPartial", Model.DownloadsWithoutTranslation)
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => new Download().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => new Download().Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.AmountOfDownloads)
+                @Html.DisplayNameFor(model => new Download().AmountOfDownloads)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                @Html.DisplayNameFor(model => new Download().Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Filename)
+                @Html.DisplayNameFor(model => new Download().Filename)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Language)
+                @Html.DisplayNameFor(model => new Download().Language)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.DownloadsList)
         {
         <tr class="@(item.Enabled ? "" : "disabled")">
             <td>

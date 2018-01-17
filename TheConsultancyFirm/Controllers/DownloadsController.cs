@@ -50,8 +50,8 @@ namespace TheConsultancyFirm.Controllers
             {
                 int itemTranslationId;
                 itemTranslationId = language == "nl" ?
-                    (await _itemTranslationRepository.GetAllCases()).FirstOrDefault(d => d.IdEn == selected.Id).IdNl :
-                    (await _itemTranslationRepository.GetAllCases()).FirstOrDefault(d => d.IdNl == selected.Id).IdEn;
+                    (await _itemTranslationRepository.GetAllDownloads()).FirstOrDefault(d => d.IdEn == selected.Id).IdNl :
+                    (await _itemTranslationRepository.GetAllDownloads()).FirstOrDefault(d => d.IdNl == selected.Id).IdEn;
                 return RedirectToAction("Details", new { Id = itemTranslationId});
             }
 

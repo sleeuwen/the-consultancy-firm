@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using TheConsultancyFirm.Common;
-using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 
 namespace TheConsultancyFirm.Repositories
@@ -12,22 +8,14 @@ namespace TheConsultancyFirm.Repositories
     public interface IItemTranslationRepository
     {
         Task<List<ItemTranslation>> GetAllCases();
-    }
+        Task<List<ItemTranslation>> GetAllDownloads();
+        Task<List<ItemTranslation>> GetAllNewsitems();
+        Task<List<ItemTranslation>> GetAllSolutions();
 
-    public class ItemTranslationRepository : IItemTranslationRepository
-    {
-        private readonly ApplicationDbContext _context;
-
-        public ItemTranslationRepository(ApplicationDbContext context)
-        {
-            _context = context;
-        }
-
-
-        public async Task<List<ItemTranslation>> GetAllCases()
-        {
-            return await _context.ItemTranslations.Where(c => c.ContentType == Enumeration.ContentItemType.Case).ToListAsync();
-        }
+        Task<List<Tuple<int, string>>> GetCasesWithoutTranslation();
+        Task<List<Tuple<int, string>>> GetDownloadsWithoutTranslation();
+        Task<List<Tuple<int, string>>> GetNewsItemsWithoutTranslation();
+        Task<List<Tuple<int, string>>> GetSolutionsWithoutTranslation();
     }
 }
 

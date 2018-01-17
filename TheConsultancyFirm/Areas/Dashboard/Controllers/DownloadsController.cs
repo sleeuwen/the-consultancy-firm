@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Areas.Dashboard.ViewModels;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
@@ -16,19 +17,25 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly IDownloadRepository _downloadRepository;
         private readonly IUploadService _uploadService;
+        private readonly IItemTranslationRepository _itemTranslationRepository;
 
-        public DownloadsController(IDownloadRepository downloadRepository, IUploadService uploadService)
+        public DownloadsController(IDownloadRepository downloadRepository, IUploadService uploadService, IItemTranslationRepository itemTranslationRepository)
         {
             _downloadRepository = downloadRepository;
             _uploadService = uploadService;
+            _itemTranslationRepository = itemTranslationRepository;
         }
 
         // GET: Downloads
         public async Task<IActionResult> Index(bool showDisabled = false)
         {
             ViewBag.ShowDisabled = showDisabled;
-            return View(await _downloadRepository.GetAll().Where(d => !d.Deleted && (d.Enabled || showDisabled))
-                .OrderByDescending(d => d.Date).ToListAsync());
+            return View(new DownloadViewModel
+            {
+                DownloadsList = await _downloadRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
+                    .OrderByDescending(c => c.Date).ToListAsync(),
+                DownloadsWithoutTranslation = await _itemTranslationRepository.GetDownloadsWithoutTranslation()
+            });
         }
 
         // GET: Dashboard/Downloads/Deleted
@@ -171,7 +178,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
         [HttpPost, ActionName("SaveTranslation")]
         [ValidateAntiForgeryToken]
-        public async Task<ObjectResult> EditTranslationPost(int? id)
+        public async Task<IActionResult> EditTranslationPost(int? id)
         {
             var download = await _downloadRepository.Get(id ?? 0);
 
@@ -197,7 +204,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 throw;
             }
 
-            return new ObjectResult(download.Id);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: Downloads/Delete/5
