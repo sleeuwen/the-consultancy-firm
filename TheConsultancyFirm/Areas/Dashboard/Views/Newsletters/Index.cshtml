@@ -1,8 +1,15 @@
 ﻿@using System.Text.RegularExpressions
-@model IEnumerable<Newsletter>
+@model PaginatedList<Newsletter>
 
 @{
     ViewData["Title"] = "Nieuwsbrief";
+    var pagination = new PaginationProperties
+    {
+        PageIndex = Model.PageIndex,
+        TotalPages = Model.TotalPages,
+        HasNextPage = Model.HasNextPage,
+        HasPreviousPage = Model.HasPreviousPage
+    };
 }
 
 <h2>@ViewBag.Title</h2>
@@ -17,18 +24,31 @@
         <i class="icon-badge fa fa-address-book"></i>
     </a>
 </div>
-
+<form asp-action="Index" method="get">
+    <div class="row mb-3 mt-3">
+        <div class="col-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" id="txtSearch" name="SearchString" value="@ViewData["currentFilter"]" />
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Subject)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["SubjectSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Subject</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.NewsletterIntroText)
+                @Html.DisplayNameFor(model => new Newsletter().NewsletterIntroText)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.SentAt)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Sent at</a>
             </th>
         </tr>
     </thead>
@@ -39,6 +59,7 @@
             var title = item.NewsletterIntroText?.Substring(0, newlineIdx < 0 ? item.NewsletterIntroText.Length : newlineIdx);
             title = Regex.Replace(title ?? "", "<[^>]*>", "");
             title = Regex.Replace(title, "<p>", "");
+            title = title.Length > 35 ? title.Substring(0, 100) + "..." : title;
 
             <tr>
                 <td>
@@ -54,3 +75,4 @@
         }
     </tbody>
 </table>
+@Html.Partial("PaginationPartial", pagination)

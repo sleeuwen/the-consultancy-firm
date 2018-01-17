@@ -28,13 +28,56 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Solutions
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page,
+            bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["LastModifiedSortParm"] = sortOrder == "LastModified" ? "last_desc" : "LastModified";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
+            var solutions = _solutionRepository.GetAll().Where(s => !s.Deleted && (s.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || s.Title.Contains(searchString)));
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    solutions = solutions.OrderByDescending(c => c.Title);
+                    break;
+                case "Date":
+                    solutions = solutions.OrderBy(c => c.Date);
+                    break;
+                case "date_desc":
+                    solutions = solutions.OrderByDescending(c => c.Date);
+                    break;
+                case "LastModified":
+                    solutions = solutions.OrderBy(c => c.LastModified);
+                    break;
+                case "last_desc":
+                    solutions = solutions.OrderByDescending(c => c.LastModified);
+                    break;
+                default:
+                    solutions = solutions.OrderBy(c => c.Title);
+                    break;
+            }
+
             return View(new SolutionViewModel
             {
-                SolutionsList = await _solutionRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
-                    .OrderByDescending(c => c.Date).ToListAsync(),
+                SolutionsList = await PaginatedList<Solution>.Create(solutions, page ?? 1, 5),
                 SolutionsWithoutTranslation = await _itemTranslationRepository.GetSolutionsWithoutTranslation()
             });
         }

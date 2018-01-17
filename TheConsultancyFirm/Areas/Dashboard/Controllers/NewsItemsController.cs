@@ -28,13 +28,55 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/NewsItems
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page,
+            bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["LastModifiedSortParm"] = sortOrder == "LastModified" ? "last_desc" : "LastModified";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
+            var newsItems = _newsItemRepository.GetAll().Where(n => !n.Deleted && (n.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || n.Title.Contains(searchString)));
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    newsItems = newsItems.OrderByDescending(c => c.Title);
+                    break;
+                case "Date":
+                    newsItems = newsItems.OrderBy(c => c.Date);
+                    break;
+                case "date_desc":
+                    newsItems = newsItems.OrderByDescending(c => c.Date);
+                    break;
+                case "LastModified":
+                    newsItems = newsItems.OrderBy(c => c.LastModified);
+                    break;
+                case "last_desc":
+                    newsItems = newsItems.OrderByDescending(c => c.LastModified);
+                    break;
+                default:
+                    newsItems = newsItems.OrderBy(c => c.Title);
+                    break;
+            }
             return View(new NewsItemViewModel
             {
-                NewsItemsList = await _newsItemRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
-                    .OrderByDescending(c => c.Date).ToListAsync(),
+                NewsItemsList = await PaginatedList<NewsItem>.Create(newsItems, page ?? 1, 5),
                 NewsItemsWithoutTranslation = await _itemTranslationRepository.GetNewsItemsWithoutTranslation()
             });
         }

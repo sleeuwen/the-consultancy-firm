@@ -1,24 +1,46 @@
 ﻿@model NewsItemViewModel
-
 @{
     ViewData["Title"] = "Nieuwsitems";
+    var pagination = new PaginationProperties
+    {
+        PageIndex = Model.NewsItemsList.PageIndex,
+        TotalPages = Model.NewsItemsList.TotalPages,
+        HasNextPage = Model.NewsItemsList.HasNextPage,
+        HasPreviousPage = Model.NewsItemsList.HasPreviousPage
+    };
 }
 
 <h2>@ViewBag.Title</h2>
 
 @Html.Partial("IndexButtonsPartial", Model.NewsItemsWithoutTranslation)
+<form asp-action="Index" method="get">
+    <div class="row mb-3 mt-3">
+        <div class="col-4">
+            <input type="hidden" value="@ViewBag.ShowDisabled.ToString()" name="showDisabled" />
+
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" id="txtSearch" name="SearchString" value="@ViewData["currentFilter"]" />
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => new NewsItem().Title)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Title</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => new NewsItem().Date)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Date</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => new NewsItem().LastModified)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["LastModifiedSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Last Modified</a>
             </th>
             <th>
                 @Html.DisplayNameFor(model => new NewsItem().Language)
@@ -52,3 +74,4 @@
         }
     </tbody>
 </table>
+@Html.Partial("PaginationPartial", pagination)

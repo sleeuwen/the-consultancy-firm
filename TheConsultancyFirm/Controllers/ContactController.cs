@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
@@ -30,6 +31,8 @@ namespace TheConsultancyFirm.Controllers
             {
                 return View(contact);
             }
+
+            contact.Date = DateTime.UtcNow;
 
             // Save to database
             await _repository.AddAsync(contact);
