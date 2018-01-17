@@ -15,16 +15,18 @@ namespace TheConsultancyFirm.Tests.Controllers
     public class NewsItemsControllerTest
     {
         private readonly Mock<INewsItemRepository> _newsItemsRepository;
+        private readonly Mock<IItemTranslationRepository> _itemTranslationRepository;
 
         public NewsItemsControllerTest()
         {
             _newsItemsRepository = new Mock<INewsItemRepository>();
+            _itemTranslationRepository = new Mock<IItemTranslationRepository>();
         }
 
         [Fact]
         public async Task Index()
         {
-            var controller = new NewsItemsController(_newsItemsRepository.Object, null);
+            var controller = new NewsItemsController(_newsItemsRepository.Object, null, _itemTranslationRepository.Object);
             var model = new List<NewsItem>().AsQueryable().BuildMock();
             _newsItemsRepository.Setup(repo => repo.GetAll()).Returns(model.Object);
             var result = await controller.Index();

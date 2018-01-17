@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Solution>
+﻿@model SolutionViewModel
 
 @{
     ViewData["Title"] = "Solutions";
@@ -6,25 +6,25 @@
 
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial("IndexButtonsPartial")
+@Html.Partial("IndexButtonsPartial", Model.SolutionsWithoutTranslation)
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @Html.DisplayNameFor(model => new Solution().Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                @Html.DisplayNameFor(model => new Solution().Date)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastModified)
+                @Html.DisplayNameFor(model => new Solution().LastModified)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.SolutionsList)
         {
             <tr class="@(item.Enabled ? "" : "disabled")">
                 <td>
@@ -37,7 +37,7 @@
                     @Html.DisplayFor(modelItem => item.LastModified)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
+                    <a asp-action="@(item.Language == "en" ? "TranslationEdit" : "Edit")" asp-route-id="@item.Id">Aanpassen</a> |
                     <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> |
                     <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
