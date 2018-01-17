@@ -3,8 +3,8 @@
 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
 /**/
 var disqus_config = function () {
-    this.page.url = "http://h-se-wpfw-1-17-group8.azurewebsites.net/";  // Replace PAGE_URL with your page's canonical URL variable
-    this.page.identifier = this.page.url + "/NewsItems/"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    this.page.url = window.location.hostname.url;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = "/NewsItems/"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 
 (function() { // DON'T EDIT BELOW THIS LINE
