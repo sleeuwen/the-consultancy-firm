@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Common;
+using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.ViewModels;
 
@@ -19,9 +20,10 @@ namespace TheConsultancyFirm.Controllers
             _newsItemRepository = newsItemRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
-            return View(await _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted).OrderByDescending(n => n.Date).ToListAsync());
+            var newsItems = await _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted).OrderByDescending(n => n.Date).ToListAsync();
+            return View(PaginatedList<NewsItem>.Create(newsItems.AsQueryable(), page ?? 1, 2));
         }
 
         [HttpGet("[controller]/{id}")]

@@ -20,7 +20,7 @@ namespace TheConsultancyFirm.Controllers
             _downloadLogRepository = downloadLogRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
             var viewModel = new DownloadsViewModel
             {
@@ -29,22 +29,23 @@ namespace TheConsultancyFirm.Controllers
                 MostRecent = await _downloadRepository.GetAll().Where(d => d.Enabled && !d.Deleted).OrderByDescending(d => d.Date).FirstOrDefaultAsync()
             };
 
-            viewModel.AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id && d.Enabled && !d.Deleted)
+            var all = await _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id && d.Enabled && !d.Deleted)
                 .OrderBy(d => d.Date).Skip(1).ToListAsync();
-
+            viewModel.AllDownloads = PaginatedList<Download>.Create(all.AsQueryable(), page ?? 1, 2);
             return View(viewModel);
         }
 
         [HttpGet("[controller]/{id}")]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, int? page)
         {
             var selected = await _downloadRepository.Get(id);
             if (selected.Deleted || !selected.Enabled) return NotFound();
-
+            var AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != id && d.Enabled && !d.Deleted)
+                .ToListAsync();
             var viewModel = new DownloadsViewModel
             {
                 Selected = selected,
-                AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != id && d.Enabled && !d.Deleted).ToListAsync()
+                AllDownloads = PaginatedList<Download>.Create(AllDownloads.AsQueryable(), page ?? 1, 2)
             };
 
             return View("/Views/Downloads/Index.cshtml", viewModel);
