@@ -58,7 +58,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return View(applicationUser);
 
             var userPass = GenerateRandomPassword();
-            applicationUser.UserName = applicationUser.Email.EndsWith("@gmail.com") ? applicationUser.Id : applicationUser.Email;
+            applicationUser.UserName = applicationUser.Email;
             applicationUser.Enabled = true;
             await _userManager.CreateAsync(applicationUser);
             await _userManager.AddPasswordAsync(applicationUser, userPass);
@@ -113,6 +113,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     randomPassword += (char)('a' + num);
                 }
             }
+
             return randomPassword;
         }
     }
