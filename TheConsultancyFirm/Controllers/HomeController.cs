@@ -22,7 +22,7 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+            var language = HttpContext?.Request?.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
             var customers = (await _customerRepository.GetAll()).Where(c => c.Enabled && !c.Deleted).Take(12).ToList();
             var newsItems = await _newsItemRepository.GetAll().Where(c => c.Enabled && !c.Deleted && c.Language == language).Take(3).ToListAsync();
 

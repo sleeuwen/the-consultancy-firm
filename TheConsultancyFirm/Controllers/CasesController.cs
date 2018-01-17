@@ -25,7 +25,7 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+            var language = HttpContext?.Request?.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
             var list = await _caseRepository.GetAll().Include(c => c.Customer).Where(c => c.Enabled && !c.Deleted && c.Language == language).OrderByDescending(c => c.Date).ToListAsync();
             return View(list);
         }
