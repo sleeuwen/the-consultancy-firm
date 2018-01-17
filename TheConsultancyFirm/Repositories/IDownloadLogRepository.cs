@@ -8,6 +8,6 @@ namespace TheConsultancyFirm.Repositories
     public interface IDownloadLogRepository
     {
         Task Log(DownloadLog downloadLog);
-        Task<Dictionary<DateTime, int>> GetDownloadsLastWeek(int id = 0);
+        Task<Dictionary<DateTime, int>> GetDownloadsLastWeek(int? id);
     }
 }
