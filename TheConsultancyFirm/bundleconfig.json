@@ -43,10 +43,12 @@
   {
     "outputFileName": "wwwroot/js/dashboard.min.js",
     "inputFiles": [
+      "wwwroot/js/activeUsers.js",
       "wwwroot/js/blockModal.js",
       "wwwroot/js/blocks.js",
       "wwwroot/js/contacts.js",
       "wwwroot/js/custom-file.js",
+      "wwwroot/js/downloadModal.js",
       "wwwroot/js/imageUpload.js",
       "wwwroot/js/indexbuttons.js",
       "wwwroot/js/select2.js",
