@@ -43,6 +43,11 @@ namespace TheConsultancyFirm.Migrations
                 {
                     table.PrimaryKey("PK_ItemTranslations", x => x.Id);
                 });
+
+            migrationBuilder.Sql("UPDATE Solutions SET Language = 'nl';");
+            migrationBuilder.Sql("UPDATE NewsItems SET Language = 'nl';");
+            migrationBuilder.Sql("UPDATE Cases SET Language = 'nl';");
+            migrationBuilder.Sql("UPDATE Downloads SET Language = 'nl';");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
