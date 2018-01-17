@@ -211,16 +211,10 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        [Route("api/[controller]")]
+        [Route("api/dashboard/[controller]")]
         public async Task<ObjectResult> GetAll()
         {
             return new ObjectResult(await _newsItemRepository.GetAll().Where(n => !n.Deleted && n.Enabled).ToListAsync());
-        }
-
-        [Route("api/[controller]/{id}")]
-        public async Task<ObjectResult> Get(int id)
-        {
-            return new ObjectResult(await _newsItemRepository.Get(id));
         }
 
         private async Task<bool> NewsItemExists(int id)

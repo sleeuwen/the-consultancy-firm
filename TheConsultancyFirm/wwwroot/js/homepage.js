@@ -7,7 +7,7 @@ jQuery(function ($) {
         var $modal = $(this);
 
         $.ajax({
-            url: '/api/NewsItems',
+            url: '/api/dashboard/NewsItems',
             method: 'GET',
             success: function (items) {
                 $modal.find('.statusText').text('');
