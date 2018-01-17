@@ -17,9 +17,11 @@ namespace TheConsultancyFirm.Tests.Controllers
         public CasesControllerTest()
         {
             _caseRepository = new Mock<ICaseRepository>();
+            _itemTranslationRepository = new Mock<IItemTranslationRepository>();
         }
 
         private readonly Mock<ICaseRepository> _caseRepository;
+        private readonly Mock<IItemTranslationRepository> _itemTranslationRepository;
 
         [Fact]
         public void CheckSurroundings()
@@ -64,7 +66,7 @@ namespace TheConsultancyFirm.Tests.Controllers
 
             var service = new Mock<IRelatedItemsRepository>();
 
-            var controller = new CasesController(service.Object, _caseRepository.Object);
+            var controller = new CasesController(service.Object, _caseRepository.Object, _itemTranslationRepository.Object);
 
             var list = controller.GetAdjacent(c);
 
@@ -78,7 +80,7 @@ namespace TheConsultancyFirm.Tests.Controllers
         [Fact]
         public async Task Index()
         {
-            var controller = new CasesController(null, _caseRepository.Object);
+            var controller = new CasesController(null, _caseRepository.Object, _itemTranslationRepository.Object);
 
             var model = new List<Case>().AsQueryable().BuildMock();
             _caseRepository.Setup(repo => repo.GetAll()).Returns(model.Object);

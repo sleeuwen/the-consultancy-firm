@@ -51,6 +51,7 @@
       "wwwroot/js/downloadModal.js",
       "wwwroot/js/homepage.js",
       "wwwroot/js/imageUpload.js",
+      "wwwroot/js/indexbuttons.js",
       "wwwroot/js/select2.js",
       "wwwroot/js/tinymce.js",
       "wwwroot/js/newsletter.js",

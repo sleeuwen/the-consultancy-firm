@@ -15,15 +15,17 @@ namespace TheConsultancyFirm.Tests.Controllers
     public class SolutionsControllerTest
     {
         private readonly Mock<ISolutionRepository> _solutionRepository;
+        private readonly Mock<IItemTranslationRepository> _itemTranslationRepository;
         public SolutionsControllerTest()
         {
             _solutionRepository = new Mock<ISolutionRepository>();
+            _itemTranslationRepository = new Mock<IItemTranslationRepository>();
         }
 
         [Fact]
         public async Task Index()
         {
-            var controller = new SolutionsController(_solutionRepository.Object, null);
+            var controller = new SolutionsController(_solutionRepository.Object, null, _itemTranslationRepository.Object);
             var model = new List<Solution>().AsQueryable().BuildMock();
             _solutionRepository.Setup(repo => repo.GetAll()).Returns(model.Object);
             var result = await controller.Index();
@@ -42,7 +44,7 @@ namespace TheConsultancyFirm.Tests.Controllers
 
             _solutionRepository.Setup(repo => repo.Get(0,true)).Returns(Task.FromResult<Solution>(model));
 
-            var controller = new SolutionsController(_solutionRepository.Object, null);
+            var controller = new SolutionsController(_solutionRepository.Object, null, _itemTranslationRepository.Object);
 
             var result = await controller.Details(model.Id);
             
@@ -57,7 +59,7 @@ namespace TheConsultancyFirm.Tests.Controllers
         {
             _solutionRepository.Setup(repo => repo.Get(0, true)).Returns(Task.FromResult<Solution>(null));
 
-            var controller = new SolutionsController(_solutionRepository.Object, null);
+            var controller = new SolutionsController(_solutionRepository.Object, null, _itemTranslationRepository.Object);
 
             var result = await controller.Details(null);
             
@@ -69,7 +71,7 @@ namespace TheConsultancyFirm.Tests.Controllers
         {
             _solutionRepository.Setup(repo => repo.Get(2, true)).Returns(Task.FromResult<Solution>(null));
 
-            var controller = new SolutionsController(_solutionRepository.Object, null);
+            var controller = new SolutionsController(_solutionRepository.Object, null, _itemTranslationRepository.Object);
 
             var result = await controller.Details(2);
             
@@ -88,7 +90,7 @@ namespace TheConsultancyFirm.Tests.Controllers
 
             _solutionRepository.Setup(repo => repo.Get(0, true)).Returns(Task.FromResult<Solution>(null));
 
-            var controller = new SolutionsController(_solutionRepository.Object, null);
+            var controller = new SolutionsController(_solutionRepository.Object, null, _itemTranslationRepository.Object);
 
             var result = await controller.Details(model.Id);
 

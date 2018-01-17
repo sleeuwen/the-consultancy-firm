@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
 
@@ -51,10 +53,17 @@ namespace TheConsultancyFirm.Repositories
             return _context.NewsItems.Where(n => n.HomepageOrder != null && !n.Deleted && n.Enabled).OrderBy(n => n.HomepageOrder).ToListAsync();
         }
 
-        public Task Create(NewsItem newsItem)
+        public async Task Create(NewsItem newsItem)
         {
             _context.NewsItems.Add(newsItem);
-            return _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
+
+            _context.ItemTranslations.Add(new ItemTranslation()
+            {
+                ContentType = Enumeration.ContentItemType.NewsItem,
+                IdNl = newsItem.Id
+            });
+            await _context.SaveChangesAsync();
         }
 
         public Task Update(NewsItem newsItem)
@@ -73,6 +82,85 @@ namespace TheConsultancyFirm.Repositories
         public Task<NewsItem> GetLatest()
         {
             return _context.NewsItems.OrderByDescending(n => n.Date).Take(1).FirstOrDefaultAsync();
+        }
+
+        public async Task<int> CreateCopy(int id)
+        {
+            var newsItem = await Get(id);
+            var newsItemCopy = new NewsItem
+            {
+                Title = newsItem.Title,
+                Date = DateTime.UtcNow,
+                Language = "en",
+                PhotoPath = newsItem.PhotoPath,
+                LastModified = DateTime.UtcNow,
+                NewsItemTags = newsItem.NewsItemTags.Select(n => new NewsItemTag{TagId = n.TagId}).ToList(),
+                SharingDescription = newsItem.SharingDescription,
+
+            };
+            await _context.NewsItems.AddAsync(newsItemCopy);
+            await _context.SaveChangesAsync();
+
+            foreach (var newsItemBlock in newsItem.Blocks)
+            {
+                switch (newsItemBlock)
+                {
+                    case TextBlock t:
+                        _context.Blocks.Add(new TextBlock
+                        {
+                            Date = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow,
+                            Active = t.Active,
+                            Order = t.Order,
+                            NewsItemId = newsItemCopy.Id,
+                            Text = t.Text
+                        });
+                        break;
+                    case CarouselBlock c:
+                        _context.Blocks.Add(new CarouselBlock
+                        {
+                            Date = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow,
+                            Active = c.Active,
+                            Order = c.Order,
+                            NewsItemId = newsItemCopy.Id,
+                            LinkPath = c.LinkPath,
+                            LinkText = c.LinkText,
+                            Slides = c.Slides.Select(s => new Slide { Order = s.Order, PhotoPath = s.PhotoPath, Text = s.Text }).ToList()
+                        });
+                        break;
+                    case QuoteBlock q:
+                        _context.Blocks.Add(new QuoteBlock
+                        {
+                            Date = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow,
+                            Active = q.Active,
+                            Order = q.Order,
+                            NewsItemId = newsItemCopy.Id,
+                            Text = q.Text,
+                            Author = q.Author
+                        });
+                        break;
+                    case SolutionAdvantagesBlock s:
+                        _context.Blocks.Add(new SolutionAdvantagesBlock
+                        {
+                            Date = DateTime.UtcNow,
+                            LastModified = DateTime.UtcNow,
+                            Active = s.Active,
+                            Order = s.Order,
+                            NewsItemId = newsItemCopy.Id,
+                            Text = s.Text,
+                            PhotoPath = s.PhotoPath
+                        });
+                        break;
+                }
+            }
+            await _context.SaveChangesAsync();
+            var itemTranslation = await _context.ItemTranslations
+                .FirstOrDefaultAsync(n => n.ContentType == Enumeration.ContentItemType.NewsItem && n.IdNl == id);
+            itemTranslation.IdEn = newsItemCopy.Id;
+            await _context.SaveChangesAsync();
+            return newsItemCopy.Id;
         }
     }
 }

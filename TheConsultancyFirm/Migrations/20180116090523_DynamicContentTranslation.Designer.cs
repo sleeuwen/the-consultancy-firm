@@ -13,9 +13,10 @@ using TheConsultancyFirm.Data;
 namespace TheConsultancyFirm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180116090523_DynamicContentTranslation")]
+    partial class DynamicContentTranslation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -234,8 +235,6 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<bool>("Enabled");
 
-                    b.Property<int?>("HomepageOrder");
-
                     b.Property<string>("Language");
 
                     b.Property<DateTime>("LastModified");
@@ -412,8 +411,6 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<bool>("Enabled");
 
-                    b.Property<int?>("HomepageOrder");
-
                     b.Property<string>("Language");
 
                     b.Property<DateTime>("LastModified");
@@ -510,8 +507,6 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<bool>("Enabled");
 
-                    b.Property<int>("HomepageOrder");
-
                     b.Property<string>("Language");
 
                     b.Property<DateTime>("LastModified");
@@ -579,8 +574,6 @@ namespace TheConsultancyFirm.Migrations
             modelBuilder.Entity("TheConsultancyFirm.Models.CarouselBlock", b =>
                 {
                     b.HasBaseType("TheConsultancyFirm.Models.Block");
-
-                    b.Property<bool>("HomepageCarousel");
 
                     b.Property<string>("LinkPath");
 

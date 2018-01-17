@@ -42,5 +42,7 @@ namespace TheConsultancyFirm.Models
 
         public bool Enabled { get; set; }
         public bool Deleted { get; set; }
+
+        public string Language { get; set; }
     }
 }

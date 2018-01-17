@@ -1,31 +1,33 @@
-﻿@model IEnumerable<TheConsultancyFirm.Models.Case>
+﻿@model CaseViewModel
 
 @{
     ViewData["Title"] = "Cases";
-
 }
 
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial("IndexButtonsPartial")
+@Html.Partial("IndexButtonsPartial", Model.CasesWithoutTranslation)
 
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Date)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastModified)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => new Case().Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => new Case().Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => new Case().LastModified)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => new Case().Language)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.CasesList) {
         <tr class="@(item.Enabled ? "" : "disabled")">
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
@@ -37,7 +39,10 @@
                 @Html.DisplayFor(modelItem => item.LastModified)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
+                @Html.DisplayFor(modelItem => item.Language)
+            </td>
+            <td>
+                <a asp-action="@(item.Language == "en" ? "TranslationEdit" : "Edit")" asp-route-id="@item.Id">Aanpassen</a> |
                 <a asp-area="" asp-controller="Cases" asp-action="Details" asp-route-id="@item.Id" target="_blank">Bekijken</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> |
                 <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
