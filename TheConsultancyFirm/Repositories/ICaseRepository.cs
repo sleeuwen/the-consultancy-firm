@@ -13,5 +13,6 @@ namespace TheConsultancyFirm.Repositories
         Task Update(Case @case);
         Task Delete(int id);
         Task<Case> GetLatest();
+        Task<int> CreateCopy(int id);
     }
 }

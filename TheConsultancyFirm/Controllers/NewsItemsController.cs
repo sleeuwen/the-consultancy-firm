@@ -12,16 +12,19 @@ namespace TheConsultancyFirm.Controllers
     {
         private readonly IRelatedItemsRepository _relatedItemsRepository;
         private readonly INewsItemRepository _newsItemRepository;
+        private readonly IItemTranslationRepository _itemTranslationRepository;
 
-        public NewsItemsController(IRelatedItemsRepository relatedItemsRepository, INewsItemRepository newsItemRepository)
+        public NewsItemsController(IRelatedItemsRepository relatedItemsRepository, INewsItemRepository newsItemRepository, IItemTranslationRepository itemTranslationRepository)
         {
             _relatedItemsRepository = relatedItemsRepository;
             _newsItemRepository = newsItemRepository;
+            _itemTranslationRepository = itemTranslationRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted).OrderByDescending(n => n.Date).ToListAsync());
+            var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+            return View(await _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted && n.Language == language).OrderByDescending(n => n.Date).ToListAsync());
         }
 
         [HttpGet("[controller]/{id}")]
@@ -33,11 +36,22 @@ namespace TheConsultancyFirm.Controllers
             var newsItem = await _newsItemRepository.Get(newsItemId);
             if (newsItem == null || newsItem.Deleted || !newsItem.Enabled) return NotFound();
 
+            var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+
+            if (newsItem.Language != language)
+            {
+                int itemTranslationId;
+                itemTranslationId = language == "nl" ?
+                    (await _itemTranslationRepository.GetAllNewsitems()).FirstOrDefault(n => n.IdEn == newsItem.Id).IdNl :
+                    (await _itemTranslationRepository.GetAllNewsitems()).FirstOrDefault(n => n.IdNl == newsItem.Id).IdEn;
+                newsItem = await _newsItemRepository.Get(itemTranslationId);
+            }
+
             // Force the right slug
             if (id != newsItem.Slug)
                 return RedirectToAction("Details", new { id = newsItem.Slug });
 
-            var relatedItems = await _relatedItemsRepository.GetRelatedItems(newsItem.Id, Enumeration.ContentItemType.NewsItem);
+            var relatedItems = await _relatedItemsRepository.GetRelatedItems(newsItem.Id, Enumeration.ContentItemType.NewsItem, language);
 
             return View(new NewsItemDetailViewModel
             {

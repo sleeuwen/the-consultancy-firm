@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Areas.Dashboard.ViewModels;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
@@ -17,19 +18,25 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly INewsItemRepository _newsItemRepository;
         private readonly IUploadService _uploadService;
+        private readonly IItemTranslationRepository _itemTranslationRepository;
 
-        public NewsItemsController(INewsItemRepository newsItemRepository, IUploadService uploadService)
+        public NewsItemsController(INewsItemRepository newsItemRepository, IUploadService uploadService, IItemTranslationRepository itemTranslationRepository)
         {
             _newsItemRepository = newsItemRepository;
             _uploadService = uploadService;
+            _itemTranslationRepository = itemTranslationRepository;
         }
 
         // GET: Dashboard/NewsItems
         public async Task<IActionResult> Index(bool showDisabled = false)
         {
             ViewBag.ShowDisabled = showDisabled;
-            return View(await _newsItemRepository.GetAll().Where(n => !n.Deleted && (n.Enabled || showDisabled))
-                .OrderByDescending(n => n.Date).ToListAsync());
+            return View(new NewsItemViewModel
+            {
+                NewsItemsList = await _newsItemRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
+                    .OrderByDescending(c => c.Date).ToListAsync(),
+                NewsItemsWithoutTranslation = await _itemTranslationRepository.GetNewsItemsWithoutTranslation()
+            });
         }
 
         // GET: Dashboard/Downloads/Deleted
@@ -37,6 +44,52 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             return View(await _newsItemRepository.GetAll().Where(n => n.Deleted).OrderByDescending(c => c.Date).ToListAsync());
         }
+
+        [HttpPost]
+        public async Task<IActionResult> TranslationChoice(int choice, int selectBox = 0)
+        {
+            if (choice == 0) return RedirectToAction("Create");
+            if (selectBox == 0) return NotFound();
+            var id = await _newsItemRepository.CreateCopy(selectBox);
+            return RedirectToAction("TranslationEdit", new { id = id });
+        }
+
+        public async Task<IActionResult> TranslationEdit(int id)
+        {
+            return View(await _newsItemRepository.Get(id));
+        }
+
+        [HttpPost, ActionName("SaveTranslation")]
+        [ValidateAntiForgeryToken]
+        public async Task<ObjectResult> EditTranslationPost(int? id)
+        {
+            var newsItem = await _newsItemRepository.Get(id ?? 0, true);
+
+            if (newsItem == null) return new NotFoundObjectResult(null);
+
+            // Bind POST variables Title, CustomerId, Image and TagIds to the model.
+            await TryUpdateModelAsync(newsItem, string.Empty, n => n.Title, n => n.SharingDescription);
+
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+
+            try
+            {
+                newsItem.LastModified = DateTime.UtcNow;
+                await _newsItemRepository.Update(newsItem);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await NewsItemExists(newsItem.Id))
+                {
+                    return new NotFoundObjectResult(null);
+                }
+
+                throw;
+            }
+
+            return new ObjectResult(newsItem.Id);
+        }
+
 
         // GET: Dashboard/NewsItems/Create
         public IActionResult Create()
@@ -70,6 +123,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             newsItem.NewsItemTags = newsItem.TagIds?.Select(tagId => new NewsItemTag { NewsItem = newsItem, TagId = tagId }).ToList();
 
             newsItem.Date = DateTime.UtcNow;
+            newsItem.Language = "nl";
             newsItem.LastModified = DateTime.UtcNow;
             try
             {

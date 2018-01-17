@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using TheConsultancyFirm.Areas.Dashboard.ViewModels;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Services;
@@ -17,25 +18,77 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
     {
         private readonly ICaseRepository _caseRepository;
         private readonly IUploadService _uploadService;
+        private readonly IItemTranslationRepository _itemTranslationRepository;
 
-        public CasesController(ICaseRepository caseRepository, IUploadService uploadService)
+        public CasesController(ICaseRepository caseRepository, IUploadService uploadService, IItemTranslationRepository itemTranslationRepository)
         {
             _caseRepository = caseRepository;
             _uploadService = uploadService;
+            _itemTranslationRepository = itemTranslationRepository;
         }
 
         // GET: Dashboard/Cases
         public async Task<IActionResult> Index(bool showDisabled = false)
         {
             ViewBag.ShowDisabled = showDisabled;
-            return View(await _caseRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
-                .OrderByDescending(c => c.Date).ToListAsync());
+            return View(new CaseViewModel
+            {
+                CasesList = await _caseRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
+                    .OrderByDescending(c => c.Date).ToListAsync(),
+                CasesWithoutTranslation = await _itemTranslationRepository.GetCasesWithoutTranslation()
+            });
         }
 
         // GET: Dashboard/Cases/Deleted
         public async Task<IActionResult> Deleted()
         {
             return View(await _caseRepository.GetAll().Where(c => c.Deleted).OrderByDescending(c => c.Date).ToListAsync());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TranslationChoice(int choice, int selectBox = 0)
+        {
+            if (choice == 0) return RedirectToAction("Create");
+            if (selectBox == 0) return NotFound();
+            var id = await _caseRepository.CreateCopy(selectBox);
+            return RedirectToAction("TranslationEdit", new {id = id});
+        }
+
+        public async Task<IActionResult> TranslationEdit(int id)
+        {
+            return View(await _caseRepository.Get(id));
+        }
+
+        [HttpPost, ActionName("SaveTranslation")]
+        [ValidateAntiForgeryToken]
+        public async Task<ObjectResult> EditTranslationPost(int? id)
+        {
+            var @case = await _caseRepository.Get(id ?? 0, true);
+
+            if (@case == null) return new NotFoundObjectResult(null);
+
+            // Bind POST variables Title, CustomerId, Image and TagIds to the model.
+            await TryUpdateModelAsync(@case, string.Empty, c => c.Title, c => c.SharingDescription);
+
+            var a = ModelState;
+            if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
+            
+            try
+            {
+                @case.LastModified = DateTime.UtcNow;
+                await _caseRepository.Update(@case);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!await CaseExists(@case.Id))
+                {
+                    return new NotFoundObjectResult(null);
+                }
+
+                throw;
+            }
+
+            return new ObjectResult(@case.Id);
         }
 
         // GET: Dashboard/Cases/Create
@@ -70,7 +123,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             }
 
             @case.CaseTags = @case.TagIds?.Select(tagId => new CaseTag {Case = @case, TagId = tagId}).ToList();
-
+            @case.Language = "nl";
             @case.Date = DateTime.UtcNow;
             @case.LastModified = DateTime.UtcNow;
             try

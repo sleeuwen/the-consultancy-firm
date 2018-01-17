@@ -9,9 +9,10 @@ namespace TheConsultancyFirm.Repositories
         Task<Solution> Get(int id, bool includeInactive = false);
         IQueryable<Solution> GetAll();
 
-	    Task Create(Solution solution);
-	    Task Update(Solution solution);
-	    Task Delete(Solution solution);
-	}
+        Task Create(Solution solution);
+        Task Update(Solution solution);
+        Task Delete(Solution solution);
+        Task<int> CreateCopy(int id);
+    }
 }
 
