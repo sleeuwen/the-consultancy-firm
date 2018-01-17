@@ -21,7 +21,7 @@ namespace TheConsultancyFirm.Controllers
             _caseRepository = caseRepository;
         }
 
-        public async Task<IActionResult> Index(int? page)
+        public async Task<IActionResult> Index()
         {
             return View(await _caseRepository.GetAll().Include(c => c.Customer).Where(c => c.Enabled && !c.Deleted).OrderByDescending(c => c.Date).ToListAsync());
         }
