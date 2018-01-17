@@ -17,7 +17,7 @@ namespace TheConsultancyFirm.Repositories
         {
             _context = context;
         }
-        
+
         public async Task<Solution> Get(int id, bool includeInactive = false)
         {
             var solution = await _context.Solutions
@@ -43,22 +43,22 @@ namespace TheConsultancyFirm.Repositories
             return solution;
         }
 
-	    public IQueryable<Solution> GetAll()
-	    {
-	        return _context.Solutions;
-	    }
+        public IQueryable<Solution> GetAll()
+        {
+            return _context.Solutions;
+        }
 
-	    public async Task Create(Solution solution)
-	    {
-	        _context.Solutions.Add(solution);
-	        await _context.SaveChangesAsync();
-            _context.ItemTranslations.Add(new ItemTranslation()
-	        {
-	            ContentType = Enumeration.ContentItemType.Solution,
-	            IdNl = solution.Id
-	        });
+        public async Task Create(Solution solution)
+        {
+            _context.Solutions.Add(solution);
             await _context.SaveChangesAsync();
-	    }
+            _context.ItemTranslations.Add(new ItemTranslation()
+            {
+                ContentType = Enumeration.ContentItemType.Solution,
+                IdNl = solution.Id
+            });
+            await _context.SaveChangesAsync();
+        }
 
         public Task Update(Solution solution)
         {
@@ -144,7 +144,8 @@ namespace TheConsultancyFirm.Repositories
                 }
             }
             await _context.SaveChangesAsync();
-            var itemTranslation = await _context.ItemTranslations.FirstOrDefaultAsync(s => s.IdNl == id);
+            var itemTranslation = await _context.ItemTranslations
+                .FirstOrDefaultAsync(s => s.ContentType == Enumeration.ContentItemType.Solution && s.IdNl == id);
             itemTranslation.IdEn = solutionCopy.Id;
             await _context.SaveChangesAsync();
             return solutionCopy.Id;

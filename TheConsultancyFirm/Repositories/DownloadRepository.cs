@@ -77,11 +77,11 @@ namespace TheConsultancyFirm.Repositories
             };
             await _context.Downloads.AddAsync(downloadCopy);
             await _context.SaveChangesAsync();
-            var itemTranslation = await _context.ItemTranslations.FirstOrDefaultAsync(d => d.IdNl == id);
+            var itemTranslation = await _context.ItemTranslations
+                .FirstOrDefaultAsync(d => d.ContentType == Enumeration.ContentItemType.Download && d.IdNl == id);
             itemTranslation.IdEn = downloadCopy.Id;
             await _context.SaveChangesAsync();
             return downloadCopy.Id;
         }
-            
     }
 }
