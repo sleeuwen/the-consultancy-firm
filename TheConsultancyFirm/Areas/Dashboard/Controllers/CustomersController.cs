@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using HeyRed.Mime;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Models;
@@ -71,12 +70,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 ModelState.AddModelError(nameof(customer.Image), "The Image field is required.");
             else
             {
-                using (var stream = customer.Image.OpenReadStream())
-                {
-                    if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
-                        ModelState.AddModelError(nameof(customer.Image),
-                            "Invalid image type, only png and jpg images are allowed");
-                }
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(customer.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(customer.Image), "Invalid image type, only png and jpg images are allowed");
 
                 if (customer.Image.Length < 1)
                     ModelState.AddModelError(nameof(customer.Image), "Filesize too small");
@@ -122,12 +117,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             if (customer.Image != null)
             {
-                using (var stream = customer.Image.OpenReadStream())
-                {
-                    if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
-                        ModelState.AddModelError(nameof(customer.Image),
-                            "Invalid image type, only png and jpg images are allowed");
-                }
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(customer.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(customer.Image), "Invalid image type, only png and jpg images are allowed");
 
                 if (customer.Image.Length == 0)
                     ModelState.AddModelError(nameof(customer.Image), "Filesize too small");

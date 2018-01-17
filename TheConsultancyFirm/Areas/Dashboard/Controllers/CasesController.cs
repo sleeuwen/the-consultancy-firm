@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using HeyRed.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -109,12 +108,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 ModelState.AddModelError(nameof(@case.Image), "The Image field is required.");
             else
             {
-                using (var stream = @case.Image.OpenReadStream())
-                {
-                    if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
-                        ModelState.AddModelError(nameof(@case.Image),
-                            "Invalid image type, only png and jpg images are allowed");
-                }
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(@case.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(@case.Image), "Invalid image type, only png and jpg images are allowed");
 
                 if (@case.Image.Length < 1)
                     ModelState.AddModelError(nameof(@case.Image), "Filesize too small");
@@ -173,12 +168,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             if (@case.Image != null)
             {
-                using (var stream = @case.Image.OpenReadStream())
-                {
-                    if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
-                        ModelState.AddModelError(nameof(@case.Image),
-                            "Invalid image type, only png and jpg images are allowed");
-                }
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(@case.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(@case.Image), "Invalid image type, only png and jpg images are allowed");
 
                 if (@case.Image.Length == 0)
                     ModelState.AddModelError(nameof(@case.Image), "Filesize too small");
