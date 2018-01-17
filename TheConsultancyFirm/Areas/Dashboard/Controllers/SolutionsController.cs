@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
+using HeyRed.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -63,7 +64,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/Solutions/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -73,9 +74,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 ModelState.AddModelError(nameof(solution.Image), "The Image field is required.");
             else
             {
-                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(solution.Image.FileName)?.ToLower()))
-                    ModelState.AddModelError(nameof(solution.Image),
-                        "Invalid image type, only png and jpg images are allowed");
+                using (var stream = solution.Image.OpenReadStream())
+                {
+                    if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
+                        ModelState.AddModelError(nameof(solution.Image),
+                            "Invalid image type, only png and jpg images are allowed");
+                }
 
                 if (solution.Image.Length < 1)
                     ModelState.AddModelError(nameof(solution.Image), "Filesize too small");
@@ -127,7 +131,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/Solutions/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
@@ -142,8 +146,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             if (solution.Image != null)
             {
-                if (!(new[] { ".png", ".jpg", ".jpeg" }).Contains(Path.GetExtension(solution.Image.FileName)?.ToLower()))
-                    ModelState.AddModelError(nameof(solution.Image), "Invalid image type, only png and jpg images are allowed");
+                using (var stream = solution.Image.OpenReadStream())
+                {
+                    if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
+                        ModelState.AddModelError(nameof(solution.Image),
+                            "Invalid image type, only png and jpg images are allowed");
+                }
 
                 if (solution.Image.Length == 0)
                     ModelState.AddModelError(nameof(solution.Image), "Filesize too small");
@@ -191,7 +199,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             {
                 return NotFound();
             }
-            
+
             var solution = await _solutionRepository.Get((int)id, true);
             if (solution == null)
             {

@@ -4,11 +4,15 @@
     <UserSecretsId>ee67364c-7c95-428d-b5e8-44da0a61a39b</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Google.Apis.Analytics.v3" Version="1.19.0.642" />
+    <PackageReference Include="Google.Apis.AnalyticsReporting.v4" Version="1.32.0.1042" />
+    <PackageReference Include="Google.Apis.Auth" Version="1.32.0" />
     <PackageReference Include="ChartJSCore" Version="1.2.0" />
     <PackageReference Include="Localization.AspNetCore.TagHelpers" Version="0.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.1" />
+    <PackageReference Include="Mime" Version="3.0.0" />
     <PackageReference Include="Unidecode.NET" Version="1.1.1" />
   </ItemGroup>
   <ItemGroup>

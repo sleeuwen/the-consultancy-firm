@@ -35,7 +35,7 @@
                 <p>
                     @Model.Selected.Description
                 </p>
-                <a href="@Model.Selected.LinkPath" onclick="LogDownload(@Model.Selected.Id)" download>
+                <a href="@Model.Selected.LinkPath" onclick="LogDownload(@Model.Selected.Id)" download data-id="@Model.Selected.Id">
                     <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
                     @Localizer["download"]
                 </a>
@@ -60,7 +60,7 @@
                 <p>
                     @Model.MostRecent.Description
                 </p>
-                <a href="@Model.MostRecent.LinkPath" onclick="LogDownload(@Model.MostRecent.Id)" download>
+                <a href="@Model.MostRecent.LinkPath" onclick="LogDownload(@Model.MostRecent.Id)" download data-id="@Model.MostRecent.Id">
                     <img src="~/images/download-from-cloud.svg" alt="download" class="downloadsvg">
                     @Localizer["download"]
                 </a>
