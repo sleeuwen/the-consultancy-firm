@@ -31,7 +31,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ViewBag.download = await SetDownloadsGraph();
+            ViewBag.download = await SetDownloadsGraph(null);
             SetSessionGraph();
             SetDeviceGraph();
             var pageViews = MostPopularPagesThisWeek();
@@ -140,7 +140,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         [Route("api/dashboard/downloadGraph/{id}")]
-        public async Task<string> SetDownloadsGraph(int id = 0)
+        public async Task<string> SetDownloadsGraph(int? id)
         {
             var downloads = await _downloadLogRepository.GetDownloadsLastWeek(id);
 
