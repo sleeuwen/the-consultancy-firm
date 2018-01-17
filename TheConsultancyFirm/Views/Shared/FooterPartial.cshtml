@@ -19,9 +19,7 @@
             <div class="col-md-4">
                 <h3>Solutions.</h3>
                 <ul>
-                    <li>@Localizer["document_wizard"]</li>
-                    <li>@Localizer["social_ice"]</li>
-                    <li>@Localizer["opentext_extream"]</li>
+                    @await Component.InvokeAsync("Solution")
                     <li style="font-style: italic;">
                         <a asp-controller="Solutions" asp-action="Index">
                             @Localizer["all_solutions"]

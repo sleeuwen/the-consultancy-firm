@@ -1,0 +1,6 @@
+﻿@model List<Solution>
+
+@foreach (var item in Model)
+{
+    <li><a asp-controller="Solutions" asp-action="Details" asp-route-id="@item.Id"></a>@item.Title</li>
+}
