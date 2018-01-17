@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace TheConsultancyFirm.Models
 {
@@ -8,5 +9,7 @@ namespace TheConsultancyFirm.Models
         public string LinkPath { get; set; }
 
         public List<Slide> Slides { get; set; }
+
+        public bool HomepageCarousel { get; set; }
     }
 }

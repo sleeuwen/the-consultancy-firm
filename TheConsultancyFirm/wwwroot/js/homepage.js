@@ -132,10 +132,15 @@ jQuery(function ($) {
                     return [];
                 },
                 set: function (sortable) {
+                    $('#HomepageStatus').text('Saving...');
+
                     $.ajax({
                         method: 'POST',
                         url: '/api/dashboard/Homepage/NewsItems',
                         data: 'ids=' + sortable.toArray().join(','),
+                        success: function () {
+                            $('#HomepageStatus').text('Saved.');
+                        },
                     });
                 },
             },
@@ -150,10 +155,15 @@ jQuery(function ($) {
                     return [];
                 },
                 set: function (sortable) {
+                    $('#HomepageStatus').text('Saving...');
+
                     $.ajax({
                         method: 'POST',
                         url: '/api/dashboard/Homepage/Solutions',
                         data: 'ids=' + sortable.toArray().join(','),
+                        success: function () {
+                            $('#HomepageStatus').text('Saved.');
+                        },
                     });
                 },
             },
@@ -168,10 +178,15 @@ jQuery(function ($) {
                     return [];
                 },
                 set: function (sortable) {
+                    $('#HomepageStatus').text('Saving...');
+
                     $.ajax({
                         method: 'POST',
                         url: '/api/dashboard/Homepage/Cases',
                         data: 'ids=' + sortable.toArray().join(','),
+                        success: function () {
+                            $('#HomepageStatus').text('Saved.');
+                        },
                     });
                 },
             },

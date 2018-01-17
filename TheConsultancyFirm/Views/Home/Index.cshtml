@@ -3,6 +3,8 @@
 
 @{
     ViewData["Title"] = Localizer["page_title"];
+
+    var slides = (Model.CarouselBlock?.Slides ?? new List<Slide>()).OrderBy(s => s.Order).ToList();
 }
 
 <div class="container-fluid">
@@ -129,25 +131,19 @@
         <div class="col-12 col-lg-10">
             <div id="carouselTeam" class="carousel slide" data-ride="carousel" data-interval="6000">
                 <ol class="carousel-indicators">
-                    <li data-target="#carouselTeam" data-slide-to="0" class="active"></li>
-                    <li data-target="#carouselTeam" data-slide-to="1"></li>
-                    <li data-target="#carouselTeam" data-slide-to="2"></li>
-                    <li data-target="#carouselTeam" data-slide-to="3"></li>
+                    @for (var i = 0; i < slides.Count; i++)
+                    {
+                        <li data-target="#carouselTeam" data-slide-to="@i" class="@(i == 0 ? "active" : "")"></li>
+                    }
                 </ol>
 
                 <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <img src="~/images/office-design.jpg" alt="Vergader kamer" class="d-block mw-100"/>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="~/images/office-design.jpg" alt="Vergader kamer" class="d-block mw-100"/>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="~/images/office-design.jpg" alt="Vergader kamer" class="d-block mw-100"/>
-                    </div>
-                    <div class="carousel-item">
-                        <img src="~/images/office-design.jpg" alt="Vergader kamer" class="d-block mw-100"/>
-                    </div>
+                    @for (var i = 0; i < slides.Count; i++)
+                    {
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <img src="@Url.Content($"~{slides[i].PhotoPath}")" class="d-block mw-100" />
+                        </div>
+                    }
                 </div>
             </div>
         </div>
@@ -160,22 +156,14 @@
 
             <div class="carousel slide" data-ride="carousel" data-interval="false" data-carousel-follow="carouselTeam">
                 <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <div class="carousel-caption" role="option">
+                    @for (var i = 0; i < slides.Count; i++)
+                    {
+                        <div class="carousel-item @(i == 0 ? "active" : "")">
+                            <div class="carousel-caption" role="option">
+                                @slides[i].Text
+                            </div>
                         </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="carousel-caption" role="option">
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="carousel-caption" role="option">
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="carousel-caption" role="option">
-                        </div>
-                    </div>
+                    }
                 </div>
             </div>
 

@@ -3,8 +3,95 @@
 @{
     ViewData["Title"] = "Homepage";
 }
-<h2>@ViewBag.Title</h2>
+<h2>
+    @ViewBag.Title
 
+    <span class="content text-muted" id="HomepageStatus"></span>
+</h2>
+
+<nav>
+    <div class="nav homepage" role="tablist">
+        <a class="nav-item nav-link active" href="#nav-cases-carousel" data-toggle="tab" id="nav-cases-carousel-tab">
+            Cases Carousel
+        </a>
+        <a class="nav-item nav-link" href="#nav-solutions-carousel" data-toggle="tab" id="nav-solutions-carousel-tab">
+            Solutions Carousel
+        </a>
+        <a class="nav-item nav-link" href="#nav-team-carousel" data-toggle="tab" id="nav-team-carousel-tab">
+            Team Carousel
+        </a>
+        <a class="nav-item nav-link" href="#nav-news-items" data-toggle="tab" id="nav-news-items-tab">
+            News Items
+        </a>
+    </div>
+</nav>
+
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="nav-cases-carousel" role="tabpanel">
+        <div class="container container-wide">
+            <div class="row" id="CasesCarousel">
+                @foreach (var item in Model.Cases)
+                {
+                    <div class="col-md-4 relateditem" data-id="@item.Id">
+                        <div class="innerrelateditem flexcase" style="background-image: url(@item.PhotoPath)">
+                            <p>@item.Customer.Name</p>
+                            <h3>@item.Title</h3>
+                            <a asp-area="" asp-controller="Cases" asp-action="Details" asp-route-id="@item.Slug" target="_blank" class="buttonHover">LEES MEER</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#selectCases">
+            Selecteer Cases
+        </button>
+    </div>
+    <div class="tab-pane fade" id="nav-solutions-carousel" role="tabpanel">
+        <div class="container container-wide">
+            <div class="row" id="solutionOuter">
+                @foreach (var item in Model.Solutions.OrderBy(s => s.HomepageOrder))
+                {
+                    <div class="col-lg-4 col-md-12" data-id="@item.Id">
+                        <div class="card">
+                            <div class="card-img-top" alt="Card image cap" style="background-image: url(@item.PhotoPath)"></div>
+                            <div class="card-body">
+                                <h4 class="card-title">@item.Title</h4>
+                                <p class="card-text">
+                                    @item.Summary
+                                </p>
+                                <a asp-controller="Solutions" asp-action="Details" asp-route-id="@item.Slug" target="_blank" class="buttonHover">READ MORE</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-team-carousel" role="tabpanel">
+        <div class="row" id="blocksList">
+            @Html.Partial("Carousel", Model.CarouselBlock)
+        </div>
+    </div>
+    <div class="tab-pane fade" id="nav-news-items" role="tabpanel">
+        <div class="container container-wide">
+            <div class="row" id="NewsItemsList">
+                @foreach (var item in Model.NewsItems)
+                {
+                    <div class="col-12 col-lg-4" data-id="@item.Id">
+                        @Html.Partial("NewsItemPartial", item)
+                    </div>
+                }
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#selectNewsItems">
+            Selecteer nieuws items
+        </button>
+    </div>
+</div>
+
+@*
 <h3>
     Cases Carousel
 
@@ -55,6 +142,105 @@
 <hr/>
 
 <h3>
+    Team Carousel
+</h3>
+
+<div class="row" id="blocksList">
+    <div class="col-md-12 block carousel-block homepage-carousel" data-id="@Model.CarouselBlock.Id">
+        <div class="d-block">
+            <form asp-controller="Blocks" asp-action="Carousel" enctype="multipart/form-data">
+                <input type="hidden" name="type" value="carousel" />
+                <input type="hidden" name="Id" value="@Model.CarouselBlock.Id" />
+                <input type="hidden" id="" asp-for="CarouselBlock.Date" />
+                <input type="hidden" id="" asp-for="CarouselBlock.Order" />
+
+                <div class="row mb-3">
+                    <div class="col">
+                        <label for="@Model.CarouselBlock.Id-LinkText" asp-for="CarouselBlock.LinkText">Text</label>
+                        <input id="@Model.CarouselBlock.Id-LinkText" asp-for="CarouselBlock.LinkText" class="form-control" />
+                    </div>
+                    <div class="col">
+                        <label for="@Model.CarouselBlock.Id-LinkPath" asp-for="CarouselBlock.LinkPath">URL</label>
+                        <input id="@Model.CarouselBlock.Id-LinkPath" asp-for="CarouselBlock.LinkPath" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="slides">
+                            <nav>
+                                <div class="nav nav-tabs" id="carousel-tabs-@Model.CarouselBlock.Id" role="tablist">
+                                    @for (var i = 0; i < slides.Count; i++)
+                                    {
+                                        @* Changes here should be mirrored in blocks.js `slideTabTemplate` *@@*
+                                        <a class="nav-item nav-link @(i == 0 ? "active" : "")"
+                                           id="carousel-nav-slide-@Model.CarouselBlock.Id-@i" data-toggle="tab" role="tab"
+                                           href="#carousel-tab-slide-@Model.CarouselBlock.Id-@i">
+                                            Slide <span>@(i + 1)</span>
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    }
+                                    <a class="nav-item nav-link add-slide" href="#"><i class="fa fa-plus"></i></a>
+                                </div>
+                            </nav>
+                            <div class="tab-content" id="carousel-content-@Model.CarouselBlock.Id">
+                                @for (var i = 0; i < slides.Count; i++)
+                                {
+                                    var slide = slides[i];
+
+                                    @* Changes here should be mirrored in blocks.js `slideContentTemplate` *@@*
+                                    <div class="tab-pane fade @(i == 0 ? "show active" : "")" role="tabpanel"
+                                         id="carousel-tab-slide-@Model.CarouselBlock.Id-@i" data-id="@slide.Id" data-order="@i">
+                                        <input type="hidden" id="" asp-for="CarouselBlock.Slides[i].Order" data-value="order" />
+                                        <input type="hidden" id="" asp-for="CarouselBlock.Slides[i].PhotoPath" />
+
+                                        <div class="row">
+                                            <div class="col-8">
+                                                <div class="box" style="@(slide.PhotoPath != null ? "background-image:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)), url(" + slide.PhotoPath + ")" : "")">
+                                                    <div class="box__input">
+                                                        <svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43">
+                                                            <path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z" />
+                                                        </svg>
+                                                        <input class="box__file" accept="image/png,image/jpeg"
+                                                               id="@Model.CarouselBlock.Id-Slides-@i-Image" asp-for="CarouselBlock.Slides[i].Image">
+                                                        <label for="@Model.CarouselBlock.Id-Slides-@i-Image" asp-for="CarouselBlock.Slides[i].Image">
+                                                            <strong>Choose a file</strong>
+                                                            <span class="box__dragndrop"> or drag it here</span>.
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-4">
+                                                <label for="@Model.CarouselBlock.Id-Slides-@i-Text" asp-for="CarouselBlock.Slides[i].Text">
+                                                    Description
+                                                </label>
+                                                <textarea class="carousel-description form-control"
+                                                          asp-for="CarouselBlock.Slides[i].Text"
+                                                          placeholder="Place carousel slide text here"
+                                                          id="@Model.CarouselBlock.Id-Slides-@i-Text"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-3">
+                    <div class="col">
+                        <input type="submit" class="btn btn-primary" value="Save"/>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<hr/>
+
+<h3>
     Nieuws en Kennis
 
     <button type="button" class="btn btn-secondary float-right" data-toggle="modal" data-target="#selectNewsItems">
@@ -72,7 +258,7 @@
         }
     </div>
 </div>
-
+*@
 <div class="modal fade" id="selectCases" tabindex="-1" role="dialog" aria-labelledby="selectCasesTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">

@@ -15,13 +15,15 @@ namespace TheConsultancyFirm.Controllers
         private readonly INewsItemRepository _newsItemRepository;
         private readonly ISolutionRepository _solutionRepository;
         private readonly ICaseRepository _caseRepository;
+        private readonly IBlockRepository _blockRepository;
 
-        public HomeController(ICustomerRepository customerRepository, INewsItemRepository newsItemRepository, ISolutionRepository solutionRepository, ICaseRepository caseRepository)
+        public HomeController(ICustomerRepository customerRepository, INewsItemRepository newsItemRepository, ISolutionRepository solutionRepository, ICaseRepository caseRepository, IBlockRepository blockRepository)
         {
             _customerRepository = customerRepository;
             _newsItemRepository = newsItemRepository;
             _solutionRepository = solutionRepository;
             _caseRepository = caseRepository;
+            _blockRepository = blockRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -29,6 +31,7 @@ namespace TheConsultancyFirm.Controllers
             var customers = (await _customerRepository.GetAll()).Where(c => c.Enabled && !c.Deleted).Take(12).ToList();
             var cases = await _caseRepository.GetHomepageItems();
             var solutions = await _solutionRepository.GetAll().OrderBy(s => s.HomepageOrder).ToListAsync();
+            var carousel = await _blockRepository.GetHomepageCarousel();
             var newsItems = await _newsItemRepository.GetHomepageItems();
 
             return View(new HomeViewModel
@@ -36,6 +39,7 @@ namespace TheConsultancyFirm.Controllers
                 Customers = customers,
                 Cases = cases,
                 Solutions = solutions,
+                CarouselBlock = carousel,
                 NewsItems = newsItems,
             });
         }
