@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Areas.Dashboard.ViewModels;
+using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 
@@ -16,22 +17,24 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         private readonly ISolutionRepository _solutionRepository;
         private readonly ICaseRepository _caseRepository;
         private readonly IBlockRepository _blockRepository;
+        private readonly IItemTranslationRepository _itemTranslationRepository;
 
-        public HomepageController(INewsItemRepository newsItemRepository, ISolutionRepository solutionRepository, ICaseRepository caseRepository, IBlockRepository blockRepository)
+        public HomepageController(INewsItemRepository newsItemRepository, ISolutionRepository solutionRepository, ICaseRepository caseRepository, IBlockRepository blockRepository, IItemTranslationRepository itemTranslationRepository)
         {
             _newsItemRepository = newsItemRepository;
             _solutionRepository = solutionRepository;
             _caseRepository = caseRepository;
             _blockRepository = blockRepository;
+            _itemTranslationRepository = itemTranslationRepository;
         }
 
         public async Task<IActionResult> Index()
         {
             return View(new HomepageViewModel {
-                Cases = await _caseRepository.GetHomepageItems(),
+                Cases = await _caseRepository.GetHomepageItems("nl"),
                 Solutions = await _solutionRepository.GetAll().ToListAsync(),
                 CarouselBlock = await _blockRepository.GetHomepageCarousel(),
-                NewsItems = await _newsItemRepository.GetHomepageItems()
+                NewsItems = await _newsItemRepository.GetHomepageItems("nl")
             });
         }
 
@@ -39,7 +42,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> Cases(string ids)
         {
             var intIds = (ids ?? "").Split(",").Where(s => int.TryParse(s.Trim(), out var _)).Select(s => int.Parse(s.Trim())).ToList();
-            var currentItems = await _caseRepository.GetHomepageItems();
+            var currentItems = await _caseRepository.GetHomepageItems("nl");
 
             var caseItems = new List<Case>();
             for (var i = 0; i < intIds.Count; i++)
@@ -64,6 +67,23 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 await _caseRepository.Update(@case);
             }
 
+            foreach (var item in await _caseRepository.GetHomepageItems("en"))
+            {
+                item.HomepageOrder = null;
+                await _caseRepository.Update(item);
+            }
+
+            var caseIds = caseItems.Select(c => c.Id);
+            var translatedCases = (await _itemTranslationRepository.GetAllCases())
+                .Where(i => caseIds.Contains(i.IdNl)).ToDictionary(i => i.IdNl, i => i.IdEn);
+
+            foreach (var translation in translatedCases)
+            {
+                var translatedCase = await _caseRepository.Get(translation.Value);
+                translatedCase.HomepageOrder = caseItems.First(c => c.Id == translation.Key).HomepageOrder;
+                await _caseRepository.Update(translatedCase);
+            }
+
             return View(caseItems);
         }
 
@@ -73,6 +93,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             var intIds = (ids ?? "").Split(",").Where(s => int.TryParse(s.Trim(), out var _))
                 .Select(s => int.Parse(s.Trim())).ToList();
             var solutions = await _solutionRepository.GetAll().ToListAsync();
+            var translations = await _itemTranslationRepository.GetAllSolutions();
 
             for (var i = 0; i < intIds.Count; i++)
             {
@@ -81,6 +102,14 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
                 solution.HomepageOrder = i;
                 await _solutionRepository.Update(solution);
+
+                var translation = translations.First(t => t.IdNl == intIds[i]);
+                if (translation.IdEn != 0)
+                {
+                    var translatedSolution = solutions.First(s => s.Id == translation.IdEn);
+                    translatedSolution.HomepageOrder = i;
+                    await _solutionRepository.Update(translatedSolution);
+                }
             }
         }
 
@@ -88,7 +117,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         public async Task<IActionResult> NewsItems(string ids)
         {
             var intIds = (ids ?? "").Split(",").Where(s => int.TryParse(s.Trim(), out var _)).Select(s => int.Parse(s.Trim())).ToList();
-            var currentItems = await _newsItemRepository.GetHomepageItems();
+            var currentItems = await _newsItemRepository.GetHomepageItems("nl");
 
             var newsItems = new List<NewsItem>();
             for (var i = 0; i < intIds.Count; i++)
@@ -111,6 +140,23 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             {
                 newsItem.HomepageOrder = null;
                 await _newsItemRepository.Update(newsItem);
+            }
+
+            foreach (var item in await _newsItemRepository.GetHomepageItems("en"))
+            {
+                item.HomepageOrder = null;
+                await _newsItemRepository.Update(item);
+            }
+
+            var newsItemIds = newsItems.Select(n => n.Id);
+            var translatedNewsItems = (await _itemTranslationRepository.GetAllNewsitems())
+                .Where(n => newsItemIds.Contains(n.IdNl));
+
+            foreach (var translation in translatedNewsItems)
+            {
+                var translatedNewsItem = await _newsItemRepository.Get(translation.IdEn);
+                translatedNewsItem.HomepageOrder = newsItems.First(n => n.Id == translation.IdNl).HomepageOrder;
+                await _newsItemRepository.Update(translatedNewsItem);
             }
 
             return View(newsItems);

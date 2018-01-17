@@ -48,9 +48,9 @@ namespace TheConsultancyFirm.Repositories
             return _context.NewsItems;
         }
 
-        public Task<List<NewsItem>> GetHomepageItems()
+        public Task<List<NewsItem>> GetHomepageItems(string language)
         {
-            return _context.NewsItems.Where(n => n.HomepageOrder != null && !n.Deleted && n.Enabled).OrderBy(n => n.HomepageOrder).ToListAsync();
+            return _context.NewsItems.Where(n => n.HomepageOrder != null && !n.Deleted && n.Enabled && n.Language == language).OrderBy(n => n.HomepageOrder).ToListAsync();
         }
 
         public async Task Create(NewsItem newsItem)

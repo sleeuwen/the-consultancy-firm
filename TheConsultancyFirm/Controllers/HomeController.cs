@@ -31,10 +31,10 @@ namespace TheConsultancyFirm.Controllers
             var language = HttpContext?.Request?.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
 
             var customers = (await _customerRepository.GetAll()).Where(c => c.Enabled && !c.Deleted).Take(12).ToList();
-            var cases = await _caseRepository.GetHomepageItems();
+            var cases = await _caseRepository.GetHomepageItems(language);
             var solutions = await _solutionRepository.GetAll().Where(s => s.Language == language).OrderBy(s => s.HomepageOrder).ToListAsync();
             var carousel = await _blockRepository.GetHomepageCarousel();
-            var newsItems = await _newsItemRepository.GetHomepageItems();
+            var newsItems = await _newsItemRepository.GetHomepageItems(language);
 
             return View(new HomeViewModel
             {

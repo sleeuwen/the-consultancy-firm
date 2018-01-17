@@ -9,7 +9,7 @@ namespace TheConsultancyFirm.Repositories
     {
         Task<NewsItem> Get(int id, bool includeInactive = false);
         IQueryable<NewsItem> GetAll();
-        Task<List<NewsItem>> GetHomepageItems();
+        Task<List<NewsItem>> GetHomepageItems(string language);
         Task Create(NewsItem newsItem);
         Task Update(NewsItem newsItem);
         Task Delete(int id);

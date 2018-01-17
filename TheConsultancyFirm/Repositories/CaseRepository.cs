@@ -64,12 +64,12 @@ namespace TheConsultancyFirm.Repositories
             return (previous, next);
         }
 
-        public Task<List<Case>> GetHomepageItems()
+        public Task<List<Case>> GetHomepageItems(string language)
         {
             return _context.Cases
                 .Include(c => c.Customer)
-                .Where(n => n.HomepageOrder != null && !n.Deleted && n.Enabled)
-                .OrderBy(n => n.HomepageOrder)
+                .Where(c => c.HomepageOrder != null && !c.Deleted && c.Enabled && c.Language == language)
+                .OrderBy(c => c.HomepageOrder)
                 .ToListAsync();
         }
 
