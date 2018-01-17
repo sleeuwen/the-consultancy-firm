@@ -18,18 +18,15 @@ namespace TheConsultancyFirm.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IAccountRepository _accountRepository;
         private readonly IMailService _emailSender;
 
         public AccountController(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            IAccountRepository accountRepository,
             IMailService emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _accountRepository = accountRepository;
             _emailSender = emailSender;
         }
 
@@ -58,14 +55,14 @@ namespace TheConsultancyFirm.Controllers
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, set lockoutOnFailure: true
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, false);
-            var user = _accountRepository.GetUserByEmail(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email);
             if (user.LastLogin == null)
             {
                 await UpdateUserLastLoginAsync(model.Email);
                 return RedirectToAction("ChangePassword", "Manage", new {area = "Dashboard"});
             }
 
-            if(!IsAccountEnabled(user.Email))
+            if(!await IsAccountEnabled(user.Email))
             {
                 return RedirectToAction("AccessDenied");
             }
@@ -202,7 +199,7 @@ namespace TheConsultancyFirm.Controllers
                 return RedirectToAction(nameof(Login));
             }
 
-            if (!CheckIfGoogleAccountExists(info.Principal.FindFirstValue(ClaimTypes.Email)))
+            if (!await CheckIfGoogleAccountExists(info.Principal.FindFirstValue(ClaimTypes.Email)))
             {
                 return RedirectToAction("AccessDenied");
             }
@@ -237,7 +234,7 @@ namespace TheConsultancyFirm.Controllers
                     throw new ApplicationException("Error loading external login information during confirmation.");
                 }
 
-                _accountRepository.DeleteDummyUser(model.Email);
+                await _userManager.DeleteAsync(await _userManager.FindByEmailAsync(model.Email));
                 var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -393,14 +390,14 @@ namespace TheConsultancyFirm.Controllers
             await _userManager.UpdateAsync(user);
         }
 
-        private bool CheckIfGoogleAccountExists(string email)
+        private async Task<bool> CheckIfGoogleAccountExists(string email)
         {
-            return _accountRepository.GetUserByEmail(email) != null;
+            return await _userManager.FindByEmailAsync(email) != null;
         }
 
-        private bool IsAccountEnabled(string email)
+        private async Task<bool> IsAccountEnabled(string email)
         {
-            return _accountRepository.GetUserByEmail(email).Enabled;
+            return (await _userManager.FindByEmailAsync(email)).Enabled;
         }
 
         #endregion
