@@ -31,6 +31,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             var users = await _userManager.Users.Where(c => c.Id != currentUser.Id && (c.Enabled || showDisabled)).ToListAsync();
             return View(users);
         }
+
         /// <summary>
         /// Gives the current logged in user
         /// </summary>
@@ -57,22 +58,14 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 return View(applicationUser);
 
             var userPass = GenerateRandomPassword();
-            if(applicationUser.Email.Contains("@gmail"))
-            {
-                //Placeholder for the unique username until the gmail user logs in for the first time.
-                applicationUser.UserName = applicationUser.Id;
-            }
-            else
-            {
-                applicationUser.UserName = applicationUser.Email;
-            }
+            applicationUser.UserName = applicationUser.Email.EndsWith("@gmail.com") ? applicationUser.Id : applicationUser.Email;
             applicationUser.Enabled = true;
             await _userManager.CreateAsync(applicationUser);
             await _userManager.AddPasswordAsync(applicationUser, userPass);
 
             var _ = _mailService.SendAccountCreatedMailAsync(applicationUser.Email, userPass);
 
-            return RedirectToAction(nameof(Index)); 
+            return RedirectToAction(nameof(Index));
         }
 
         /// <summary>
