@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Data;
 using TheConsultancyFirm.Models;
@@ -26,6 +28,29 @@ namespace TheConsultancyFirm.Repositories
             }
 
             return block;
+        }
+
+        public async Task<CarouselBlock> GetHomepageCarousel()
+        {
+            var carousel = await _context.Blocks.OfType<CarouselBlock>()
+                .Include(c => c.Slides)
+                .Where(c => c.HomepageCarousel)
+                .SingleOrDefaultAsync();
+
+            if (carousel == null)
+            {
+                carousel = new CarouselBlock
+                {
+                    Active = true,
+                    Date = DateTime.UtcNow,
+                    LastModified = DateTime.UtcNow,
+                    HomepageCarousel = true,
+                };
+
+                await Create(carousel);
+            }
+
+            return carousel;
         }
 
         public async Task Create(Block block)
