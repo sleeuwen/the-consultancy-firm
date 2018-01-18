@@ -50,16 +50,17 @@
     </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.CasesList) {
+    @foreach (var item in Model.CasesList)
+    {
         <tr class="@(item.Enabled ? "" : "disabled")">
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                <time>@item.Date.ToString()</time>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastModified)
+                <time>@item.LastModified.ToString()</time>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Language)

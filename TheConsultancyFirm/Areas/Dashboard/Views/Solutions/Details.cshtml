@@ -20,10 +20,10 @@
             @Html.DisplayNameFor(model => model.Date)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Date)
+            <time>@Model.Date.ToString()</time>
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.LastModified)
+            <time>@Model.LastModified.ToString()</time>
         </dt>
         <dd>
             @Html.DisplayFor(model => model.LastModified)

@@ -36,10 +36,10 @@
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Date)
+                <time>@item.Date.ToString()</time>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.LastModified)
+                <time>@item.LastModified.ToString()</time>
             </td>
             <td>
                 <a asp-action="Restore" asp-route-id="@item.Id" onclick="return confirm('Weet u zeker dat het nieuwsitem wilt restoren?')">Restore</a>

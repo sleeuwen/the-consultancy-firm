@@ -69,7 +69,7 @@
                     <a href="#" onclick="showDownloadGraph(@item.Id)">@Html.DisplayFor(modelItem => item.AmountOfDownloads)</a>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    <time>@item.Date.ToString()</time>
                 </td>
                 <td>
                     <a href="@item.LinkPath" download>
