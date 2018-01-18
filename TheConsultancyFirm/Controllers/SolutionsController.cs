@@ -12,16 +12,19 @@ namespace TheConsultancyFirm.Controllers
     {
         private readonly IRelatedItemsRepository _relatedItemsRepository;
         private readonly ISolutionRepository _solutionRepository;
+        private readonly IItemTranslationRepository _itemTranslationRepository;
 
-        public SolutionsController(IRelatedItemsRepository relatedItemsRepository, ISolutionRepository solutionRepository, ICustomerRepository customerRepository)
+        public SolutionsController(IRelatedItemsRepository relatedItemsRepository, ISolutionRepository solutionRepository, IItemTranslationRepository itemTranslationRepository)
         {
             _relatedItemsRepository = relatedItemsRepository;
             _solutionRepository = solutionRepository;
+            _itemTranslationRepository = itemTranslationRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _solutionRepository.GetAll().Where(s => s.Enabled && !s.Deleted).ToListAsync());
+            var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+            return View(await _solutionRepository.GetAll().Where(s => s.Enabled && !s.Deleted && s.Language == language).ToListAsync());
         }
 
         [HttpGet("[controller]/{id}")]
@@ -33,11 +36,22 @@ namespace TheConsultancyFirm.Controllers
             var solutionItem = await _solutionRepository.Get(solutionId, false);
             if (solutionItem == null || solutionItem.Deleted || !solutionItem.Enabled) return NotFound();
 
+            var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+
+            if (solutionItem.Language != language)
+            {
+                int itemTranslationId;
+                itemTranslationId = language == "nl" ?
+                    (await _itemTranslationRepository.GetAllSolutions()).FirstOrDefault(s => s.IdEn == solutionItem.Id).IdNl :
+                    (await _itemTranslationRepository.GetAllSolutions()).FirstOrDefault(s => s.IdNl == solutionItem.Id).IdEn;
+                solutionItem = await _solutionRepository.Get(itemTranslationId);
+            }
+
             if (id != solutionItem.Slug)
                 return RedirectToAction("Details", new { id = solutionItem.Slug });
 
             var relatedItems =
-                await _relatedItemsRepository.GetRelatedItems(solutionItem.Id, Enumeration.ContentItemType.Solution);
+                await _relatedItemsRepository.GetRelatedItems(solutionItem.Id, Enumeration.ContentItemType.Solution, language);
 
             var relatedCustomers = solutionItem.CustomerSolutions.Select(cs => cs.Customer).Where(c => !c.Deleted && c.Enabled).Take(12).ToList();
                 

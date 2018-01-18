@@ -1,9 +1,9 @@
-﻿@model List<Vacancy>
-
+﻿@inject IViewLocalizer Localizer
+@model List<Vacancy>
 <div class="vacancyContainer">
-    <h2>We zoeken altijd talent</h2>
+    <h2>@Localizer["we_search"]</h2>
     <p class="introtext">
-        Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget,<br/>
+        Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget,<br />
         imperdiet nec, imperdiet iaculis, ipsum.
     </p>
 </div>

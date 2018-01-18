@@ -1,30 +1,55 @@
-﻿@model IEnumerable<NewsItem>
-
+﻿@model NewsItemViewModel
 @{
     ViewData["Title"] = "Nieuwsitems";
+    var pagination = new PaginationProperties
+    {
+        PageIndex = Model.NewsItemsList.PageIndex,
+        TotalPages = Model.NewsItemsList.TotalPages,
+        HasNextPage = Model.NewsItemsList.HasNextPage,
+        HasPreviousPage = Model.NewsItemsList.HasPreviousPage
+    };
 }
 
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial("IndexButtonsPartial")
+@Html.Partial("IndexButtonsPartial", Model.NewsItemsWithoutTranslation)
+<form asp-action="Index" method="get">
+    <div class="row mb-3 mt-3">
+        <div class="col-4">
+            <input type="hidden" value="@ViewBag.ShowDisabled.ToString()" name="showDisabled" />
+
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" id="txtSearch" name="SearchString" value="@ViewData["currentFilter"]" />
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Title</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Date</a>
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastModified)
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["LastModifiedSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Last Modified</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => new NewsItem().Language)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.NewsItemsList)
         {
             <tr class="@(item.Enabled ? "" : "disabled")">
                 <td>
@@ -37,7 +62,10 @@
                     @Html.DisplayFor(modelItem => item.LastModified)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Aanpassen</a> |
+                    @Html.DisplayFor(modelItem => item.Language)
+                </td>
+                <td>
+                    <a asp-action="@(item.Language == "en" ? "TranslationEdit" : "Edit")" asp-route-id="@item.Id">Aanpassen</a> |
                     <a asp-area="" asp-controller="NewsItems" asp-action="Details" asp-route-id="@item.Id" target="_blank">Bekijken</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> |
                     <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
@@ -46,3 +74,4 @@
         }
     </tbody>
 </table>
+@Html.Partial("PaginationPartial", pagination)

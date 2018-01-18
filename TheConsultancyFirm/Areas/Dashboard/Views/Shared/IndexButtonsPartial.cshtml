@@ -1,5 +1,6 @@
-﻿<div class="dashboard-buttons mb-3">
-    <a asp-action="Create" class="dashboard-button" id="create-item">
+﻿@model List<Tuple<int,string>>
+<div class="dashboard-buttons mb-3">
+    <a class="dashboard-button" id="create-item" onclick="showCreationModal()">
         Nieuw item toevoegen
         <i class="icon-badge fa fa-plus"></i>
     </a>
@@ -21,4 +22,44 @@
         Bekijk verwijderde items
         <i class="icon-badge fa fa-trash-o"></i>
     </a>
+</div>
+
+<div class="modal fade" id="createModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form asp-action="TranslationChoice" id="inputForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Wil je een vertaling toevoegen?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="custom-control custom-radio">
+                        <input type="radio" name="choice" value="0" id="modalNo" class="custom-control-input">
+                        <label class="custom-control-label" for="modalNo">Nee, ik wil een nieuw item toevoegen</label>
+                    </div>
+                        <div class="custom-control custom-radio">
+                        <input type="radio" name="choice" value="1" id="modalYes" class="custom-control-input">
+                        <label class="custom-control-label" for="modalYes">Ja, ik wil een vertaling toevoegen</label>
+                    </div>
+                            <div class="form-group d-none" id="selectBox">
+                                <label for="selectBox">Selecteer item</label>
+                                <select class="form-control" name="selectBox">
+                                    <option disabled="" value="0" selected="">Kies item</option>
+
+                                    @foreach (var item in Model ?? new List<Tuple<int, string>>())
+                                    {
+                                        <option value="@item.Item1">@item.Item2</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary">Selecteer</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
+using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Data;
 
 namespace TheConsultancyFirm.Migrations
@@ -233,6 +234,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<bool>("Enabled");
 
+                    b.Property<string>("Language");
+
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("PhotoPath");
@@ -266,6 +269,8 @@ namespace TheConsultancyFirm.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<DateTime>("Date");
 
                     b.Property<string>("Email")
                         .IsRequired();
@@ -339,6 +344,8 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<bool>("Enabled");
 
+                    b.Property<string>("Language");
+
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("LinkPath");
@@ -378,6 +385,22 @@ namespace TheConsultancyFirm.Migrations
                     b.ToTable("DownloadTag");
                 });
 
+            modelBuilder.Entity("TheConsultancyFirm.Models.ItemTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("ContentType");
+
+                    b.Property<int>("IdEn");
+
+                    b.Property<int>("IdNl");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ItemTranslations");
+                });
+
             modelBuilder.Entity("TheConsultancyFirm.Models.NewsItem", b =>
                 {
                     b.Property<int>("Id")
@@ -388,6 +411,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<bool>("Deleted");
 
                     b.Property<bool>("Enabled");
+
+                    b.Property<string>("Language");
 
                     b.Property<DateTime>("LastModified");
 
@@ -482,6 +507,8 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<bool>("Deleted");
 
                     b.Property<bool>("Enabled");
+
+                    b.Property<string>("Language");
 
                     b.Property<DateTime>("LastModified");
 

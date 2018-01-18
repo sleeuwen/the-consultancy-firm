@@ -41,13 +41,13 @@ namespace TheConsultancyFirm
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
             services.AddScoped<INewsletterSubscriptionRepository, NewsletterSubscriptionRepository>();
-            services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IBlockRepository, BlockRepository>();
             services.AddScoped<IRelatedItemsRepository, RelatedItemsRepository>();
             services.AddScoped<ISearchRepository, SearchRepository>();
             services.AddScoped<IVacancyRepository, VacancyRepository>();
             services.AddScoped<IDownloadLogRepository, DownloadLogRepository>();
+            services.AddScoped<IItemTranslationRepository, ItemTranslationRepository>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

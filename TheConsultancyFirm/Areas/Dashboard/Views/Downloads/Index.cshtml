@@ -1,65 +1,97 @@
-﻿@model IEnumerable<Download>
+﻿@model DownloadViewModel
 @{
     ViewData["Title"] = "Downloads";
+    var pagination = new PaginationProperties
+    {
+        PageIndex = Model.DownloadsList.PageIndex,
+        TotalPages = Model.DownloadsList.TotalPages,
+        HasNextPage = Model.DownloadsList.HasNextPage,
+        HasPreviousPage = Model.DownloadsList.HasPreviousPage
+    };
 }
 
 <h2>@ViewBag.Title</h2>
 
-@Html.Partial("IndexButtonsPartial")
+@Html.Partial("IndexButtonsPartial", Model.DownloadsWithoutTranslation)
+<form asp-action="Index" method="get">
+    <div class="row mb-3 mt-3">
+        <div class="col-4">
+            <input type="hidden" value="@ViewBag.ShowDisabled.ToString()" name="showDisabled" />
+
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" id="txtSearch" name="SearchString" value="@ViewData["currentFilter"]" />
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
 
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Title)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.AmountOfDownloads)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Filename)
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Title</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => new Download().Description)
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["AmountSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Amount of downloads</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Date</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => new Download().Filename)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => new Download().Language)
+            </th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model)
-    {
-        <tr class="@(item.Enabled ? "" : "disabled")">
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                
-                <a href="#" onclick="showDownloadGraph(@item.Id)">@Html.DisplayFor(modelItem => item.AmountOfDownloads)</a>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                <a href="@item.LinkPath" download>
-                    @Html.DisplayFor(modelItem => item.Filename)
-                </a>
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
-                <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
-            </td>
-        </tr>
-    }
+        @foreach (var item in Model.DownloadsList)
+        {
+            <tr class="@(item.Enabled ? "" : "disabled")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AmountOfDownloads)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    <a href="@item.LinkPath" download>
+                        @Html.DisplayFor(modelItem => item.Filename)
+                    </a>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Language)
+                </td>
+                <td>
+                    <a asp-action="@(item.Language == "en" ? "TranslationEdit" : "Edit")" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a> |
+                    <a asp-action="ToggleEnable" asp-route-id="@item.Id">@(item.Enabled ? "Disable" : "Enable")</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+@Html.Partial("PaginationPartial", pagination)
+      
 <div class="modal fade" id="downloadModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
