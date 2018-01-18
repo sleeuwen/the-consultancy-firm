@@ -50,6 +50,8 @@
     <tbody>
         @foreach (var item in Model)
         {
+            int count = Model.Count();
+
             <tr class="@(item.Read == false ? "active" : "")">
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -63,8 +65,17 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Subject)
                 </td>
+                @{
+                    DateTime d1 = item.Date;
+                    var unixTimestampCreated = d1.ToString();
+
+                }
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    <div>
+                        <input class="dateCreated" type="hidden" value="@unixTimestampCreated" runat="server" />
+                        <input id="count" type="hidden" value="@count" runat="server" />
+                    </div>
+                    <p class="created">@unixTimestampCreated</p>
                 </td>
                 <td>
                     <a title="Lees het bericht van @item.Name" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-eye" aria-hidden="true"></i></a>
@@ -73,4 +84,5 @@
         }
     </tbody>
 </table>
+<script src="localdates.js"></script>
 @Html.Partial("PaginationPartial", pagination)

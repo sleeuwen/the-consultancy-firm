@@ -58,6 +58,8 @@
     <tbody>
         @foreach (var item in Model.DownloadsList)
         {
+            int count = Model.DownloadsList.Count();
+
             <tr class="@(item.Enabled ? "" : "disabled")">
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
@@ -68,8 +70,17 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.AmountOfDownloads)
                 </td>
+                @{
+                    DateTime d1 = item.Date;
+                    var unixTimestampCreated = d1.ToString();
+
+                }
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    <div>
+                        <input class="dateCreated" type="hidden" value="@unixTimestampCreated" runat="server" />
+                        <input id="count" type="hidden" value="@count" runat="server" />
+                    </div>
+                    <p class="created">@unixTimestampCreated</p>
                 </td>
                 <td>
                     <a href="@item.LinkPath" download>
@@ -89,6 +100,7 @@
         }
     </tbody>
 </table>
+<script src="localdates.js"></script>
 
 @Html.Partial("PaginationPartial", pagination)
       
