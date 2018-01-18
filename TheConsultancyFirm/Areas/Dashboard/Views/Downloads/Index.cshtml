@@ -69,7 +69,7 @@
                     @Html.DisplayFor(modelItem => item.AmountOfDownloads)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    <time>@item.Date.ToString()</time>
                 </td>
                 <td>
                     <a href="@item.LinkPath" download>

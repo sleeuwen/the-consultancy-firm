@@ -52,6 +52,7 @@
       "wwwroot/js/homepage.js",
       "wwwroot/js/imageUpload.js",
       "wwwroot/js/indexbuttons.js",
+      "wwwroot/js/localdates.js",
       "wwwroot/js/select2.js",
       "wwwroot/js/tinymce.js",
       "wwwroot/js/newsletter.js",

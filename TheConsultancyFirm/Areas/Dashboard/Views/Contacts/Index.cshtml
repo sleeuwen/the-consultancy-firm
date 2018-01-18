@@ -64,7 +64,7 @@
                     @Html.DisplayFor(modelItem => item.Subject)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    <time>@item.Date.ToString()</time>
                 </td>
                 <td>
                     <a title="Lees het bericht van @item.Name" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-eye" aria-hidden="true"></i></a>
