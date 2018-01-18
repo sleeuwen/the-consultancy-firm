@@ -55,11 +55,12 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
+                }
                 <td>
-                    @Html.DisplayFor(modelItem => item.Date)
+                    <time>@item.Date.ToString()</time>
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LastModified)
+                    <time>@item.LastModified.ToString()</time>
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Language)
