@@ -32,7 +32,7 @@
             @Html.DisplayNameFor(model => model.Date)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.Date)
+            <time>@item.Date.ToString()</time>
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.LinkPath)
