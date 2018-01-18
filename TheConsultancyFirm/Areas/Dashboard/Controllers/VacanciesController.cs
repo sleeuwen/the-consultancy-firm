@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Models;
@@ -8,6 +9,7 @@ using TheConsultancyFirm.Repositories;
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class VacanciesController : Controller
     {
         private readonly IVacancyRepository _vacancyRepository;
