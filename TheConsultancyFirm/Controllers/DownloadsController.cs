@@ -25,8 +25,8 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index(int? page)
         {
-            var language = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture
-                .TwoLetterISOLanguageName;
+            var language = HttpContext.Features.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
+                               ?.TwoLetterISOLanguageName ?? "nl";
             var viewModel = new DownloadsViewModel
             {
                 MostDownloaded = await _downloadRepository.GetAll().Where(d => d.Enabled && !d.Deleted && d.Language == language).OrderByDescending(d => d.AmountOfDownloads)
@@ -45,8 +45,8 @@ namespace TheConsultancyFirm.Controllers
             var selected = await _downloadRepository.Get(id);
             if (selected.Deleted || !selected.Enabled) return NotFound();
 
-            var language = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture
-                .TwoLetterISOLanguageName;
+            var language = HttpContext.Features.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
+                               ?.TwoLetterISOLanguageName ?? "nl";
 
             if (selected.Language != language)
             {

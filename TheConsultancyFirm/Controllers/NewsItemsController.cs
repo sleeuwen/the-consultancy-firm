@@ -26,8 +26,8 @@ namespace TheConsultancyFirm.Controllers
         public async Task<IActionResult> Index(int? page)
         {
 
-            var language = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture
-                .TwoLetterISOLanguageName;
+            var language = HttpContext.Features.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
+                               ?.TwoLetterISOLanguageName ?? "nl";
             var newsItems = _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted && n.Language == language).OrderByDescending(n => n.Date);
             return View(await PaginatedList<NewsItem>.Create(newsItems, page ?? 1, 12));
         }
@@ -41,8 +41,8 @@ namespace TheConsultancyFirm.Controllers
             var newsItem = await _newsItemRepository.Get(newsItemId);
             if (newsItem == null || newsItem.Deleted || !newsItem.Enabled) return NotFound();
 
-            var language = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture
-                .TwoLetterISOLanguageName;
+            var language = HttpContext.Features.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
+                               ?.TwoLetterISOLanguageName ?? "nl";
 
             if (newsItem.Language != language)
             {

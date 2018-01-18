@@ -2,7 +2,7 @@
 @inject IViewLocalizer Localizer
 @{
     var returnUri = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
-    var lang = Context.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.TwoLetterISOLanguageName;
+    var lang = Context.Features.Get<IRequestCultureFeature>()?.RequestCulture?.Culture?.TwoLetterISOLanguageName ?? "nl";
 }
 
 <header class="d-block">

@@ -24,8 +24,8 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var language = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture
-                .TwoLetterISOLanguageName;
+            var language = HttpContext.Features.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
+                               ?.TwoLetterISOLanguageName ?? "nl";
             return View(await _solutionRepository.GetAll().Where(s => s.Enabled && !s.Deleted && s.Language == language).ToListAsync());
         }
 
@@ -38,8 +38,8 @@ namespace TheConsultancyFirm.Controllers
             var solutionItem = await _solutionRepository.Get(solutionId, false);
             if (solutionItem == null || solutionItem.Deleted || !solutionItem.Enabled) return NotFound();
 
-            var language = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture
-                .TwoLetterISOLanguageName;
+            var language = HttpContext.Features.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
+                               ?.TwoLetterISOLanguageName ?? "nl";
 
             if (solutionItem.Language != language)
             {
