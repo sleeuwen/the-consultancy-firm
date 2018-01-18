@@ -310,7 +310,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         [Route("api/dashboard/[controller]")]
         public async Task<ObjectResult> GetAll()
         {
-            return new ObjectResult(await _newsItemRepository.GetAll().Where(n => !n.Deleted && n.Enabled).ToListAsync());
+            return new ObjectResult(await _newsItemRepository.GetAll().Where(n => !n.Deleted && n.Enabled && n.Language == "nl").ToListAsync());
         }
 
         private async Task<bool> NewsItemExists(int id)

@@ -58,6 +58,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     Title = @case.Title,
                     PhotoPath = @case.PhotoPath,
                     Customer = @case.Customer,
+                    HomepageOrder = @case.HomepageOrder
                 });
             }
 
@@ -80,6 +81,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             foreach (var translation in translatedCases)
             {
                 var translatedCase = await _caseRepository.Get(translation.Value);
+                if (translatedCase == null) continue;
                 translatedCase.HomepageOrder = caseItems.First(c => c.Id == translation.Key).HomepageOrder;
                 await _caseRepository.Update(translatedCase);
             }
@@ -107,6 +109,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 if (translation.IdEn != 0)
                 {
                     var translatedSolution = solutions.First(s => s.Id == translation.IdEn);
+                    if (translatedSolution == null) continue;
                     translatedSolution.HomepageOrder = i;
                     await _solutionRepository.Update(translatedSolution);
                 }
@@ -132,7 +135,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                     Id = newsItem.Id,
                     Title = newsItem.Title,
                     Date = newsItem.Date,
-                    PhotoPath = newsItem.PhotoPath
+                    PhotoPath = newsItem.PhotoPath,
+                    HomepageOrder = newsItem.HomepageOrder
                 });
             }
 
@@ -155,6 +159,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             foreach (var translation in translatedNewsItems)
             {
                 var translatedNewsItem = await _newsItemRepository.Get(translation.IdEn);
+                if (translatedNewsItem == null) continue;
                 translatedNewsItem.HomepageOrder = newsItems.First(n => n.Id == translation.IdNl).HomepageOrder;
                 await _newsItemRepository.Update(translatedNewsItem);
             }
