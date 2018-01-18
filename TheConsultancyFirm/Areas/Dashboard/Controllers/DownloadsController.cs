@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Areas.Dashboard.ViewModels;
@@ -13,6 +14,7 @@ using TheConsultancyFirm.Services;
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class DownloadsController : Controller
     {
         private readonly IDownloadRepository _downloadRepository;

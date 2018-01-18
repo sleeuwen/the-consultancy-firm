@@ -7,6 +7,7 @@ using ChartJSCore.Models;
 using Google.Apis.Analytics.v3;
 using Google.Apis.Auth.OAuth2;
 using Google.Apis.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Repositories;
@@ -14,6 +15,7 @@ using TheConsultancyFirm.Repositories;
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class HomeController : Controller
     {
         private const string WebsiteCode = "167536233";
