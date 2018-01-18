@@ -49,6 +49,7 @@ namespace TheConsultancyFirm.Controllers
                     (await _itemTranslationRepository.GetAllNewsitems()).FirstOrDefault(n => n.IdNl == newsItem.Id).IdEn;
                 newsItem = await _newsItemRepository.Get(itemTranslationId);
             }
+            if (newsItem == null || newsItem.Deleted || !newsItem.Enabled) return NotFound();
 
             // Force the right slug
             if (id != newsItem.Slug)

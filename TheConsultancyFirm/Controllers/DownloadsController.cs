@@ -54,7 +54,7 @@ namespace TheConsultancyFirm.Controllers
                 return RedirectToAction("Details", new { Id = itemTranslationId});
             }
             var AllDownloads = _downloadRepository.GetAll().Where(d => d.Id != id && d.Enabled && !d.Deleted);
-            
+
             var viewModel = new DownloadsViewModel
             {
                 Selected = selected,
