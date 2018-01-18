@@ -21,9 +21,9 @@ namespace TheConsultancyFirm.Repositories
             return _context.Contacts.FirstOrDefaultAsync(c => c.Id == id);
         }
 
-        public async Task<IEnumerable<Contact>> GetAll()
+        public IQueryable<Contact> GetAll()
         {
-            return await _context.Contacts.ToListAsync();
+            return _context.Contacts;
         }
 
         public Task AddAsync(Contact contact)

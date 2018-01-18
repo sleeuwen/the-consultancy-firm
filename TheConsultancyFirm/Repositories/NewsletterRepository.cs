@@ -16,9 +16,9 @@ namespace TheConsultancyFirm.Repositories
             _context = context;
         }
         
-        public async Task<IEnumerable<Newsletter>> GetAll()
+        public IQueryable<Newsletter> GetAll()
         {
-            return await _context.NewsLetters.OrderByDescending(n => n.SentAt).ToListAsync();
+            return _context.NewsLetters;
         }
 
         public Task Create(Newsletter newsletter)

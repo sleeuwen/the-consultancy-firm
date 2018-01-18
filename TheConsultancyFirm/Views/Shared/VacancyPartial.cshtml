@@ -1,23 +1,28 @@
-﻿@model List<Vacancy>
+﻿@inject IViewLocalizer Localizer
+@model List<Vacancy>
 
 <div class="vacancyContainer">
-    <h2>We zoeken altijd talent</h2>
+    <h2>@Localizer["we_search"]</h2>
     <p class="introtext">
-        Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget,<br/>
+        Nam pretium turpis et arcu. Duis arcu tortor, suscipit eget,<br />
         imperdiet nec, imperdiet iaculis, ipsum.
     </p>
-</div>
+
 
 @foreach (var item in Model)
 {
+    var url = "https://www.indeed.nl/vacatures?q=" + item.FunctionDescription.Replace(' ', '+')+"&l=Rotterdam";
     <div class="row">
         <div class="col-12 col-md-1 col-lg-2"></div>
         <div class="col-12 col-md-10 col-lg-8">
-            <div class="vacancy">
-                <p class="description">@item.FunctionDescription</p>
-                <h6 class="date d-none d-sm-block">@item.VacancySince.Date.ToString("dd MMMM yyyy")</h6>
-                <img src="~/images/right-arrow-black.svg" alt="Arrow" class="arrow">
-            </div>
+            <a href="@url" target="_blank">
+                <div class="vacancy">
+                    <p class="description">@item.FunctionDescription</p>
+                    <h6 class="date d-none d-sm-block">@item.VacancySince.Date.ToString("dd MMMM yyyy")</h6>
+                    <img src="~/images/right-arrow-black.svg" alt="Arrow" class="arrow">
+                </div> 
+            </a>
         </div>
     </div>
 }
+</div>

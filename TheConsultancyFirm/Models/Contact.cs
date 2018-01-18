@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace TheConsultancyFirm.Models
 {
@@ -24,6 +25,9 @@ namespace TheConsultancyFirm.Models
         [Required]
         [Display(Name = "Bericht")]
         public string Message { get; set; }
+
+        [Required]
+        public DateTime Date { get; set; }
 
         public bool Read { get; set; }
     }

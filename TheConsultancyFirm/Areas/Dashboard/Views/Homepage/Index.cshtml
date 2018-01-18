@@ -1,0 +1,84 @@
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer Localizer
+@model TheConsultancyFirm.Areas.Dashboard.ViewModels.HomepageViewModel
+@{
+    ViewData["Title"] = "Homepage";
+}
+<h2>
+    @ViewBag.Title
+
+    <span class="content text-muted" id="HomepageStatus"></span>
+</h2>
+
+<nav>
+    <div class="nav homepage" role="tablist">
+        <a class="nav-item nav-link active" href="#nav-cases-carousel" data-toggle="tab" id="nav-cases-carousel-tab">
+            Cases Carousel
+        </a>
+        <a class="nav-item nav-link" href="#nav-solutions-carousel" data-toggle="tab" id="nav-solutions-carousel-tab">
+            Solutions Carousel
+        </a>
+        <a class="nav-item nav-link" href="#nav-team-carousel" data-toggle="tab" id="nav-team-carousel-tab">
+            Team Carousel
+        </a>
+        <a class="nav-item nav-link" href="#nav-news-items" data-toggle="tab" id="nav-news-items-tab">
+            News Items
+        </a>
+    </div>
+</nav>
+
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="nav-cases-carousel" role="tabpanel">
+        <div class="container container-wide">
+            <div class="row" id="CasesCarousel">
+                @Html.Partial("Cases", Model.Cases)
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#selectCases">
+            Selecteer Cases
+        </button>
+    </div>
+
+    <div class="tab-pane fade" id="nav-solutions-carousel" role="tabpanel">
+        <div class="container container-wide">
+            <div class="row" id="solutionOuter">
+                @foreach (var item in Model.Solutions.OrderBy(s => s.HomepageOrder))
+                {
+                    <div class="col-lg-4 col-md-12" data-id="@item.Id">
+                        <div class="card">
+                            <div class="card-img-top" alt="Card image cap" style="background-image: url(@item.PhotoPath)"></div>
+                            <div class="card-body">
+                                <h4 class="card-title">@item.Title</h4>
+                                <p class="card-text">
+                                    @item.Summary
+                                </p>
+                                <a asp-controller="Solutions" asp-action="Details" asp-route-id="@item.Slug" target="_blank" class="buttonHover">READ MORE</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="nav-team-carousel" role="tabpanel">
+        <div class="row" id="blocksList">
+            @Html.Partial("Carousel", Model.CarouselBlock)
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="nav-news-items" role="tabpanel">
+        <div class="container container-wide">
+            <div class="row" id="NewsItemsList">
+                @Html.Partial("NewsItems", Model.NewsItems)
+            </div>
+        </div>
+
+        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#selectNewsItems">
+            Selecteer nieuws items
+        </button>
+    </div>
+</div>
+
+@Html.Partial("SelectCasesModal")
+@Html.Partial("SelectNewsItemsModal")

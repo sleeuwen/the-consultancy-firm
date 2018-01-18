@@ -21,7 +21,7 @@ namespace TheConsultancyFirm.Models
         public DateTime LastModified { get; set; }
 
         public string PhotoPath { get; set; }
-       
+
         public List<Block> Blocks { get; set; }
         public List<SolutionTag> SolutionTags { get; set; }
         public List<CustomerSolution> CustomerSolutions { get; set; }
@@ -48,7 +48,11 @@ namespace TheConsultancyFirm.Models
         [Display(Name = "Samenvatting (max 300 char)")]
         public string Summary { get; set; }
 
+        public int HomepageOrder { get; set; }
+
         public bool Enabled { get; set; }
         public bool Deleted { get; set; }
+
+        public string Language { get; set; }
     }
 }

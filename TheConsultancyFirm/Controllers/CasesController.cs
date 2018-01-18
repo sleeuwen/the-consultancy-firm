@@ -14,16 +14,20 @@ namespace TheConsultancyFirm.Controllers
     {
         private readonly IRelatedItemsRepository _relatedItemsRepository;
         private readonly ICaseRepository _caseRepository;
+        private readonly IItemTranslationRepository _itemTranslationRepository;
 
-        public CasesController(IRelatedItemsRepository relatedItemsRepository, ICaseRepository caseRepository)
+        public CasesController(IRelatedItemsRepository relatedItemsRepository, ICaseRepository caseRepository, IItemTranslationRepository itemTranslationRepository)
         {
             _relatedItemsRepository = relatedItemsRepository;
             _caseRepository = caseRepository;
+            _itemTranslationRepository = itemTranslationRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            return View(await _caseRepository.GetAll().Include(c => c.Customer).Where(c => c.Enabled && !c.Deleted).OrderByDescending(c => c.Date).ToListAsync());
+            var language = HttpContext?.Request?.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+            var list = await _caseRepository.GetAll().Include(c => c.Customer).Where(c => c.Enabled && !c.Deleted && c.Language == language).OrderByDescending(c => c.Date).ToListAsync();
+            return View(list);
         }
 
         [HttpGet("[controller]/{id}")]
@@ -35,12 +39,25 @@ namespace TheConsultancyFirm.Controllers
             var caseItem = await _caseRepository.Get(caseId);
             if (caseItem == null || caseItem.Deleted || !caseItem.Enabled) return NotFound();
 
+            var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+
+            if (caseItem.Language != language)
+            {
+                int itemTranslationId;
+                itemTranslationId = language == "nl" ?
+                    (await _itemTranslationRepository.GetAllCases()).FirstOrDefault(c => c.IdEn == caseItem.Id).IdNl :
+                    (await _itemTranslationRepository.GetAllCases()).FirstOrDefault(c => c.IdNl == caseItem.Id).IdEn;
+                caseItem = await _caseRepository.Get(itemTranslationId);
+            }
+
+            if (caseItem == null || caseItem.Deleted || !caseItem.Enabled) return NotFound();
+
             // Force the right slug
             if (id != caseItem.Slug)
                 return RedirectToAction("Details", new {id = caseItem.Slug});
 
             var (previous, next) = await GetAdjacent(caseItem);
-            var relatedItems = await _relatedItemsRepository.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case);
+            var relatedItems = await _relatedItemsRepository.GetRelatedItems(caseItem.Id, Enumeration.ContentItemType.Case, caseItem.Language);
 
             return View(new CaseDetailViewModel
             {

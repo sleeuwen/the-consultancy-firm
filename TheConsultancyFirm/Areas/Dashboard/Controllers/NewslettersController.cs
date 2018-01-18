@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -28,9 +29,44 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             _newsletterService = newsletterService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page)
         {
-            return View(await _newsletterRepository.GetAll());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["SubjectSortParm"] = sortOrder == "Subject" ? "sub_desc" : "Subject";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+            var contacts =  _newsletterRepository.GetAll().Where(c => string.IsNullOrEmpty(searchString) || c.Subject.Contains(searchString) || c.NewsletterIntroText.Contains(searchString));
+
+            switch (sortOrder)
+            {
+                case "Date":
+                    contacts = contacts.OrderBy(c => c.SentAt);
+                    break;
+                case "Subject":
+                    contacts = contacts.OrderBy(c => c.Subject);
+                    break;
+                case "sub_desc":
+                    contacts = contacts.OrderByDescending(c => c.Subject);
+                    break;
+                default:
+                    contacts = contacts.OrderByDescending(c => c.SentAt);
+                    break;
+            }
+            return View(await PaginatedList<Newsletter>.Create(contacts, page ?? 1, 5));
         }
 
         // GET: Dashboard/Newsletter/Create
