@@ -21,13 +21,13 @@
             @Html.DisplayNameFor(model => model.Date)
         </dt>
         <dd>
-            <time>@Model.Date.ToString()</time>
+            <time datetime="@Model.Date.ToString("yyyy-MM-dd'T'HH:mm:ssZ")">@Model.Date.ToString()</time>
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.LastModified)
         </dt>
         <dd>
-            <time>@Model.LastModified.ToString()</time>
+            <time datetime="@Model.LastModified.ToString("yyyy-MM-dd'T'HH:mm:ssZ")">@Model.LastModified.ToString()</time>
         </dd>
     </dl>
 

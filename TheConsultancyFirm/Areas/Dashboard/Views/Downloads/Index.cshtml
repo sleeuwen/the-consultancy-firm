@@ -69,7 +69,7 @@
                     <a href="#" onclick="showDownloadGraph(@item.Id)">@Html.DisplayFor(modelItem => item.AmountOfDownloads)</a>
                 </td>
                 <td>
-                    <time>@item.Date.ToString()</time>
+                    <time datetime="@item.Date.ToString("yyyy-MM-dd'T'HH:mm:ssZ")">@item.Date.ToString()</time>
                 </td>
                 <td>
                     <a href="@item.LinkPath" download>
@@ -91,7 +91,7 @@
 </table>
 
 @Html.Partial("PaginationPartial", pagination)
-      
+
 <div class="modal fade" id="downloadModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
