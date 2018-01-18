@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Models;
@@ -10,6 +11,7 @@ using TheConsultancyFirm.Services;
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class CustomersController : Controller
     {
         private readonly ICustomerRepository _customerRepository;
