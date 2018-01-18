@@ -2,25 +2,31 @@
 
 // Abstracts
 @import 'abstracts/breadcrumbs';
+@import 'abstracts/buttonHover';
+@import 'abstracts/dashboardButton';
 @import 'abstracts/pagination';
 @import 'abstracts/switch';
 @import 'abstracts/typography';
 @import 'abstracts/upload-box';
-@import 'abstracts/dashboardButton';
+@import 'abstracts/utilities';
 
 // Layout
 @import 'layout/dashboard';
 
 // Partials
 @import 'partials/header';
+@import 'partials/newsItem';
+@import 'partials/relatedCases';
 @import 'partials/dashboard/block-modal';
 @import 'partials/dashboard/blocks';
 @import 'partials/dashboard/header';
 @import 'partials/dashboard/sidenav';
 
 // Pages
+@import 'pages/solutionsOverview';
 @import 'pages/dashboard/contacts';
 @import 'pages/dashboard/accountIndex';
 @import 'pages/dashboard/customerDetail';
 @import 'pages/dashboard/usersIndex';
 @import 'pages/dashboard/indexPages';
+@import 'pages/dashboard/homepage';

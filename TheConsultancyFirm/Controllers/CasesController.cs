@@ -50,6 +50,8 @@ namespace TheConsultancyFirm.Controllers
                 caseItem = await _caseRepository.Get(itemTranslationId);
             }
 
+            if (caseItem == null || caseItem.Deleted || !caseItem.Enabled) return NotFound();
+
             // Force the right slug
             if (id != caseItem.Slug)
                 return RedirectToAction("Details", new {id = caseItem.Slug});

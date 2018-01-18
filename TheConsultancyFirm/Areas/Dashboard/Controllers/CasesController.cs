@@ -115,7 +115,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             var a = ModelState;
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
-            
+
             try
             {
                 @case.LastModified = DateTime.UtcNow;
@@ -306,6 +306,12 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             await _caseRepository.Update(@case);
             return RedirectToAction(nameof(Index));
+        }
+
+        [Route("api/dashboard/[controller]")]
+        public async Task<ObjectResult> GetAll()
+        {
+            return new ObjectResult(await _caseRepository.GetAll().Where(c => !c.Deleted && c.Enabled && c.Language == "nl").ToListAsync());
         }
 
         private async Task<bool> CaseExists(int id)

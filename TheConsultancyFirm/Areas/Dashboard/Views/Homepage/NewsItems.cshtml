@@ -1,0 +1,11 @@
+﻿@model List<NewsItem>
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    <div class="col-12 col-lg-4" data-id="@item.Id">
+        @Html.Partial("NewsItemPartial", item)
+    </div>
+}

@@ -1,0 +1,94 @@
+﻿@model CarouselBlock
+@{
+    var slides = (Model.Slides ?? new List<Slide>()).OrderBy(s => s.Order).ToList();
+}
+<div class="col-md-12 block carousel-block homepage-carousel" data-id="@Model.Id">
+    <div class="d-block">
+        <form asp-controller="Blocks" asp-action="Carousel" enctype="multipart/form-data">
+            <input type="hidden" name="type" value="carousel"/>
+            <input type="hidden" name="Id" value="@Model.Id"/>
+            <input type="hidden" id="" asp-for="Date"/>
+            <input type="hidden" id="" asp-for="Order"/>
+
+            <div class="row mb-3">
+                <div class="col">
+                    <label for="@Model.Id-LinkText" asp-for="LinkText">Text</label>
+                    <input id="@Model.Id-LinkText" asp-for="LinkText" class="form-control"/>
+                </div>
+                <div class="col">
+                    <label for="@Model.Id-LinkPath" asp-for="LinkPath">URL</label>
+                    <input id="@Model.Id-LinkPath" asp-for="LinkPath" class="form-control"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <div class="slides">
+                        <nav>
+                            <div class="nav nav-tabs" id="carousel-tabs-@Model.Id" role="tablist">
+                                @for (var i = 0; i < slides.Count; i++)
+                                {
+                                    @* Changes here should be mirrored in blocks.js `slideTabTemplate` *@
+                                    <a class="nav-item nav-link @(i == 0 ? "active" : "")"
+                                       id="carousel-nav-slide-@Model.Id-@i" data-toggle="tab" role="tab"
+                                       href="#carousel-tab-slide-@Model.Id-@i">
+                                        Slide <span>@(i + 1)</span>
+                                        <i class="fa fa-times"></i>
+                                    </a>
+                                }
+                                <a class="nav-item nav-link add-slide" href="#"><i class="fa fa-plus"></i></a>
+                            </div>
+                        </nav>
+                        <div class="tab-content" id="carousel-content-@Model.Id">
+                            @for (var i = 0; i < slides.Count; i++)
+                            {
+                                var slide = slides[i];
+
+                                @* Changes here should be mirrored in blocks.js `slideContentTemplate` *@
+                                <div class="tab-pane fade @(i == 0 ? "show active" : "")" role="tabpanel"
+                                     id="carousel-tab-slide-@Model.Id-@i" data-id="@slide.Id" data-order="@i">
+                                    <input type="hidden" id="" asp-for="Slides[i].Order" data-value="order"/>
+                                    <input type="hidden" id="" asp-for="Slides[i].PhotoPath"/>
+
+                                    <div class="row">
+                                        <div class="col-8">
+                                            <div class="box" style="@(slide.PhotoPath != null ? "background-image:linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)), url(" + slide.PhotoPath + ")" : "")">
+                                                <div class="box__input">
+                                                    <svg class="box__icon" xmlns="http://www.w3.org/2000/svg" width="50" height="43" viewBox="0 0 50 43">
+                                                        <path d="M48.4 26.5c-.9 0-1.7.7-1.7 1.7v11.6h-43.3v-11.6c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v13.2c0 .9.7 1.7 1.7 1.7h46.7c.9 0 1.7-.7 1.7-1.7v-13.2c0-1-.7-1.7-1.7-1.7zm-24.5 6.1c.3.3.8.5 1.2.5.4 0 .9-.2 1.2-.5l10-11.6c.7-.7.7-1.7 0-2.4s-1.7-.7-2.4 0l-7.1 8.3v-25.3c0-.9-.7-1.7-1.7-1.7s-1.7.7-1.7 1.7v25.3l-7.1-8.3c-.7-.7-1.7-.7-2.4 0s-.7 1.7 0 2.4l10 11.6z"/>
+                                                    </svg>
+                                                    <input class="box__file" accept="image/png,image/jpeg"
+                                                           id="@Model.Id-Slides-@i-Image" asp-for="Slides[i].Image">
+                                                    <label for="@Model.Id-Slides-@i-Image" asp-for="Slides[i].Image">
+                                                        <strong>Choose a file</strong>
+                                                        <span class="box__dragndrop"> or drag it here</span>.
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <label for="@Model.Id-Slides-@i-Text" asp-for="Slides[i].Text">
+                                                Description
+                                            </label>
+                                            <textarea class="carousel-description form-control"
+                                                      asp-for="Slides[i].Text"
+                                                      placeholder="Place carousel slide text here"
+                                                      id="@Model.Id-Slides-@i-Text"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col">
+                    <input type="submit" class="btn btn-primary" value="Save"/>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

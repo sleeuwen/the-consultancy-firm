@@ -1,0 +1,22 @@
+#selectNewsItems {
+    .modal-body {
+        max-height: 70vh;
+        overflow: auto;
+    }
+
+    .modal-footer .statusText {
+        margin-right: auto;
+    }
+}
+
+.homepage-carousel {
+    color: inherit;
+}
+
+.homepage.nav .nav-item {
+    color: $orange;
+
+    &.active {
+        font-weight: $bold;
+    }
+}
