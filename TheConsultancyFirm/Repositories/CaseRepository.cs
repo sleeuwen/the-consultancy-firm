@@ -64,6 +64,15 @@ namespace TheConsultancyFirm.Repositories
             return (previous, next);
         }
 
+        public Task<List<Case>> GetHomepageItems(string language)
+        {
+            return _context.Cases
+                .Include(c => c.Customer)
+                .Where(c => c.HomepageOrder != null && !c.Deleted && c.Enabled && c.Language == language)
+                .OrderBy(c => c.HomepageOrder)
+                .ToListAsync();
+        }
+
         public async Task Create(Case @case)
         {
             _context.Cases.Add(@case);

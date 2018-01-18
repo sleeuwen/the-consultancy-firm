@@ -1,0 +1,43 @@
+﻿<div class="modal fade" id="selectCases" tabindex="-1" role="dialog" aria-labelledby="selectCasesTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Selecteer de gewenste nieuws items</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="border-top-0" style="width: 50px;"></th>
+                        <th class="border-top-0">Name</th>
+                    </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr>
+                        <th>
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheckCase">
+                                <label class="custom-control-label" for="customCheckCase"></label>
+                            </div>
+                        </th>
+                        <td>
+                            <label for="customCheckCase">
+                                Laad de news items in via AJAX.
+                            </label>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <span class="text-danger statusText"></span>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -7,15 +7,15 @@ using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using Microsoft.EntityFrameworkCore.ValueGeneration;
 using System;
-using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Data;
 
 namespace TheConsultancyFirm.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20180117102001_AddHomepageOrderToItems")]
+    partial class AddHomepageOrderToItems
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -236,8 +236,6 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<int?>("HomepageOrder");
 
-                    b.Property<string>("Language");
-
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("PhotoPath");
@@ -271,8 +269,6 @@ namespace TheConsultancyFirm.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("Date");
 
                     b.Property<string>("Email")
                         .IsRequired();
@@ -346,8 +342,6 @@ namespace TheConsultancyFirm.Migrations
 
                     b.Property<bool>("Enabled");
 
-                    b.Property<string>("Language");
-
                     b.Property<DateTime>("LastModified");
 
                     b.Property<string>("LinkPath");
@@ -387,22 +381,6 @@ namespace TheConsultancyFirm.Migrations
                     b.ToTable("DownloadTag");
                 });
 
-            modelBuilder.Entity("TheConsultancyFirm.Models.ItemTranslation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("ContentType");
-
-                    b.Property<int>("IdEn");
-
-                    b.Property<int>("IdNl");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ItemTranslations");
-                });
-
             modelBuilder.Entity("TheConsultancyFirm.Models.NewsItem", b =>
                 {
                     b.Property<int>("Id")
@@ -415,8 +393,6 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<bool>("Enabled");
 
                     b.Property<int?>("HomepageOrder");
-
-                    b.Property<string>("Language");
 
                     b.Property<DateTime>("LastModified");
 
@@ -513,8 +489,6 @@ namespace TheConsultancyFirm.Migrations
                     b.Property<bool>("Enabled");
 
                     b.Property<int>("HomepageOrder");
-
-                    b.Property<string>("Language");
 
                     b.Property<DateTime>("LastModified");
 
