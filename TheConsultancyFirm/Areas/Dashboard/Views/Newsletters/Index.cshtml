@@ -69,7 +69,7 @@
                     @title
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.SentAt)
+                    <time  datetime="@item.SentAt.ToString("yyyy-MM-dd'T'HH:mm:ssZ")">@item.SentAt</time>
                 </td>
             </tr>
         }

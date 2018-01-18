@@ -29,22 +29,22 @@
     </tr>
     </thead>
     <tbody>
-@foreach (var item in Model)
-{
-        <tr class="@(item.Enabled ? "" : "disabled")">
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                <time>@item.Date.ToString()</time>
-            </td>
-            <td>
-                <time>@item.LastModified.ToString()</time>
-            </td>
-            <td>
-                <a asp-action="Restore" asp-route-id="@item.Id" onclick="return confirm('Weet u zeker dat het nieuwsitem wilt restoren?')">Restore</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr class="@(item.Enabled ? "" : "disabled")">
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    <time datetime="@item.Date.ToString("yyyy-MM-dd'T'HH:mm:ssZ")">@item.Date.ToString()</time>
+                </td>
+                <td>
+                    <time datetime="@item.LastModified.ToString("yyyy-MM-dd'T'HH:mm:ssZ")">@item.LastModified.ToString()</time>
+                </td>
+                <td>
+                    <a asp-action="Restore" asp-route-id="@item.Id" onclick="return confirm('Weet u zeker dat het nieuwsitem wilt restoren?')">Restore</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

@@ -50,7 +50,7 @@
                     @Html.DisplayFor(modelItem => item.FunctionDescription)
                 </td>
                 <td>
-                    <time>@item.VacancySince.ToString()</time>
+                    <time datetime="@item.VacancySince.ToString("yyyy-MM-dd'T'HH:mm:ssZ")">@item.VacancySince.ToString()</time>
                 </td>
                 <td>
                     <a asp-action="Delete" asp-route-id="@item.Id">Verwijderen</a> |
