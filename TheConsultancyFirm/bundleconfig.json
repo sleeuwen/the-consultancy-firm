@@ -30,6 +30,8 @@
       "wwwroot/js/carousel.js",
       "wwwroot/js/cookieWall.js",
       "wwwroot/js/navbar.js",
+      "wwwroot/js/disqus.js",
+      "wwwroot/js/newsletter.js",
       "wwwroot/js/newsletterSubscription.js",
       "wwwroot/js/sharing.js",
       "wwwroot/js/log.js"
