@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
@@ -15,10 +17,51 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Contacts
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page)
         {
-            ViewData["Title"] = "Berichten";
-            return View(await _repository.GetAll());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["SubjectSortParm"] = sortOrder == "Subject" ? "sub_desc" : "Subject";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+            var contacts =  _repository.GetAll().Where(c => string.IsNullOrEmpty(searchString) || c.Email.Contains(searchString) || c.Name.Contains(searchString));
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    contacts = contacts.OrderByDescending(c => c.Email);
+                    break;
+                case "Date":
+                    contacts = contacts.OrderBy(c => c.Date);
+                    break;
+                case "name":
+                    contacts = contacts.OrderBy(c => c.Email);
+                    break;
+                case "Subject":
+                    contacts = contacts.OrderBy(c => c.Subject);
+                    break;
+                case "sub_desc":
+                    contacts = contacts.OrderByDescending(c => c.Subject);
+                    break;
+                default:
+                    contacts = contacts.OrderByDescending(c => c.Date);
+                    break;
+            }
+            return View(await PaginatedList<Contact>.Create(contacts, page ?? 1, 5));
         }
 
         // GET: Dashboard/Contacts/Details/5

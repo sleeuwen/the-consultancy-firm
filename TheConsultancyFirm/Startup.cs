@@ -41,7 +41,6 @@ namespace TheConsultancyFirm
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<INewsletterRepository, NewsletterRepository>();
             services.AddScoped<INewsletterSubscriptionRepository, NewsletterSubscriptionRepository>();
-            services.AddScoped<IAccountRepository, AccountRepository>();
             services.AddScoped<ITagRepository, TagRepository>();
             services.AddScoped<IBlockRepository, BlockRepository>();
             services.AddScoped<IRelatedItemsRepository, RelatedItemsRepository>();

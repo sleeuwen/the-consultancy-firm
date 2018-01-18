@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using HeyRed.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,13 +28,55 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/NewsItems
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page,
+            bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["LastModifiedSortParm"] = sortOrder == "LastModified" ? "last_desc" : "LastModified";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
+            var newsItems = _newsItemRepository.GetAll().Where(n => !n.Deleted && (n.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || n.Title.Contains(searchString)));
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    newsItems = newsItems.OrderByDescending(c => c.Title);
+                    break;
+                case "Date":
+                    newsItems = newsItems.OrderBy(c => c.Date);
+                    break;
+                case "date_desc":
+                    newsItems = newsItems.OrderByDescending(c => c.Date);
+                    break;
+                case "LastModified":
+                    newsItems = newsItems.OrderBy(c => c.LastModified);
+                    break;
+                case "last_desc":
+                    newsItems = newsItems.OrderByDescending(c => c.LastModified);
+                    break;
+                default:
+                    newsItems = newsItems.OrderBy(c => c.Title);
+                    break;
+            }
             return View(new NewsItemViewModel
             {
-                NewsItemsList = await _newsItemRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
-                    .OrderByDescending(c => c.Date).ToListAsync(),
+                NewsItemsList = await PaginatedList<NewsItem>.Create(newsItems, page ?? 1, 5),
                 NewsItemsWithoutTranslation = await _itemTranslationRepository.GetNewsItemsWithoutTranslation()
             });
         }
@@ -99,7 +140,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/NewsItems/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -107,12 +148,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             if (newsItem.Image != null)
             {
-                using (var stream = newsItem.Image.OpenReadStream())
-                {
-                    if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
-                        ModelState.AddModelError(nameof(newsItem.Image),
-                            "Invalid image type, only png and jpg images are allowed");
-                }
+                if (!new[] { ".png", ".jpg", ".jpeg" }.Contains(Path.GetExtension(newsItem.Image.FileName)))
+                    ModelState.AddModelError(nameof(newsItem.Image), "Invalid image type, only png and jpg images are allowed");
 
                 if (newsItem.Image?.Length < 1)
                     ModelState.AddModelError(nameof(newsItem.Image), "Filesize too small");
@@ -157,7 +194,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/NewsItems/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
@@ -165,28 +202,25 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         {
             var newsItem = await _newsItemRepository.Get(id ?? 0, true);
 
-            if (newsItem == null) return new NotFoundObjectResult(null);
+            if(newsItem == null) return new NotFoundObjectResult(null);
 
             // Bind POST variables Title, CustomerId, Image and TagIds to the model.
             await TryUpdateModelAsync(newsItem, string.Empty, c => c.Title, c => c.Image, c => c.TagIds, c => c.SharingDescription);
 
-            if (newsItem.Image != null)
-            {
-                using (var stream = newsItem.Image.OpenReadStream())
-                {
-                    if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
-                        ModelState.AddModelError(nameof(newsItem.Image),
-                            "Invalid image type, only png and jpg images are allowed");
-                }
-
-                if (newsItem.Image.Length == 0)
-                    ModelState.AddModelError(nameof(newsItem.Image), "Filesize too small");
-            }
+            if (newsItem.Image != null && newsItem.Image?.Length == 0)
+                ModelState.AddModelError(nameof(newsItem.Image), "Filesize too small");
 
             if (!ModelState.IsValid) return new BadRequestObjectResult(ModelState);
 
             if (newsItem.Image != null)
             {
+                var extension = Path.GetExtension(newsItem.Image.FileName);
+                if (extension != ".jpg" && extension != ".png" && extension != ".jpeg")
+                {
+                    ModelState.AddModelError(nameof(newsItem.Image), "The uploaded file was not an image.");
+                    return new BadRequestObjectResult(ModelState);
+                }
+
                 if (newsItem.PhotoPath != null)
                     await _uploadService.Delete(newsItem.PhotoPath);
                 newsItem.PhotoPath = await _uploadService.Upload(newsItem.Image, "/images/uploads/newsitems");

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
-using HeyRed.Mime;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,13 +28,56 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Solutions
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page,
+            bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["LastModifiedSortParm"] = sortOrder == "LastModified" ? "last_desc" : "LastModified";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
+            var solutions = _solutionRepository.GetAll().Where(s => !s.Deleted && (s.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || s.Title.Contains(searchString)));
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    solutions = solutions.OrderByDescending(c => c.Title);
+                    break;
+                case "Date":
+                    solutions = solutions.OrderBy(c => c.Date);
+                    break;
+                case "date_desc":
+                    solutions = solutions.OrderByDescending(c => c.Date);
+                    break;
+                case "LastModified":
+                    solutions = solutions.OrderBy(c => c.LastModified);
+                    break;
+                case "last_desc":
+                    solutions = solutions.OrderByDescending(c => c.LastModified);
+                    break;
+                default:
+                    solutions = solutions.OrderBy(c => c.Title);
+                    break;
+            }
+
             return View(new SolutionViewModel
             {
-                SolutionsList = await _solutionRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
-                    .OrderByDescending(c => c.Date).ToListAsync(),
+                SolutionsList = await PaginatedList<Solution>.Create(solutions, page ?? 1, 5),
                 SolutionsWithoutTranslation = await _itemTranslationRepository.GetSolutionsWithoutTranslation()
             });
         }
@@ -117,7 +159,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/Solutions/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -127,12 +169,9 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 ModelState.AddModelError(nameof(solution.Image), "The Image field is required.");
             else
             {
-                using (var stream = solution.Image.OpenReadStream())
-                {
-                    if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
-                        ModelState.AddModelError(nameof(solution.Image),
-                            "Invalid image type, only png and jpg images are allowed");
-                }
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(solution.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(solution.Image),
+                        "Invalid image type, only png and jpg images are allowed");
 
                 if (solution.Image.Length < 1)
                     ModelState.AddModelError(nameof(solution.Image), "Filesize too small");
@@ -185,7 +224,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // POST: Dashboard/Solutions/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for
+        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
@@ -200,12 +239,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             if (solution.Image != null)
             {
-                using (var stream = solution.Image.OpenReadStream())
-                {
-                    if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
-                        ModelState.AddModelError(nameof(solution.Image),
-                            "Invalid image type, only png and jpg images are allowed");
-                }
+                if (!(new[] { ".png", ".jpg", ".jpeg" }).Contains(Path.GetExtension(solution.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(solution.Image), "Invalid image type, only png and jpg images are allowed");
 
                 if (solution.Image.Length == 0)
                     ModelState.AddModelError(nameof(solution.Image), "Filesize too small");
@@ -253,7 +288,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
             {
                 return NotFound();
             }
-
+            
             var solution = await _solutionRepository.Get((int)id, true);
             if (solution == null)
             {

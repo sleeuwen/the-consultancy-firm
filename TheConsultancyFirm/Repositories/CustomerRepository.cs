@@ -26,6 +26,11 @@ namespace TheConsultancyFirm.Repositories
             return _context.Customers.ToListAsync();
         }
 
+        public IQueryable<Customer> GetAllQueryable()
+        {
+            return _context.Customers;
+        }
+
         public async Task<List<Customer>> Search(string term)
         {
             if (term == null || term.Trim() == "")

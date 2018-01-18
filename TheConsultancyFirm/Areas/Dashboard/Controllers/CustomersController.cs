@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using HeyRed.Mime;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Models;
@@ -23,11 +22,39 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Dashboard/Customers
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page,
+            bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
             ViewBag.ShowDisabled = showDisabled;
-            var customers = await _customerRepository.GetAll();
-            return View(customers.Where(c => !c.Deleted && (c.Enabled || showDisabled)));
+            var customers = _customerRepository.GetAllQueryable().Where(c => !c.Deleted && (c.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || c.Name.Contains(searchString)));
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    customers = customers.OrderByDescending(c => c.Name);
+                    break;
+                default:
+                    customers = customers.OrderBy(c => c.Name);
+                    break;
+            }
+            return View(await PaginatedList<Customer>.Create(customers, page ?? 1, 5));
         }
 
         // GET: Dashboard/Customers/Deleted
@@ -71,12 +98,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
                 ModelState.AddModelError(nameof(customer.Image), "The Image field is required.");
             else
             {
-                using (var stream = customer.Image.OpenReadStream())
-                {
-                    if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
-                        ModelState.AddModelError(nameof(customer.Image),
-                            "Invalid image type, only png and jpg images are allowed");
-                }
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(customer.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(customer.Image), "Invalid image type, only png and jpg images are allowed");
 
                 if (customer.Image.Length < 1)
                     ModelState.AddModelError(nameof(customer.Image), "Filesize too small");
@@ -122,12 +145,8 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 
             if (customer.Image != null)
             {
-                using (var stream = customer.Image.OpenReadStream())
-                {
-                    if (!(new[] {"image/png", "image/jpeg"}).Contains(MimeGuesser.GuessMimeType(stream)))
-                        ModelState.AddModelError(nameof(customer.Image),
-                            "Invalid image type, only png and jpg images are allowed");
-                }
+                if (!(new[] {".png", ".jpg", ".jpeg"}).Contains(Path.GetExtension(customer.Image.FileName)?.ToLower()))
+                    ModelState.AddModelError(nameof(customer.Image), "Invalid image type, only png and jpg images are allowed");
 
                 if (customer.Image.Length == 0)
                     ModelState.AddModelError(nameof(customer.Image), "Filesize too small");

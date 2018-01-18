@@ -1,8 +1,15 @@
 ﻿@inject IViewLocalizer Localizer
-@model List<NewsItem>
+@model PaginatedList<NewsItem>
 @{
     ViewBag.Title = "Nieuws overview";
     Layout = "_Layout";
+    var pagination = new PaginationProperties
+    {
+        PageIndex = Model.PageIndex,
+        TotalPages = Model.TotalPages,
+        HasNextPage = Model.HasNextPage,
+        HasPreviousPage = Model.HasPreviousPage
+    };
 }
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
@@ -27,29 +34,6 @@
             </div>
         }
     </div>
-    <div class="paging" id="newspaging">
-
-        <a href="#" class="fa fa-arrow-left pagearrow" aria-hidden="true"></a>
-
-        <ul>
-            <li>
-                <a href="#">1</a>
-            </li>
-            <li>
-                <a href="#">2</a>
-            </li>
-            <li>
-                <a href="#">3</a>
-            </li>
-            <li>
-                <a href="#">4</a>
-            </li>
-            <li>
-                <a href="#">5</a>
-            </li>
-        </ul>
-
-        <a href="#" class="fa fa-arrow-right pagearrow" aria-hidden="true"></a>
-    </div>
+    @Html.Partial("PaginationPartial", pagination)
 </div>
 @Html.Partial("NewsLetterPartial")

@@ -6,7 +6,7 @@ namespace TheConsultancyFirm.Areas.Dashboard.ViewModels
 {
     public class DownloadViewModel
     {
-        public List<Download> DownloadsList;
+        public PaginatedList<Download> DownloadsList;
         public List<Tuple<int, string>> DownloadsWithoutTranslation;
     }
 }

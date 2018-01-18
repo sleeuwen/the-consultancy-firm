@@ -90,7 +90,7 @@ namespace TheConsultancyFirm.Repositories
                 LastModified = DateTime.UtcNow,
                 NewsItemTags = newsItem.NewsItemTags.Select(n => new NewsItemTag{TagId = n.TagId}).ToList(),
                 SharingDescription = newsItem.SharingDescription,
-                
+
             };
             await _context.NewsItems.AddAsync(newsItemCopy);
             await _context.SaveChangesAsync();
@@ -150,7 +150,8 @@ namespace TheConsultancyFirm.Repositories
                 }
             }
             await _context.SaveChangesAsync();
-            var itemTranslation = await _context.ItemTranslations.FirstOrDefaultAsync(n => n.IdNl == id);
+            var itemTranslation = await _context.ItemTranslations
+                .FirstOrDefaultAsync(n => n.ContentType == Enumeration.ContentItemType.NewsItem && n.IdNl == id);
             itemTranslation.IdEn = newsItemCopy.Id;
             await _context.SaveChangesAsync();
             return newsItemCopy.Id;

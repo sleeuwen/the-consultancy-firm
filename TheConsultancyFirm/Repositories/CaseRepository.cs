@@ -67,7 +67,7 @@ namespace TheConsultancyFirm.Repositories
         public async Task Create(Case @case)
         {
             _context.Cases.Add(@case);
-            
+
             await _context.SaveChangesAsync();
             _context.ItemTranslations.Add(new ItemTranslation()
             {
@@ -167,7 +167,8 @@ namespace TheConsultancyFirm.Repositories
                 }
             }
             await _context.SaveChangesAsync();
-            var itemTranslation = await _context.ItemTranslations.FirstOrDefaultAsync(c => c.IdNl == id);
+            var itemTranslation = await _context.ItemTranslations
+                .FirstOrDefaultAsync(c => c.ContentType == Enumeration.ContentItemType.Case && c.IdNl == id);
             itemTranslation.IdEn = caseCopy.Id;
             await _context.SaveChangesAsync();
             return caseCopy.Id;

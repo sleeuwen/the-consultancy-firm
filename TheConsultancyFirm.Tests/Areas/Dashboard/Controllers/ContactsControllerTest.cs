@@ -19,14 +19,6 @@ namespace TheConsultancyFirm.Tests.Areas.Dashboard.Controllers
         }
 
         [Fact]
-        public async Task Index()
-        {
-            var controller = new ContactsController(_contactRepository.Object);
-            var result = await controller.Index();
-            Assert.IsType<ViewResult>(result);
-        }
-
-        [Fact]
         public async Task Details_Success()
         {
             var model = new Contact

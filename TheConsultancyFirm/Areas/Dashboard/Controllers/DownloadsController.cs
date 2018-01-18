@@ -27,15 +27,60 @@ namespace TheConsultancyFirm.Areas.Dashboard.Controllers
         }
 
         // GET: Downloads
-        public async Task<IActionResult> Index(bool showDisabled = false)
+        public async Task<IActionResult> Index(
+            string sortOrder,
+            string currentFilter,
+            string searchString,
+            int? page,
+            bool showDisabled = false)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParm"] = string.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["AmountSortParm"] = sortOrder == "amount" ? "amount_desc" : "amount";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
             ViewBag.ShowDisabled = showDisabled;
+
+            var downloads = _downloadRepository.GetAll().Where(d => !d.Deleted && (d.Enabled || showDisabled) && (string.IsNullOrEmpty(searchString) || d.Title.Contains(searchString)));
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    downloads = downloads.OrderByDescending(c => c.Title);
+                    break;
+                case "Date":
+                    downloads = downloads.OrderBy(c => c.Date);
+                    break;
+                case "date_desc":
+                    downloads = downloads.OrderByDescending(c => c.Date);
+                    break;
+                case "amount":
+                    downloads = downloads.OrderBy(c => c.AmountOfDownloads);
+                    break;
+                case "amount_desc":
+                    downloads = downloads.OrderByDescending(c => c.AmountOfDownloads);
+                    break;
+                default:
+                    downloads = downloads.OrderBy(c => c.Title);
+                    break;
+            }
             return View(new DownloadViewModel
             {
-                DownloadsList = await _downloadRepository.GetAll().Where(c => !c.Deleted && (c.Enabled || showDisabled))
-                    .OrderByDescending(c => c.Date).ToListAsync(),
+                DownloadsList = await PaginatedList<Download>.Create(downloads, page ?? 1, 5),
                 DownloadsWithoutTranslation = await _itemTranslationRepository.GetDownloadsWithoutTranslation()
             });
+
         }
 
         // GET: Dashboard/Downloads/Deleted

@@ -1,24 +1,49 @@
-﻿@model IEnumerable<TheConsultancyFirm.Models.Contact>
-
+﻿@model PaginatedList<Contact>
+@{
+    ViewData["Title"] = "Berichten";
+    var pagination = new PaginationProperties
+    {
+        PageIndex = Model.PageIndex,
+        TotalPages = Model.TotalPages,
+        HasNextPage = Model.HasNextPage,
+        HasPreviousPage = Model.HasPreviousPage
+    };
+}
 <div class="row">
     <div class="col">
-        <h2>Berichten</h2>
+        <h2>@ViewBag.Title</h2>
     </div>
 </div>
 
-<div class="row">
-    <div class="col">
-        <p>Dit is de berichten pagina. Hier kun je de binnengekomen berichten lezen.</p>
+<form asp-action="Index" method="get">
+    <div class="row mb-3 mt-3">
+        <div class="col-4">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search" id="txtSearch" name="SearchString" value="@ViewData["currentFilter"]" />
+                <div class="input-group-append">
+                    <button class="btn btn-secondary" type="submit">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+</form>
 
 <table id="contacts-table" class="table">
     <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Name)</th>
-            <th>@Html.DisplayNameFor(model => model.Email)</th>
-            <th>@Html.DisplayNameFor(model => model.Mobile)</th>
-            <th>@Html.DisplayNameFor(model => model.Subject)</th>
+            <th>@Html.DisplayNameFor(model => new Contact().Name)</th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Email</a>
+            </th>
+            <th>@Html.DisplayNameFor(model => new Contact().Mobile)</th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["SubjectSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Subject</a>
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]">Date</a>
+            </th>
             <th>Actie</th>
         </tr>
     </thead>
@@ -39,10 +64,13 @@
                     @Html.DisplayFor(modelItem => item.Subject)
                 </td>
                 <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
                     <a title="Lees het bericht van @item.Name" asp-action="Details" asp-route-id="@item.Id"><i class="fa fa-eye" aria-hidden="true"></i></a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
+@Html.Partial("PaginationPartial", pagination)
