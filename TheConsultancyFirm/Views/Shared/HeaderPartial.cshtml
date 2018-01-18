@@ -1,6 +1,8 @@
-﻿@inject IViewLocalizer Localizer
+﻿@using Microsoft.AspNetCore.Localization
+@inject IViewLocalizer Localizer
 @{
     var returnUri = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+    var lang = Context.Features.Get<IRequestCultureFeature>().RequestCulture.Culture.TwoLetterISOLanguageName;
 }
 
 <header class="d-block">
@@ -19,9 +21,8 @@
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="lang-select">
                 <li>
-                    @if (Context.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US")
+                    @if (lang == "en")
                     {
-                       
                         <a href="@Url.Action("SetLanguage", "Language", new {culture = "nl-NL", returnUrl = returnUri})">Nederlands</a>
                     }
                     else

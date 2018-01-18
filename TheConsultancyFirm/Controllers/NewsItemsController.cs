@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Common;
@@ -25,7 +26,8 @@ namespace TheConsultancyFirm.Controllers
         public async Task<IActionResult> Index(int? page)
         {
 
-            var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+            var language = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture
+                .TwoLetterISOLanguageName;
             var newsItems = _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted && n.Language == language).OrderByDescending(n => n.Date);
             return View(await PaginatedList<NewsItem>.Create(newsItems, page ?? 1, 12));
         }
@@ -39,7 +41,8 @@ namespace TheConsultancyFirm.Controllers
             var newsItem = await _newsItemRepository.Get(newsItemId);
             if (newsItem == null || newsItem.Deleted || !newsItem.Enabled) return NotFound();
 
-            var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+            var language = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture
+                .TwoLetterISOLanguageName;
 
             if (newsItem.Language != language)
             {

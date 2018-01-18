@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using TheConsultancyFirm.Repositories;
 
@@ -15,7 +16,8 @@ namespace TheConsultancyFirm.ViewComponents
 
         public IViewComponentResult Invoke()
         {
-            var language = HttpContext?.Request?.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+            var language = HttpContext.Features.Get<IRequestCultureFeature>()?.RequestCulture.Culture
+                .TwoLetterISOLanguageName;
             var solutions = _solutionRepository.GetAll().Where(s => s.Enabled && !s.Deleted && s.Language == language).OrderByDescending(s => s.Date).Take(3).ToList();
 
             return View(solutions);

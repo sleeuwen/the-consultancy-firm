@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Common;
@@ -23,7 +24,8 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+            var language = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture
+                .TwoLetterISOLanguageName;
             return View(await _solutionRepository.GetAll().Where(s => s.Enabled && !s.Deleted && s.Language == language).ToListAsync());
         }
 
@@ -36,7 +38,8 @@ namespace TheConsultancyFirm.Controllers
             var solutionItem = await _solutionRepository.Get(solutionId, false);
             if (solutionItem == null || solutionItem.Deleted || !solutionItem.Enabled) return NotFound();
 
-            var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+            var language = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture
+                .TwoLetterISOLanguageName;
 
             if (solutionItem.Language != language)
             {

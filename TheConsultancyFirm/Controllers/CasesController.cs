@@ -5,6 +5,7 @@ using TheConsultancyFirm.Common;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.Models;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.ViewModels;
 
@@ -25,7 +26,8 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var language = HttpContext?.Request?.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+            var language = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture
+                .TwoLetterISOLanguageName;
             var list = await _caseRepository.GetAll().Include(c => c.Customer).Where(c => c.Enabled && !c.Deleted && c.Language == language).OrderByDescending(c => c.Date).ToListAsync();
             return View(list);
         }
@@ -39,7 +41,8 @@ namespace TheConsultancyFirm.Controllers
             var caseItem = await _caseRepository.Get(caseId);
             if (caseItem == null || caseItem.Deleted || !caseItem.Enabled) return NotFound();
 
-            var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+            var language = HttpContext.Features.Get<IRequestCultureFeature>().RequestCulture.Culture
+                .TwoLetterISOLanguageName;
 
             if (caseItem.Language != language)
             {
