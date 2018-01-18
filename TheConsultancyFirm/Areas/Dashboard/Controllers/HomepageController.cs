@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Areas.Dashboard.ViewModels;
@@ -11,6 +12,7 @@ using TheConsultancyFirm.Repositories;
 namespace TheConsultancyFirm.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class HomepageController : Controller
     {
         private readonly INewsItemRepository _newsItemRepository;
