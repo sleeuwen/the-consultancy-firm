@@ -1,4 +1,4 @@
-﻿@model TheConsultancyFirm.Models.Solution
+﻿@model Solution
 
 @{
     ViewData["Title"] = Model?.Title + " - Aanpassen";
@@ -6,7 +6,14 @@
 
 <h2>@ViewBag.Title</h2>
 
-<h4>Solution</h4>
+<div class="d-flex align-items-baseline">
+    <h4>Solution</h4>
+    <small class="text-muted ml-2">
+        <a asp-area="" asp-controller="Solutions" asp-action="Details" asp-route-id="@Model.Id" target="_blank" title="Opent in een nieuw tabblad">
+            Bekijk op de website
+        </a>
+    </small>
+</div>
 <hr />
 <form asp-action="Edit" class="blocks-form" id="updateSolution" enctype="multipart/form-data" data-type="Solution">
     <div class="row">
