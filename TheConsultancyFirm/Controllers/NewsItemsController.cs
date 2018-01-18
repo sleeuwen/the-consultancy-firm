@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TheConsultancyFirm.Common;
+using TheConsultancyFirm.Models;
 using TheConsultancyFirm.Repositories;
 using TheConsultancyFirm.ViewModels;
 
@@ -21,10 +22,12 @@ namespace TheConsultancyFirm.Controllers
             _itemTranslationRepository = itemTranslationRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
+
             var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
-            return View(await _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted && n.Language == language).OrderByDescending(n => n.Date).ToListAsync());
+            var newsItems = _newsItemRepository.GetAll().Where(n => n.Enabled && !n.Deleted && n.Language == language).OrderByDescending(n => n.Date);
+            return View(await PaginatedList<NewsItem>.Create(newsItems, page ?? 1, 12));
         }
 
         [HttpGet("[controller]/{id}")]
@@ -46,6 +49,7 @@ namespace TheConsultancyFirm.Controllers
                     (await _itemTranslationRepository.GetAllNewsitems()).FirstOrDefault(n => n.IdNl == newsItem.Id).IdEn;
                 newsItem = await _newsItemRepository.Get(itemTranslationId);
             }
+            if (newsItem == null || newsItem.Deleted || !newsItem.Enabled) return NotFound();
 
             // Force the right slug
             if (id != newsItem.Slug)

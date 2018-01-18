@@ -22,7 +22,7 @@ namespace TheConsultancyFirm.Controllers
             _itemTranslationRepository = itemTranslationRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? page)
         {
             var language = HttpContext.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
             var viewModel = new DownloadsViewModel
@@ -31,15 +31,14 @@ namespace TheConsultancyFirm.Controllers
                     .FirstOrDefaultAsync(),
                 MostRecent = await _downloadRepository.GetAll().Where(d => d.Enabled && !d.Deleted && d.Language == language).OrderByDescending(d => d.Date).FirstOrDefaultAsync()
             };
-
-            viewModel.AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id && d.Enabled && !d.Deleted && d.Language == language)
-                .OrderBy(d => d.Date).ToListAsync();
-
+            var all = _downloadRepository.GetAll().Where(d => d.Id != viewModel.MostDownloaded.Id && d.Enabled && !d.Deleted && d.Language == language)
+                .OrderBy(d => d.Date);
+            viewModel.AllDownloads = await PaginatedList<Download>.Create(all, page ?? 1, 10);
             return View(viewModel);
         }
 
         [HttpGet("[controller]/{id}")]
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(int id, int? page)
         {
             var selected = await _downloadRepository.Get(id);
             if (selected.Deleted || !selected.Enabled) return NotFound();
@@ -54,11 +53,12 @@ namespace TheConsultancyFirm.Controllers
                     (await _itemTranslationRepository.GetAllDownloads()).FirstOrDefault(d => d.IdNl == selected.Id).IdEn;
                 return RedirectToAction("Details", new { Id = itemTranslationId});
             }
+            var AllDownloads = _downloadRepository.GetAll().Where(d => d.Id != id && d.Enabled && !d.Deleted);
 
             var viewModel = new DownloadsViewModel
             {
                 Selected = selected,
-                AllDownloads = await _downloadRepository.GetAll().Where(d => d.Id != id && d.Enabled && !d.Deleted).ToListAsync()
+                AllDownloads = await PaginatedList<Download>.Create(AllDownloads.AsQueryable(), page ?? 1, 10)
             };
 
             return View("/Views/Downloads/Index.cshtml", viewModel);

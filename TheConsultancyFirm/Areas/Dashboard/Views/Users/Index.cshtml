@@ -1,6 +1,13 @@
-﻿@model IEnumerable<TheConsultancyFirm.Models.ApplicationUser>
+﻿@model PaginatedList<ApplicationUser>
 @{
     ViewData["Title"] = "Gebruikers";
+    var pagination = new PaginationProperties
+    {
+        PageIndex = Model.PageIndex,
+        TotalPages = Model.TotalPages,
+        HasNextPage = Model.HasNextPage,
+        HasPreviousPage = Model.HasPreviousPage
+    };
 }
 <div class="fluid-container">
     <div class="row">
@@ -25,13 +32,33 @@
             </form>
         </div>
     </div>
+    <form asp-action="Index" method="get">
+        <div class="row mb-3 mt-3">
+            <div class="col-4">
+                <input type="hidden" value="@ViewBag.ShowDisabled.ToString()" name="showDisabled" />
+
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Search" id="txtSearch" name="SearchString" value="@ViewData["currentFilter"]" />
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary" type="submit">
+                            <span class="fa fa-search"></span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
     <div class="row">
         <div class="col">
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Email</th>
-                        <th>Laatst ingelogd op</th>
+                        <th>
+                            <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Email</a>
+                        </th>
+                        <th>
+                            <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParm"]" asp-route-currentFilter="@ViewData["CurrentFilter"]" asp-route-showDisabled="@ViewBag.ShowDisabled">Last Login</a>
+                        </th>
                         <th>Acties</th>
                     </tr>
                 </thead>
@@ -42,16 +69,16 @@
                             <td>@item.Email</td>
                             <td>@item.LastLogin</td>
                             <td>
-                            <a>
-                                @if (item.Enabled)
-                                {
-                                    <span title="Deactiveer dit account" onclick="showDisableModal( '@item.Email', '@item.Id')">Deactiveer</span>
-                                }
-                                else
-                                {
-                                    <span title="Activeer dit account" onclick="showEnableModal( '@item.Email', '@item.Id')">Activeer</span>
-                                }
-                            </a>
+                                <a>
+                                    @if (item.Enabled)
+                                    {
+                                        <span title="Deactiveer dit account" onclick="showDisableModal( '@item.Email', '@item.Id')">Deactiveer</span>
+                                    }
+                                    else
+                                    {
+                                        <span title="Activeer dit account" onclick="showEnableModal( '@item.Email', '@item.Id')">Activeer</span>
+                                    }
+                                </a>
                             </td>
                         </tr>
                     }
@@ -104,3 +131,4 @@
         </div>
     </div>
 </div>
+@Html.Partial("PaginationPartial", pagination)

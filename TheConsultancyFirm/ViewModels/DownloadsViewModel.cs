@@ -8,6 +8,6 @@ namespace TheConsultancyFirm.ViewModels
         public Download Selected { get; set; }
         public Download MostRecent { get; set; }
         public Download MostDownloaded { get; set; }
-        public List<Download> AllDownloads { get; set; }
+        public PaginatedList<Download> AllDownloads { get; set; }
     }
 }

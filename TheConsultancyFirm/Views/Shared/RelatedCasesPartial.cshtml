@@ -1,7 +1,8 @@
-﻿@model List<ContentItem>
+﻿@inject IViewLocalizer Localizer
+@model List<ContentItem>
 <div class="row">
     <div class="relatedtitle">
-        <h2>Gerelateerd</h2>
+        <h2>@Localizer["related"]</h2>
     </div>
 </div>
 <div class="row">
@@ -13,7 +14,7 @@
             <div class="innerrelateditem flexcase" style="@(item.PhotoPath != null ? "background-image: url(" + item.PhotoPath + ")" : "")">
                 <p>@Html.DisplayFor(_ => item.Type)</p>
                 <h3>@title</h3>
-                <a href="@Url.Action("Details", item.Type.ToString() + 's', new {id = item.Id})" class="buttonHover">LEES MEER</a>
+                <a href="@Url.Action("Details", item.Type.ToString() + 's', new {id = item.Id})" class="buttonHover">@Localizer["read_more"]</a>
             </div>
         </div>
     }
