@@ -50,35 +50,17 @@
     </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.CasesList) {
-    int count = Model.CasesList.Count();
+    @foreach (var item in Model.CasesList)
+    {
         <tr class="@(item.Enabled ? "" : "disabled")">
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
-            @{
-                DateTime d1 = item.Date;
-                var unixTimestampCreated = d1.ToString();
-
-            }
             <td>
-                <div>
-                    <input class="dateCreated" type="hidden" value="@unixTimestampCreated" runat="server" />
-                    <input id="count" type="hidden" value="@count" runat="server" />
-                </div>
-                <p class="created">@unixTimestampCreated</p>
-            
+                <time>@item.Date.ToString()</time>
             </td>
-            @{
-                DateTime d2 = item.LastModified;
-                var unixTimestamp = d2.ToString();
-            }
             <td>
-                <div>
-                    <input class="date" type="hidden" value="@unixTimestamp" runat="server" />
-                    <input id="count" type="hidden" value="@count" runat="server" />
-                </div>
-                <p class="lastModified">@unixTimestamp</p>
+                <time>@item.LastModified.ToString()</time>
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Language)
@@ -94,4 +76,4 @@
     }
     </tbody>
 </table>
-<script src="localdates.js"></script>
+@Html.Partial("PaginationPartial", pagination)
