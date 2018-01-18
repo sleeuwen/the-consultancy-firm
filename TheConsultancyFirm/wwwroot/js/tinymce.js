@@ -2,7 +2,8 @@ function initTinyMCE() {
     tinymce.init({
         selector: '.text-block textarea.form-control',
         height: 400,
-        plugins: 'anchor autolink emoticons link lists image paste save charmap hr',
+        plugins: 'anchor autolink emoticons link lists image paste save charmap hr media',
+        toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media',
         body_class: 'content',
         content_css: [
             'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css',

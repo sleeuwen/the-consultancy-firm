@@ -1,0 +1,15 @@
+﻿@model List<Case>
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    <div class="col-md-4 relateditem" data-id="@item.Id">
+        <div class="innerrelateditem flexcase" style="background-image: url(@item.PhotoPath)">
+            <p>@item.Customer.Name</p>
+            <h3>@item.Title</h3>
+            <a asp-area="" asp-controller="Cases" asp-action="Details" asp-route-id="@item.Slug" target="_blank" class="buttonHover">LEES MEER</a>
+        </div>
+    </div>
+}
