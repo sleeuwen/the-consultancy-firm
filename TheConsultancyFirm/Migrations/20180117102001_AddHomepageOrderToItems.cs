@@ -27,7 +27,8 @@ namespace TheConsultancyFirm.Migrations
             migrationBuilder.AddColumn<bool>(
                 name: "HomepageCarousel",
                 table: "Blocks",
-                nullable: true);
+                nullable: false,
+                defaultValue: false);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
