@@ -25,7 +25,7 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index(int? page)
         {
-            var language = HttpContext.Features.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
+            var language = HttpContext?.Features?.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
                                ?.TwoLetterISOLanguageName ?? "nl";
             var viewModel = new DownloadsViewModel
             {
@@ -45,7 +45,7 @@ namespace TheConsultancyFirm.Controllers
             var selected = await _downloadRepository.Get(id);
             if (selected.Deleted || !selected.Enabled) return NotFound();
 
-            var language = HttpContext.Features.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
+            var language = HttpContext?.Features?.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
                                ?.TwoLetterISOLanguageName ?? "nl";
 
             if (selected.Language != language)

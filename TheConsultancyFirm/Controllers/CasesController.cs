@@ -26,7 +26,7 @@ namespace TheConsultancyFirm.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var language = HttpContext.Features.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
+            var language = HttpContext?.Features?.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
                                ?.TwoLetterISOLanguageName ?? "nl";
             var list = await _caseRepository.GetAll().Include(c => c.Customer).Where(c => c.Enabled && !c.Deleted && c.Language == language).OrderByDescending(c => c.Date).ToListAsync();
             return View(list);
@@ -41,7 +41,7 @@ namespace TheConsultancyFirm.Controllers
             var caseItem = await _caseRepository.Get(caseId);
             if (caseItem == null || caseItem.Deleted || !caseItem.Enabled) return NotFound();
 
-            var language = HttpContext.Features.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
+            var language = HttpContext?.Features?.Get<IRequestCultureFeature>()?.RequestCulture?.Culture
                                ?.TwoLetterISOLanguageName ?? "nl";
 
             if (caseItem.Language != language)

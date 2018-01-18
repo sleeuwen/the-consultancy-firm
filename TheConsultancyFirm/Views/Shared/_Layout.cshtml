@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Localization
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
-    var lang = Context.Features.Get<IRequestCultureFeature>()?.RequestCulture?.Culture?.TwoLetterISOLanguageName ?? "nl";
+    var lang = Context?.Features?.Get<IRequestCultureFeature>()?.RequestCulture?.Culture?.TwoLetterISOLanguageName ?? "nl";
 }
 <!DOCTYPE html>
 <html lang="@lang">
