@@ -50,8 +50,6 @@
     <tbody>
         @foreach (var item in Model)
         {
-            int count = Model.Count();
-
             <tr class="@(item.Read == false ? "active" : "")">
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)

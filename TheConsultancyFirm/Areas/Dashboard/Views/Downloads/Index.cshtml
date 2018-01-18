@@ -58,8 +58,6 @@
     <tbody>
         @foreach (var item in Model.DownloadsList)
         {
-            int count = Model.DownloadsList.Count();
-
             <tr class="@(item.Enabled ? "" : "disabled")">
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)

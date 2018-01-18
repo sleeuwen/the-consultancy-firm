@@ -51,8 +51,6 @@
     <tbody>
         @foreach (var item in Model.NewsItemsList)
         {
-            int count = Model.NewsItemsList.Count();
-
             <tr class="@(item.Enabled ? "" : "disabled")">
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
