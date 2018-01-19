@@ -1,6 +1,7 @@
-﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+﻿@using Microsoft.AspNetCore.Localization
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 @{
-    var lang = Context.Request.Cookies[".AspNetCore.Culture"] == "c=en-US|uic=en-US" ? "en" : "nl";
+    var lang = Context?.Features?.Get<IRequestCultureFeature>()?.RequestCulture?.Culture?.TwoLetterISOLanguageName ?? "nl";
 }
 <!DOCTYPE html>
 <html lang="@lang">
