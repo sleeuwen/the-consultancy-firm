@@ -1,0 +1,21 @@
+﻿@import '../variables';
+
+.floatingButton {
+    top: 50%;
+    bottom: 50%;
+    position: fixed;
+    margin-left: 2%;
+    z-index: 999;
+    border-radius: 100%;
+    border-color: #f2f2f2;
+    border-style: solid;
+    border-width: 5px;
+    padding: 10px;
+    background: $orange;
+    width: 56px;
+    height: 56px;
+
+    img {
+        width: 50px;
+    }
+}

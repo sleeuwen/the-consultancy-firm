@@ -7,6 +7,8 @@
     var slides = (Model.CarouselBlock?.Slides ?? new List<Slide>()).OrderBy(s => s.Order).ToList();
 }
 
+@Html.Partial("FloatingButton")
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
